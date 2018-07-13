@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 26074b15f9c13404d858bfedb8b8c00c
-timeCreated: 1502419589
-licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - FirstPersonCamera: {instanceID: 0}
+  - DetectedPlanePrefab: {instanceID: 0}
+  - AndyAndroidPrefab: {fileID: 100000, guid: 0e8c4400e5a274e79b60fa5a300aab17, type: 3}
+  - SearchingForPlaneUI: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
