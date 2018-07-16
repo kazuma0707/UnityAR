@@ -27,7 +27,7 @@ namespace UnityEditorExtension.Scripts
     };
 
         private const string ITEM_NAME = "Tools/Create/Tag Name";  // コマンド名
-        private const string PATH = "Assets/TagName.cs";      // ファイルパス
+        private const string PATH = "Assets/#Script/ConstPath/TagName.cs";      // ファイルパス
 
         private static readonly string FILENAME = Path.GetFileName(PATH);                   // ファイル名(拡張子あり)
         private static readonly string FILENAME_WITHOUT_EXTENSION = Path.GetFileNameWithoutExtension(PATH);   // ファイル名(拡張子なし)
