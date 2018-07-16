@@ -162,8 +162,8 @@ PlayerSettings:
     Standalone: com.Japan.UnityAR
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 16
-  AndroidTargetSdkVersion: 0
+  AndroidMinSdkVersion: 24
+  AndroidTargetSdkVersion: 24
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -295,7 +295,8 @@ PlayerSettings:
   m_BuildTargetVRSettings:
   - m_BuildTarget: Android
     m_Enabled: 0
-    m_Devices: []
+    m_Devices:
+    - cardboard
   m_BuildTargetEnableVuforiaSettings: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
