@@ -207,6 +207,11 @@ namespace GoogleARCore.Examples.Common
             m_Mesh.SetVertices(m_MeshVertices);
             m_Mesh.SetIndices(m_MeshIndices.ToArray(), MeshTopology.Triangles, 0);
             m_Mesh.SetColors(m_MeshColors);
+
+            //下記の2行を新たに追加。上記で作成した三角形の集合をコライダーに反映
+            //Add following 2 lines. This cord attaches triangular mesh information to collider.
+            GetComponent<MeshCollider>().sharedMesh = null;
+            GetComponent<MeshCollider>().sharedMesh = m_Mesh;
         }
 
         private bool _AreVerticesListsEqual(List<Vector3> firstList, List<Vector3> secondList)
