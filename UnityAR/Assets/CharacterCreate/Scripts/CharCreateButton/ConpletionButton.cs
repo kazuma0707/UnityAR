@@ -24,6 +24,6 @@ public class ConpletionButton : MonoBehaviour
     public void OnClick()
     {
         // シーン遷移
-        SceneManager.LoadScene("testScene");
+        SceneManager.LoadScene("ARScene");
     }
 }
