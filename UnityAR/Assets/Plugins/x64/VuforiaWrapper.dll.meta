@@ -1,16 +1,35 @@
 fileFormatVersion: 2
 guid: 88a1563c57ea7a54cb79754cfe8f80ba
-timeCreated: 1486470568
-licenseType: Pro
 PluginImporter:
-  serializedVersion: 1
+  externalObjects: {}
+  serializedVersion: 2
   iconMap: {}
   executionOrder: {}
   isPreloaded: 0
+  isOverridable: 0
   platformData:
-    Any:
+  - first:
+      '': OSXIntel
+    second:
+      enabled: 0
+      settings:
+        CPU: None
+  - first:
+      '': OSXIntel64
+    second:
+      enabled: 1
+      settings:
+        CPU: AnyCPU
+  - first:
+      Any:
+    second:
       enabled: 1
       settings: {}
+  - first:
+      Editor: Editor
+    second:
+      enabled: 0
+      settings:
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -91,6 +110,9 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
+  userData:
+  assetBundleName:
+  assetBundleVariant:
   userData:
   assetBundleName:
   assetBundleVariant:
