@@ -21,7 +21,7 @@ PluginImporter:
       settings:
         CPU: AnyCPU
   - first:
-      Any: 
+      Any:
     second:
       enabled: 1
       settings: {}
@@ -29,6 +29,36 @@ PluginImporter:
       Editor: Editor
     second:
       enabled: 0
+      settings:
+PluginImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  isOverridable: 0
+  platformData:
+  - first:
+      '': OSXIntel
+    second:
+      enabled: 0
+      settings:
+        CPU: None
+  - first:
+      '': OSXIntel64
+    second:
+      enabled: 1
+      settings:
+        CPU: AnyCPU
+  - first:
+      Any:
+    second:
+      enabled: 0
+      settings: {}
+  - first:
+      Editor: Editor
+    second:
+      enabled: 1
       settings:
         CPU: x86_64
         DefaultValueInitialized: true
@@ -80,6 +110,9 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  userData:
+  assetBundleName:
+  assetBundleVariant:
+  userData:
+  assetBundleName:
+  assetBundleVariant:
