@@ -45,6 +45,8 @@ namespace GoogleARCore.Examples.AugmentedImage
             = new Dictionary<int, AugmentedImageVisualizer>();
 
         private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
+        public int GetMarkerNumber { get; private set; }
+        public Text _text;
 
         /// <summary>
         /// The Unity Update method.
@@ -78,6 +80,9 @@ namespace GoogleARCore.Examples.AugmentedImage
                     Anchor anchor = image.CreateAnchor(image.CenterPose);
                     visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
                     visualizer.Image = image;
+                    //É}Å[ÉJÇÃî‘çÜÇéÊìæ
+                    GetMarkerNumber = image.DatabaseIndex;
+
                     m_Visualizers.Add(image.DatabaseIndex, visualizer);
                 }
                 else if (image.TrackingState == TrackingState.Stopped && visualizer != null)

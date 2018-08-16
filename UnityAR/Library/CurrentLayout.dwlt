@@ -91,7 +91,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 442}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 9
+  controlID: 50
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 10
+  controlID: 148
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -290,9 +290,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: f8530000
     m_LastClickedID: 0
-    m_ExpandedIDs: 1ae0ffffbce0ffff06e3ffff2ae3ffff96fbffff9efbffff00000000c8350000
+    m_ExpandedIDs: eed0feff86d1fefff2d3feffe6d7feff7ed8feffeadafeff1cf6feffb4f6feff20f9feff7e51ffff1652ffff8254ffff0cc2fffff8c2ffff64c5ffff2ad1ffffe6d1ffff3ed4ffff6ed4ffffd4d8ffff88d9ffffe0dbffff10dcffff56efffff9efbffff000000001c500000445000003251000012520000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -311,7 +311,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 7}
     m_SearchString: 
   m_ExpandedScenes:
-  - ARScene
+  - AugmentedImage
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -388,19 +388,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/GoogleARCore/Examples/Common/Prefabs
+    - Assets/#Script/Text
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/GoogleARCore/Examples/Common/Prefabs
+  - Assets/#Script/Text
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\s162183\Desktop\unity\UnityAR\UnityAR
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 43}
-    m_SelectedIDs: 162b0000
-    m_LastClickedID: 11030
-    m_ExpandedIDs: 00000000d62a0000fa2a00006c2b0000742b0000782b0000882b0000b62c0000bc2c0000da2c0000522e00005a2e0000982e0000b82e0000102f0000be2f0000e42f000098310000603200003a3300006c340000203a0000223a000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 95}
+    m_SelectedIDs: f4530000
+    m_LastClickedID: 21492
+    m_ExpandedIDs: 00000000d62a0000fa2a00006c2b0000742b0000782b0000882b0000b62c0000bc2c0000da2c0000522e00005a2e0000982e0000b82e0000102f0000be2f0000e42f000098310000d6310000603200003a3300006c340000b2340000223a0000243a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -428,7 +428,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d62a0000fa2a00006c2b0000742b0000782b0000882b0000b62c0000bc2c0000da2c0000522e00005a2e0000982e0000b82e0000102f0000be2f0000e42f000098310000603200003a3300006c340000203a0000223a0000
+    m_ExpandedIDs: 00000000d62a0000fa2a00006c2b0000742b0000782b0000882b0000b62c0000bc2c0000da2c0000522e00005a2e0000982e0000b82e0000102f0000be2f0000e42f000098310000603200003a3300006c340000223a0000243a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -472,7 +472,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 8}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -588,14 +588,14 @@ MonoBehaviour:
     height: 280
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 25.224881685232372
-  m_2DMode: 0
+  lastFramingTime: 1882.4980509850034
+  m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0, y: 0, z: 0}
+    m_Target: {x: 108.85486, y: 98.355835, z: -2.2308064}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0}
+    m_Value: {x: 108.85486, y: 98.355835, z: -2.2308064}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -611,27 +611,27 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     yGrid:
-      m_Target: 1
-      speed: 2
-      m_Value: 1
-    zGrid:
       m_Target: 0
       speed: 2
       m_Value: 0
+    zGrid:
+      m_Target: 1
+      speed: 2
+      m_Value: 1
   m_Rotation:
-    m_Target: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 22
+    m_Target: 274.39685
     speed: 2
-    m_Value: 22
+    m_Value: 274.39685
   m_Ortho:
-    m_Target: 0
+    m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_ShowGlobalGrid: 1
-  m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
