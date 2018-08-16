@@ -61,6 +61,9 @@ namespace GoogleARCore.Examples.HelloAR
         //生成フラグ
         private bool IsCreate=false;
 
+        //音声録音ボタン
+        public GameObject m_voiceRecButton;
+
 
         /// <summary>
         /// The Unity Update() method.
@@ -120,6 +123,8 @@ namespace GoogleARCore.Examples.HelloAR
                         // Make Andy model a child of the anchor.
                         unityChanObject.transform.parent = anchor.transform;
                         IsCreate = true;
+
+                        m_voiceRecButton.SetActive(true);
                     }
                 }
             }
