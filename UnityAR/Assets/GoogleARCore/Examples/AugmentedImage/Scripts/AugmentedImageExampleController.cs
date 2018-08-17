@@ -34,12 +34,12 @@ namespace GoogleARCore.Examples.AugmentedImage
         /// <summary>
         /// A prefab for visualizing an AugmentedImage.
         /// </summary>
-        public AugmentedImageVisualizer AugmentedImageVisualizerPrefab;
+       public AugmentedImageVisualizer AugmentedImageVisualizerPrefab;
 
         /// <summary>
         /// The overlay containing the fit to scan user guide.
         /// </summary>
-        public GameObject FitToScanOverlay;
+      public GameObject FitToScanOverlay;
 
         private Dictionary<int, AugmentedImageVisualizer> m_Visualizers
             = new Dictionary<int, AugmentedImageVisualizer>();
@@ -47,12 +47,21 @@ namespace GoogleARCore.Examples.AugmentedImage
         private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
         public int GetMarkerNumber { get; private set; }
         public Text _text;
+        [SerializeField]
+        private DeleteScript _deleteScript;
+        public GameObject fadeObject;
+        private void Start()
+        {
+
+        }
 
         /// <summary>
         /// The Unity Update method.
         /// </summary>
         public void Update()
         {
+
+
             // Exit the app when the 'back' button is pressed.
             if (Input.GetKey(KeyCode.Escape))
             {
@@ -78,11 +87,11 @@ namespace GoogleARCore.Examples.AugmentedImage
                 {
                     // Create an anchor to ensure that ARCore keeps tracking this augmented image.
                     Anchor anchor = image.CreateAnchor(image.CenterPose);
-                    visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
+                     visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
                     visualizer.Image = image;
                     //É}Å[ÉJÇÃî‘çÜÇéÊìæ
                     GetMarkerNumber = image.DatabaseIndex;
-
+                  
                     m_Visualizers.Add(image.DatabaseIndex, visualizer);
                 }
                 else if (image.TrackingState == TrackingState.Stopped && visualizer != null)
@@ -97,12 +106,12 @@ namespace GoogleARCore.Examples.AugmentedImage
             {
                 if (visualizer.Image.TrackingState == TrackingState.Tracking)
                 {
-                    FitToScanOverlay.SetActive(false);
+                  //  FitToScanOverlay.SetActive(false);
                     return;
                 }
             }
 
-            FitToScanOverlay.SetActive(true);
+        //   FitToScanOverlay.SetActive(true);
         }
     }
 }

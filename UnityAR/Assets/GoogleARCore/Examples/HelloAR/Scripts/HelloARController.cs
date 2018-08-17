@@ -24,6 +24,7 @@ namespace GoogleARCore.Examples.HelloAR
     using GoogleARCore;
     using GoogleARCore.Examples.Common;
     using UnityEngine;
+    using UnityEngine.UI;
 
 #if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
@@ -71,7 +72,7 @@ namespace GoogleARCore.Examples.HelloAR
         public void Update()
         {
 
-            
+
             _UpdateApplicationLifecycle();
 
             // Hide snackbar when currently tracking at least one plane.
@@ -118,7 +119,9 @@ namespace GoogleARCore.Examples.HelloAR
                         var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
                         MyCharDataManager.Instance.CreateMyChar(unityChanObject);
                         // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                        unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                          unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+
+
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
                         // Make Andy model a child of the anchor.
                         unityChanObject.transform.parent = anchor.transform;

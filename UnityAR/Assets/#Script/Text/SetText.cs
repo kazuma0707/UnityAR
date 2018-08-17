@@ -15,6 +15,7 @@ public class SetText : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
+        _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
 		
 	}
 	
