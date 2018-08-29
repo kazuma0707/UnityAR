@@ -25,17 +25,16 @@ namespace GoogleARCore.Examples.AugmentedImage
     using GoogleARCore;
     using UnityEngine;
     using UnityEngine.UI;
-
+    using System.Linq;
     /// <summary>
     /// Controller for AugmentedImage example.
     /// </summary>
     public class AugmentedImageExampleController : MonoBehaviour
     {
         /// <summary>
-        /// A prefab for visualizing an AugmentedImage.
+        /// 読み込み完了画像
         /// </summary>
        public AugmentedImageVisualizer AugmentedImageVisualizerPrefab;
-
         /// <summary>
         /// The overlay containing the fit to scan user guide.
         /// </summary>
@@ -45,11 +44,8 @@ namespace GoogleARCore.Examples.AugmentedImage
             = new Dictionary<int, AugmentedImageVisualizer>();
 
         private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
-        public int GetMarkerNumber { get; private set; }
-        public Text _text;
-        [SerializeField]
-        private DeleteScript _deleteScript;
-        public GameObject fadeObject;
+        private List<int> Index = new List<int>();//読み込んだ画像を保存するインデックス
+        public int GetMarkerNumber { get; private set; }//現在読み込んでいる画像
         private void Start()
         {
 
@@ -87,7 +83,13 @@ namespace GoogleARCore.Examples.AugmentedImage
                 {
                     // Create an anchor to ensure that ARCore keeps tracking this augmented image.
                     Anchor anchor = image.CreateAnchor(image.CenterPose);
-                     visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
+                    //インデックスに存在すれば
+                    if(!Index.Contains(image.DatabaseIndex))
+                    {
+                        Index.Add(image.DatabaseIndex);
+                        visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
+
+                    }
                     visualizer.Image = image;
                     //マーカの番号を取得
                     GetMarkerNumber = image.DatabaseIndex;

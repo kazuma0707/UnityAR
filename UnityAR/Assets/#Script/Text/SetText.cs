@@ -15,6 +15,7 @@ public class SetText : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
+        //ImageCheckオブジェクトの鮎徳
         _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
 		
 	}
@@ -22,6 +23,7 @@ public class SetText : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Debug.Log(this._ImageController.GetMarkerNumber);
+        //読み込んだ画像によってテキストの受け渡し
         switch(this._ImageController.GetMarkerNumber)
         {
             case 1:
