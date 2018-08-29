@@ -27,6 +27,7 @@ namespace GoogleARCore.Examples.AugmentedImage
     using GoogleARCoreInternal;
     using UnityEngine;
 
+
     /// <summary>
     /// Uses 4 frame corner objects to visualize an AugmentedImage.
     /// </summary>
@@ -36,8 +37,15 @@ namespace GoogleARCore.Examples.AugmentedImage
         /// The AugmentedImage to visualize.
         /// </summary>
         public AugmentedImage Image;
+        private AugmentedImageExampleController _AImageCTrl;
 
-       
+        private void Start()
+        {
+            _AImageCTrl = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
+
+        }
+
+
         /// <summary>
         /// The Unity Update method.
         /// </summary>
@@ -48,6 +56,7 @@ namespace GoogleARCore.Examples.AugmentedImage
                 return;
             }
             Destroy(this.gameObject, 3.0f);
+
 
         }
     }
