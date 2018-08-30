@@ -12,9 +12,11 @@ public class SetText : MonoBehaviour {
     private AugmentedImageExampleController _ImageController;
     [SerializeField, Header("表示するテキスト")]
     private Text _text;
-    
-	// Use this for initialization
-	void Start () {
+    [SerializeField,Header("現在いる学科を表示するテキスト")]
+    private Text _DepartmentText;
+
+    // Use this for initialization
+    void Start () {
         //ImageCheckオブジェクトの鮎徳
         _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
 		
@@ -22,37 +24,46 @@ public class SetText : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(this._ImageController.GetMarkerNumber);
-        //読み込んだ画像によってテキストの受け渡し
-        switch(this._ImageController.GetMarkerNumber)
+
+        if (GameObject.Find("BordText"))
         {
-            case 1:
+            _text = GameObject.Find("BordText").GetComponent<Text>();
+        }
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+
+        }
+
+        //読み込んだ画像によってテキストの受け渡し
+        switch (this._ImageController.GetMarkerNumber)
+            {
+                case 1:
+                _DepartmentText.text = "ここはゲームサイエンス学科です";
                 this._text.text = "ここはゲームサイエンス学科です";
                 break;
-            case 2:
+                case 2:
+                _DepartmentText.text = "ここはCGスペシャリストです";
                 this._text.text = "ここはCGスペシャリストです";
                 break;
-            case 3:
+                case 3:
+                _DepartmentText.text = "ここはWebデザイン学科です";
                 this._text.text = "ここはWebデザイン学科です";
-
                 break;
-            case 4:
+                case 4:
+                _DepartmentText.text = "ここはCAD学科です";
                 this._text.text = "ここはCAD学科です";
-
                 break;
-            case 5:
+                case 5:
+                _DepartmentText.text = "高度情報学科です";
                 this._text.text = "高度情報学科です";
-
                 break;
-            case 6:
+                case 6:
+                _DepartmentText.text = "情報処理学科です";
                 this._text.text = "情報処理学科です";
+                break;
+                 default:
+                return;
+            }
 
-                break;
-            case 7:
-                this._text.text = "ここはゲームサイエンス学科です";
-    
-                break;
-        }
-		
-	}
+    }
 }

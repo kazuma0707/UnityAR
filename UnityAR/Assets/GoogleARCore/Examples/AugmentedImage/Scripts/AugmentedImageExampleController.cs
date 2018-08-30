@@ -88,11 +88,11 @@ namespace GoogleARCore.Examples.AugmentedImage
                     {
                         Index.Add(image.DatabaseIndex);
                         visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
-
+                        //マーカの番号を取得
                     }
                     visualizer.Image = image;
-                    //マーカの番号を取得
-                    GetMarkerNumber = image.DatabaseIndex;
+                   GetMarkerNumber = image.DatabaseIndex;
+
                   
                     m_Visualizers.Add(image.DatabaseIndex, visualizer);
                 }
