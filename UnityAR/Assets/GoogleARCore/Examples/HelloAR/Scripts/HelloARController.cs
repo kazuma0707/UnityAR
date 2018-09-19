@@ -24,6 +24,7 @@ namespace GoogleARCore.Examples.HelloAR
     using GoogleARCore;
     using GoogleARCore.Examples.Common;
     using UnityEngine;
+    using UnityEngine.UI;
 
 #if UNITY_EDITOR
     // Set up touch input propagation while using Instant Preview in the editor.
@@ -44,41 +45,34 @@ namespace GoogleARCore.Examples.HelloAR
         /// A prefab for tracking and visualizing detected planes.
         /// </summary>
         public GameObject DetectedPlanePrefab;
-
-        /// <summary>
-        /// A model to place when a raycast from a user touch hits a plane.
-        /// </summary>
+        // A model to place when a raycast from a user touch hits a plane.
         public GameObject AndyAndroidPrefab;
-
+        //ユニティちゃんのオブジェクト
         public GameObject UnityChanPrefab;
-
-        /// <summary>
-        /// A gameobject parenting UI for displaying the "searching for planes" snackbar.
-        /// </summary>
+        //A gameobject parenting UI for displaying the "searching for planes" snackbar.
         public GameObject SearchingForPlaneUI;
-
-        /// <summary>
-        /// The rotation in degrees need to apply to model when the Andy model is placed.
-        /// </summary>
+        //The rotation in degrees need to apply to model when the Andy model is placed.
         private const float k_ModelRotation = 180.0f;
-
-        /// <summary>
-        /// A list to hold all planes ARCore is tracking in the current frame. This object is used across
-        /// the application to avoid per-frame allocations.
-        /// </summary>
+        //A list to hold all planes ARCore is tracking in the current frame. This object is used across
+        // the application to avoid per-frame allocations.
         private List<DetectedPlane> m_AllPlanes = new List<DetectedPlane>();
-
-        /// <summary>
-        /// True if the app is in the process of quitting due to an ARCore connection error, otherwise false.
-        /// </summary>
+        // True if the app is in the process of quitting due to an ARCore connection error, otherwise false
         private bool m_IsQuitting = false;
+
+        //生成フラグ
+        private bool IsCreate=false;
+
+        //音声録音ボタン
+        public GameObject m_voiceRecButton;
+
 
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
         public void Update()
         {
-            
+
+
             _UpdateApplicationLifecycle();
 
             // Hide snackbar when currently tracking at least one plane.
@@ -119,31 +113,22 @@ namespace GoogleARCore.Examples.HelloAR
                 }
                 else
                 {
-                    //// Instantiate Andy model at the hit pose.
-                    //var andyObject = Instantiate(AndyAndroidPrefab, hit.Pose.position, hit.Pose.rotation);
+                    if(!IsCreate)
+                    {
+                        //ユニティちゃんの生成
+                        var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
+                        MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                        // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
+                          unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
-                    //// Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                    //andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
-                    //// Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                    //// world evolves.
-                    //var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                        var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                        // Make Andy model a child of the anchor.
+                        unityChanObject.transform.parent = anchor.transform;
+                        IsCreate = true;
 
-                    //// Make Andy model a child of the anchor.
-                    //andyObject.transform.parent = anchor.transform;
-
-                    // Instantiate Andy model at the hit pose.
-                    var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-
-                    // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                    unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
-
-                    // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                    // world evolves.
-                    var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-                    // Make Andy model a child of the anchor.
-                    unityChanObject.transform.parent = anchor.transform;
+                        m_voiceRecButton.SetActive(true);
+                    }
                 }
             }
         }

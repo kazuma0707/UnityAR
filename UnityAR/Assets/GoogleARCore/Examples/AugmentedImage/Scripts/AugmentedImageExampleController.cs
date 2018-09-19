@@ -25,32 +25,39 @@ namespace GoogleARCore.Examples.AugmentedImage
     using GoogleARCore;
     using UnityEngine;
     using UnityEngine.UI;
-
+    using System.Linq;
     /// <summary>
     /// Controller for AugmentedImage example.
     /// </summary>
     public class AugmentedImageExampleController : MonoBehaviour
     {
         /// <summary>
-        /// A prefab for visualizing an AugmentedImage.
+        /// 読み込み完了画像
         /// </summary>
-        public AugmentedImageVisualizer AugmentedImageVisualizerPrefab;
-
+       public AugmentedImageVisualizer AugmentedImageVisualizerPrefab;
         /// <summary>
         /// The overlay containing the fit to scan user guide.
         /// </summary>
-        public GameObject FitToScanOverlay;
+      public GameObject FitToScanOverlay;
 
         private Dictionary<int, AugmentedImageVisualizer> m_Visualizers
             = new Dictionary<int, AugmentedImageVisualizer>();
 
         private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
+        private List<int> Index = new List<int>();//読み込んだ画像を保存するインデックス
+        public int GetMarkerNumber { get; private set; }//現在読み込んでいる画像
+        private void Start()
+        {
+
+        }
 
         /// <summary>
         /// The Unity Update method.
         /// </summary>
         public void Update()
         {
+
+
             // Exit the app when the 'back' button is pressed.
             if (Input.GetKey(KeyCode.Escape))
             {
@@ -76,8 +83,17 @@ namespace GoogleARCore.Examples.AugmentedImage
                 {
                     // Create an anchor to ensure that ARCore keeps tracking this augmented image.
                     Anchor anchor = image.CreateAnchor(image.CenterPose);
-                    visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
+                    //インデックスに存在すれば
+                    if(!Index.Contains(image.DatabaseIndex))
+                    {
+                        Index.Add(image.DatabaseIndex);
+                        visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
+                        //マーカの番号を取得
+                    }
                     visualizer.Image = image;
+                   GetMarkerNumber = image.DatabaseIndex;
+
+                  
                     m_Visualizers.Add(image.DatabaseIndex, visualizer);
                 }
                 else if (image.TrackingState == TrackingState.Stopped && visualizer != null)
@@ -92,12 +108,12 @@ namespace GoogleARCore.Examples.AugmentedImage
             {
                 if (visualizer.Image.TrackingState == TrackingState.Tracking)
                 {
-                    FitToScanOverlay.SetActive(false);
+                  //  FitToScanOverlay.SetActive(false);
                     return;
                 }
             }
 
-            FitToScanOverlay.SetActive(true);
+        //   FitToScanOverlay.SetActive(true);
         }
     }
 }

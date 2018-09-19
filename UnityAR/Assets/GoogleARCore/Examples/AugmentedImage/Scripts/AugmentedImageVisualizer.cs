@@ -27,6 +27,7 @@ namespace GoogleARCore.Examples.AugmentedImage
     using GoogleARCoreInternal;
     using UnityEngine;
 
+
     /// <summary>
     /// Uses 4 frame corner objects to visualize an AugmentedImage.
     /// </summary>
@@ -36,26 +37,14 @@ namespace GoogleARCore.Examples.AugmentedImage
         /// The AugmentedImage to visualize.
         /// </summary>
         public AugmentedImage Image;
+        private AugmentedImageExampleController _AImageCTrl;
 
-        /// <summary>
-        /// A model for the lower left corner of the frame to place when an image is detected.
-        /// </summary>
-        public GameObject FrameLowerLeft;
+        private void Start()
+        {
+            _AImageCTrl = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
 
-        /// <summary>
-        /// A model for the lower right corner of the frame to place when an image is detected.
-        /// </summary>
-        public GameObject FrameLowerRight;
+        }
 
-        /// <summary>
-        /// A model for the upper left corner of the frame to place when an image is detected.
-        /// </summary>
-        public GameObject FrameUpperLeft;
-
-        /// <summary>
-        /// A model for the upper right corner of the frame to place when an image is detected.
-        /// </summary>
-        public GameObject FrameUpperRight;
 
         /// <summary>
         /// The Unity Update method.
@@ -64,24 +53,11 @@ namespace GoogleARCore.Examples.AugmentedImage
         {
             if (Image == null || Image.TrackingState != TrackingState.Tracking)
             {
-                FrameLowerLeft.SetActive(false);
-                FrameLowerRight.SetActive(false);
-                FrameUpperLeft.SetActive(false);
-                FrameUpperRight.SetActive(false);
                 return;
             }
+            Destroy(this.gameObject, 3.0f);
 
-            float halfWidth = Image.ExtentX / 2;
-            float halfHeight = Image.ExtentZ / 2;
-            FrameLowerLeft.transform.localPosition = (halfWidth * Vector3.left) + (halfHeight * Vector3.back);
-            FrameLowerRight.transform.localPosition = (halfWidth * Vector3.right) + (halfHeight * Vector3.back);
-            FrameUpperLeft.transform.localPosition = (halfWidth * Vector3.left) + (halfHeight * Vector3.forward);
-            FrameUpperRight.transform.localPosition = (halfWidth * Vector3.right) + (halfHeight * Vector3.forward);
 
-            FrameLowerLeft.SetActive(true);
-            FrameLowerRight.SetActive(true);
-            FrameUpperLeft.SetActive(true);
-            FrameUpperRight.SetActive(true);
         }
     }
 }
