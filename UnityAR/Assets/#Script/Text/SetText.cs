@@ -31,39 +31,69 @@ public class SetText : MonoBehaviour {
         }
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            _DepartmentText.text = "ここはゲームサイエンス学科です";
 
         }
 
         //読み込んだ画像によってテキストの受け渡し
+        UIViewText();
+        PanelViewText();
+
+
+
+
+    }
+    void UIViewText()
+    {
         switch (this._ImageController.GetMarkerNumber)
-            {
-                case 1:
+        {
+            case 1:
                 _DepartmentText.text = "ここはゲームサイエンス学科です";
+                break;
+            case 2:
+                _DepartmentText.text = "ここはCGスペシャリストです";
+                break;
+            case 3:
+                _DepartmentText.text = "ここはWebデザイン学科です";
+                break;
+            case 4:
+                _DepartmentText.text = "ここはCAD学科です";
+                break;
+            case 5:
+                _DepartmentText.text = "高度情報学科です";
+                break;
+            case 6:
+                _DepartmentText.text = "情報処理学科です";
+                break;
+            default:
+                return;
+        }
+    }
+    void PanelViewText()
+    {
+        if (_text == null) return;
+        switch (this._ImageController.GetMarkerNumber)
+        {
+            case 1:
                 this._text.text = "ここはゲームサイエンス学科です";
                 break;
-                case 2:
-                _DepartmentText.text = "ここはCGスペシャリストです";
+            case 2:
                 this._text.text = "ここはCGスペシャリストです";
                 break;
-                case 3:
-                _DepartmentText.text = "ここはWebデザイン学科です";
+            case 3:
                 this._text.text = "ここはWebデザイン学科です";
                 break;
-                case 4:
-                _DepartmentText.text = "ここはCAD学科です";
+            case 4:
                 this._text.text = "ここはCAD学科です";
                 break;
-                case 5:
-                _DepartmentText.text = "高度情報学科です";
+            case 5:
                 this._text.text = "高度情報学科です";
                 break;
-                case 6:
-                _DepartmentText.text = "情報処理学科です";
+            case 6:
                 this._text.text = "情報処理学科です";
                 break;
-                 default:
+            default:
                 return;
-            }
-
+        }
     }
 }
