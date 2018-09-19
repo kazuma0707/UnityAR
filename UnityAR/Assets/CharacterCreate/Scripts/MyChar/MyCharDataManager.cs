@@ -63,30 +63,22 @@ public class MyCharDataManager : MonoBehaviour
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    [SerializeField]
-    private GameObject myChar;              // マイキャラオブジェクト
+    public const int left = 0;      // 左
+    public const int right = 1;     // 右
 
     [SerializeField]
-    private GameObject[] changingPoints;     // 変更する部位
-    [SerializeField]
-    private GameObject[] changingHairPoints;    // 変更する髪の部位
-    [SerializeField]
-    private Vector3[] bodyScale;            // 体型
+    private GameObject myChar;              // マイキャラオブジェクト
 
     [SerializeField]
     private GameObject[] hairObjs;          // 対応する髪型オブジェクト
 
     [SerializeField]
-    private Material eyeLineMat;            // 目の形
-    [SerializeField]
-    private Material eyePatternMat;         // 目の模様
+    private Vector3[] bodyScale;            // 体型
 
     [SerializeField]
-    private Material FirstHairColorMat;     // 初期の髪の色
+    private Material eyeLineMat;            // 目の形
     [SerializeField]
-    private Material FirstEyeColorMat;      // 初期の目の色
-    [SerializeField]
-    private Material FirstBodyColorMat;     // 初期の体の色
+    private Material[] eyePatternMat;         // 目の模様
 
     private Color hairColor;                // 髪の色
     private Color eyeColor;                 // 目の色
@@ -109,35 +101,35 @@ public class MyCharDataManager : MonoBehaviour
 
         // // 体型と髪型の登録番号を設定
         bodyNum = BodyNum.NORMAL_BODY;
-        hairNum = HairNum.SHORT_HAIR;
-
-        // 各色の初期設定
-        hairColor = FirstHairColorMat.color;
-        eyeColor = FirstEyeColorMat.color;
-        bodyColor = FirstBodyColorMat.color;
+        hairNum = HairNum.SHORT_HAIR;        
     }
-
-    // Use this for initialization
-    void Start()
-    {
-        
-    }
-
+    
     // Update is called once per frame
     void Update()
     {
 
-    }
+    }  
 
     //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 髪型を変える
-    // 　引　数   | num：髪型の登録番号
+    // 関数の内容 | マイキャラ生成
+    // 　引　数   | mC：マイキャラオブジェクト
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeHairObj(HairNum num)
+    public void CreateMyChar(GameObject mC)
     {
+        // 体型を設定
+        mC.transform.transform.localScale = bodyScale[(int)bodyNum];
+
+        // 体の色を設定
+        GameObject[] bodies = GameObject.FindGameObjectsWithTag("BodyObj");
+        foreach (GameObject obs in bodies)
+        {
+            obs.GetComponent<SkinnedMeshRenderer>().material.color = bodyColor;
+        }
+
+        // 髪型を設定   
         // 子オブジェクトを検索
-        foreach (var child in myChar.GetChildren())
+        foreach (var child in mC.GetChildren())
         {
             // 既存の髪オブジェクトを削除
             if (child.tag == "HairObj")
@@ -149,118 +141,20 @@ public class MyCharDataManager : MonoBehaviour
             // 定位置に髪オブジェクトを作る
             if (child.name == "HairPos")
             {
-                GameObject hair = Instantiate(hairObjs[(int)num], child.transform.position, Quaternion.identity);
-                
+                GameObject hair = Instantiate(hairObjs[(int)bodyNum], child.transform.position, Quaternion.identity);
+
                 hair.transform.SetParent(child.transform.parent.transform);
                 // 髪の色を設定
                 hair.GetComponent<MeshRenderer>().material.color = hairColor;
-                // 髪型の登録番号を設定
-                hairNum = num;
             }
         }
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 髪の色を変える
-    // 　引　数   | color：髪の色
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void ChangeHairColor(Color color)
-    {
-        // マテリアルと色を設定
-        for (int i = 0; i < changingHairPoints.Length; i++)
-        {
-            changingHairPoints[i].GetComponent<SkinnedMeshRenderer>().material.color = color;
-        }
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 体型を変える
-    // 　引　数   | num：体型の登録番号
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void ChangeBodyObj(BodyNum num)
-    {       
-        // myCharの一を保存
-        Vector3 pos = myChar.transform.position;
-        // 体型を設定
-        changingPoints[(int)ChangingPoint.BODY].transform.localScale = bodyScale[(int)num];
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 体の色を変える
-    // 　引　数   | color：体の色
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void ChangeBodyColor(Color color)
-    {
-        // 色を設定
-        changingPoints[(int)ChangingPoint.SKIN].GetComponent<SkinnedMeshRenderer>().material.color = color;
-        changingPoints[(int)ChangingPoint.EYE_DEF].GetComponent<SkinnedMeshRenderer>().material.color = color;
-        changingPoints[(int)ChangingPoint.HEAD].GetComponent<SkinnedMeshRenderer>().material.color = color;
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 目の模様を変える
-    // 　引　数   | mat：目の模様のマテリアル
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void ChangeEyePattern(Material mat)
-    {
-        // マテリアルと色を設定
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<MeshRenderer>().material = mat;
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<MeshRenderer>().material = mat;
-        ChangeEyeColor(eyeColor);
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 目の形を変える
-    // 　引　数   | mat：目の形のマテリアル
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void ChangeEyeLine(Material mat)
-    {
-        // マテリアルを設定
-        changingPoints[(int)ChangingPoint.EYE_LINE].GetComponent<SkinnedMeshRenderer>().material = mat;
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 目の色を変える
-    // 　引　数   | color：目の色
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void ChangeEyeColor(Color color)
-    {
-        // マテリアルを設定
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<MeshRenderer>().material.color = color;
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<MeshRenderer>().material.color = color;
-    }    
-
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | マイキャラ生成
-    // 　引　数   | myChar：マイキャラオブジェクト
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    public void CreateMyChar(GameObject myChar)
-    {
-        // 体型を設定
-        myChar.transform.transform.localScale = bodyScale[(int)bodyNum];
-
-        // 体の色を設定
-        GameObject[] bodies = GameObject.FindGameObjectsWithTag("BodyObj");
-        foreach (GameObject obs in bodies)
-        {
-            obs.GetComponent<SkinnedMeshRenderer>().material.color = bodyColor;
-        }        
-
-        // 髪型を設定       
 
         // 髪の色を設定
-        GameObject[] hairs = GameObject.FindGameObjectsWithTag("HairObj");
-        foreach (GameObject obs in hairs)
-        {
-            obs.GetComponent<SkinnedMeshRenderer>().material.color = hairColor;
-        }
+        //GameObject[] hairs = GameObject.FindGameObjectsWithTag("HairObj");
+        //foreach (GameObject obs in hairs)
+        //{
+        //    obs.GetComponent<Renderer>().material.color = hairColor;
+        //}
 
         // 目の形を設定
         GameObject[] eyeLines = GameObject.FindGameObjectsWithTag("eyeLineObj");
@@ -271,10 +165,12 @@ public class MyCharDataManager : MonoBehaviour
 
         // 目の模様と色を設定
         GameObject[] eyePatterns = GameObject.FindGameObjectsWithTag("eyePatternObj");
-        foreach (GameObject obs in eyePatterns)
+
+        eyePatterns[0].GetComponent<MeshRenderer>().material = eyePatternMat[1];
+        eyePatterns[1].GetComponent<MeshRenderer>().material = eyePatternMat[0];
+        for (int i = 0; i < eyePatterns.Length; i++)
         {
-            obs.GetComponent<MeshRenderer>().material = eyePatternMat;
-            obs.GetComponent<MeshRenderer>().material.color = eyeColor;
+            eyePatterns[i].GetComponent<MeshRenderer>().material.color = eyeColor;
         }
     }
 
@@ -300,7 +196,7 @@ public class MyCharDataManager : MonoBehaviour
     }
 
     // 目の模様のアクセッサ
-    public Material EyePattern
+    public Material[] EyePattern
     {
         get { return eyePatternMat; }
         set { eyePatternMat = value; }
@@ -320,11 +216,22 @@ public class MyCharDataManager : MonoBehaviour
         set { eyeColor = value; }
     }
 
-    // 体の形のアクセッサ
+    // 体の色のアクセッサ
     public Color BodyColor
     {
         get { return bodyColor; }
         set { bodyColor = value; }
     }
 
+    // 体型のアクセッサ
+    public Vector3[] BodySize
+    {
+        get { return bodyScale; }
+    }
+
+    // 髪型のアクセッサ
+    public GameObject[] HairObj
+    {
+        get { return hairObjs; }
+    }
 }

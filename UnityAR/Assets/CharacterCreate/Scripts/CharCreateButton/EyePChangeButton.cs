@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EyePChangeButton : MonoBehaviour
-{
-
+{      
     [SerializeField]
-    private Material mat;          // 対応するマテリアル
+    private Material[] mat;          // 対応するマテリアル
     [SerializeField]
-    private GameObject myChar;     // 対応するオブジェクト
+    private GameObject manager;     // キャラクリマネージャー
 
     // Use this for initialization
     void Start()
@@ -29,8 +28,7 @@ public class EyePChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 目の模様を設定
-        MyCharDataManager.Instance.EyePattern = mat;
-        MyCharDataManager.Instance.ChangeEyePattern(mat);
+        // 目の模様を設定        
+        manager.GetComponent<CharaCreateManager>().ChangeEyePattern(mat[MyCharDataManager.left], mat[MyCharDataManager.right]);
     }
 }

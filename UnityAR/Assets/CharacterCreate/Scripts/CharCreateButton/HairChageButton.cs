@@ -6,6 +6,8 @@ public class HairChageButton : MonoBehaviour
 {    
     [SerializeField]
     private HairNum hairNum;            // 髪型の登録番号
+    [SerializeField]
+    private GameObject manager;     // キャラクリマネージャー
 
     // Use this for initialization
     void Start () {
@@ -25,6 +27,6 @@ public class HairChageButton : MonoBehaviour
     public void OnClick()
     {
         // 髪型を設定
-        MyCharDataManager.Instance.ChangeHairObj(hairNum);
+        manager.GetComponent<CharaCreateManager>().ChangeHairObj(hairNum);
     }
 }

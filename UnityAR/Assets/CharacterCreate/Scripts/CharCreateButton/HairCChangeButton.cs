@@ -7,7 +7,7 @@ public class HairCChangeButton : MonoBehaviour
     [SerializeField]
     private Material mat;          // 対応するマテリアル
     [SerializeField]
-    private GameObject myChar;     // 対応するオブジェクト
+    private GameObject manager;     // キャラクリマネージャー
 
     void Start () {
 		
@@ -25,7 +25,8 @@ public class HairCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        MyCharDataManager.Instance.HairColor = mat.color;
-        MyCharDataManager.Instance.ChangeHairColor(mat.color);
+        // 髪の色を設定
+        //manager.GetComponent<CharaCreateManager>().ChangeHairColor(mat.color);
+        manager.GetComponent<CharaCreateManager>().ChangeHairColor(mat);
     }
 }

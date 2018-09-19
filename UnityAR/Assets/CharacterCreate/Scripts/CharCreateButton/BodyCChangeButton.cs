@@ -5,10 +5,12 @@ using UnityEngine;
 public class BodyCChangeButton : MonoBehaviour
 {
     [SerializeField]
-    private Material mat;          // 対応するマテリアル
+    private Material skinMat;          // 対応するマテリアル
+    [SerializeField]
+    private Material faceMat;          // 対応するマテリアル
 
     [SerializeField]
-    private GameObject myChar;     // 対応するオブジェクト
+    private GameObject manager;     // キャラクリマネージャー
 
     // Use this for initialization
     void Start () {
@@ -27,8 +29,7 @@ public class BodyCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 体の色を設定
-        MyCharDataManager.Instance.BodyColor = mat.color;
-        MyCharDataManager.Instance.ChangeBodyColor(mat.color);
+        // 体の色を設定        
+        manager.GetComponent<CharaCreateManager>().ChangeBodyColor(skinMat, faceMat);
     }
 }

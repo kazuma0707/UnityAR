@@ -6,6 +6,8 @@ public class BodyChangeButton : MonoBehaviour
 {
     [SerializeField]
     private BodyNum bodyNum;        // 体型の登録番号
+    [SerializeField]
+    private GameObject manager;     // キャラクリマネージャー
 
     // Use this for initialization
     void Start()
@@ -26,8 +28,7 @@ public class BodyChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 体型を設定
-        MyCharDataManager.Instance.ChangeBodyObj(bodyNum);
-        MyCharDataManager.Instance.BodyNumber = bodyNum;
+        // 体型を設定        
+        manager.GetComponent<CharaCreateManager>().ChangeBodyObj(bodyNum);
     }
 }

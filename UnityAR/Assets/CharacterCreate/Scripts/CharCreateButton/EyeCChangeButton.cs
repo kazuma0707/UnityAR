@@ -6,9 +6,8 @@ public class EyeCChangeButton : MonoBehaviour
 {
     [SerializeField]
     private Material mat;          // 対応するマテリアル
-
     [SerializeField]
-    private GameObject myChar;     // 対応するオブジェクト
+    private GameObject manager;     // キャラクリマネージャー
 
     // Use this for initialization
     void Start () {
@@ -27,8 +26,7 @@ public class EyeCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 目の色を設定
-        MyCharDataManager.Instance.EyeColor = mat.color;
-        MyCharDataManager.Instance.ChangeEyeColor(mat.color);
+        // 目の色を設定        
+        manager.GetComponent<CharaCreateManager>().ChangeEyeColor(mat.color);
     }
 }

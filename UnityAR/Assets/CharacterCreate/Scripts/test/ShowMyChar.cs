@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class ShowMyChar : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class ShowMyChar : MonoBehaviour
             // マイキャラ生成
             MyCharDataManager.Instance.CreateMyChar(myChar);
         }
-	}
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            // シーン遷移
+            SceneManager.LoadScene("CharCreate");
+        }
+    }
     
 }

@@ -7,8 +7,8 @@ public class EyeLChangeButton : MonoBehaviour
     [SerializeField]
     private Material mat;           // 対応するマテリアル
     [SerializeField]
-    private GameObject myChar;      // 対応するオブジェクト
-    
+    private GameObject manager;     // キャラクリマネージャー
+
     // Use this for initialization
     void Start () {
 		
@@ -26,8 +26,7 @@ public class EyeLChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 目の形の設定
-        MyCharDataManager.Instance.EyeLine = mat;
-        MyCharDataManager.Instance.ChangeEyeLine(mat);               
+        // 目の形の設定        
+        manager.GetComponent<CharaCreateManager>().ChangeEyeLine(mat);
     }
 }
