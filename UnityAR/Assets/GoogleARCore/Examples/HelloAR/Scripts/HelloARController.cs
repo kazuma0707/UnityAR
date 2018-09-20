@@ -48,6 +48,7 @@ namespace GoogleARCore.Examples.HelloAR
         // A model to place when a raycast from a user touch hits a plane.
         public GameObject AndyAndroidPrefab;
         //ユニティちゃんのオブジェクト
+        [Header("生成するキャラクター")]
         public GameObject UnityChanPrefab;
         //A gameobject parenting UI for displaying the "searching for planes" snackbar.
         public GameObject SearchingForPlaneUI;
