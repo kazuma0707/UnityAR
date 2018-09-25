@@ -30,7 +30,8 @@ public enum ChangingPoint
     HAIR,
     EYE_LINE,
     EYE_PATTERN_L,
-    EYE_PATTERN_R
+    EYE_PATTERN_R,
+    HEAD2
 }
 
 public class MyCharDataManager : MonoBehaviour
@@ -80,9 +81,10 @@ public class MyCharDataManager : MonoBehaviour
     [SerializeField]
     private Material[] eyePatternMat;         // 目の模様
 
-    private Color hairColor;                // 髪の色
+    //private Color hairColor;                // 髪の色
+    private Material hairColor;                // 髪の色
     private Color eyeColor;                 // 目の色
-    private Color bodyColor;                // 体の色
+    private Material[] bodyColor = new Material[2];                // 体の色(0:skin, 1:face)
 
     
     private BodyNum bodyNum;                // 体型の登録番号
@@ -107,7 +109,6 @@ public class MyCharDataManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }  
 
     //----------------------------------------------------------------------------------------------
@@ -124,7 +125,9 @@ public class MyCharDataManager : MonoBehaviour
         GameObject[] bodies = GameObject.FindGameObjectsWithTag("BodyObj");
         foreach (GameObject obs in bodies)
         {
-            obs.GetComponent<SkinnedMeshRenderer>().material.color = bodyColor;
+            if (obs.name == "transform6") obs.GetComponent<Renderer>().material = bodyColor[1];
+            if (obs.name == "polySurface4") obs.GetComponent<Renderer>().material = bodyColor[1];
+            if (obs.name == "transform22") obs.GetComponent<Renderer>().material = bodyColor[0];
         }
 
         // 髪型を設定   
@@ -141,11 +144,13 @@ public class MyCharDataManager : MonoBehaviour
             // 定位置に髪オブジェクトを作る
             if (child.name == "HairPos")
             {
-                GameObject hair = Instantiate(hairObjs[(int)bodyNum], child.transform.position, Quaternion.identity);
-
+                GameObject hair = Instantiate(hairObjs[(int)hairNum], child.transform.position, child.transform.rotation) as GameObject;
+                
                 hair.transform.SetParent(child.transform.parent.transform);
                 // 髪の色を設定
-                hair.GetComponent<MeshRenderer>().material.color = hairColor;
+                //hair.GetComponent<MeshRenderer>().material.color = hairColor;
+                hair.GetComponent<Renderer>().material = hairColor;
+                break;
             }
         }
 
@@ -160,18 +165,18 @@ public class MyCharDataManager : MonoBehaviour
         GameObject[] eyeLines = GameObject.FindGameObjectsWithTag("eyeLineObj");
         foreach (GameObject obs in eyeLines)
         {
-            obs.GetComponent<SkinnedMeshRenderer>().material = eyeLineMat;
+            obs.GetComponent<Renderer>().material = eyeLineMat;
         }
 
         // 目の模様と色を設定
-        GameObject[] eyePatterns = GameObject.FindGameObjectsWithTag("eyePatternObj");
+        //GameObject[] eyePatterns = GameObject.FindGameObjectsWithTag("eyePatternObj");
 
-        eyePatterns[0].GetComponent<MeshRenderer>().material = eyePatternMat[1];
-        eyePatterns[1].GetComponent<MeshRenderer>().material = eyePatternMat[0];
-        for (int i = 0; i < eyePatterns.Length; i++)
-        {
-            eyePatterns[i].GetComponent<MeshRenderer>().material.color = eyeColor;
-        }
+        //eyePatterns[0].GetComponent<MeshRenderer>().material = eyePatternMat[1];
+        //eyePatterns[1].GetComponent<MeshRenderer>().material = eyePatternMat[0];
+        //for (int i = 0; i < eyePatterns.Length; i++)
+        //{
+        //    eyePatterns[i].GetComponent<MeshRenderer>().material.color = eyeColor;
+        //}
     }
 
     // 体型の登録番号のアクセッサ
@@ -203,7 +208,12 @@ public class MyCharDataManager : MonoBehaviour
     }
 
     // 髪の色のアクセッサ
-    public Color HairColor
+    //public Color HairColor
+    //{
+    //    get { return hairColor; }
+    //    set { hairColor = value; }
+    //}
+    public Material HairColor
     {
         get { return hairColor; }
         set { hairColor = value; }
@@ -217,7 +227,7 @@ public class MyCharDataManager : MonoBehaviour
     }
 
     // 体の色のアクセッサ
-    public Color BodyColor
+    public Material[] BodyColor
     {
         get { return bodyColor; }
         set { bodyColor = value; }
