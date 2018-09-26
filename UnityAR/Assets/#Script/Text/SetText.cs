@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore.Examples.AugmentedImage;
 using UnityEngine.UI;
+using EnumName;
 
 /// <summary>
 /// マーカを読み込んだ際にどこの
@@ -14,6 +15,8 @@ public class SetText : MonoBehaviour {
     private Text _text;
     [SerializeField,Header("現在いる学科を表示するテキスト")]
     private Text _DepartmentText;
+    //現在のテキストを変更する
+    public int SetTextNumber { set; get; }
 
     // Use this for initialization
     void Start () {
@@ -45,24 +48,29 @@ public class SetText : MonoBehaviour {
     }
     void UIViewText()
     {
-        switch (this._ImageController.GetMarkerNumber)
+        this.SetTextNumber = this._ImageController.GetMarkerNumber;
+        
+        switch (SetTextNumber)
         {
-            case 1:
+            case DepartmentName.GAME:
                 _DepartmentText.text = "ここはゲームサイエンス学科です";
                 break;
-            case 2:
+            case DepartmentName.CG:
                 _DepartmentText.text = "ここはCGスペシャリストです";
                 break;
-            case 3:
+            case DepartmentName.WEB:
                 _DepartmentText.text = "ここはWebデザイン学科です";
                 break;
-            case 4:
+            case DepartmentName.CAD:
                 _DepartmentText.text = "ここはCAD学科です";
                 break;
-            case 5:
+                case DepartmentName.CYBER_SECURITY:
+                _DepartmentText.text = "ここはサイバーセキュリティ学科です";
+                break;
+            case DepartmentName.ADVANCED_INFORMATION:
                 _DepartmentText.text = "高度情報学科です";
                 break;
-            case 6:
+            case DepartmentName.INFORMATION_PROCESSING:
                 _DepartmentText.text = "情報処理学科です";
                 break;
             default:
@@ -71,25 +79,27 @@ public class SetText : MonoBehaviour {
     }
     void PanelViewText()
     {
+        //パネルが生成されてなければリターン
         if (_text == null) return;
+        this.SetTextNumber = this._ImageController.GetMarkerNumber;
         switch (this._ImageController.GetMarkerNumber)
         {
-            case 1:
+            case DepartmentName.GAME:
                 this._text.text = "ここはゲームサイエンス学科です";
                 break;
-            case 2:
+            case DepartmentName.CG:
                 this._text.text = "ここはCGスペシャリストです";
                 break;
-            case 3:
+            case DepartmentName.WEB:
                 this._text.text = "ここはWebデザイン学科です";
                 break;
-            case 4:
+            case DepartmentName.CAD:
                 this._text.text = "ここはCAD学科です";
                 break;
-            case 5:
+            case DepartmentName.ADVANCED_INFORMATION:
                 this._text.text = "高度情報学科です";
                 break;
-            case 6:
+            case DepartmentName.INFORMATION_PROCESSING:
                 this._text.text = "情報処理学科です";
                 break;
             default:
