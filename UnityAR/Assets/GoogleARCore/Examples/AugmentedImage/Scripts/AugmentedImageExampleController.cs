@@ -44,8 +44,7 @@ namespace GoogleARCore.Examples.AugmentedImage
             = new Dictionary<int, AugmentedImageVisualizer>();
 
         private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
-        [SerializeField]
-        static public List<int> Index = new List<int>();//読み込んだ画像を保存するインデックス
+        public static List<int> Index = new List<int>();//読み込んだ画像を保存するインデックス
         public int GetMarkerNumber { get; private set; }//現在読み込んでいる画像
         private void Start()
         {
