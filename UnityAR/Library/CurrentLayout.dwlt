@@ -108,10 +108,10 @@ MonoBehaviour:
     y: 30
     width: 1280
     height: 587
-  m_MinSize: {x: 913, y: 442}
-  m_MaxSize: {x: 22008, y: 10021}
+  m_MinSize: {x: 915, y: 442}
+  m_MaxSize: {x: 22010, y: 10021}
   vertical: 0
-  controlID: 395
+  controlID: 110
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 525
+  controlID: 10
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -255,8 +255,8 @@ MonoBehaviour:
     y: 0
     width: 286
     height: 587
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 643a0000
+    m_SelectedIDs: d60e0000
     m_LastClickedID: 0
     m_ExpandedIDs: 9efbffff00000000
     m_RenameOverlay:
@@ -509,19 +509,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/CharacterCreate/Model/Character model/Export/Toon
+    - Assets/CharacterCreate/Scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/CharacterCreate/Model/Character model/Export/Toon
+  - Assets/CharacterCreate/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\s162176\Documents\UnityAR\UnityAR
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 18340000
-    m_LastClickedID: 13336
-    m_ExpandedIDs: 000000002a2f0000602f0000ea2f0000f02f000008300000e2300000083200008e320000163400002c340000763400009834000002350000da3500000636000048360000f63600003c3800007c380000bc380000e238000042390000d6390000503a0000663a0000763a0000843a0000b03a00005c3b0000563c0000ca4b000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 180}
+    m_SelectedIDs: 36320000
+    m_LastClickedID: 12854
+    m_ExpandedIDs: 000000002a2f0000602f0000ea2f0000f02f000008300000e2300000083200008e320000163400002c340000763400009834000002350000da3500000636000048360000f63600003c3800007c380000bc380000e238000042390000d6390000503a0000663a0000763a0000843a0000b03a00005c3b0000543c0000c84b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -549,7 +549,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002a2f0000602f0000ea2f0000f02f000008300000e2300000083200008e320000163400002c340000763400009834000002350000da3500000636000048360000f63600003c3800007c380000bc380000e238000042390000d6390000503a0000663a0000763a0000843a0000b03a00005c3b0000563c0000ca4b000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000002a2f0000602f0000ea2f0000f02f000008300000e2300000083200008e320000163400002c340000763400009834000002350000da3500000636000048360000f63600003c3800007c380000bc380000e238000042390000d6390000503a0000663a0000763a0000843a0000b03a00005c3b0000543c0000c84b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -576,7 +576,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 5a3a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -601,7 +601,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 56}
     m_GridSize: 64
   m_DirectoriesAreaWidth: 164
 --- !u!114 &16

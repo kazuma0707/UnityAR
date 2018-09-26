@@ -59,8 +59,7 @@ public class CharaCreateManager : MonoBehaviour
             Quaternion oldRot = Quaternion.identity;
             // 子オブジェクトを検索
             foreach (var child in myChar.GetChildren())
-            {
-                
+            {                
                 // 既存のオブジェクトを削除
                 if (child.name == "EYE_DEF")
                 {
