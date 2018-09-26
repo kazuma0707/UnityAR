@@ -24,7 +24,7 @@ public class CharaCreateManager : MonoBehaviour
     [SerializeField]
     private Material defaultEyeColorMat;      // 初期の目の色
     [SerializeField]
-    private Material defaultBodyColorMat;     // 初期の体の色
+    private Material[] defaultBodyColorMat;     // 初期の体の色(0:skin, 1:face)
 
     private GameObject[] hairObjs;              // 髪型
 
@@ -43,9 +43,9 @@ public class CharaCreateManager : MonoBehaviour
         hairObjs = MyCharDataManager.Instance.HairObj;
 
         // 各色の初期設定
-        MyCharDataManager.Instance.HairColor = defaultHairColorMat.color;
+        MyCharDataManager.Instance.HairColor = defaultHairColorMat;
         MyCharDataManager.Instance.EyeColor = defaultEyeColorMat.color;
-        MyCharDataManager.Instance.BodyColor = defaultBodyColorMat.color;
+        MyCharDataManager.Instance.BodyColor = defaultBodyColorMat;
 
         Remake();        
     }
@@ -131,9 +131,9 @@ public class CharaCreateManager : MonoBehaviour
         GameObject[] hairs = GameObject.FindGameObjectsWithTag("HairObj");
         foreach (GameObject obs in hairs)
         {
-            obs.GetComponent<Renderer>().material.color = defaultHairColorMat.color;
+            obs.GetComponent<Renderer>().material = defaultHairColorMat;
         }
-        MyCharDataManager.Instance.HairColor = defaultHairColorMat.color;
+        MyCharDataManager.Instance.HairColor = defaultHairColorMat;
 
         // 目の形を設定
         ChangeEyeLine(defaultEyeLineMat);
@@ -171,7 +171,7 @@ public class CharaCreateManager : MonoBehaviour
 
                 if (parent) hair.transform.SetParent(parent);
                 // 髪の色を設定
-                hair.GetComponent<Renderer>().material.color = MyCharDataManager.Instance.HairColor;
+                hair.GetComponent<Renderer>().material = MyCharDataManager.Instance.HairColor;
                 // 髪型の登録番号を設定
                 MyCharDataManager.Instance.HairNumber = num;
             }
@@ -238,7 +238,9 @@ public class CharaCreateManager : MonoBehaviour
         //changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material.color = color;
         //MyCharDataManager.Instance.BodyColor = color;
         changingPoints[(int)ChangingPoint.SKIN].GetComponent<Renderer>().material = skin;
+        changingPoints[(int)ChangingPoint.MAYU].GetComponent<Renderer>().material = skin;
         changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material = face;
+        changingPoints[(int)ChangingPoint.MATSUGE].GetComponent<Renderer>().material = face;
     }
 
     //----------------------------------------------------------------------------------------------
