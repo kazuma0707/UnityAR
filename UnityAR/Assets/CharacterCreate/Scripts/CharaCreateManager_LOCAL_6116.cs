@@ -45,12 +45,8 @@ public class CharaCreateManager : MonoBehaviour
         // 各色の初期設定
         MyCharDataManager.Instance.HairColor = defaultHairColorMat;
         MyCharDataManager.Instance.EyeColor = defaultEyeColorMat.color;
-
         MyCharDataManager.Instance.BodyColor[0] = defaultBodyColorMat[0];
         MyCharDataManager.Instance.BodyColor[1] = defaultBodyColorMat[1];
-
-        MyCharDataManager.Instance.BodyColor = defaultBodyColorMat;
-
 
         Remake();        
     }
@@ -64,7 +60,8 @@ public class CharaCreateManager : MonoBehaviour
             Quaternion oldRot = Quaternion.identity;
             // 子オブジェクトを検索
             foreach (var child in myChar.GetChildren())
-            {                
+            {
+                
                 // 既存のオブジェクトを削除
                 if (child.name == "EYE_DEF")
                 {
@@ -178,6 +175,7 @@ public class CharaCreateManager : MonoBehaviour
                     hair.transform.SetParent(parent);
                 }
                 // 髪の色を設定
+                //hair.GetComponent<Renderer>().material.color = MyCharDataManager.Instance.HairColor;
                 hair.GetComponent<Renderer>().material = MyCharDataManager.Instance.HairColor;
                 // 髪型の登録番号を設定
                 MyCharDataManager.Instance.HairNumber = num;
@@ -246,15 +244,11 @@ public class CharaCreateManager : MonoBehaviour
         //changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material.color = color;
         //MyCharDataManager.Instance.BodyColor = color;
         changingPoints[(int)ChangingPoint.SKIN].GetComponent<Renderer>().material = skin;
-        changingPoints[(int)ChangingPoint.MAYU].GetComponent<Renderer>().material = skin;
         changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material = face;
-
         changingPoints[(int)ChangingPoint.HEAD2].GetComponent<Renderer>().material = face;
 
         MyCharDataManager.Instance.BodyColor[0] = skin;
         MyCharDataManager.Instance.BodyColor[1] = face;
-
-        changingPoints[(int)ChangingPoint.MATSUGE].GetComponent<Renderer>().material = face;
     }
 
     //----------------------------------------------------------------------------------------------
