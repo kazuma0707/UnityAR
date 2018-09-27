@@ -31,10 +31,8 @@ public class CharaCreateManager : MonoBehaviour
     private Vector3[] bodyScale;                // 体型
 
     [SerializeField]
-    private GameObject face;
+    private GameObject[] wear;
 
-    [SerializeField]
-    private Mesh hairMesh;
 
     // Use this for initialization
     void Start ()
@@ -45,14 +43,17 @@ public class CharaCreateManager : MonoBehaviour
         // 各色の初期設定
         MyCharDataManager.Instance.HairColor = defaultHairColorMat;
         MyCharDataManager.Instance.EyeColor = defaultEyeColorMat.color;
+        MyCharDataManager.Instance.EyePattern = defaultEyePatternMat;
 
-        MyCharDataManager.Instance.BodyColor[0] = defaultBodyColorMat[0];
-        MyCharDataManager.Instance.BodyColor[1] = defaultBodyColorMat[1];
+        //MyCharDataManager.Instance.BodyColor[0] = defaultBodyColorMat[0];
+        //MyCharDataManager.Instance.BodyColor[1] = defaultBodyColorMat[1];
 
         MyCharDataManager.Instance.BodyColor = defaultBodyColorMat;
 
 
-        Remake();        
+        Remake();
+
+        wear[1].SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -60,34 +61,28 @@ public class CharaCreateManager : MonoBehaviour
     {
 		if(Input.GetKeyDown(KeyCode.K))
         {
-            Vector3 oldPos = Vector3.zero;
-            Quaternion oldRot = Quaternion.identity;
+            wear[0].SetActive(false);
+            wear[1].SetActive(true);
             // 子オブジェクトを検索
-            foreach (var child in myChar.GetChildren())
-            {                
-                // 既存のオブジェクトを削除
-                if (child.name == "EYE_DEF")
-                {
-                    Debug.Log("delete");
-                    oldPos = child.transform.position;
-                    oldRot = child.transform.rotation;
-                    Debug.Log(child.transform.parent.name);
+            //foreach (var child in myChar.GetChildren())
+            //{                
+            //    // 既存のオブジェクトを削除
+            //    if (child.name == "transform13")
+            //    {
+            //        Debug.Log("delete");
+            //        Debug.Log(child.transform.parent.name);
 
-                    // 定位置にオブジェクトを作る
-                    Debug.Log(oldPos);
-                    Debug.Log(oldRot);
-                    Vector3 pos = child.transform.position;
-                    GameObject obj = Instantiate(face, oldPos, oldRot);
-                    obj.name = "EYE_DEF";
-                    obj.transform.SetParent(child.transform.parent);
-                    Destroy(child);
-                    break;
-                }              
-               
-            }
-            
+            //        // 定位置にオブジェクトを作る
+            //        GameObject obj = Instantiate(wear, child.transform.position, child.transform.rotation);
+            //        obj.name = child.name;
+            //        obj.GetComponent<SkinnedMeshRenderer>().rootBone = child.GetComponent<SkinnedMeshRenderer>().rootBone;
+            //        obj.transform.SetParent(child.transform.parent);
+            //        Destroy(child);
+            //        break;
+            //    }             
+            //}           
         }
-	}
+    }
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 作り直しする時に変更する部位の再設定
@@ -238,7 +233,7 @@ public class CharaCreateManager : MonoBehaviour
     // 　引　数   | color：体の色
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeBodyColor(Material skin, Material face/*Color color*/)
+    public void ChangeBodyColor(Material skin, Material face)
     {
         // 色を設定
         //changingPoints[(int)ChangingPoint.SKIN].GetComponent<Renderer>().material.color = color;
@@ -246,15 +241,12 @@ public class CharaCreateManager : MonoBehaviour
         //changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material.color = color;
         //MyCharDataManager.Instance.BodyColor = color;
         changingPoints[(int)ChangingPoint.SKIN].GetComponent<Renderer>().material = skin;
-        changingPoints[(int)ChangingPoint.MAYU].GetComponent<Renderer>().material = skin;
+        //changingPoints[(int)ChangingPoint.MAYU].GetComponent<Renderer>().material = skin;
         changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material = face;
-
-        changingPoints[(int)ChangingPoint.HEAD2].GetComponent<Renderer>().material = face;
+        //changingPoints[(int)ChangingPoint.MATSUGE].GetComponent<Renderer>().material = face;
 
         MyCharDataManager.Instance.BodyColor[0] = skin;
-        MyCharDataManager.Instance.BodyColor[1] = face;
-
-        changingPoints[(int)ChangingPoint.MATSUGE].GetComponent<Renderer>().material = face;
+        MyCharDataManager.Instance.BodyColor[1] = face;        
     }
 
     //----------------------------------------------------------------------------------------------
@@ -265,8 +257,8 @@ public class CharaCreateManager : MonoBehaviour
     public void ChangeEyePattern(Material matL, Material matR)
     {
         // マテリアルと色を設定
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<MeshRenderer>().material = matL;
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<MeshRenderer>().material = matR;
+        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<Renderer>().material = matL;
+        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<Renderer>().material = matR;
         MyCharDataManager.Instance.EyePattern[0] = matL;
         MyCharDataManager.Instance.EyePattern[1] = matR;
         ChangeEyeColor(MyCharDataManager.Instance.EyeColor);
@@ -292,8 +284,8 @@ public class CharaCreateManager : MonoBehaviour
     public void ChangeEyeColor(Color color)
     {
         // マテリアルを設定
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<MeshRenderer>().material.color = color;
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<MeshRenderer>().material.color = color;
+        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<Renderer>().material.color = color;
+        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<Renderer>().material.color = color;
         MyCharDataManager.Instance.EyeColor = color;
     }
 }

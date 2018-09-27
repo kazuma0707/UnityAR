@@ -31,8 +31,8 @@ public enum ChangingPoint
     EYE_LINE,
     EYE_PATTERN_L,
     EYE_PATTERN_R,
-    MATSUGE,
-    MAYU
+    //MATSUGE,
+    //MAYU
 }
 
 public class MyCharDataManager : MonoBehaviour

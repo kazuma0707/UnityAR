@@ -4,7 +4,7 @@
 namespace VRM
 {
     [Serializable]
-    public struct BlendShapeKey : IEquatable<BlendShapeKey>
+    public struct BlendShapeKey : IEquatable<BlendShapeKey>, IComparable<BlendShapeKey>
     {
         public string Name;
         public BlendShapePreset Preset;
@@ -80,12 +80,26 @@ namespace VRM
 
         public static BlendShapeKey CreateFrom(BlendShapeClip clip)
         {
+            if (clip == null)
+            {
+                return default(BlendShapeKey);
+            }
             return new BlendShapeKey(clip.BlendShapeName, clip.Preset);
         }
 
         public bool Match(BlendShapeClip clip)
         {
             return this.Equals(CreateFrom(clip));
+        }
+
+        public int CompareTo(BlendShapeKey other)
+        {
+            if (Preset != other.Preset)
+            {
+                return Preset - other.Preset;
+            }
+
+            return 0;
         }
     }
 }

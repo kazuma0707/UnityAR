@@ -3,20 +3,15 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-namespace UniGLTF
+namespace UniJSON
 {
     public static class JsonParserExtensions
     {
-        public static List<T> DeserializeList<T>(this JsonParser jsonList)
+        public static List<T> DeserializeList<T>(this JsonNode jsonList)
         {
-            return jsonList.ListItems.Select(x => {
+            return jsonList.ArrayItems.Select(x => {
 
-                if (!x.IsParsedToEnd)
-                {
-                    x.ParseToEnd();
-                }
-
-                return JsonUtility.FromJson<T>(x.Segment.ToString());
+                return JsonUtility.FromJson<T>(x.Value.Segment.ToString());
                 
             }).ToList();
         }

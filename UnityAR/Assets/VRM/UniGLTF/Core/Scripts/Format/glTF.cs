@@ -1,61 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using UniJSON;
 
 
 namespace UniGLTF
 {
     [Serializable]
-    public abstract class JsonSerializableBase : IJsonSerializable
-    {
-        protected abstract void SerializeMembers(JsonFormatter f);
-
-        public string ToJson()
-        {
-            var f = new JsonFormatter();
-            f.BeginMap();
-
-            SerializeMembers(f);
-
-            f.EndMap();
-            return f.ToString();
-        }
-    }
-
-    [Serializable]
-    public class extraName : JsonSerializableBase
-    {
-        public string name;
-
-        protected override void SerializeMembers(JsonFormatter f)
-        {
-            f.KeyValue(() => name);
-        }
-    }
-
-    [Serializable]
     public class gltfScene : JsonSerializableBase
     {
+        [JsonSchema(MinItems = 1)]
+        [ItemJsonSchema(Minimum = 0)]
         public int[] nodes;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        public object extensions;
+        public object extras;
+        public string name;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => nodes);
+        }
+    }
+
+    public partial class glTFUsedExtensions
+    {
+        public static IEnumerable<string> GeetUsedExtensions()
+        {
+            foreach (var prop in typeof(glTFUsedExtensions).GetProperties(BindingFlags.Static |
+                BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                if (prop.GetCustomAttributes(typeof(UsedExtensionAttribute), true).Any())
+                {
+                    var extension = (string)prop.GetValue(null, new object[] { });
+                    yield return extension;
+                }
+            }
         }
     }
 
     [Serializable]
     public class glTF : JsonSerializableBase, IEquatable<glTF>
     {
+        /*
         public string baseDir
         {
             get;
             set;
         }
+        */
 
-        public glTFAssets asset;
+        [JsonSchema(Required = true)]
+        public glTFAssets asset = new glTFAssets();
 
         #region Buffer      
+        [JsonSchema(MinItems = 1)]
         public List<glTFBuffer> buffers = new List<glTFBuffer>();
         public int AddBuffer(IBytesBuffer bytesBuffer)
         {
@@ -64,6 +65,7 @@ namespace UniGLTF
             return index;
         }
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFBufferView> bufferViews = new List<glTFBufferView>();
         public int AddBufferView(glTFBufferView view)
         {
@@ -72,6 +74,7 @@ namespace UniGLTF
             return index;
         }
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFAccessor> accessors = new List<glTFAccessor>();
 
         T[] GetAttrib<T>(glTFAccessor accessor, glTFBufferView view) where T : struct
@@ -79,7 +82,7 @@ namespace UniGLTF
             return GetAttrib<T>(accessor.count, accessor.byteOffset, view);
         }
         T[] GetAttrib<T>(int count, int byteOffset, glTFBufferView view) where T : struct
-        { 
+        {
             var attrib = new T[count];
             //
             var segment = buffers[view.buffer].GetBytes();
@@ -173,14 +176,14 @@ namespace UniGLTF
                 ;
 
             var sparse = vertexAccessor.sparse;
-            if (sparse !=null && sparse.count > 0)
+            if (sparse != null && sparse.count > 0)
             {
                 // override sparse values
                 var indices = _GetIndices(bufferViews[sparse.indices.bufferView], sparse.count, sparse.indices.byteOffset, sparse.indices.componentType);
                 var values = GetAttrib<T>(sparse.count, sparse.values.byteOffset, bufferViews[sparse.values.bufferView]);
 
                 var it = indices.GetEnumerator();
-                for(int i=0; i<sparse.count; ++i)
+                for (int i = 0; i < sparse.count; ++i)
                 {
                     it.MoveNext();
                     result[it.Current] = values[i];
@@ -190,8 +193,10 @@ namespace UniGLTF
         }
         #endregion
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFTexture> textures = new List<glTFTexture>();
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFTextureSampler> samplers = new List<glTFTextureSampler>();
         public glTFTextureSampler GetSampler(int index)
         {
@@ -203,6 +208,7 @@ namespace UniGLTF
             return samplers[index];
         }
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFImage> images = new List<glTFImage>();
 
         public glTFImage GetImageFromTextureIndex(int textureIndex)
@@ -216,6 +222,7 @@ namespace UniGLTF
             return GetSampler(samplerIndex);
         }
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFMaterial> materials = new List<glTFMaterial>();
         public string GetUniqueMaterialName(int index)
         {
@@ -230,10 +237,19 @@ namespace UniGLTF
             }
         }
 
+        [JsonSchema(MinItems = 1)]
         public List<glTFMesh> meshes = new List<glTFMesh>();
+
+        [JsonSchema(MinItems = 1)]
         public List<glTFNode> nodes = new List<glTFNode>();
+
+        [JsonSchema(MinItems = 1)]
         public List<glTFSkin> skins = new List<glTFSkin>();
+
+        [JsonSchema(Dependencies = new string[] { "scenes" }, Minimum = 0)]
         public int scene;
+
+        [JsonSchema(MinItems = 1)]
         public List<gltfScene> scenes = new List<gltfScene>();
         public int[] rootnodes
         {
@@ -242,15 +258,42 @@ namespace UniGLTF
                 return scenes[scene].nodes;
             }
         }
+
+        [JsonSchema(MinItems = 1)]
         public List<glTFAnimation> animations = new List<glTFAnimation>();
+
+        [JsonSchema(MinItems = 1)]
+        public List<glTFCamera> cameras = new List<glTFCamera>();
+
+        [JsonSchema(MinItems = 1)]
+        public List<string> extensionsUsed = glTFUsedExtensions.GeetUsedExtensions().ToList();
+
+        [JsonSchema(MinItems = 1)]
+        public List<string> extensionsRequired = new List<string>();
+
+        public glTF_extensions extensions = new glTF_extensions();
+        public gltf_extras extras = new gltf_extras();
 
         public override string ToString()
         {
             return string.Format("{0}", asset);
         }
 
-        protected override void SerializeMembers(JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
+            if (extensionsUsed.Count > 0)
+            {
+                f.KeyValue(() => extensionsUsed);
+            }
+            if (extensions.__count > 0)
+            {
+                f.KeyValue(() => extensions);
+            }
+            if (extras.__count > 0)
+            {
+                f.KeyValue(() => extras);
+            }
+
             f.KeyValue(() => asset);
 
             // buffer
@@ -260,17 +303,17 @@ namespace UniGLTF
             }
             if (bufferViews.Any())
             {
-                f.Key("bufferViews"); f.Value(bufferViews);
+                f.Key("bufferViews"); f.GLTFValue(bufferViews);
             }
             if (accessors.Any())
             {
-                f.Key("accessors"); f.Value(accessors);
+                f.Key("accessors"); f.GLTFValue(accessors);
             }
 
             // materials
             if (images.Any())
             {
-                f.Key("images"); f.Value(images);
+                f.Key("images"); f.GLTFValue(images);
                 if (samplers.Count == 0)
                 {
                     samplers.Add(new glTFTextureSampler());
@@ -279,16 +322,16 @@ namespace UniGLTF
 
             if (samplers.Any())
             {
-                f.Key("samplers"); f.Value(samplers);
+                f.Key("samplers"); f.GLTFValue(samplers);
             }
 
             if (textures.Any())
             {
-                f.Key("textures"); f.Value(textures);
+                f.Key("textures"); f.GLTFValue(textures);
             }
             if (materials.Any())
             {
-                f.Key("materials"); f.Value(materials);
+                f.Key("materials"); f.GLTFValue(materials);
             }
 
             // meshes
@@ -309,18 +352,22 @@ namespace UniGLTF
             if (scenes.Any())
             {
                 f.KeyValue(() => scenes);
+                if (scene >= 0)
+                {
+                    f.KeyValue(() => scene);
+                }
             }
 
             // animations
             if (animations.Any())
             {
-                f.Key("animations"); f.Value(animations);
+                f.Key("animations"); f.GLTFValue(animations);
             }
         }
 
         public bool Equals(glTF other)
         {
-            return 
+            return
                 textures.SequenceEqual(other.textures)
                 && samplers.SequenceEqual(other.samplers)
                 && images.SequenceEqual(other.images)
@@ -328,10 +375,41 @@ namespace UniGLTF
                 && meshes.SequenceEqual(other.meshes)
                 && nodes.SequenceEqual(other.nodes)
                 && skins.SequenceEqual(other.skins)
-                && scene==other.scene
+                && scene == other.scene
                 && scenes.SequenceEqual(other.scenes)
                 && animations.SequenceEqual(other.animations)
                 ;
+        }
+
+        public byte[] ToGlbBytes()
+        {
+            var json = ToJson();
+
+            var buffer = buffers[0];
+            using (var s = new MemoryStream())
+            {
+                GlbHeader.WriteTo(s);
+
+                var pos = s.Position;
+                s.Position += 4; // skip total size
+
+                int size = 12;
+
+                {
+                    var chunk = new GlbChunk(json);
+                    size += chunk.WriteTo(s);
+                }
+                {
+                    var chunk = new GlbChunk(buffer.GetBytes());
+                    size += chunk.WriteTo(s);
+                }
+
+                s.Position = pos;
+                var bytes = BitConverter.GetBytes(size);
+                s.Write(bytes, 0, bytes.Length);
+
+                return s.ToArray();
+            }
         }
     }
 }

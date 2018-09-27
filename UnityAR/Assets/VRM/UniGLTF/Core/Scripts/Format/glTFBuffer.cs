@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-
+using UniJSON;
 
 namespace UniGLTF
 {
     [Serializable]
-    public class glTFBuffer : IJsonSerializable
+    public class glTFBuffer : JsonSerializableBase
     {
         IBytesBuffer Storage;
 
-        public void OpenStorage(string baseDir, IStorage storage)
+        public void OpenStorage(IStorage storage)
         {
             Storage = new ArraySegmentByteBuffer(storage.Get(uri));
             /*
@@ -30,7 +30,14 @@ namespace UniGLTF
         }
 
         public string uri;
+
+        [JsonSchema(Required = true, Minimum = 1)]
         public int byteLength;
+
+        // empty schemas
+        public object extensions;
+        public object extras;
+        public string name;
 
         public glTFBufferView Append<T>(T[] array, glBufferTarget target) where T : struct
         {
@@ -48,33 +55,41 @@ namespace UniGLTF
             return Storage.GetBytes();
         }
 
-        public string ToJson()
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             if (!string.IsNullOrEmpty(uri))
             {
                 f.KeyValue(() => uri);
             }
             f.KeyValue(() => byteLength);
-            f.EndMap();
-            return f.ToString();
         }
     }
 
     [Serializable]
-    public class glTFBufferView : IJsonSerializable
+    public class glTFBufferView : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 0)]
         public int buffer;
+
+        [JsonSchema(Minimum = 0)]
         public int byteOffset;
+
+        [JsonSchema(Required = true, Minimum = 1)]
         public int byteLength;
+
+        [JsonSchema(Minimum = 4, Maximum = 252, MultipleOf = 4)]
         public int byteStride;
+
+        [JsonSchema(EnumSerializationType = EnumSerializationType.AsInt, EnumExcludes = new object[] { glBufferTarget.NONE })]
         public glBufferTarget target;
 
-        public string ToJson()
+        // empty schemas
+        public object extensions;
+        public object extras;
+        public string name;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             f.KeyValue(() => buffer);
             f.KeyValue(() => byteOffset);
             f.KeyValue(() => byteLength);
@@ -82,23 +97,32 @@ namespace UniGLTF
             {
                 f.Key("target"); f.Value((int)target);
             }
-            if (target == glBufferTarget.ARRAY_BUFFER)
+            /* When this is not defined, data is tightly packed. When two or more accessors use the same bufferView, this field must be defined.
+            if (byteStride >= 4)
             {
                 f.KeyValue(() => byteStride);
             }
-            f.EndMap();
-            return f.ToString();
+            */
         }
     }
 
     [Serializable]
     public class glTFSparseIndices : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 0)]
         public int bufferView = -1;
+
+        [JsonSchema(Minimum = 0)]
         public int byteOffset;
+
+        [JsonSchema(Required = true, EnumValues = new object[] { 5121, 5123, 5125 })]
         public glComponentType componentType;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => bufferView);
             f.KeyValue(() => byteOffset);
@@ -109,10 +133,17 @@ namespace UniGLTF
     [Serializable]
     public class glTFSparseValues : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 0)]
         public int bufferView = -1;
+
+        [JsonSchema(Minimum = 0)]
         public int byteOffset;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => bufferView);
             f.KeyValue(() => byteOffset);
@@ -122,11 +153,20 @@ namespace UniGLTF
     [Serializable]
     public class glTFSparse : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 1)]
         public int count;
+
+        [JsonSchema(Required = true)]
         public glTFSparseIndices indices;
+
+        [JsonSchema(Required = true)]
         public glTFSparseValues values;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => count);
             f.KeyValue(() => indices);
@@ -137,17 +177,38 @@ namespace UniGLTF
     [Serializable]
     public class glTFAccessor : JsonSerializableBase
     {
+        [JsonSchema(Minimum = 0)]
         public int bufferView = -1;
+
+        [JsonSchema(Minimum = 0, Dependencies = new string[] { "bufferView" })]
         public int byteOffset;
+
+        [JsonSchema(Required = true, EnumValues = new object[] { "SCALAR", "VEC2", "VEC3", "VEC4", "MAT2", "MAT3", "MAT4" })]
         public string type;
+
+        [JsonSchema(Required = true, EnumSerializationType = EnumSerializationType.AsInt)]
         public glComponentType componentType;
+
+        [JsonSchema(Required = true, Minimum = 1)]
         public int count;
+
+        [JsonSchema(MinItems = 1, MaxItems = 16)]
         public float[] max;
+
+        [JsonSchema(MinItems = 1, MaxItems = 16)]
         public float[] min;
 
+        public bool normalized;
         public glTFSparse sparse;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        // empty schemas
+        public string name;
+
+        public object extensions;
+
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => bufferView);
             f.KeyValue(() => byteOffset);
@@ -167,6 +228,9 @@ namespace UniGLTF
             {
                 f.KeyValue(() => sparse);
             }
+
+            f.KeyValue(() => normalized);
+            f.KeyValue(() => name);
         }
     }
 }

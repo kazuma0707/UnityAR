@@ -50,9 +50,15 @@ namespace UniGLTF
             return new Vector3(v.x, v.y, -v.z);
         }
 
+        [Obsolete]
         public static Vector2 ReverseY(this Vector2 v)
         {
             return new Vector2(v.x, -v.y);
+        }
+
+        public static Vector2 ReverseUV(this Vector2 v)
+        {
+            return new Vector2(v.x, 1.0f - v.y);
         }
 
         public static Quaternion ReverseZ(this Quaternion q)
@@ -287,30 +293,6 @@ namespace UniGLTF
             }
 
             return new Material[] { };
-        }
-
-        public static IEnumerable<Texture> GetTextures(this Material m)
-        {
-#if UNITY_EDITOR
-            for (int i = 0; i < ShaderUtil.GetPropertyCount(m.shader); ++i)
-            {
-                if(ShaderUtil.GetPropertyType(m.shader, i)==ShaderUtil.ShaderPropertyType.TexEnv)
-                {
-                    var texture = m.GetTexture(ShaderUtil.GetPropertyName(m.shader, i));
-                    if (texture != null)
-                    {
-                        yield return texture;
-                    }
-                }
-            }
-
-#else
-            var texture = m.mainTexture as Texture2D;
-            if (texture != null)
-            {
-                yield return texture;
-            }
-#endif
         }
 
         public static bool Has<T>(this Transform transform, T t) where T : Component

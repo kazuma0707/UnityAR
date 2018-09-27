@@ -1,22 +1,29 @@
 ﻿using System;
-
+using UniJSON;
 
 namespace UniGLTF
 {
     [Serializable]
-    public struct glTFAssets : IJsonSerializable
+    public class glTFAssets : JsonSerializableBase
     {
         public string generator;
+
+        [JsonSchema(Required = true, Pattern = "^[0-9]+\\.[0-9]+$")]
         public string version;
 
-        public string ToJson()
+        public string copyright;
+
+        [JsonSchema(Pattern = "^[0-9]+\\.[0-9]+$")]
+        public string minVersion;
+
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             f.Key("generator"); f.Value(generator);
             f.Key("version"); f.Value(version);
-            f.EndMap();
-            return f.ToString();
         }
 
         public override string ToString()

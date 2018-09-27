@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+
 namespace UniGLTF
 {
     public class gltfAssetPostprocessor : AssetPostprocessor
@@ -14,86 +15,68 @@ namespace UniGLTF
         {
             foreach (string path in importedAssets)
             {
-                ImporterContext context = new ImporterContext
-                {
-                    Path = path,
-                };
                 var ext = Path.GetExtension(path).ToLower();
-                try
+                switch (ext)
                 {
-                    if (ext == ".gltf")
+                    case ".gltf":
+                    case ".glb":
+                        Import(UnityPath.FromUnityPath(path));
+                        break;
+                }
+            }
+        }
+
+        public static void Import(UnityPath gltfPath)
+        {
+            if (!gltfPath.IsUnderAssetsFolder)
+            {
+                throw new Exception();
+            }
+
+            ImporterContext context = new ImporterContext(gltfPath);
+            var ext = gltfPath.Extension.ToLower();
+            try
+            {
+                var prefabPath = gltfPath.Parent.Child(gltfPath.FileNameWithoutExtension + ".prefab");
+                if (ext == ".gltf")
+                {
+                    context.ParseJson(File.ReadAllText(gltfPath.FullPath, System.Text.Encoding.UTF8),
+                        new FileSystemStorage(gltfPath.Parent.FullPath));
+                    gltfImporter.Load(context);
+                    context.SaveAsAsset(prefabPath);
+                    context.Destroy(false);
+                }
+                else if (ext == ".glb")
+                {
+                    context.ParseGlb(File.ReadAllBytes(gltfPath.FullPath));
+                    context.SaveTexturesAsPng(prefabPath);
+                    EditorApplication.delayCall += () =>
                     {
-                        context.ParseJson<glTF>(File.ReadAllText(context.Path, System.Text.Encoding.UTF8), 
-                            new FileSystemStorage(Path.GetDirectoryName(path)));
-                        gltfImporter.Import<glTF>(context);
-                        context.SaveAsAsset();
-                        context.Destroy(false);
-                    }
-                    else if (ext == ".glb")
-                    {
-                        context.ParseGlb<glTF>(File.ReadAllBytes(context.Path));
-
-                        //
-                        // https://answers.unity.com/questions/647615/how-to-update-import-settings-for-newly-created-as.html
-                        //
-                        for (int i = 0; i < context.GLTF.textures.Count; ++i)
-                        {
-                            var x = context.GLTF.textures[i];
-                            var image = context.GLTF.images[x.source];
-                            if (string.IsNullOrEmpty(image.uri))
-                            {
-                                // glb buffer
-                                var folder = context.GetAssetFolder(".Textures").AssetPathToFullPath();
-                                if (!Directory.Exists(folder))
-                                {
-                                    UnityEditor.AssetDatabase.CreateFolder(context.GLTF.baseDir, Path.GetFileNameWithoutExtension(context.Path) + ".Textures");
-                                    //Directory.CreateDirectory(folder);
-                                }
-
-                                // name & bytes
-                                var textureName = !string.IsNullOrEmpty(image.name) ? image.name : string.Format("{0:00}#GLB", i);
-                                var byteSegment = context.GLTF.GetViewBytes(image.bufferView);
-
-                                // path
-                                var png = Path.Combine(folder, textureName + ".png");
-                                File.WriteAllBytes(png, byteSegment.ToArray());
-
-                                var assetPath = png.ToUnityRelativePath();
-                                //Debug.LogFormat("import asset {0}", assetPath);
-                                UnityEditor.AssetDatabase.ImportAsset(assetPath);
-                                image.uri = assetPath.Substring(context.GLTF.baseDir.Length + 1);
-                            }
-                        }
-                        UnityEditor.AssetDatabase.Refresh();
-
-                        EditorApplication.delayCall += () =>
-                        {
                             // delay and can import png texture
-                            gltfImporter.Import<glTF>(context);
-                            context.SaveAsAsset();
-                            context.Destroy(false);
-                        };
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                            gltfImporter.Load(context);
+                        context.SaveAsAsset(prefabPath);
+                        context.Destroy(false);
+                    };
                 }
-                catch (UniGLTFNotSupportedException ex)
+                else
                 {
-                    Debug.LogWarningFormat("{0}: {1}",
-                        path,
-                        ex.Message
-                        );
+                    return;
                 }
-                catch (Exception ex)
+            }
+            catch (UniGLTFNotSupportedException ex)
+            {
+                Debug.LogWarningFormat("{0}: {1}",
+                    gltfPath,
+                    ex.Message
+                    );
+            }
+            catch (Exception ex)
+            {
+                Debug.LogErrorFormat("import error: {0}", gltfPath);
+                Debug.LogErrorFormat("{0}", ex);
+                if (context != null)
                 {
-                    Debug.LogErrorFormat("import error: {0}", path);
-                    Debug.LogErrorFormat("{0}", ex);
-                    if (context != null)
-                    {
-                        context.Destroy(true);
-                    }
+                    context.Destroy(true);
                 }
             }
         }

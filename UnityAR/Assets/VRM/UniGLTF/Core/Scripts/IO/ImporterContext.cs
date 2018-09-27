@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
-using UniGLTF.SimpleJSON;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,23 +11,68 @@ using UnityEditor;
 
 namespace UniGLTF
 {
+    public struct KeyElapsed
+    {
+        public string Key;
+        public TimeSpan Elapsed;
+        public KeyElapsed(string key, TimeSpan elapsed)
+        {
+            Key = key;
+            Elapsed = elapsed;
+        }
+    }
+
+    public struct MeasureScope : IDisposable
+    {
+        Action m_onDispose;
+        public MeasureScope(Action onDispose)
+        {
+            m_onDispose = onDispose;
+        }
+        public void Dispose()
+        {
+            m_onDispose();
+        }
+    }
+
     public class ImporterContext
     {
-        #region Source
-        String m_path;
-
-        /// <summary>
-        /// GLTF or GLB path
-        /// </summary>
-        public String Path
+        public List<KeyElapsed> m_speedReports = new List<KeyElapsed>();
+        public IDisposable MeasureTime(string key)
         {
-            get { return m_path; }
-            set
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            return new MeasureScope(() =>
             {
-                if (m_path == value) return;
-                m_path = value;
-            }
+                m_speedReports.Add(new KeyElapsed(key, sw.Elapsed));
+            });
         }
+        public string GetSpeedLog()
+        {
+            var total = TimeSpan.Zero;
+
+            var sb = new StringBuilder();
+            sb.AppendLine("【SpeedLog】");
+            foreach (var kv in m_speedReports)
+            {
+                sb.AppendLine(string.Format("{0}: {1}ms", kv.Key, (int)kv.Elapsed.TotalMilliseconds));
+                total += kv.Elapsed;
+            }
+            sb.AppendLine(string.Format("total: {0}ms", (int)total.TotalMilliseconds));
+
+            return sb.ToString();
+        }
+
+        public UnityPath TextureBaseDir
+        {
+            get; private set;
+        }
+
+        public ImporterContext(UnityPath gltfPath = default(UnityPath))
+        {
+            TextureBaseDir = gltfPath.Parent;
+        }
+
+        #region Source
 
         /// <summary>
         /// JSON source
@@ -40,22 +84,59 @@ namespace UniGLTF
         /// </summary>
         public glTF GLTF; // parsed
 
+        public static bool IsGeneratedUniGLTFAndOlderThan(string generatorVersion, int major, int minor)
+        {
+            if (string.IsNullOrEmpty(generatorVersion)) return false;
+            if (generatorVersion == "UniGLTF") return true;
+            if (!generatorVersion.StartsWith("UniGLTF-")) return false;
+
+            try
+            {
+                var index = generatorVersion.IndexOf('.');
+                var generatorMajor = int.Parse(generatorVersion.Substring(8, index - 8));
+                var generatorMinor = int.Parse(generatorVersion.Substring(index + 1));
+
+                if (generatorMajor < major)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (generatorMinor >= minor)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarningFormat("{0}: {1}", generatorVersion, ex);
+                return false;
+            }
+        }
+
+        public bool IsGeneratedUniGLTFAndOlder(int major, int minor)
+        {
+            if (GLTF == null) return false;
+            if (GLTF.asset == null) return false;
+            return IsGeneratedUniGLTFAndOlderThan(GLTF.asset.generator, major, minor);
+        }
+
         /// <summary>
         /// URI access
         /// </summary>
         public IStorage Storage;
         #endregion
 
-        public void ParseGlb(Byte[] bytes)
-        {
-            ParseGlb<glTF>(bytes);
-        }
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="bytes"></param>
-        public void ParseGlb<T>(Byte[] bytes) where T : glTF
+        public void ParseGlb(Byte[] bytes)
         {
             var chunks = glbImporter.ParseGlbChanks(bytes);
 
@@ -75,21 +156,16 @@ namespace UniGLTF
             }
 
             var jsonBytes = chunks[0].Bytes;
-            ParseJson<T>(Encoding.UTF8.GetString(jsonBytes.Array, jsonBytes.Offset, jsonBytes.Count), 
+            ParseJson(Encoding.UTF8.GetString(jsonBytes.Array, jsonBytes.Offset, jsonBytes.Count),
                 new SimpleStorage(chunks[1].Bytes));
         }
 
         public void ParseJson(string json, IStorage storage)
         {
-            ParseJson<glTF>(json, storage);
-        }
-
-        public void ParseJson<T>(string json, IStorage storage) where T : glTF
-        {
             Json = json;
             Storage = storage;
 
-            GLTF = JsonUtility.FromJson<T>(Json);
+            GLTF = JsonUtility.FromJson<glTF>(Json);
             if (GLTF.asset.version != "2.0")
             {
                 throw new UniGLTFException("unknown gltf version {0}", GLTF.asset.version);
@@ -99,16 +175,16 @@ namespace UniGLTF
             RestoreOlderVersionValues();
 
             // parepare byte buffer
-            GLTF.baseDir = System.IO.Path.GetDirectoryName(Path);
+            //GLTF.baseDir = System.IO.Path.GetDirectoryName(Path);
             foreach (var buffer in GLTF.buffers)
             {
-                buffer.OpenStorage(GLTF.baseDir, storage);
+                buffer.OpenStorage(storage);
             }
         }
 
         void RestoreOlderVersionValues()
         {
-            var parsed = JSON.Parse(Json);
+            var parsed = UniJSON.JSON.Parse(Json);
             for (int i = 0; i < GLTF.images.Count; ++i)
             {
                 if (string.IsNullOrEmpty(GLTF.images[i].name))
@@ -149,6 +225,7 @@ namespace UniGLTF
                     // do nothing
                 }
             }
+#if false
             for (int i = 0; i < GLTF.nodes.Count; ++i)
             {
                 var node = GLTF.nodes[i];
@@ -156,18 +233,35 @@ namespace UniGLTF
                 {
                     var extra = parsed["nodes"][i]["extra"]["skinRootBone"].AsInt;
                     //Debug.LogFormat("restore extra: {0}", extra);
-                    node.extras.skinRootBone = extra;
+                    //node.extras.skinRootBone = extra;
                 }
                 catch (Exception)
                 {
                     // do nothing
                 }
             }
+#endif
         }
 
-        public CreateMaterialFunc CreateMaterial;
+        public IMaterialImporter MaterialImporter;
 
-        public bool HasVertexColor(int materialIndex)
+        public bool MaterialHasVertexColor(glTFMaterial material)
+        {
+            if (material == null)
+            {
+                return false;
+            }
+
+            var materialIndex = GLTF.materials.IndexOf(material);
+            if (materialIndex == -1)
+            {
+                return false;
+            }
+
+            return MaterialHasVertexColor(materialIndex);
+        }
+
+        public bool MaterialHasVertexColor(int materialIndex)
         {
             if (materialIndex < 0 || materialIndex >= GLTF.materials.Count)
             {
@@ -177,11 +271,51 @@ namespace UniGLTF
             var hasVertexColor = GLTF.meshes.SelectMany(x => x.primitives).Any(x => x.material == materialIndex && x.HasVertexColor);
             return hasVertexColor;
         }
+
         #region Imported
         public GameObject Root;
         public List<Transform> Nodes = new List<Transform>();
-        public List<TextureItem> Textures = new List<TextureItem>();
-        public List<Material> Materials = new List<Material>();
+
+        List<TextureItem> m_textures = new List<TextureItem>();
+        public IList<TextureItem> GetTextures()
+        {
+            return m_textures;
+        }
+        public TextureItem GetTexture(int i)
+        {
+            if (i < 0 || i >= m_textures.Count)
+            {
+                return null;
+            }
+            return m_textures[i];
+        }
+        public void AddTexture(TextureItem item)
+        {
+            m_textures.Add(item);
+        }
+
+        List<Material> m_materials = new List<Material>();
+        public void AddMaterial(Material material)
+        {
+            var originalName = material.name;
+            int j = 2;
+            while (m_materials.Any(x => x.name == material.name))
+            {
+                material.name = string.Format("{0}({1})", originalName, j++);
+            }
+            m_materials.Add(material);
+        }
+        public IList<Material> GetMaterials()
+        {
+            return m_materials;
+        }
+        public Material GetMaterial(int index)
+        {
+            if (index < 0) return null;
+            if (index >= m_materials.Count) return null;
+            return m_materials[index];
+        }
+
         public List<MeshWithMaterials> Meshes = new List<MeshWithMaterials>();
         public void ShowMeshes()
         {
@@ -193,84 +327,28 @@ namespace UniGLTF
                 }
             }
         }
+
+        public void EnableUpdateWhenOffscreen()
+        {
+            foreach (var x in Meshes)
+            {
+                var skinnedMeshRenderer = x.Renderer as SkinnedMeshRenderer;
+                if (skinnedMeshRenderer != null)
+                {
+                    skinnedMeshRenderer.updateWhenOffscreen = true;
+                }
+            }
+        }
+
         public AnimationClip Animation;
         #endregion
 
 #if UNITY_EDITOR
-        #region PrefabPath
-        string m_prefabPath;
-        string PrefabPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(m_prefabPath))
-                {
-                    m_prefabPath = GetPrefabPath();
-                }
-                return m_prefabPath;
-            }
-        }
-        protected virtual string GetPrefabPath()
-        {
-            var dir = System.IO.Path.GetDirectoryName(Path);
-            var name = System.IO.Path.GetFileNameWithoutExtension(Path);
-            var prefabPath = string.Format("{0}/{1}.prefab", dir, name);
-#if false
-            if (!Application.isPlaying && File.Exists(prefabPath))
-            {
-                // already exists
-                if (IsOwn(prefabPath))
-                {
-                    //Debug.LogFormat("already exist. own: {0}", prefabPath);
-                }
-                else
-                {
-                    // but unknown prefab
-                    var unique = AssetDatabase.GenerateUniqueAssetPath(prefabPath);
-                    //Debug.LogFormat("already exist: {0} => {1}", prefabPath, unique);
-                    prefabPath = unique;
-                }
-            }
-#endif
-            return prefabPath.Replace("\\", "/");
-        }
-        public string GetAssetFolder(string suffix)
-        {
-            var path = String.Format("{0}/{1}{2}",
-                System.IO.Path.GetDirectoryName(PrefabPath),
-                System.IO.Path.GetFileNameWithoutExtension(PrefabPath),
-                suffix
-                )
-                ;
-            return path;
-        }
-        #endregion
-
         #region Assets
-        IEnumerable<UnityEngine.Object> GetSubAssets(string path)
-        {
-            return AssetDatabase.LoadAllAssetsAtPath(path);
-        }
-
-        protected virtual bool IsOwn(string path)
-        {
-            foreach (var x in GetSubAssets(path))
-            {
-                //if (x is Transform) continue;
-                if (x is GameObject) continue;
-                if (x is Component) continue;
-                if (AssetDatabase.IsSubAsset(x))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         protected virtual IEnumerable<UnityEngine.Object> ObjectsForSubAsset()
         {
             HashSet<Texture2D> textures = new HashSet<Texture2D>();
-            foreach (var x in Textures.SelectMany(y => y.GetTexturesForSaveAssets()))
+            foreach (var x in m_textures.SelectMany(y => y.GetTexturesForSaveAssets()))
             {
                 if (!textures.Contains(x))
                 {
@@ -278,106 +356,125 @@ namespace UniGLTF
                 }
             }
             foreach (var x in textures) { yield return x; }
-            foreach (var x in Materials) { yield return x; }
+            foreach (var x in m_materials) { yield return x; }
             foreach (var x in Meshes) { yield return x.Mesh; }
             if (Animation != null) yield return Animation;
         }
 
-        void EnsureFolder(string assetPath)
+        public bool MeshAsSubAsset = false;
+
+        protected virtual UnityPath GetAssetPath(UnityPath prefabPath, UnityEngine.Object o)
         {
-            var fullPath = assetPath.AssetPathToFullPath();
-            if (!Directory.Exists(fullPath))
+            if (o is Material)
             {
-                AssetDatabase.CreateFolder(
-                    System.IO.Path.GetDirectoryName(assetPath),
-                    System.IO.Path.GetFileName(assetPath)
-                    );
+                var materialDir = prefabPath.GetAssetFolder(".Materials");
+                var materialPath = materialDir.Child(o.name.EscapeFilePath() + ".asset");
+                return materialPath;
+            }
+            else if (o is Texture2D)
+            {
+                var textureDir = prefabPath.GetAssetFolder(".Textures");
+                var texturePath = textureDir.Child(o.name.EscapeFilePath() + ".asset");
+                return texturePath;
+            }
+            else if (o is Mesh && !MeshAsSubAsset)
+            {
+                var meshDir = prefabPath.GetAssetFolder(".Meshes");
+                var meshPath = meshDir.Child(o.name.EscapeFilePath() + ".asset");
+                return meshPath;
+            }
+            else
+            {
+                return default(UnityPath);
             }
         }
 
-        public bool MeshAsSubAsset = false;
-
-        public void SaveAsAsset()
+        public void SaveAsAsset(UnityPath prefabPath)
         {
             ShowMeshes();
 
-            var prefabPath = PrefabPath;
-            if (File.Exists(prefabPath))
+            //var prefabPath = PrefabPath;
+            if (prefabPath.IsFileExists)
             {
                 // clear SubAssets
-                foreach (var x in GetSubAssets(prefabPath).Where(x => !(x is GameObject) && !(x is Component)))
+                foreach (var x in prefabPath.GetSubAssets().Where(x => !(x is GameObject) && !(x is Component)))
                 {
                     GameObject.DestroyImmediate(x, true);
                 }
             }
 
-            // Add SubAsset
-            var materialDir = GetAssetFolder(".Materials");
-            EnsureFolder(materialDir);
-            var textureDir = GetAssetFolder(".Textures");
-            EnsureFolder(textureDir);
-
-            var meshDir = GetAssetFolder(".Meshes");
-            if (!MeshAsSubAsset)
-            {
-                EnsureFolder(meshDir);
-            }
-
-            var paths = new List<string>(){
+            //
+            // save sub assets
+            //
+            var paths = new List<UnityPath>(){
                 prefabPath
             };
             foreach (var o in ObjectsForSubAsset())
             {
-                if (o is Material)
+                var assetPath = GetAssetPath(prefabPath, o);
+                if (!assetPath.IsNull)
                 {
-                    var materialPath = string.Format("{0}/{1}.asset",
-                        materialDir,
-                        o.name.EscapeFilePath()
-                        );
-                    AssetDatabase.CreateAsset(o, materialPath);
-                    paths.Add(materialPath);
-                }
-                else if (o is Texture2D)
-                {
-                    var texturePath = string.Format("{0}/{1}.asset",
-                        textureDir,
-                        o.name.EscapeFilePath()
-                        );
-                    AssetDatabase.CreateAsset(o, texturePath);
-                    paths.Add(texturePath);
-                }
-                else if (o is Mesh && !MeshAsSubAsset)
-                {
-                    var meshPath = string.Format("{0}/{1}.asset",
-                        meshDir,
-                        o.name.EscapeFilePath()
-                        );
-                    AssetDatabase.CreateAsset(o, meshPath);
-                    paths.Add(meshPath);
+                    assetPath.Parent.EnsureFolder();
+                    assetPath.CreateAsset(o);
+                    paths.Add(assetPath);
                 }
                 else
                 {
                     // save as subasset
-                    AssetDatabase.AddObjectToAsset(o, prefabPath);
+                    prefabPath.AddObjectToAsset(o);
                 }
             }
 
             // Create or upate Main Asset
-            if (File.Exists(prefabPath))
+            if (prefabPath.IsFileExists)
             {
                 Debug.LogFormat("replace prefab: {0}", prefabPath);
-                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                var prefab = prefabPath.LoadAsset<GameObject>();
                 PrefabUtility.ReplacePrefab(Root, prefab, ReplacePrefabOptions.ReplaceNameBased);
             }
             else
             {
                 Debug.LogFormat("create prefab: {0}", prefabPath);
-                PrefabUtility.CreatePrefab(prefabPath, Root);
+                PrefabUtility.CreatePrefab(prefabPath.Value, Root);
             }
             foreach (var x in paths)
             {
-                AssetDatabase.ImportAsset(x);
+                x.ImportAsset();
             }
+        }
+
+        public void SaveTexturesAsPng(UnityPath prefabPath)
+        {
+            TextureBaseDir = prefabPath.Parent;
+            TextureBaseDir.ImportAsset();
+
+            //
+            // https://answers.unity.com/questions/647615/how-to-update-import-settings-for-newly-created-as.html
+            //
+            for (int i = 0; i < GLTF.textures.Count; ++i)
+            {
+                var x = GLTF.textures[i];
+                var image = GLTF.images[x.source];
+                if (string.IsNullOrEmpty(image.uri))
+                {
+                    // glb buffer
+                    var folder = prefabPath.GetAssetFolder(".Textures");
+                    folder.EnsureFolder();
+
+                    // name & bytes
+                    var textureName = !string.IsNullOrEmpty(image.name) ? image.name : string.Format("{0:00}#GLB", i);
+                    var byteSegment = GLTF.GetViewBytes(image.bufferView);
+
+                    // path
+                    var png = folder.Child(textureName + ".png");
+                    File.WriteAllBytes(png.FullPath, byteSegment.ToArray());
+                    png.ImportAsset();
+
+                    image.uri = png.Value.Substring(TextureBaseDir.Value.Length + 1);
+                    //Debug.LogFormat("image.uri: {0}", image.uri);
+                }
+            }
+            UnityEditor.AssetDatabase.Refresh();
         }
         #endregion
 #endif

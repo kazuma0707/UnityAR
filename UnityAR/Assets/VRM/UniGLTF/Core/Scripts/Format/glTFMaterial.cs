@@ -1,43 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-
+using UniJSON;
 
 namespace UniGLTF
 {
     [Serializable]
-    public class GltfTextureRef: IJsonSerializable
+    public class glTFTextureInfo : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 0)]
         public int index = -1;
-        public int texCoord;
-        public float scale;
-        public float strength;
 
-        public string ToJson()
+        [JsonSchema(Minimum = 0)]
+        public int texCoord;
+
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
-            f.Key("index"); f.Value(index);
-            f.Key("texCoord"); f.Value(texCoord);
-            //f.Key("scale"); f.Value(scale);
-            //f.Key("strength"); f.Value(strength);
-            f.EndMap();
-            return f.ToString();
+            f.KeyValue(() => index);
+            f.KeyValue(() => texCoord);
+        }
+    }
+
+
+    [Serializable]
+    public class glTFMaterialNormalTextureInfo : glTFTextureInfo
+    {
+        public float scale;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
+        {
+            f.KeyValue(() => scale);
+            base.SerializeMembers(f);
         }
     }
 
     [Serializable]
-    public class GltfPbrMetallicRoughness: IJsonSerializable
+    public class glTFMaterialOcclusionTextureInfo : glTFTextureInfo
     {
-        public GltfTextureRef baseColorTexture = null;
+        [JsonSchema(Minimum = 0.0, Maximum = 1.0)]
+        public float strength;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
+        {
+            f.KeyValue(() => strength);
+            base.SerializeMembers(f);
+        }
+    }
+
+    [Serializable]
+    public class glTFPbrMetallicRoughness : JsonSerializableBase
+    {
+        public glTFTextureInfo baseColorTexture = null;
+
+        [JsonSchema(MinItems = 4, MaxItems = 4)]
+        [ItemJsonSchema(Minimum = 0.0, Maximum = 1.0)]
         public float[] baseColorFactor;
-        public GltfTextureRef metallicRoughnessTexture = null;
+
+        public glTFTextureInfo metallicRoughnessTexture = null;
+
+        [JsonSchema(Minimum = 0.0, Maximum = 1.0)]
         public float metallicFactor;
+
+        [JsonSchema(Minimum = 0.0, Maximum = 1.0)]
         public float roughnessFactor;
 
-        public string ToJson()
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             if (baseColorTexture != null)
             {
                 f.KeyValue(() => baseColorTexture);
@@ -52,51 +86,74 @@ namespace UniGLTF
             }
             f.KeyValue(() => metallicFactor);
             f.KeyValue(() => roughnessFactor);
-            f.EndMap();
-            return f.ToString();
         }
     }
 
     [Serializable]
-    public class glTFMaterial: IJsonSerializable
+    public class glTFMaterial : JsonSerializableBase
     {
         public string name;
-        public GltfPbrMetallicRoughness pbrMetallicRoughness;
-        public GltfTextureRef normalTexture = null;
-        public GltfTextureRef occlusionTexture = null;
-        public GltfTextureRef emissiveTexture = null;
+        public glTFPbrMetallicRoughness pbrMetallicRoughness;
+        public glTFMaterialNormalTextureInfo normalTexture = null;
+
+        public glTFMaterialOcclusionTextureInfo occlusionTexture = null;
+
+        public glTFTextureInfo emissiveTexture = null;
+
+        [JsonSchema(MinItems = 3, MaxItems = 3)]
+        [ItemJsonSchema(Minimum = 0.0, Maximum = 1.0)]
         public float[] emissiveFactor;
 
-        public string ToJson()
+        [JsonSchema(EnumValues = new object[] { "OPAQUE", "MASK", "BLEND" })]
+        public string alphaMode;
+
+        [JsonSchema(Dependencies = new string[] { "alphaMode" }, Minimum = 0.0)]
+        public float alphaCutoff = 0.5f;
+
+        public bool doubleSided;
+
+        [JsonSchema(SkipSchemaComparison = true)]
+        public glTFMaterial_extensions extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             if (!String.IsNullOrEmpty(name))
             {
                 f.Key("name"); f.Value(name);
             }
             if (pbrMetallicRoughness != null)
             {
-                f.Key("pbrMetallicRoughness"); f.Value(pbrMetallicRoughness);
+                f.Key("pbrMetallicRoughness"); f.GLTFValue(pbrMetallicRoughness);
             }
             if (normalTexture != null)
             {
-                f.Key("normalTexture"); f.Value(normalTexture);
+                f.Key("normalTexture"); f.GLTFValue(normalTexture);
             }
             if (occlusionTexture != null)
             {
-                f.Key("occlusionTexture"); f.Value(occlusionTexture);
+                f.Key("occlusionTexture"); f.GLTFValue(occlusionTexture);
             }
             if (emissiveTexture != null)
             {
-                f.Key("emissiveTexture"); f.Value(emissiveTexture);
+                f.Key("emissiveTexture"); f.GLTFValue(emissiveTexture);
             }
             if (emissiveFactor != null)
             {
                 f.Key("emissiveFactor"); f.Value(emissiveFactor);
             }
-            f.EndMap();
-            return f.ToString();
+
+            f.KeyValue(() => doubleSided);
+
+            if (!string.IsNullOrEmpty(alphaMode))
+            {
+                f.KeyValue(() => alphaMode);
+            }
+
+            if (extensions != null)
+            {
+                f.KeyValue(() => extensions);
+            }
         }
     }
 }
