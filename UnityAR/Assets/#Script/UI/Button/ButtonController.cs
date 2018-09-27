@@ -8,6 +8,8 @@ using EnumName;
 public class ButtonController : BaseButton {
     [SerializeField]
     private  GameObject Panel;
+    public SetText _SetText;
+   public bool isClassButton { get; set; }//学科ボタンが押されたか？
     //ボタンのOnClicikを管理する
     protected override void OnClick(string objectName)
     {
@@ -53,41 +55,53 @@ public class ButtonController : BaseButton {
             this.ClassButtonClick();
         }
     }
-
+    
     private void GSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.GAME)) return;
+        _SetText.SetTextNumber = DepartmentName.GAME;
 
         Debug.Log("GSButton Click");
     }
     private void CGButtuonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.CG)) return;
+        _SetText.SetTextNumber = DepartmentName.CG;
+
         Debug.Log("CGButtuon Click");
     }
     private void WDButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.WEB)) return;
+        _SetText.SetTextNumber = DepartmentName.WEB;
+
         Debug.Log("WDButton Click");
     }
     private void CADButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.CAD)) return;
+        _SetText.SetTextNumber = DepartmentName.CAD;
         Debug.Log("CADButton Click");
     }
     private void SSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.CYBER_SECURITY)) return;
+        _SetText.SetTextNumber = DepartmentName.CYBER_SECURITY;
+
         Debug.Log("SSButton Click");
     }
     private void KZButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.ADVANCED_INFORMATION)) return;
+        _SetText.SetTextNumber = DepartmentName.ADVANCED_INFORMATION;
+
         Debug.Log("KZButton Click");
     }
     private void ZSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(DepartmentName.INFORMATION_PROCESSING)) return;
+        _SetText.SetTextNumber = DepartmentName.INFORMATION_PROCESSING;
+
         Debug.Log("ZSButton Click");
     }
 
@@ -97,10 +111,13 @@ public class ButtonController : BaseButton {
         if(!this.Panel.activeSelf)
         {
             this.Panel.SetActive(true);
+            this.isClassButton = true;
         }
         else
         {
             this.Panel.SetActive(false);
+            this.isClassButton = false;
+
         }
         Debug.Log("ClassButton Click");
     }

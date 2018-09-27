@@ -46,6 +46,8 @@ namespace GoogleARCore.Examples.AugmentedImage
         private List<AugmentedImage> m_TempAugmentedImages = new List<AugmentedImage>();
         public static List<int> Index = new List<int>();//読み込んだ画像を保存するインデックス
         public int GetMarkerNumber { get; private set; }//現在読み込んでいる画像
+        public static bool isLoadImage;
+
         private void Start()
         {
 
@@ -86,9 +88,10 @@ namespace GoogleARCore.Examples.AugmentedImage
                     //インデックスに存在すれば
                     if(!Index.Contains(image.DatabaseIndex))
                     {
+                        //マーカの番号を取得
                         Index.Add(image.DatabaseIndex);
                         visualizer = (AugmentedImageVisualizer)Instantiate(AugmentedImageVisualizerPrefab, anchor.transform);
-                        //マーカの番号を取得
+                        isLoadImage = true;
                     }
                     visualizer.Image = image;
                    GetMarkerNumber = image.DatabaseIndex;
