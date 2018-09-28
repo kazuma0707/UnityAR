@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore.Examples.AugmentedImage;
 using UnityEngine.UI;
-using EnumName;
-using TMPro;
 
 /// <summary>
 /// マーカを読み込んだ際にどこの
@@ -14,17 +12,8 @@ public class SetText : MonoBehaviour {
     private AugmentedImageExampleController _ImageController;
     [SerializeField, Header("表示するテキスト")]
     private Text _text;
-    [SerializeField, Header("現在いる学科を表示するテキスト")]
-    private TextMeshProUGUI _DepartmentText;
-    //現在のテキストを変更する
-    public int SetTextNumber { set; get; }
-    public ButtonController _ButtonController;
-    //ロック画像
-    [SerializeField,Header("ロック画像")]
-    private Image[] LockImage;
-
-
-
+    [SerializeField,Header("現在いる学科を表示するテキスト")]
+    private Text _DepartmentText;
 
     // Use this for initialization
     void Start () {
@@ -40,6 +29,11 @@ public class SetText : MonoBehaviour {
         {
             _text = GameObject.Find("BordText").GetComponent<Text>();
         }
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            _DepartmentText.text = "ここはゲームサイエンス学科です";
+
+        }
 
         //読み込んだ画像によってテキストの受け渡し
         UIViewText();
@@ -49,89 +43,57 @@ public class SetText : MonoBehaviour {
 
 
     }
-  public void UIViewText()
+    void UIViewText()
     {
-        if(AugmentedImageExampleController.isLoadImage)
+        switch (this._ImageController.GetMarkerNumber)
         {
-            this.SetTextNumber = this._ImageController.GetMarkerNumber;
-        }
-     
-
-        switch (SetTextNumber)
-        {
-            case DepartmentName.GAME:
+            case 1:
                 _DepartmentText.text = "ここはゲームサイエンス学科です";
-                this.LockImage[DepartmentName.GAME].enabled = false;
                 break;
-            case DepartmentName.CG:
-                _DepartmentText.text = "ここはCGスペシャリスト学科です";
-                this.LockImage[DepartmentName.CG].enabled = false;
-
+            case 2:
+                _DepartmentText.text = "ここはCGスペシャリストです";
                 break;
-            case DepartmentName.WEB:
+            case 3:
                 _DepartmentText.text = "ここはWebデザイン学科です";
-                this.LockImage[DepartmentName.WEB].enabled = false;
-
                 break;
-            case DepartmentName.CAD:
+            case 4:
                 _DepartmentText.text = "ここはCAD学科です";
-                this.LockImage[DepartmentName.CAD].enabled = false;
-
                 break;
-                case DepartmentName.CYBER_SECURITY:
-                _DepartmentText.text = "ここはサイバーセキュリティ学科です";
-                this.LockImage[DepartmentName.CYBER_SECURITY].enabled = false;
-
+            case 5:
+                _DepartmentText.text = "高度情報学科です";
                 break;
-            case DepartmentName.ADVANCED_INFORMATION:
-                _DepartmentText.text = "ここは高度情報学科です";
-                this.LockImage[DepartmentName.ADVANCED_INFORMATION].enabled = false;
-
-                break;
-            case DepartmentName.INFORMATION_PROCESSING:
-                _DepartmentText.text = "ここは情報処理学科です";
-                this.LockImage[DepartmentName.INFORMATION_PROCESSING].enabled = false;
-
+            case 6:
+                _DepartmentText.text = "情報処理学科です";
                 break;
             default:
                 return;
         }
-
-       
-        AugmentedImageExampleController.isLoadImage = false;
     }
     void PanelViewText()
     {
-        //パネルが生成されてなければリターン
         if (_text == null) return;
-        if (AugmentedImageExampleController.isLoadImage)
+        switch (this._ImageController.GetMarkerNumber)
         {
-            this.SetTextNumber = this._ImageController.GetMarkerNumber;
-        }
-        switch (this.SetTextNumber)
-        {
-            case DepartmentName.GAME:
+            case 1:
                 this._text.text = "ここはゲームサイエンス学科です";
                 break;
-            case DepartmentName.CG:
-                this._text.text = "ここはCGスペシャリスト学科です";
+            case 2:
+                this._text.text = "ここはCGスペシャリストです";
                 break;
-            case DepartmentName.WEB:
+            case 3:
                 this._text.text = "ここはWebデザイン学科です";
                 break;
-            case DepartmentName.CAD:
+            case 4:
                 this._text.text = "ここはCAD学科です";
                 break;
-            case DepartmentName.ADVANCED_INFORMATION:
+            case 5:
                 this._text.text = "高度情報学科です";
                 break;
-            case DepartmentName.INFORMATION_PROCESSING:
+            case 6:
                 this._text.text = "情報処理学科です";
                 break;
             default:
                 return;
         }
-        AugmentedImageExampleController.isLoadImage = false;
-
     }
 }

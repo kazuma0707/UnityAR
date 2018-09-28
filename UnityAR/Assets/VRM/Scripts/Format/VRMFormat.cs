@@ -1,13 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniGLTF;
+using UniJSON;
+
+namespace UniGLTF
+{
+    public partial class glTFUsedExtensions
+    {
+        [UsedExtension]
+        static string VRMGetUsedExtension
+        {
+            get
+            {
+                return "VRM";
+            }
+        }
+    }
+
+    public partial class glTF_extensions : ExtensionsBase<glTF_extensions>
+    {
+        public VRM.glTF_VRM_extensions VRM = new VRM.glTF_VRM_extensions();
+
+        [JsonSerializeMembers]
+        void VRMSerializeMembers(GLTFJsonFormatter f)
+        {
+            f.KeyValue(() => VRM);
+        }
+    }
+}
 
 
 namespace VRM
 {
     [Serializable]
+    [JsonSchema(Title = "vrm", Description = @"
+VRM extension is for 3d humanoid avatars (and models) in VR applications.
+")]
     public class glTF_VRM_extensions : JsonSerializableBase
     {
+        [JsonSchema(Description = @"Version of exporter that vrm created. " + VRMVersion.VRM_VERSION)]
         public string exporterVersion = "UniVRM-" + VRMVersion.VERSION;
 
         public glTF_VRM_Meta meta = new glTF_VRM_Meta();
@@ -17,7 +48,7 @@ namespace VRM
         public glTF_VRM_SecondaryAnimation secondaryAnimation = new glTF_VRM_SecondaryAnimation();
         public List<glTF_VRM_Material> materialProperties = new List<glTF_VRM_Material>();
 
-        protected override void SerializeMembers(JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => exporterVersion);
             f.KeyValue(() => meta);
@@ -26,34 +57,6 @@ namespace VRM
             f.KeyValue(() => blendShapeMaster);
             f.KeyValue(() => secondaryAnimation);
             f.KeyValue(() => materialProperties);
-        }
-    }
-
-    [Serializable]
-    public class glTF_extensions : JsonSerializableBase
-    {
-        public glTF_VRM_extensions VRM = new glTF_VRM_extensions();
-
-        protected override void SerializeMembers(JsonFormatter f)
-        {
-            f.KeyValue(() => VRM);
-        }
-    }
-
-    [Serializable]
-    public class glTF_VRM : glTF
-    {
-        public glTF_extensions extensions = new glTF_extensions();
-        public List<string> extensionsUsed = new List<string>
-        {
-            "VRM",
-        };
-
-        protected override void SerializeMembers(JsonFormatter f)
-        {
-            f.KeyValue(() => extensionsUsed);
-            f.KeyValue(() => extensions);
-            base.SerializeMembers(f);
         }
     }
 }
