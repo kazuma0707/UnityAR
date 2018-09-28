@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore;
 using GoogleARCore.Examples.AugmentedImage;
-using EnumName;
 
 public class ButtonController : BaseButton {
     [SerializeField]
     private  GameObject Panel;
-    public SetText _SetText;
-   public bool isClassButton { get; set; }//学科ボタンが押されたか？
-    //ボタンのOnClicikを管理する
+
     protected override void OnClick(string objectName)
     {
         // 渡されたオブジェクト名で処理を分岐
@@ -55,69 +52,51 @@ public class ButtonController : BaseButton {
             this.ClassButtonClick();
         }
     }
-    
+
     private void GSButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.GAME)) return;
-        _SetText.SetTextNumber = DepartmentName.GAME;
-
+        if (!AugmentedImageExampleController.Index.Contains(1)) return;
         Debug.Log("GSButton Click");
     }
     private void CGButtuonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.CG)) return;
-        _SetText.SetTextNumber = DepartmentName.CG;
-
+        if (!AugmentedImageExampleController.Index.Contains(2)) return;
         Debug.Log("CGButtuon Click");
     }
     private void WDButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.WEB)) return;
-        _SetText.SetTextNumber = DepartmentName.WEB;
-
+        if (!AugmentedImageExampleController.Index.Contains(3)) return;
         Debug.Log("WDButton Click");
     }
     private void CADButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.CAD)) return;
-        _SetText.SetTextNumber = DepartmentName.CAD;
+        if (!AugmentedImageExampleController.Index.Contains(4)) return;
         Debug.Log("CADButton Click");
-    }
-    private void SSButtonClick()
-    {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.CYBER_SECURITY)) return;
-        _SetText.SetTextNumber = DepartmentName.CYBER_SECURITY;
-
-        Debug.Log("SSButton Click");
     }
     private void KZButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.ADVANCED_INFORMATION)) return;
-        _SetText.SetTextNumber = DepartmentName.ADVANCED_INFORMATION;
-
+        if (!AugmentedImageExampleController.Index.Contains(5)) return;
         Debug.Log("KZButton Click");
+    }
+    private void SSButtonClick()
+    {
+        if (!AugmentedImageExampleController.Index.Contains(6)) return;
+        Debug.Log("SSButton Click");
     }
     private void ZSButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(DepartmentName.INFORMATION_PROCESSING)) return;
-        _SetText.SetTextNumber = DepartmentName.INFORMATION_PROCESSING;
-
+        if (!AugmentedImageExampleController.Index.Contains(7)) return;
         Debug.Log("ZSButton Click");
     }
-
-    //学科ボタン
     private void ClassButtonClick()
     {
         if(!this.Panel.activeSelf)
         {
             this.Panel.SetActive(true);
-            this.isClassButton = true;
         }
         else
         {
             this.Panel.SetActive(false);
-            this.isClassButton = false;
-
         }
         Debug.Log("ClassButton Click");
     }

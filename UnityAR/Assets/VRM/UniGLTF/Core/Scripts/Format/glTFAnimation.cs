@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using UniJSON;
 
 
 namespace UniGLTF
 {
     [Serializable]
-    public class glTFAnimationTarget: IJsonSerializable
+    public class glTFAnimationTarget : JsonSerializableBase
     {
+        [JsonSchema(Minimum = 0)]
         public int node;
+
+        [JsonSchema(Required = true, EnumValues = new object[] { "translation", "rotation", "scale", "weights" })]
         public string path;
 
-        public string ToJson()
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
-
             f.KeyValue(() => node);
-            f.KeyValue(() => path);
-
-            f.EndMap();
-            return f.ToString();
+            if (!string.IsNullOrEmpty(path))
+            {
+                f.KeyValue(() => path);
+            }
         }
 
         public const string PATH_TRANSLATION = "translation";
@@ -42,62 +47,76 @@ namespace UniGLTF
     }
 
     [Serializable]
-    public class glTFAnimationChannel: IJsonSerializable
+    public class glTFAnimationChannel : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 0)]
         public int sampler = -1;
+
+        [JsonSchema(Required = true)]
         public glTFAnimationTarget target;
 
-        public string ToJson()
-        {
-            var f = new JsonFormatter();
-            f.BeginMap();
+        // empty schemas
+        public object extensions;
+        public object extras;
 
+        protected override void SerializeMembers(GLTFJsonFormatter f)
+        {
             f.KeyValue(() => sampler);
             f.KeyValue(() => target);
-
-            f.EndMap();
-            return f.ToString();
         }
     }
 
     [Serializable]
-    public class glTFAnimationSampler: IJsonSerializable
+    public class glTFAnimationSampler : JsonSerializableBase
     {
+        [JsonSchema(Required = true, Minimum = 0)]
         public int input = -1;
+
+        [JsonSchema(EnumValues = new object[] { "LINEAR", "STEP", "CUBICSPLINE" })]
         public string interpolation;
+
+        [JsonSchema(Required = true, Minimum = 0)]
         public int output = -1;
 
-        public string ToJson()
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
-
             f.KeyValue(() => input);
-            f.KeyValue(() => interpolation);
+            if (!string.IsNullOrEmpty(interpolation))
+            {
+                f.KeyValue(() => interpolation);
+            }
             f.KeyValue(() => output);
-
-            f.EndMap();
-            return f.ToString();
         }
     }
 
     [Serializable]
-    public class glTFAnimation: IJsonSerializable
+    public class glTFAnimation : JsonSerializableBase
     {
         public string name = "";
+
+        [JsonSchema(Required = true, MinItems = 1)]
         public List<glTFAnimationChannel> channels = new List<glTFAnimationChannel>();
+
+        [JsonSchema(Required = true, MinItems = 1)]
         public List<glTFAnimationSampler> samplers = new List<glTFAnimationSampler>();
 
-        public string ToJson()
+        // empty schemas
+        public object extensions;
+        public object extras;
+
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
+            if (!string.IsNullOrEmpty(name))
+            {
+                f.KeyValue(() => name);
+            }
 
             f.KeyValue(() => channels);
             f.KeyValue(() => samplers);
-
-            f.EndMap();
-            return f.ToString();
         }
 
         public int AddChannelAndGetSampler(int nodeIndex, string path)

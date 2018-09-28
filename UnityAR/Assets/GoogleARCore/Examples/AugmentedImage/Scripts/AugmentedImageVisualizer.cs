@@ -56,7 +56,6 @@ namespace GoogleARCore.Examples.AugmentedImage
                 return;
             }
             Destroy(this.gameObject, 3.0f);
-    
 
 
         }

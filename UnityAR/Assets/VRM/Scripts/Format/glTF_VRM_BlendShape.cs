@@ -3,18 +3,19 @@ using System.Linq;
 using System.Collections.Generic;
 using UniGLTF;
 using UnityEngine;
-
+using UniJSON;
 
 namespace VRM
 {
     [Serializable]
+    [JsonSchema(Title = "vrm.blendshape.materialbind")]
     public class glTF_VRM_MaterialValueBind : UniGLTF.JsonSerializableBase
     {
         public string materialName;
         public string propertyName;
         public float[] targetValue;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => materialName);
             f.KeyValue(() => propertyName);
@@ -23,13 +24,14 @@ namespace VRM
     }
 
     [Serializable]
+    [JsonSchema(Title = "vrm.blendshape.bind")]
     public class glTF_VRM_BlendShapeBind : UniGLTF.JsonSerializableBase
     {
         public int mesh = -1;
         public int index = -1;
         public float weight = 0;
 
-        protected override void SerializeMembers(UniGLTF.JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => mesh);
             f.KeyValue(() => index);
@@ -83,14 +85,40 @@ namespace VRM
     }
 
     [Serializable]
+    [JsonSchema(Title = "vrm.blendshape.group", Description = "BlendShapeClip of UniVRM")]
     public class glTF_VRM_BlendShapeGroup : UniGLTF.JsonSerializableBase
     {
+        [JsonSchema(Description = "Expression name")]
         public string name;
+
+        [JsonSchema(Description = "Predefined Expression name", EnumValues =new object[] {
+            "Neutral",
+            "A",
+            "I",
+            "U",
+            "E",
+            "O",
+            "Blink",
+            "Joy",
+            "Angry",
+            "Sorrow",
+            "Fun",
+            "LookUp",
+            "LookDown",
+            "LookLeft",
+            "LookRight",
+            "Blink_L",
+            "Blink_R",
+        })]
         public string presetName;
+
+        [JsonSchema(Description = "Low level blendshape references. ")]
         public List<glTF_VRM_BlendShapeBind> binds = new List<glTF_VRM_BlendShapeBind>();
+
+        [JsonSchema(Description = "Material animation references.")]
         public List<glTF_VRM_MaterialValueBind> materialValues = new List<glTF_VRM_MaterialValueBind>();
 
-        protected override void SerializeMembers(JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => name);
             f.KeyValue(() => presetName);
@@ -100,6 +128,7 @@ namespace VRM
     }
 
     [Serializable]
+    [JsonSchema(Title = "vrm.blendshape", Description = "BlendShapeAvatar of UniVRM")]
     public class glTF_VRM_BlendShapeMaster : UniGLTF.JsonSerializableBase
     {
         public List<glTF_VRM_BlendShapeGroup> blendShapeGroups = new List<glTF_VRM_BlendShapeGroup>();
@@ -133,7 +162,7 @@ namespace VRM
             blendShapeGroups.Add(group);
         }
 
-        protected override void SerializeMembers(UniGLTF.JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => blendShapeGroups);
         }

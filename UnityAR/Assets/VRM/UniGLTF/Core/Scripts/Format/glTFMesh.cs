@@ -1,34 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using UniJSON;
 
 namespace UniGLTF
 {
-    #region Draco
-    [Serializable]
-    public class glTF_KHR_draco_mesh_compression : JsonSerializableBase
-    {
-        public int bufferView;
-        public glTFAttributes attributes;
-
-        protected override void SerializeMembers(JsonFormatter f)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    [Serializable]
-    public class glTFPrimitivesExtensions : JsonSerializableBase
-    {
-        public glTF_KHR_draco_mesh_compression KHR_draco_mesh_compression;
-
-        protected override void SerializeMembers(JsonFormatter f)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    #endregion
-
     [Serializable]
     public class glTFAttributes : JsonSerializableBase
     {
@@ -63,7 +38,7 @@ namespace UniGLTF
                 ;
         }
 
-        protected override void SerializeMembers(JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => POSITION);
             if (NORMAL != -1) f.KeyValue(() => NORMAL);
@@ -82,28 +57,11 @@ namespace UniGLTF
         public int NORMAL = -1;
         public int TANGENT = -1;
 
-        protected override void SerializeMembers(JsonFormatter f)
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
             f.KeyValue(() => POSITION);
-            f.KeyValue(() => NORMAL);
-            f.KeyValue(() => TANGENT);
-        }
-    }
-
-    [Serializable]
-    public class extrasTargetNames : JsonSerializableBase
-    {
-        public List<string> targetNames = new List<string>();
-
-        protected override void SerializeMembers(JsonFormatter f)
-        {
-            f.Key("targetNames");
-            f.BeginList();
-            foreach(var x in targetNames)
-            {
-                f.Value(x);
-            }
-            f.EndList();
+            if (NORMAL >= 0) f.KeyValue(() => NORMAL);
+            if (TANGENT >= 0) f.KeyValue(() => TANGENT);
         }
     }
 
@@ -111,11 +69,17 @@ namespace UniGLTF
     /// https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/schema/mesh.primitive.schema.json
     /// </summary>
     [Serializable]
-    public class glTFPrimitives: IJsonSerializable
+    public class glTFPrimitives : JsonSerializableBase
     {
+        [JsonSchema(EnumValues = new object[] { 0, 1, 2, 3, 4, 5, 6 })]
         public int mode;
+
+        [JsonSchema(Minimum = 0)]
         public int indices = -1;
+
+        [JsonSchema(Required = true, SkipSchemaComparison = true)]
         public glTFAttributes attributes;
+
         public bool HasVertexColor
         {
             get
@@ -124,37 +88,53 @@ namespace UniGLTF
             }
         }
 
+        [JsonSchema(Minimum = 0)]
         public int material;
 
+        [JsonSchema(MinItems = 1)]
+        [ItemJsonSchema(SkipSchemaComparison = true)]
         public List<gltfMorphTarget> targets = new List<gltfMorphTarget>();
-        public extrasTargetNames extras = new extrasTargetNames();
+       
+        public glTFPrimitives_extras extras = new glTFPrimitives_extras();
 
-        public glTFPrimitivesExtensions extensions;
+        [JsonSchema(SkipSchemaComparison = true)]
+        public glTFPrimitives_extensions extensions = new glTFPrimitives_extensions();
 
-        public string ToJson()
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             f.KeyValue(() => mode);
             f.KeyValue(() => indices);
-            f.Key("attributes"); f.Value(attributes);
+            f.Key("attributes"); f.GLTFValue(attributes);
             f.KeyValue(() => material);
-            if (targets != null && targets.Count>0)
+            if (targets != null && targets.Count > 0)
             {
-                f.Key("targets"); f.Value(targets);
+                f.Key("targets"); f.GLTFValue(targets);
+            }
+            if (extensions.KHR_draco_mesh_compression!=null)
+            {
+                f.KeyValue(() => extensions);
+            }
+            if (extras.targetNames.Count > 0)
+            {
                 f.KeyValue(() => extras);
             }
-            f.EndMap();
-            return f.ToString();
         }
     }
 
     [Serializable]
-    public class glTFMesh : IJsonSerializable
+    public class glTFMesh : JsonSerializableBase
     {
         public string name;
+
+        [JsonSchema(Required = true, MinItems = 1)]
         public List<glTFPrimitives> primitives;
+
+        [JsonSchema(MinItems = 1)]
         public float[] weights;
+
+        // empty schemas
+        public object extensions;
+        public object extras;
 
         public glTFMesh(string _name)
         {
@@ -162,14 +142,10 @@ namespace UniGLTF
             primitives = new List<glTFPrimitives>();
         }
 
-        public string ToJson()
+        protected override void SerializeMembers(GLTFJsonFormatter f)
         {
-            var f = new JsonFormatter();
-            f.BeginMap();
             f.KeyValue(() => name);
-            f.Key("primitives"); f.Value(primitives);
-            f.EndMap();
-            return f.ToString();
+            f.Key("primitives"); f.GLTFValue(primitives);
         }
     }
 }

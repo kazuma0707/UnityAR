@@ -31,7 +31,8 @@ public enum ChangingPoint
     EYE_LINE,
     EYE_PATTERN_L,
     EYE_PATTERN_R,
-    HEAD2
+    //MATSUGE,
+    //MAYU
 }
 
 public class MyCharDataManager : MonoBehaviour
@@ -80,11 +81,11 @@ public class MyCharDataManager : MonoBehaviour
     private Material eyeLineMat;            // 目の形
     [SerializeField]
     private Material[] eyePatternMat;         // 目の模様
-
+    
     //private Color hairColor;                // 髪の色
     private Material hairColor;                // 髪の色
     private Color eyeColor;                 // 目の色
-    private Material[] bodyColor = new Material[2];                // 体の色(0:skin, 1:face)
+    private Material[] bodyColor;                // 体の色
 
     
     private BodyNum bodyNum;                // 体型の登録番号
@@ -125,9 +126,19 @@ public class MyCharDataManager : MonoBehaviour
         GameObject[] bodies = GameObject.FindGameObjectsWithTag("BodyObj");
         foreach (GameObject obs in bodies)
         {
-            if (obs.name == "transform6") obs.GetComponent<Renderer>().material = bodyColor[1];
-            if (obs.name == "polySurface4") obs.GetComponent<Renderer>().material = bodyColor[1];
-            if (obs.name == "transform22") obs.GetComponent<Renderer>().material = bodyColor[0];
+
+            switch (obs.name)
+            {
+                case "polySurface4":
+                case "transform6":
+                default:
+                    obs.GetComponent<Renderer>().material = bodyColor[0];
+                    break;
+                case "transform22":
+                    obs.GetComponent<Renderer>().material = bodyColor[1];
+                    break;                    
+            }           
+
         }
 
         // 髪型を設定   
@@ -208,11 +219,6 @@ public class MyCharDataManager : MonoBehaviour
     }
 
     // 髪の色のアクセッサ
-    //public Color HairColor
-    //{
-    //    get { return hairColor; }
-    //    set { hairColor = value; }
-    //}
     public Material HairColor
     {
         get { return hairColor; }

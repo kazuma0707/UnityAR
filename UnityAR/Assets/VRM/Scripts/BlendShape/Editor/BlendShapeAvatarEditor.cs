@@ -29,12 +29,16 @@ namespace VRM
                 return;
             }
             path = path.ToUnityRelativePath();
-            Debug.LogFormat("{0}", path);
+            //Debug.LogFormat("{0}", path);
             var clip = ScriptableObject.CreateInstance<BlendShapeClip>();
-            m_target.Clips.Add(clip);
+            clip.BlendShapeName = Path.GetFileNameWithoutExtension(path);
             clip.Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GetAssetPath(m_target));
             AssetDatabase.CreateAsset(clip, path);
             AssetDatabase.ImportAsset(path);
+
+            m_target.Clips.Add(clip);
+            EditorUtility.SetDirty(m_target);
+            AssetDatabase.SaveAssets();
         }
 
         BlendShapeClip m_currentClip;
@@ -47,7 +51,10 @@ namespace VRM
 
                 m_currentClip = value;
                 //ClearBlendShape();
-                Bake(m_currentClip.Values, m_currentClip.MaterialValues, 1.0f);
+                if (m_currentClip != null)
+                {
+                    Bake(m_currentClip.Values, m_currentClip.MaterialValues, 1.0f);
+                }
             }
         }
 
@@ -66,7 +73,17 @@ namespace VRM
             base.OnEnable();
             m_target = (BlendShapeAvatar)target;
 
-            CurrentClip = m_target.Clips[0];
+            // remove missing values
+            foreach(var x in  m_target.Clips.Select((x, i) => new { i, x }).Where(x => x.x == null).Reverse())
+            {
+                m_target.Clips.RemoveAt(x.i);
+            }
+
+
+            if(m_target.Clips.Count > 0)
+            {
+                CurrentClip = m_target.Clips[0];
+            }
         }
 
         protected override void OnDisable()
@@ -86,9 +103,12 @@ namespace VRM
             {
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Select BlendShapeClip", EditorStyles.boldLabel);
-                var preset = GUILayout.SelectionGrid(m_preset, m_target.Clips
-                    .Where(x => x != null)
-                    .Select(x => BlendShapeKey.CreateFrom(x).ToString()).ToArray(), 4);
+                var array = m_target.Clips
+                    .Select(x => x != null
+                        ? BlendShapeKey.CreateFrom(x).ToString()
+                        : "null"
+                        ).ToArray();
+                var preset = GUILayout.SelectionGrid(m_preset, array, 4);
                 if (preset != m_preset)
                 {
                     CurrentClip = m_target.Clips[preset];
@@ -116,7 +136,9 @@ namespace VRM
 
                 CurrentClip.Preset = (BlendShapePreset)EditorGUILayout.Popup("Preset", (int)CurrentClip.Preset, Presets);
 
+                GUI.enabled = false;
                 CurrentClip.BlendShapeName = EditorGUILayout.TextField("BlendShapeName", CurrentClip.BlendShapeName);
+                GUI.enabled = true;
 
                 var key = BlendShapeKey.CreateFrom(CurrentClip);
                 if (m_target.Clips.Where(x => key.Match(x)).Count() > 1)
@@ -144,41 +166,44 @@ namespace VRM
                 // sliders
                 bool changed = false;
                 int foldIndex = 0;
-                foreach (var item in PreviewSceneManager.EnumRenderItems.Where(x => x.SkinnedMeshRenderer!=null))
+                if (PreviewSceneManager != null)
                 {
-                    var mesh = item.SkinnedMeshRenderer.sharedMesh;
-                    if (mesh != null && mesh.blendShapeCount>0)
+                    foreach (var item in PreviewSceneManager.EnumRenderItems.Where(x => x.SkinnedMeshRenderer != null))
                     {
-                        //var relativePath = UniGLTF.UnityExtensions.RelativePathFrom(renderer.transform, m_target.transform);
-                        //EditorGUILayout.LabelField(m_target.name + "/" + item.Path);
+                        var mesh = item.SkinnedMeshRenderer.sharedMesh;
+                        if (mesh != null && mesh.blendShapeCount > 0)
+                        {
+                            //var relativePath = UniGLTF.UnityExtensions.RelativePathFrom(renderer.transform, m_target.transform);
+                            //EditorGUILayout.LabelField(m_target.name + "/" + item.Path);
 
-                        if (foldIndex >= m_meshFolds.Count)
-                        {
-                            m_meshFolds.Add(false);
-                        }
-                        m_meshFolds[foldIndex] = EditorGUILayout.Foldout(m_meshFolds[foldIndex], item.SkinnedMeshRenderer.name);
-                        if (m_meshFolds[foldIndex])
-                        {
-                            //EditorGUI.indentLevel += 1;
-                            for (int i = 0; i < mesh.blendShapeCount; ++i)
+                            if (foldIndex >= m_meshFolds.Count)
                             {
-                                var src = item.SkinnedMeshRenderer.GetBlendShapeWeight(i);
-                                var dst = EditorGUILayout.Slider(mesh.GetBlendShapeName(i), src, 0, 100.0f);
-                                if (dst != src)
-                                {
-                                    item.SkinnedMeshRenderer.SetBlendShapeWeight(i, dst);
-                                    changed = true;
-                                }
+                                m_meshFolds.Add(false);
                             }
-                            //EditorGUI.indentLevel -= 1;
+                            m_meshFolds[foldIndex] = EditorGUILayout.Foldout(m_meshFolds[foldIndex], item.SkinnedMeshRenderer.name);
+                            if (m_meshFolds[foldIndex])
+                            {
+                                //EditorGUI.indentLevel += 1;
+                                for (int i = 0; i < mesh.blendShapeCount; ++i)
+                                {
+                                    var src = item.SkinnedMeshRenderer.GetBlendShapeWeight(i);
+                                    var dst = EditorGUILayout.Slider(mesh.GetBlendShapeName(i), src, 0, 100.0f);
+                                    if (dst != src)
+                                    {
+                                        item.SkinnedMeshRenderer.SetBlendShapeWeight(i, dst);
+                                        changed = true;
+                                    }
+                                }
+                                //EditorGUI.indentLevel -= 1;
+                            }
+                            ++foldIndex;
                         }
-                        ++foldIndex;
                     }
-                }
 
-                if (changed)
-                {
-                    PreviewSceneManager.Bake();
+                    if (changed)
+                    {
+                        PreviewSceneManager.Bake();
+                    }
                 }
             }
         }

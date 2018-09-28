@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Text;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 
 namespace UniGLTF
@@ -14,175 +12,84 @@ namespace UniGLTF
     {
         const float FRAME_WEIGHT = 100.0f;
 
-#if UNITY_EDITOR
-        public static void MarkTextureAssetAsNormalMap(string assetPath)
+        public static ImporterContext Load(string path)
         {
-            if (string.IsNullOrEmpty(assetPath))
-            {
-                return;
-            }
-
-            var textureImporter = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-            if (null == textureImporter)
-            {
-                return;
-            }
-
-            //Debug.LogFormat("[MarkTextureAssetAsNormalMap] {0}", assetPath);
-            textureImporter.textureType = TextureImporterType.NormalMap;
-            textureImporter.SaveAndReimport();
-        }
-#endif
-
-        /// StandardShader vaiables
-        /// 
-        /// _Color
-        /// _MainTex
-        /// _Cutoff
-        /// _Glossiness
-        /// _Metallic
-        /// _MetallicGlossMap
-        /// _BumpScale
-        /// _BumpMap
-        /// _Parallax
-        /// _ParallaxMap
-        /// _OcclusionStrength
-        /// _OcclusionMap
-        /// _EmissionColor
-        /// _EmissionMap
-        /// _DetailMask
-        /// _DetailAlbedoMap
-        /// _DetailNormalMapScale
-        /// _DetailNormalMap
-        /// _UVSec
-        /// _EmissionScaleUI
-        /// _EmissionColorUI
-        /// _Mode
-        /// _SrcBlend
-        /// _DstBlend
-        /// _ZWrite
-        public static CreateMaterialFunc CreateMaterialFuncFromShader(IShaderStore shaderStore)
-        {
-            if (shaderStore == null) return null;
-
-            return (ctx, i) =>
-            {
-                 var material = new Material(shaderStore.GetShader(ctx, i));
-                 material.name = string.Format("material_{0:00}", i);
-
-                 if (i >= 0 && i < ctx.GLTF.materials.Count)
-                 {
-                     var x = ctx.GLTF.materials[i];
-                     if (x != null)
-                     {
-                         if (!string.IsNullOrEmpty(x.name))
-                         {
-                             material.name = ctx.GLTF.GetUniqueMaterialName(i);
-                         }
-                         //Debug.LogFormat("{0}: {1}", i, material.name);
-
-                         if (x.pbrMetallicRoughness != null)
-                         {
-                             if (x.pbrMetallicRoughness.baseColorFactor != null)
-                             {
-                                 var color = x.pbrMetallicRoughness.baseColorFactor;
-                                 material.color = new Color(color[0], color[1], color[2], color[3]);
-                             }
-
-                             if (x.pbrMetallicRoughness.baseColorTexture.index != -1)
-                             {
-                                 var texture = ctx.Textures[x.pbrMetallicRoughness.baseColorTexture.index];
-                                 material.mainTexture = texture.Texture;
-                             }
-
-                             if (x.pbrMetallicRoughness.metallicRoughnessTexture.index != -1)
-                             {
-                                 material.EnableKeyword("_METALLICGLOSSMAP");
-                                 var texture = ctx.Textures[x.pbrMetallicRoughness.metallicRoughnessTexture.index];
-                                 material.SetTexture("_MetallicGlossMap", texture.GetMetallicRoughnessOcclusionConverted());
-                             }
-                         }
-
-                         if (x.normalTexture.index != -1)
-                         {
-                             material.EnableKeyword("_NORMALMAP");
-                             var texture = ctx.Textures[x.normalTexture.index];
-#if UNITY_EDITOR
-                             var textureAssetPath = AssetDatabase.GetAssetPath(texture.Texture);
-                             if (!string.IsNullOrEmpty(textureAssetPath))
-                             {
-                                 MarkTextureAssetAsNormalMap(textureAssetPath);
-                             }
-#endif
-                             material.SetTexture("_BumpMap", texture.Texture);
-                         }
-
-                         if (x.occlusionTexture.index != -1)
-                         {
-                             var texture = ctx.Textures[x.occlusionTexture.index];
-                             material.SetTexture("_OcclusionMap", texture.GetMetallicRoughnessOcclusionConverted());
-                         }
-
-                         if (x.emissiveFactor != null
-                             || x.emissiveTexture.index != -1)
-                         {
-                             material.EnableKeyword("_EMISSION");
-                             material.globalIlluminationFlags &= ~MaterialGlobalIlluminationFlags.EmissiveIsBlack;
-
-                             if (x.emissiveFactor != null)
-                             {
-                                 material.SetColor("_EmissionColor", new Color(x.emissiveFactor[0], x.emissiveFactor[1], x.emissiveFactor[2]));
-                             }
-
-                             if (x.emissiveTexture.index != -1)
-                             {
-                                 var texture = ctx.Textures[x.emissiveTexture.index];
-                                 material.SetTexture("_EmissionMap", texture.Texture);
-                             }
-                         }
-                     }
-                 }
-
-                 return material;
-            };
+            var bytes = File.ReadAllBytes(path);
+            var context = Parse(path, bytes);
+            gltfImporter.Load(context);
+            context.Root.name = Path.GetFileNameWithoutExtension(path);
+            return context;
         }
 
-        public static void Import<T>(ImporterContext ctx) where T : glTF
+        public static ImporterContext Parse(string path, Byte[] bytes)
+        {
+            var ext = Path.GetExtension(path).ToLower();
+            var context = new ImporterContext(UnityPath.FromFullpath(path));
+
+            switch (ext)
+            {
+                case ".gltf":
+                    context.ParseJson(Encoding.UTF8.GetString(bytes), new FileSystemStorage(Path.GetDirectoryName(path)));
+                    break;
+
+                case ".zip":
+                    {
+                        var zipArchive = Zip.ZipArchiveStorage.Parse(bytes);
+                        var gltf = zipArchive.Entries.FirstOrDefault(x => x.FileName.ToLower().EndsWith(".gltf"));
+                        if (gltf == null)
+                        {
+                            throw new Exception("no gltf in archive");
+                        }
+                        var jsonBytes = zipArchive.Extract(gltf);
+                        var json = Encoding.UTF8.GetString(jsonBytes);
+                        context.ParseJson(json, zipArchive);
+                    }
+                    break;
+
+                case ".glb":
+                    context.ParseGlb(bytes);
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+            return context;
+        }
+
+        public static void Load(ImporterContext ctx)
         {
             // textures
             if (ctx.GLTF.textures != null)
             {
-                ctx.Textures.AddRange(ctx.GLTF.textures.Select((x, i) => new TextureItem(ctx.GLTF, i)));
+                for(int i=0; i<ctx.GLTF.textures.Count; ++i)
+                {
+                    var item = new TextureItem(ctx.GLTF, i, ctx.TextureBaseDir);
+                    ctx.AddTexture(item);
+                }
             }
-            foreach(var x in ctx.Textures)
+            foreach(var x in ctx.GetTextures())
             {
                 x.Process(ctx.GLTF, ctx.Storage);
             }
 
             // materials
-            if (ctx.CreateMaterial == null)
+            if (ctx.MaterialImporter == null)
             {
-                ctx.CreateMaterial = CreateMaterialFuncFromShader(new ShaderStore());
+                ctx.MaterialImporter = new MaterialImporter(new ShaderStore(ctx), ctx);
             }
 
             if (ctx.GLTF.materials == null || !ctx.GLTF.materials.Any())
             {
                 // no material
-                ctx.Materials.Add(ctx.CreateMaterial(ctx, 0));
+                ctx.AddMaterial(ctx.MaterialImporter.CreateMaterial(0, null));
             }
             else
             {
                 for (int i = 0; i < ctx.GLTF.materials.Count; ++i)
                 {
                     var index = i;
-                    var material = ctx.CreateMaterial(ctx, index);
-
-                    var originalName = material.name;
-                    for(int j=1;  ctx.Materials.Any(x => x.name == material.name); ++j)
-                    {
-                        material.name = string.Format("{0}({1})", originalName, j);
-                    }
-                    ctx.Materials.Add(material);
+                    var material = ctx.MaterialImporter.CreateMaterial(index, ctx.GLTF.materials[i]);
+                    ctx.AddMaterial(material);
                 }
             }
 
@@ -194,9 +101,11 @@ namespace UniGLTF
                 throw new UniGLTFNotSupportedException("draco is not supported");
             }
 
+            var meshImporter = new MeshImporter();
             for(int i=0; i<ctx.GLTF.meshes.Count; ++i)
             {
-                var meshWithMaterials = ImportMesh(ctx, i);
+                var meshContext = meshImporter.ReadMesh(ctx, i);
+                var meshWithMaterials = BuildMesh(ctx, meshContext);
 
                 var mesh = meshWithMaterials.Mesh;
 
@@ -246,91 +155,22 @@ namespace UniGLTF
             if (ctx.GLTF.animations != null && ctx.GLTF.animations.Any())
             {
                 ctx.Animation = new AnimationClip();
-                ctx.Animation.name = ANIMATION_NAME;
+                //ctx.Animation.name = ANIMATION_NAME;
+                ctx.Animation.name = "legacy";
                 ctx.Animation.ClearCurves();
+                ctx.Animation.legacy = true;
 
                 ImportAnimation(ctx, ctx.Animation);
 
-                ctx.Animation.legacy = true;
-                ctx.Animation.name = "legacy";
                 ctx.Animation.wrapMode = WrapMode.Loop;
                 var animation = ctx.Root.AddComponent<Animation>();
+                animation.AddClip(ctx.Animation, ctx.Animation.name);
                 animation.clip = ctx.Animation;
             }
         }
 
         #region Import
-        [Serializable, StructLayout(LayoutKind.Sequential, Pack = 1)]
-        struct Float4
-        {
-            public float x;
-            public float y;
-            public float z;
-            public float w;
-
-            public Float4 One()
-            {
-                var sum = x + y + z + w;
-                var f = 1.0f / sum;
-                return new Float4
-                {
-                    x = x * f,
-                    y = y * f,
-                    z = z * f,
-                    w = w * f,
-                };
-            }
-        }
-
-        public class MeshContext
-        {
-            public string name;
-            public Vector3[] positions;
-            public Vector3[] normals;
-            public Vector4[] tangents;
-            public Vector2[] uv;
-            public Color[] colors;
-            public List<BoneWeight> boneWeights = new List<BoneWeight>();
-            public List<int[]> subMeshes = new List<int[]>();
-            public List<int> materialIndices = new List<int>();
-            public List<BlendShape> blendShapes = new List<BlendShape>();
-        }
-
-        public static MeshWithMaterials ImportMesh(ImporterContext ctx, int meshIndex)
-        {
-            var meshContext = ReadMesh(ctx, meshIndex);
-            return BuildMesh(ctx, meshContext);
-        }
-
-        public static MeshContext ReadMesh(ImporterContext ctx, int meshIndex)
-        {
-            var gltfMesh = ctx.GLTF.meshes[meshIndex];
-            glTFAttributes lastAttributes = null;
-            var sharedAttributes = true;
-            foreach (var prim in gltfMesh.primitives)
-            {
-                if (lastAttributes != null && !prim.attributes.Equals(lastAttributes))
-                {
-                    sharedAttributes = false;
-                    break;
-                }
-                lastAttributes = prim.attributes;
-            }
-
-            var meshContext = sharedAttributes
-                ? _ImportMeshSharingVertexBuffer(ctx, gltfMesh)
-                : _ImportMeshIndependentVertexBuffer(ctx, gltfMesh)
-                ;
-            meshContext.name = gltfMesh.name;
-            if (string.IsNullOrEmpty(meshContext.name))
-            {
-                meshContext.name = string.Format("UniGLTF import#{0}", meshIndex);
-            }
-
-            return meshContext;
-        }
-
-        public static MeshWithMaterials BuildMesh(ImporterContext ctx, MeshContext meshContext)
+        public static MeshWithMaterials BuildMesh(ImporterContext ctx, MeshImporter.MeshContext meshContext)
         {
             if (!meshContext.materialIndices.Any())
             {
@@ -352,28 +192,30 @@ namespace UniGLTF
             }
 
             mesh.vertices = meshContext.positions;
+            bool recalculateNormals = false;
             if (meshContext.normals != null && meshContext.normals.Length > 0)
             {
                 mesh.normals = meshContext.normals;
             }
             else
             {
-                mesh.RecalculateNormals();
+                recalculateNormals = true;
             }
-            if (meshContext.tangents != null && meshContext.tangents.Length > 0)
-            {
-                mesh.tangents = meshContext.tangents;
-            }
-            else
-            {
-#if UNITY_5_6_OR_NEWER
-                mesh.RecalculateTangents();
-#endif
-            }
+
             if (meshContext.uv != null && meshContext.uv.Length > 0)
             {
                 mesh.uv = meshContext.uv;
             }
+
+            bool recalculateTangents = true;
+#if UNIGLTF_IMPORT_TANGENTS
+            if (meshContext.tangents != null && meshContext.tangents.Length > 0)
+            {
+                mesh.tangents = meshContext.tangents;
+                recalculateTangents = false;
+            }
+#endif
+
             if(meshContext.colors!=null && meshContext.colors.Length > 0)
             {
                 mesh.colors = meshContext.colors;
@@ -387,14 +229,29 @@ namespace UniGLTF
             {
                 mesh.SetTriangles(meshContext.subMeshes[i], i);
             }
+
+            if (recalculateNormals)
+            {
+                mesh.RecalculateNormals();
+            }
+            if (recalculateTangents)
+            {
+#if UNITY_5_6_OR_NEWER
+                mesh.RecalculateTangents();
+#else
+                Debug.LogWarning("recalculateTangents");
+#endif
+            }
+
             var result = new MeshWithMaterials
             {
                 Mesh = mesh,
-                Materials = meshContext.materialIndices.Select(x => ctx.Materials[x]).ToArray()
+                Materials = meshContext.materialIndices.Select(x => ctx.GetMaterial(x)).ToArray()
             };
 
             if (meshContext.blendShapes != null)
             {
+                Vector3[] emptyVertices = null;
                 foreach (var blendShape in meshContext.blendShapes)
                 {
                     if (blendShape.Positions.Count > 0)
@@ -412,269 +269,24 @@ namespace UniGLTF
                             Debug.LogWarningFormat("May be partial primitive has blendShape. Rquire separete mesh or extend blend shape, but not implemented: {0}", blendShape.Name);
                         }
                     }
+                    else
+                    {
+                        if (emptyVertices == null)
+                        {
+                            emptyVertices = new Vector3[mesh.vertexCount];
+                        }
+                        Debug.LogFormat("empty blendshape: {0}.{1}", mesh.name, blendShape.Name);
+                        // add empty blend shape for keep blend shape index
+                        mesh.AddBlendShapeFrame(blendShape.Name, FRAME_WEIGHT,
+                            emptyVertices,
+                            null,
+                            null
+                            );
+                    }
                 }
             }
 
             return result;
-        }
-
-        // multiple submMesh is not sharing a VertexBuffer.
-        // each subMesh use a independent VertexBuffer.
-        private static MeshContext _ImportMeshIndependentVertexBuffer(ImporterContext ctx, glTFMesh gltfMesh)
-        {
-            //Debug.LogWarning("_ImportMeshIndependentVertexBuffer");
-
-            var targets = gltfMesh.primitives[0].targets;
-            for (int i = 1; i < gltfMesh.primitives.Count; ++i)
-            {
-                if (!gltfMesh.primitives[i].targets.SequenceEqual(targets))
-                {
-                    throw new NotImplementedException(string.Format("diffirent targets: {0} with {1}",
-                        gltfMesh.primitives[i],
-                        targets));
-                }
-            }
-
-            var positions = new List<Vector3>();
-            var normals = new List<Vector3>();
-            var tangents = new List<Vector4>();
-            var uv = new List<Vector2>();
-            var colors = new List<Color>();
-            var meshContext = new MeshContext();
-            foreach (var prim in gltfMesh.primitives)
-            {
-                var indexOffset = positions.Count;
-                var indexBuffer = prim.indices;
-
-                var positionCount = positions.Count;
-                positions.AddRange(ctx.GLTF.GetArrayFromAccessor<Vector3>(prim.attributes.POSITION).Select(x => x.ReverseZ()));
-                positionCount = positions.Count - positionCount;
-
-                // normal
-                if (prim.attributes.NORMAL != -1)
-                {
-                    normals.AddRange(ctx.GLTF.GetArrayFromAccessor<Vector3>(prim.attributes.NORMAL).Select(x => x.ReverseZ()));
-                }
-
-                if (prim.attributes.TANGENT != -1)
-                {
-                    tangents.AddRange(ctx.GLTF.GetArrayFromAccessor<Vector4>(prim.attributes.TANGENT).Select(x => x.ReverseZ()));
-                }
-
-                // uv
-                if (prim.attributes.TEXCOORD_0 != -1)
-                {
-                    uv.AddRange(ctx.GLTF.GetArrayFromAccessor<Vector2>(prim.attributes.TEXCOORD_0).Select(x => x.ReverseY()));
-                }
-                else
-                {
-                    // for inconsistent attributes in primitives
-                    uv.AddRange(new Vector2[positionCount]);
-                }
-
-                // color
-                if (prim.attributes.COLOR_0 != -1)
-                {
-                    colors.AddRange(ctx.GLTF.GetArrayFromAccessor<Color>(prim.attributes.COLOR_0));
-                }
-
-                // skin
-                if (prim.attributes.JOINTS_0 != -1 && prim.attributes.WEIGHTS_0 != -1)
-                {
-                    var joints0 = ctx.GLTF.GetArrayFromAccessor<UShort4>(prim.attributes.JOINTS_0); // uint4
-                    var weights0 = ctx.GLTF.GetArrayFromAccessor<Float4>(prim.attributes.WEIGHTS_0).Select(x => x.One()).ToArray();
-
-                    for (int j = 0; j < joints0.Length; ++j)
-                    {
-                        var bw = new BoneWeight();
-
-                        bw.boneIndex0 = joints0[j].x;
-                        bw.weight0 = weights0[j].x;
-
-                        bw.boneIndex1 = joints0[j].y;
-                        bw.weight1 = weights0[j].y;
-
-                        bw.boneIndex2 = joints0[j].z;
-                        bw.weight2 = weights0[j].z;
-
-                        bw.boneIndex3 = joints0[j].w;
-                        bw.weight3 = weights0[j].w;
-
-                        meshContext.boneWeights.Add(bw);
-                    }
-                }
-
-                // blendshape
-                if (prim.targets != null && prim.targets.Count > 0)
-                {
-                    for (int i = 0; i < prim.targets.Count; ++i)
-                    {
-                        //var name = string.Format("target{0}", i++);
-                        var primTarget = prim.targets[i];
-                        var blendShape = new BlendShape(!string.IsNullOrEmpty(prim.extras.targetNames[i])
-                            ? prim.extras.targetNames[i]
-                            : i.ToString())
-                            ;
-                        if (primTarget.POSITION != -1)
-                        {
-                            blendShape.Positions.AddRange(
-                                ctx.GLTF.GetArrayFromAccessor<Vector3>(primTarget.POSITION).Select(x => x.ReverseZ()).ToArray());
-                        }
-                        if (primTarget.NORMAL != -1)
-                        {
-                            blendShape.Normals.AddRange(
-                                ctx.GLTF.GetArrayFromAccessor<Vector3>(primTarget.NORMAL).Select(x => x.ReverseZ()).ToArray());
-                        }
-                        if (primTarget.TANGENT != -1)
-                        {
-                            blendShape.Tangents.AddRange(
-                                ctx.GLTF.GetArrayFromAccessor<Vector3>(primTarget.TANGENT).Select(x => x.ReverseZ()).ToArray());
-                        }
-                        meshContext.blendShapes.Add(blendShape);
-                    }
-                }
-
-                var indices =
-                 (indexBuffer >= 0)
-                 ? ctx.GLTF.GetIndices(indexBuffer)
-                 : TriangleUtil.FlipTriangle(Enumerable.Range(0, meshContext.positions.Length)).ToArray() // without index array
-                 ;
-                for(int i=0; i<indices.Length; ++i)
-                {
-                    indices[i] += indexOffset;
-                }
-
-                meshContext.subMeshes.Add(indices);
-
-                // material
-                meshContext.materialIndices.Add(prim.material);
-            }
-
-            meshContext.positions = positions.ToArray();
-            meshContext.normals = normals.ToArray();
-            meshContext.tangents = tangents.ToArray();
-            meshContext.uv = uv.ToArray();
-
-            return meshContext;
-        }
-
-        // multiple submesh sharing same VertexBuffer
-        private static MeshContext _ImportMeshSharingVertexBuffer(ImporterContext ctx, glTFMesh gltfMesh)
-        {
-            var context = new MeshContext();
-
-            {
-                var prim = gltfMesh.primitives.First();
-                context.positions = ctx.GLTF.GetArrayFromAccessor<Vector3>(prim.attributes.POSITION).SelectInplace(x => x.ReverseZ());
-
-                // normal
-                if (prim.attributes.NORMAL != -1)
-                {
-                    context.normals = ctx.GLTF.GetArrayFromAccessor<Vector3>(prim.attributes.NORMAL).SelectInplace(x => x.ReverseZ());
-                }
-
-                // tangent
-                if (prim.attributes.TANGENT != -1)
-                {
-                    context.tangents = ctx.GLTF.GetArrayFromAccessor<Vector4>(prim.attributes.TANGENT).SelectInplace(x => x.ReverseZ());
-                }
-
-                // uv
-                if (prim.attributes.TEXCOORD_0 != -1)
-                {
-                    context.uv = ctx.GLTF.GetArrayFromAccessor<Vector2>(prim.attributes.TEXCOORD_0).SelectInplace(x => x.ReverseY());
-                }
-                else
-                {
-                    // for inconsistent attributes in primitives
-                    context.uv = new Vector2[context.positions.Length];
-                }
-
-                // color
-                if (prim.attributes.COLOR_0 != -1)
-                {
-                    context.colors = ctx.GLTF.GetArrayFromAccessor<Color>(prim.attributes.COLOR_0);
-                }
-
-                // skin
-                if (prim.attributes.JOINTS_0 != -1 && prim.attributes.WEIGHTS_0 != -1)
-                {
-                    var joints0 = ctx.GLTF.GetArrayFromAccessor<UShort4>(prim.attributes.JOINTS_0); // uint4
-                    var weights0 = ctx.GLTF.GetArrayFromAccessor<Float4>(prim.attributes.WEIGHTS_0);
-                    for(int i=0; i<weights0.Length; ++i)
-                    {
-                        weights0[i] = weights0[i].One();
-                    }
-
-                    for (int j = 0; j < joints0.Length; ++j)
-                    {
-                        var bw = new BoneWeight();
-
-                        bw.boneIndex0 = joints0[j].x;
-                        bw.weight0 = weights0[j].x;
-
-                        bw.boneIndex1 = joints0[j].y;
-                        bw.weight1 = weights0[j].y;
-
-                        bw.boneIndex2 = joints0[j].z;
-                        bw.weight2 = weights0[j].z;
-
-                        bw.boneIndex3 = joints0[j].w;
-                        bw.weight3 = weights0[j].w;
-
-                        context.boneWeights.Add(bw);
-                    }
-                }
-
-                // blendshape
-                if (prim.targets != null && prim.targets.Count > 0)
-                {
-                    context.blendShapes.AddRange(prim.targets.Select((x, i) => new BlendShape(
-                        i < prim.extras.targetNames.Count && !string.IsNullOrEmpty(prim.extras.targetNames[i])
-                        ? prim.extras.targetNames[i]
-                        : i.ToString())));
-                    for (int i = 0; i < prim.targets.Count; ++i)
-                    {
-                        //var name = string.Format("target{0}", i++);
-                        var primTarget = prim.targets[i];
-                        var blendShape = context.blendShapes[i];
-
-                        if (primTarget.POSITION != -1)
-                        {
-                            blendShape.Positions.Assign(
-                                ctx.GLTF.GetArrayFromAccessor<Vector3>(primTarget.POSITION), x => x.ReverseZ());
-                        }
-                        if (primTarget.NORMAL != -1)
-                        {
-                            blendShape.Normals.Assign(
-                                ctx.GLTF.GetArrayFromAccessor<Vector3>(primTarget.NORMAL), x => x.ReverseZ());
-                        }
-                        if (primTarget.TANGENT != -1)
-                        {
-                            blendShape.Tangents.Assign(
-                                ctx.GLTF.GetArrayFromAccessor<Vector3>(primTarget.TANGENT), x => x.ReverseZ());
-                        }
-                    }
-                }
-            }
-
-            foreach (var prim in gltfMesh.primitives)
-            {
-                if (prim.indices == -1)
-                {
-                    context.subMeshes.Add(TriangleUtil.FlipTriangle(Enumerable.Range(0, context.positions.Length)).ToArray());
-                }
-                else
-                {
-                    var indices = ctx.GLTF.GetIndices(prim.indices);
-                    context.subMeshes.Add(indices);
-                }
-
-                // material
-                context.materialIndices.Add(prim.material);
-            }
-
-            return context;
         }
 
         public static GameObject ImportNode(glTFNode node)
@@ -771,10 +383,6 @@ namespace UniGLTF
                     if (node.skin != -1)
                     {
                         nodeWithSkin.SkinIndex = node.skin;
-                        if (node.extras.skinRootBone != -1)
-                        {
-                            renderer.rootBone = context.Nodes[node.extras.skinRootBone];
-                        }
                     }
 
                     renderer.sharedMesh = mesh.Mesh;
@@ -841,7 +449,11 @@ namespace UniGLTF
 
                         var joints = skin.joints.Select(y => nodes[y].Transform).ToArray();
                         skinnedMeshRenderer.bones = joints;
-                        //skinnedMeshRenderer.rootBone = nodes[skin.skeleton].Transform;
+
+                        if (skin.skeleton >= 0 && skin.skeleton < nodes.Count)
+                        {
+                            skinnedMeshRenderer.rootBone = nodes[skin.skeleton].Transform;
+                        }
 
                         if (skin.inverseBindMatrices != -1)
                         {
@@ -907,9 +519,9 @@ namespace UniGLTF
                                 {
                                     var time = input[j];
                                     var pos = output[j].ReverseZ();
-                                    curveX.AddKey(time, pos.x);
-                                    curveY.AddKey(time, pos.y);
-                                    curveZ.AddKey(time, pos.z);
+                                    curveX.AddKey(new Keyframe(time, pos.x, 0, 0));
+                                    curveY.AddKey(new Keyframe(time, pos.y, 0, 0));
+                                    curveZ.AddKey(new Keyframe(time, pos.z, 0, 0));
                                 }
 
                                 clip.SetCurve(relativePath, typeof(Transform), "localPosition.x", curveX);
@@ -928,14 +540,26 @@ namespace UniGLTF
                                 var sampler = animation.samplers[y.sampler];
                                 var input = ctx.GLTF.GetArrayFromAccessor<float>(sampler.input);
                                 var output = ctx.GLTF.GetArrayFromAccessor<Quaternion>(sampler.output);
+                                var last = Quaternion.identity;
                                 for (int j = 0; j < input.Length; ++j)
                                 {
                                     var time = input[j];
                                     var rot = output[j].ReverseZ();
-                                    curveX.AddKey(time, rot.x);
-                                    curveY.AddKey(time, rot.y);
-                                    curveZ.AddKey(time, rot.z);
-                                    curveW.AddKey(time, rot.w);
+                                    if (j > 0)
+                                    {
+                                        if(Quaternion.Dot(last, rot) < 0)
+                                        {
+                                            rot.x = -rot.x;
+                                            rot.y = -rot.y;
+                                            rot.z = -rot.z;
+                                            rot.w = -rot.w;
+                                        }
+                                    }
+                                    curveX.AddKey(new Keyframe(time, rot.x, 0, 0));
+                                    curveY.AddKey(new Keyframe(time, rot.y, 0, 0));
+                                    curveZ.AddKey(new Keyframe(time, rot.z, 0, 0));
+                                    curveW.AddKey(new Keyframe(time, rot.w, 0, 0));
+                                    last = rot;
                                 }
 
                                 clip.SetCurve(relativePath, typeof(Transform), "localRotation.x", curveX);
@@ -958,9 +582,9 @@ namespace UniGLTF
                                 {
                                     var time = input[j];
                                     var scale = output[j];
-                                    curveX.AddKey(time, scale.x);
-                                    curveY.AddKey(time, scale.y);
-                                    curveZ.AddKey(time, scale.z);
+                                    curveX.AddKey(new Keyframe(time, scale.x, 0, 0));
+                                    curveY.AddKey(new Keyframe(time, scale.y, 0, 0));
+                                    curveZ.AddKey(new Keyframe(time, scale.z, 0, 0));
                                 }
 
                                 clip.SetCurve(relativePath, typeof(Transform), "localScale.x", curveX);
@@ -988,6 +612,10 @@ namespace UniGLTF
                                     clip.SetCurve(relativePath, typeof(SkinnedMeshRenderer), "blendShape." + k, curve);
                                 }
                             }
+                            break;
+
+                        default:
+                            Debug.LogWarningFormat("unknown path: {0}", y.target.path);
                             break;
                     }
                 }
@@ -1029,6 +657,6 @@ namespace UniGLTF
                 .OrderBy(x => x.Parents)
                 .First().Transform;
         }
-        #endregion
+#endregion
     }
 }

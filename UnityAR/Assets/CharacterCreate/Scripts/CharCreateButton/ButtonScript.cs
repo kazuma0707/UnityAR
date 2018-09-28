@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
+    [Header("表示させたいボタン")]
     [SerializeField]
     private Button[] buttons;   // 対応するボタン
     
