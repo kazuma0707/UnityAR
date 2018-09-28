@@ -6,11 +6,16 @@ public class CharaCreateManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject myChar;                  // マイキャラオブジェクト
+
+    [Header("変更する部位の登録")]
     [SerializeField]
     private GameObject[] changingPoints;        // 変更する部位
+
+    [Header("変更する髪の部位の登録")]
     [SerializeField]
     private GameObject[] changingHairPoints;    // 変更する髪の部位
 
+    [Header("初期状態のモデル")]
     [SerializeField]
     private BodyNum defaultBodyScale;         // 初期の体型
     [SerializeField]
@@ -30,8 +35,9 @@ public class CharaCreateManager : MonoBehaviour
 
     private Vector3[] bodyScale;                // 体型
 
+    [Header("服の登録")]
     [SerializeField]
-    private GameObject[] wear;
+    private GameObject[] wear;                  // 服
 
 
     // Use this for initialization
