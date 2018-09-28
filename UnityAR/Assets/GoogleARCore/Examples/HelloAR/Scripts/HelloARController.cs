@@ -65,6 +65,8 @@ namespace GoogleARCore.Examples.HelloAR
 
         //音声録音ボタン
         public GameObject m_voiceRecButton;
+        private Ray _ray;
+        private RaycastHit _rayCastHit;
 
 
         /// <summary>
@@ -72,7 +74,6 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         public void Update()
         {
-
 
             _UpdateApplicationLifecycle();
 
@@ -97,15 +98,19 @@ namespace GoogleARCore.Examples.HelloAR
                 return;
             }
 
+         
+
             // Raycast against the location the player touched to search for planes.
             TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
-
+    
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
+
                 // Use hit pose and camera pose to check if hittest is from the
                 // back of the plane, if it is, no need to create the anchor.
+             
                 if ((hit.Trackable is DetectedPlane) &&
                     Vector3.Dot(FirstPersonCamera.transform.position - hit.Pose.position,
                         hit.Pose.rotation * Vector3.up) < 0)
@@ -114,7 +119,9 @@ namespace GoogleARCore.Examples.HelloAR
                 }
                 else
                 {
-                    if(!IsCreate)
+                    _ray = FirstPersonCamera.ScreenPointToRay(hit.Pose.position);
+                    HItRayCast();
+                    if (!IsCreate)
                     {
                         //ユニティちゃんの生成
                         var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
@@ -127,9 +134,10 @@ namespace GoogleARCore.Examples.HelloAR
                         // Make Andy model a child of the anchor.
                         unityChanObject.transform.parent = anchor.transform;
                         IsCreate = true;
-
+                        //サウンドボタンの生成
                         m_voiceRecButton.SetActive(true);
                     }
+                
                 }
             }
         }
@@ -204,5 +212,19 @@ namespace GoogleARCore.Examples.HelloAR
                 }));
             }
         }
+
+        private void HItRayCast()
+        {
+            if(Physics.Raycast(_ray,out _rayCastHit,100.0f))
+            {
+                if (_rayCastHit.collider.name== "Cube")
+                {
+                    Destroy(_rayCastHit.collider.gameObject);
+                    IsCreate = false;
+
+                }
+            }
+        }
     }
+
 }
