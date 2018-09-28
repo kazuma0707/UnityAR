@@ -4070,6 +4070,7 @@ GameObject:
   - component: {fileID: 4269327001082008}
   - component: {fileID: 82702036699252546}
   - component: {fileID: 114885654464243552}
+  - component: {fileID: 136353740645755716}
   m_Layer: 0
   m_Name: MyChar
   m_TagString: Player
@@ -9014,6 +9015,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_voiceRecFlag: 0
+--- !u!136 &136353740645755716
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1983173637988318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.27
+  m_Height: 1.91
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.78, z: 0}
 --- !u!137 &137035866654779860
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
