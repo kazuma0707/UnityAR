@@ -5,28 +5,32 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MoveCamera : MonoBehaviour
-{
+public class MoveCamera : MonoBehaviour {
+
     //ターゲット
     private GameObject Target;
 
     //Waypointsの数
-    public Transform[] points = new Transform[3];
+    [SerializeField]
+    private Transform[] points = new Transform[4];
 
     //現在の座標
     private int nowPoint = 0;
 
     //カメラ
     private NavMeshAgent Camera;
+    [SerializeField]
+    private GameObject CameraObject;
+
     //スタートボタン
     [SerializeField]
     private GameObject StartButton;
     //キャラクタークリエイトボタン
     [SerializeField]
     private GameObject CharacterCreateButton;
-    //キャラクターの部位を変更するボタン
+    //キャラクタークリエイトを完了するボタン
     [SerializeField]
-    private GameObject[] ChangeButtons;
+    private GameObject CharacterCreateEndButton;
     //確認テキスト
     [SerializeField]
     private GameObject Text;
@@ -52,8 +56,13 @@ public class MoveCamera : MonoBehaviour
     [SerializeField]
     private GameObject ReCharacterCreateButton;
 
+    //ターゲットを指定するオブジェクト
+    [SerializeField]
+    private GameObject LookAtObject;
+    private Vector3 relativePos;
+
     // Use this for initialization
-    void Start()
+    void Start ()
     {
 
         //NavMeshの情報を取得
@@ -64,12 +73,7 @@ public class MoveCamera : MonoBehaviour
 
         //UI非表示
         CharacterCreateButton.SetActive(false);
-
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(false);
-        }
-        
+        CharacterCreateEndButton.SetActive(false);
         Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
@@ -81,7 +85,7 @@ public class MoveCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update ()
     {
         //remainingDistanceとは↓
         //エージェントの位置および現在の経路での目標地点の間の距離（読み取り専用）
@@ -90,7 +94,7 @@ public class MoveCamera : MonoBehaviour
         {
             GettoNextPoint();
         }
-
+        
     }
 
     //次の座標に移動するときの関数
@@ -125,22 +129,15 @@ public class MoveCamera : MonoBehaviour
     public void OnCharacterCreate()
     {
         Camera.destination = points[1].position;
-        CharacterCreateButton.SetActive(false);
 
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(true);
-        }
+        CharacterCreateButton.SetActive(false);
+        CharacterCreateEndButton.SetActive(true);
     }
 
     //完了ボタンを押したら
     public void OnCharacterCreateEndButton()
     {
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(false);
-        }
-
+        CharacterCreateEndButton.SetActive(false);
         Text.SetActive(true);
         Panel.SetActive(true);
         YesButton.SetActive(true);
@@ -151,6 +148,7 @@ public class MoveCamera : MonoBehaviour
     public void OnYesButton()
     {
         Camera.destination = points[2].position;
+
         SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
@@ -164,10 +162,7 @@ public class MoveCamera : MonoBehaviour
     //いいえを押したら
     public void OnNoButton()
     {
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(true);
-        }
+        CharacterCreateEndButton.SetActive(true);
         Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
@@ -177,7 +172,7 @@ public class MoveCamera : MonoBehaviour
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene("ARScene");
+        SceneManager.LoadScene("SchoolIntroduction");
     }
 
     //ゲームボタンを押したら
@@ -191,4 +186,24 @@ public class MoveCamera : MonoBehaviour
     {
         SceneManager.LoadScene("Appreciation");
     }
+
+    //キャラクタークリエイトをし直す
+    public void OnReCharacterCreate()
+    {
+        
+        Camera.destination = points[1].position;
+        Invoke("Rotate", 2.35f); 
+
+        CharacterCreateEndButton.SetActive(true);
+        SchoolIntroductionButton.SetActive(false);
+        GameButton.SetActive(false);
+        AppreciationButton.SetActive(false);
+        ReCharacterCreateButton.SetActive(false);
+    }
+
+    void Rotate()
+    {
+        iTween.RotateTo(gameObject, iTween.Hash("y", -30f));
+    }
+    
 }
