@@ -3,35 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore;
 using GoogleARCore.Examples.AugmentedImage;
+using ConstantName;
 
 public class ButtonController : BaseButton {
     [SerializeField]
-    private  GameObject Panel;
+    private GameObject Panel;
+    [SerializeField]
+    private SetText _setText;
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     protected override void OnClick(string objectName)
     {
         // 渡されたオブジェクト名で処理を分岐
-        if ("GSButton".Equals(objectName))
+        if (ButtonName.ARScene.GSButton.Equals(objectName))
         {
             // Button1がクリックされたとき
             this.GSButtonClick();
         }
-        else if ("CGButtuon".Equals(objectName))
+        else if (ButtonName.ARScene.CGButtuon.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.CGButtuonClick();
         }
-        else if ("WDButton".Equals(objectName))
+        else if (ButtonName.ARScene.WDButton.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.WDButtonClick();
         }
-        else if ("CADButton".Equals(objectName))
+        else if (ButtonName.ARScene.CADButton.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.CADButtonClick();
         }
-        else if ("KZButton".Equals(objectName))
+        else if (ButtonName.ARScene.KZButton.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.KZButtonClick();
@@ -41,12 +48,12 @@ public class ButtonController : BaseButton {
             // Button2がクリックされたとき
             this.SSButtonClick();
         }
-        else if ("ZSButton".Equals(objectName))
+        else if (ButtonName.ARScene.ZSButton.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.ZSButtonClick();
         }
-        else if ("ClassButton".Equals(objectName))
+        else if (ButtonName.ARScene.ClassButton.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.ClassButtonClick();
@@ -56,37 +63,38 @@ public class ButtonController : BaseButton {
     private void GSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(1)) return;
-        Debug.Log("GSButton Click");
+        _setText.SetTextNumber = DepartmentName.GAME;
     }
     private void CGButtuonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(2)) return;
-        Debug.Log("CGButtuon Click");
+        _setText.SetTextNumber = DepartmentName.CG;
     }
     private void WDButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(3)) return;
-        Debug.Log("WDButton Click");
+        _setText.SetTextNumber = DepartmentName.WEB;
     }
     private void CADButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(4)) return;
-        Debug.Log("CADButton Click");
+        _setText.SetTextNumber = DepartmentName.CAD;
     }
     private void KZButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(5)) return;
-        Debug.Log("KZButton Click");
+        _setText.SetTextNumber = DepartmentName.ADVANCED_INFORMATION;
     }
     private void SSButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(6)) return;
-        Debug.Log("SSButton Click");
+       // if (!AugmentedImageExampleController.Index.Contains(6)) return;
+        _setText.SetTextNumber = DepartmentName.CYBER_SECURITY;
+        Debug.Log("SS");
     }
     private void ZSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(7)) return;
-        Debug.Log("ZSButton Click");
+        _setText.SetTextNumber = DepartmentName.INFORMATION_PROCESSING;
     }
     private void ClassButtonClick()
     {
