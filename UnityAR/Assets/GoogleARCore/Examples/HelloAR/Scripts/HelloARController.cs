@@ -124,15 +124,16 @@ namespace GoogleARCore.Examples.HelloAR
                     if (!IsCreate)
                     {
                         //ユニティちゃんの生成
-                        var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-                        MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                         var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
+
+                       MyCharDataManager.Instance.CreateMyChar(unityChanObject);
                         // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                          unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                       unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
 
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
                         // Make Andy model a child of the anchor.
-                        unityChanObject.transform.parent = anchor.transform;
+                     //   unityChanObject.transform.parent = anchor.transform;
                         IsCreate = true;
                         //サウンドボタンの生成
                         m_voiceRecButton.SetActive(true);
