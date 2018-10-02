@@ -19,8 +19,8 @@ public class MoveCamera : MonoBehaviour {
 
     //カメラ
     private NavMeshAgent Camera;
-    [SerializeField]
-    private GameObject CameraObject;
+    //[SerializeField]
+    //private GameObject CameraObject;
 
     //スタートボタン
     [SerializeField]
@@ -28,6 +28,9 @@ public class MoveCamera : MonoBehaviour {
     //キャラクタークリエイトボタン
     [SerializeField]
     private GameObject CharacterCreateButton;
+    //キャラクターの部位を変更するボタン
+    [SerializeField]
+    private GameObject[] ChangeButtons;
     //キャラクタークリエイトを完了するボタン
     [SerializeField]
     private GameObject CharacterCreateEndButton;
@@ -57,8 +60,8 @@ public class MoveCamera : MonoBehaviour {
     private GameObject ReCharacterCreateButton;
 
     //ターゲットを指定するオブジェクト
-    [SerializeField]
-    private GameObject LookAtObject;
+    //[SerializeField]
+   // private GameObject LookAtObject;
     private Vector3 relativePos;
 
     // Use this for initialization
@@ -72,6 +75,11 @@ public class MoveCamera : MonoBehaviour {
         GettoNextPoint();
 
         //UI非表示
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(false);
+        }
+
         CharacterCreateButton.SetActive(false);
         CharacterCreateEndButton.SetActive(false);
         Text.SetActive(false);
@@ -130,6 +138,11 @@ public class MoveCamera : MonoBehaviour {
     {
         Camera.destination = points[1].position;
 
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(true);
+        }
+
         CharacterCreateButton.SetActive(false);
         CharacterCreateEndButton.SetActive(true);
     }
@@ -138,6 +151,12 @@ public class MoveCamera : MonoBehaviour {
     public void OnCharacterCreateEndButton()
     {
         CharacterCreateEndButton.SetActive(false);
+
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(false);
+        }
+
         Text.SetActive(true);
         Panel.SetActive(true);
         YesButton.SetActive(true);
@@ -162,6 +181,11 @@ public class MoveCamera : MonoBehaviour {
     //いいえを押したら
     public void OnNoButton()
     {
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(true);
+        }
+
         CharacterCreateEndButton.SetActive(true);
         Text.SetActive(false);
         Panel.SetActive(false);
@@ -172,7 +196,7 @@ public class MoveCamera : MonoBehaviour {
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene("SchoolIntroduction");
+        SceneManager.LoadScene("ARScene");
     }
 
     //ゲームボタンを押したら
@@ -192,8 +216,12 @@ public class MoveCamera : MonoBehaviour {
     {
         
         Camera.destination = points[1].position;
-        Invoke("Rotate", 2.35f); 
+        Invoke("Rotate", 2.35f);
 
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(true);
+        }
         CharacterCreateEndButton.SetActive(true);
         SchoolIntroductionButton.SetActive(false);
         GameButton.SetActive(false);

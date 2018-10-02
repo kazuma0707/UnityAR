@@ -1,0 +1,701 @@
+fileFormatVersion: 2
+guid: 73de5c38997069245a1a2b43e5e8f1f2
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: face_anime12:group
+    100004: face_anime12:pasted__group
+    100006: face_anime12:pasted__pasted__polySurface6
+    100008: face_anime12:pasted__pasted__transform1
+    100010: face_anime12:pasted__pasted__transform14
+    100012: face_anime12:pasted__pasted__transform16
+    100014: face_anime12:pasted__pasted__transform17
+    100016: face_anime12:pasted__pasted__transform18
+    100018: face_anime12:pasted__pasted__transform6
+    100020: face_anime12:transform1
+    100022: face_anime12:transform2
+    100024: face_anime12:transform3
+    100026: face_anime12:transform4
+    100028: face_anime12:transform5
+    100030: face_anime12:transform6
+    100032: face_anime15:group
+    100034: face_anime15:pasted__group
+    100036: face_anime15:pasted__pasted__polySurface6
+    100038: face_anime15:pasted__pasted__transform1
+    100040: face_anime15:pasted__pasted__transform14
+    100042: face_anime15:pasted__pasted__transform16
+    100044: face_anime15:pasted__pasted__transform17
+    100046: face_anime15:pasted__pasted__transform18
+    100048: face_anime15:pasted__pasted__transform6
+    100050: face_anime15:transform1
+    100052: face_anime15:transform2
+    100054: face_anime15:transform3
+    100056: face_anime15:transform4
+    100058: face_anime15:transform5
+    100060: face_anime15:transform6
+    100062: face_anime1:group
+    100064: face_anime1:pasted__group
+    100066: face_anime1:pasted__pasted__transform1
+    100068: face_anime3:group
+    100070: face_anime3:pasted__group
+    100072: face_anime3:pasted__pasted__transform1
+    100074: face_anime3:pasted__pasted__transform14
+    100076: face_anime3:pasted__pasted__transform16
+    100078: face_anime3:pasted__pasted__transform17
+    100080: face_anime3:pasted__pasted__transform18
+    100082: face_anime3:pasted__pasted__transform19
+    100084: face_anime3:pasted__pasted__transform20
+    100086: face_anime6:group
+    100088: face_anime6:pasted__group
+    100090: face_anime6:pasted__pasted__polySurface6
+    100092: face_anime6:pasted__pasted__polySurface6 1
+    100094: face_anime6:pasted__pasted__transform1
+    100096: face_anime6:pasted__pasted__transform14
+    100098: face_anime6:pasted__pasted__transform16
+    100100: face_anime6:pasted__pasted__transform17
+    100102: face_anime6:pasted__pasted__transform18
+    100104: face_anime6:pasted__pasted__transform6
+    100106: face_anime6:transform1
+    100108: face_anime6:transform2
+    100110: face_anime6:transform3
+    100112: face_anime6:transform4
+    100114: face_anime6:transform5
+    100116: face_anime6:transform6
+    100118: face_anime9:group
+    100120: face_anime9:pasted__group
+    100122: face_anime9:pasted__pasted__polySurface6
+    100124: face_anime9:pasted__pasted__transform1
+    100126: face_anime9:pasted__pasted__transform14
+    100128: face_anime9:pasted__pasted__transform16
+    100130: face_anime9:pasted__pasted__transform17
+    100132: face_anime9:pasted__pasted__transform18
+    100134: face_anime9:pasted__pasted__transform6
+    100136: face_anime9:transform1
+    100138: face_anime9:transform2
+    100140: face_anime9:transform3
+    100142: face_anime9:transform4
+    100144: face_anime9:transform5
+    100146: face_anime9:transform6
+    100148: face_anime:group
+    100150: face_anime:group1
+    100152: face_anime:group2
+    100154: face_anime:group3
+    100156: face_anime:pasted__group
+    100158: face_anime:pasted__group 1
+    100160: face_anime:pasted__group 2
+    100162: face_anime:pasted__group 3
+    100164: face_anime:pasted__pasted__group
+    100166: face_anime:pasted__pasted__group 1
+    100168: face_anime:pasted__pasted__group 2
+    100170: face_anime:pasted__pasted__pasted__transform1
+    100172: face_anime:pasted__pasted__pasted__transform1 1
+    100174: face_anime:pasted__pasted__pasted__transform1 2
+    100176: face_anime:pasted__pasted__pasted__transform10
+    100178: face_anime:pasted__pasted__pasted__transform2
+    100180: face_anime:pasted__pasted__pasted__transform3
+    100182: face_anime:pasted__pasted__pasted__transform4
+    100184: face_anime:pasted__pasted__pasted__transform5
+    100186: face_anime:pasted__pasted__pasted__transform6
+    100188: face_anime:pasted__pasted__pasted__transform7
+    100190: face_anime:pasted__pasted__pasted__transform8
+    100192: face_anime:pasted__pasted__pasted__transform9
+    100194: face_anime:pasted__pasted__polySurface6
+    100196: face_anime:pasted__pasted__transform1
+    100198: face_anime:pasted__pasted__transform14
+    100200: face_anime:pasted__pasted__transform16
+    100202: face_anime:pasted__pasted__transform17
+    100204: face_anime:pasted__pasted__transform18
+    100206: face_anime:pasted__pasted__transform19
+    100208: face_anime:pasted__pasted__transform2
+    100210: face_anime:pasted__pasted__transform20
+    100212: face_anime:pasted__pasted__transform5
+    100214: face_anime:pasted__pasted__transform6
+    100216: face_anime:transform1
+    100218: face_anime:transform2
+    100220: face_anime:transform3
+    100222: face_anime:transform4
+    100224: face_anime:transform5
+    100226: face_anime:transform6
+    100228: group
+    100230: group1
+    100232: group2
+    100234: group3
+    100236: pasted__group2
+    100238: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group
+    100240: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group1
+    100242: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group2
+    100244: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group3
+    100246: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group4
+    100248: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group5
+    100250: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group6
+    100252: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group7
+    100254: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group
+    100256: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group 1
+    100258: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group 2
+    100260: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group 3
+    100262: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group2
+    100264: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group3
+    100266: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group3 1
+    100268: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group4
+    100270: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group4 1
+    100272: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group6
+    100274: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+    100276: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      1
+    100278: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      2
+    100280: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      3
+    100282: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      4
+    100284: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__group
+    100286: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__group
+      1
+    100288: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__group
+      2
+    100290: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform1
+    100292: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform1
+      1
+    100294: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform1
+      2
+    100296: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform2
+    100298: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform2
+      1
+    100300: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform2
+      2
+    100302: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform5
+    100304: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform5
+      1
+    100306: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform5
+      2
+    100308: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__polySurface4
+    100310: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform1
+    100312: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform1
+      1
+    100314: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform2
+    100316: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform2
+      1
+    100318: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform5
+    100320: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform5
+      1
+    100322: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface1
+    100324: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface2
+    100326: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform1
+    100328: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform1
+      1
+    100330: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform10
+    100332: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform10
+      1
+    100334: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform3
+    100336: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform3
+      1
+    100338: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform4
+    100340: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform4
+      1
+    100342: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform6
+    100344: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform6
+      1
+    100346: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform7
+    100348: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform7
+      1
+    100350: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform8
+    100352: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform8
+      1
+    100354: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform9
+    100356: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform9
+      1
+    100358: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__polySurface1
+    100360: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__polySurface2
+    100362: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pPipe1
+    100364: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform1
+    100366: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform10
+    100368: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform3
+    100370: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform4
+    100372: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform6
+    100374: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform7
+    100376: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform8
+    100378: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform9
+    100380: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group
+    100382: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group2
+    100384: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group4
+    100386: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group6
+    100388: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__group
+    100390: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__group
+    100392: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__polySurface4
+    100394: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__transform1
+    100396: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__transform2
+    100398: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__transform5
+    100400: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__polySurface1
+    100402: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__polySurface2
+    100404: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pPipe1
+    100406: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform1
+    100408: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform10
+    100410: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform3
+    100412: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform4
+    100414: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform6
+    100416: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform7
+    100418: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform8
+    100420: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform9
+    100422: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group
+    100424: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group2
+    100426: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group4
+    100428: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group6
+    100430: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__group
+    100432: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__group
+    100434: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__polySurface4
+    100436: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__transform1
+    100438: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__transform2
+    100440: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__transform5
+    100442: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__polySurface1
+    100444: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__polySurface2
+    100446: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pPipe1
+    100448: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform1
+    100450: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform10
+    100452: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform3
+    100454: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform4
+    100456: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform6
+    100458: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform7
+    100460: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform8
+    100462: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform9
+    100464: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group
+    100466: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group2
+    100468: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group4
+    100470: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group6
+    100472: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__group
+    100474: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__group
+    100476: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__polySurface4
+    100478: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__transform1
+    100480: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__transform2
+    100482: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__transform5
+    100484: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__polySurface1
+    100486: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__polySurface2
+    100488: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pPipe1
+    100490: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform1
+    100492: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform10
+    100494: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform3
+    100496: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform4
+    100498: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform6
+    100500: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform7
+    100502: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform8
+    100504: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform9
+    100506: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group
+    100508: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group2
+    100510: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group4
+    100512: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group6
+    100514: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__group
+    100516: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__group
+    100518: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__polySurface4
+    100520: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__transform1
+    100522: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__transform2
+    100524: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__transform5
+    100526: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__polySurface1
+    100528: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__polySurface2
+    100530: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pPipe1
+    100532: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform1
+    100534: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform10
+    100536: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform3
+    100538: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform4
+    100540: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform6
+    100542: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform7
+    100544: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform8
+    100546: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform9
+    400000: //RootNode
+    400002: face_anime12:group
+    400004: face_anime12:pasted__group
+    400006: face_anime12:pasted__pasted__polySurface6
+    400008: face_anime12:pasted__pasted__transform1
+    400010: face_anime12:pasted__pasted__transform14
+    400012: face_anime12:pasted__pasted__transform16
+    400014: face_anime12:pasted__pasted__transform17
+    400016: face_anime12:pasted__pasted__transform18
+    400018: face_anime12:pasted__pasted__transform6
+    400020: face_anime12:transform1
+    400022: face_anime12:transform2
+    400024: face_anime12:transform3
+    400026: face_anime12:transform4
+    400028: face_anime12:transform5
+    400030: face_anime12:transform6
+    400032: face_anime15:group
+    400034: face_anime15:pasted__group
+    400036: face_anime15:pasted__pasted__polySurface6
+    400038: face_anime15:pasted__pasted__transform1
+    400040: face_anime15:pasted__pasted__transform14
+    400042: face_anime15:pasted__pasted__transform16
+    400044: face_anime15:pasted__pasted__transform17
+    400046: face_anime15:pasted__pasted__transform18
+    400048: face_anime15:pasted__pasted__transform6
+    400050: face_anime15:transform1
+    400052: face_anime15:transform2
+    400054: face_anime15:transform3
+    400056: face_anime15:transform4
+    400058: face_anime15:transform5
+    400060: face_anime15:transform6
+    400062: face_anime1:group
+    400064: face_anime1:pasted__group
+    400066: face_anime1:pasted__pasted__transform1
+    400068: face_anime3:group
+    400070: face_anime3:pasted__group
+    400072: face_anime3:pasted__pasted__transform1
+    400074: face_anime3:pasted__pasted__transform14
+    400076: face_anime3:pasted__pasted__transform16
+    400078: face_anime3:pasted__pasted__transform17
+    400080: face_anime3:pasted__pasted__transform18
+    400082: face_anime3:pasted__pasted__transform19
+    400084: face_anime3:pasted__pasted__transform20
+    400086: face_anime6:group
+    400088: face_anime6:pasted__group
+    400090: face_anime6:pasted__pasted__polySurface6
+    400092: face_anime6:pasted__pasted__polySurface6 1
+    400094: face_anime6:pasted__pasted__transform1
+    400096: face_anime6:pasted__pasted__transform14
+    400098: face_anime6:pasted__pasted__transform16
+    400100: face_anime6:pasted__pasted__transform17
+    400102: face_anime6:pasted__pasted__transform18
+    400104: face_anime6:pasted__pasted__transform6
+    400106: face_anime6:transform1
+    400108: face_anime6:transform2
+    400110: face_anime6:transform3
+    400112: face_anime6:transform4
+    400114: face_anime6:transform5
+    400116: face_anime6:transform6
+    400118: face_anime9:group
+    400120: face_anime9:pasted__group
+    400122: face_anime9:pasted__pasted__polySurface6
+    400124: face_anime9:pasted__pasted__transform1
+    400126: face_anime9:pasted__pasted__transform14
+    400128: face_anime9:pasted__pasted__transform16
+    400130: face_anime9:pasted__pasted__transform17
+    400132: face_anime9:pasted__pasted__transform18
+    400134: face_anime9:pasted__pasted__transform6
+    400136: face_anime9:transform1
+    400138: face_anime9:transform2
+    400140: face_anime9:transform3
+    400142: face_anime9:transform4
+    400144: face_anime9:transform5
+    400146: face_anime9:transform6
+    400148: face_anime:group
+    400150: face_anime:group1
+    400152: face_anime:group2
+    400154: face_anime:group3
+    400156: face_anime:pasted__group
+    400158: face_anime:pasted__group 1
+    400160: face_anime:pasted__group 2
+    400162: face_anime:pasted__group 3
+    400164: face_anime:pasted__pasted__group
+    400166: face_anime:pasted__pasted__group 1
+    400168: face_anime:pasted__pasted__group 2
+    400170: face_anime:pasted__pasted__pasted__transform1
+    400172: face_anime:pasted__pasted__pasted__transform1 1
+    400174: face_anime:pasted__pasted__pasted__transform1 2
+    400176: face_anime:pasted__pasted__pasted__transform10
+    400178: face_anime:pasted__pasted__pasted__transform2
+    400180: face_anime:pasted__pasted__pasted__transform3
+    400182: face_anime:pasted__pasted__pasted__transform4
+    400184: face_anime:pasted__pasted__pasted__transform5
+    400186: face_anime:pasted__pasted__pasted__transform6
+    400188: face_anime:pasted__pasted__pasted__transform7
+    400190: face_anime:pasted__pasted__pasted__transform8
+    400192: face_anime:pasted__pasted__pasted__transform9
+    400194: face_anime:pasted__pasted__polySurface6
+    400196: face_anime:pasted__pasted__transform1
+    400198: face_anime:pasted__pasted__transform14
+    400200: face_anime:pasted__pasted__transform16
+    400202: face_anime:pasted__pasted__transform17
+    400204: face_anime:pasted__pasted__transform18
+    400206: face_anime:pasted__pasted__transform19
+    400208: face_anime:pasted__pasted__transform2
+    400210: face_anime:pasted__pasted__transform20
+    400212: face_anime:pasted__pasted__transform5
+    400214: face_anime:pasted__pasted__transform6
+    400216: face_anime:transform1
+    400218: face_anime:transform2
+    400220: face_anime:transform3
+    400222: face_anime:transform4
+    400224: face_anime:transform5
+    400226: face_anime:transform6
+    400228: group
+    400230: group1
+    400232: group2
+    400234: group3
+    400236: pasted__group2
+    400238: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group
+    400240: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group1
+    400242: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group2
+    400244: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group3
+    400246: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group4
+    400248: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group5
+    400250: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group6
+    400252: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:group7
+    400254: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group
+    400256: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group 1
+    400258: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group 2
+    400260: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group 3
+    400262: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group2
+    400264: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group3
+    400266: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group3 1
+    400268: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group4
+    400270: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group4 1
+    400272: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__group6
+    400274: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+    400276: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      1
+    400278: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      2
+    400280: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      3
+    400282: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__group
+      4
+    400284: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__group
+    400286: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__group
+      1
+    400288: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__group
+      2
+    400290: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform1
+    400292: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform1
+      1
+    400294: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform1
+      2
+    400296: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform2
+    400298: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform2
+      1
+    400300: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform2
+      2
+    400302: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform5
+    400304: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform5
+      1
+    400306: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__pasted__transform5
+      2
+    400308: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__polySurface4
+    400310: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform1
+    400312: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform1
+      1
+    400314: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform2
+    400316: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform2
+      1
+    400318: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform5
+    400320: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__pasted__transform5
+      1
+    400322: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface1
+    400324: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface2
+    400326: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform1
+    400328: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform1
+      1
+    400330: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform10
+    400332: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform10
+      1
+    400334: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform3
+    400336: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform3
+      1
+    400338: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform4
+    400340: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform4
+      1
+    400342: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform6
+    400344: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform6
+      1
+    400346: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform7
+    400348: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform7
+      1
+    400350: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform8
+    400352: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform8
+      1
+    400354: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform9
+    400356: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__transform9
+      1
+    400358: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__polySurface1
+    400360: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__polySurface2
+    400362: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pPipe1
+    400364: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform1
+    400366: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform10
+    400368: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform3
+    400370: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform4
+    400372: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform6
+    400374: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform7
+    400376: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform8
+    400378: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__transform9
+    400380: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group
+    400382: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group2
+    400384: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group4
+    400386: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:group6
+    400388: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__group
+    400390: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__group
+    400392: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__polySurface4
+    400394: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__transform1
+    400396: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__transform2
+    400398: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pasted__pasted__transform5
+    400400: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__polySurface1
+    400402: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__polySurface2
+    400404: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__pPipe1
+    400406: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform1
+    400408: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform10
+    400410: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform3
+    400412: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform4
+    400414: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform6
+    400416: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform7
+    400418: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform8
+    400420: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0921:pasted__transform9
+    400422: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group
+    400424: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group2
+    400426: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group4
+    400428: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:group6
+    400430: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__group
+    400432: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__group
+    400434: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__polySurface4
+    400436: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__transform1
+    400438: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__transform2
+    400440: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pasted__pasted__transform5
+    400442: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__polySurface1
+    400444: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__polySurface2
+    400446: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__pPipe1
+    400448: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform1
+    400450: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform10
+    400452: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform3
+    400454: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform4
+    400456: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform6
+    400458: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform7
+    400460: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform8
+    400462: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0922:pasted__transform9
+    400464: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group
+    400466: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group2
+    400468: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group4
+    400470: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:group6
+    400472: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__group
+    400474: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__group
+    400476: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__polySurface4
+    400478: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__transform1
+    400480: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__transform2
+    400482: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pasted__pasted__transform5
+    400484: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__polySurface1
+    400486: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__polySurface2
+    400488: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__pPipe1
+    400490: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform1
+    400492: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform10
+    400494: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform3
+    400496: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform4
+    400498: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform6
+    400500: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform7
+    400502: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform8
+    400504: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0923:pasted__transform9
+    400506: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group
+    400508: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group2
+    400510: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group4
+    400512: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:group6
+    400514: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__group
+    400516: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__group
+    400518: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__polySurface4
+    400520: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__transform1
+    400522: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__transform2
+    400524: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pasted__pasted__transform5
+    400526: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__polySurface1
+    400528: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__polySurface2
+    400530: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__pPipe1
+    400532: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform1
+    400534: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform10
+    400536: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform3
+    400538: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform4
+    400540: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform6
+    400542: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform7
+    400544: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform8
+    400546: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0924:pasted__transform9
+    2100000: face_anime_pasted__solidShader2
+    2100002: Default_Material
+    2100004: face_anime3_pasted__solidShader2
+    2100006: face_anime6_pasted__solidShader2
+    2100008: face_anime8_pasted__solidShader1
+    2100010: face_anime6_pasted__pasted__solidShader5
+    2100012: face_anime7_pasted__solidShader1
+    2300000: face_anime3:pasted__pasted__transform20
+    2300002: face_anime:pasted__pasted__transform20
+    2300004: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface1
+    2300006: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface2
+    3300000: face_anime3:pasted__pasted__transform20
+    3300002: face_anime:pasted__pasted__transform20
+    3300004: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface1
+    3300006: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface2
+    4300000: face_anime:pasted__pasted__transform20
+    4300002: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface2
+    4300004: TEMPORARY_IMPORT_NAMESPACE__u_____h_V_F_C_v_0920:pasted__pasted__polySurface1
+    4300006: face_anime3:pasted__pasted__transform20
+    4300008: face_anime6:pasted__pasted__polySurface6
+    9500000: //RootNode
+    13700000: face_anime6:pasted__pasted__polySurface6
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
