@@ -40,7 +40,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
         /// </summary>
         public Camera FirstPersonCamera;
-
+        public Text _debugText;
         /// <summary>
         /// A prefab for tracking and visualizing detected planes.
         /// </summary>
@@ -67,6 +67,7 @@ namespace GoogleARCore.Examples.HelloAR
         public GameObject m_voiceRecButton;
         private Ray _ray;
         private RaycastHit _rayCastHit;
+        private GameObject unityChanObject;
 
 
         /// <summary>
@@ -74,6 +75,7 @@ namespace GoogleARCore.Examples.HelloAR
         /// </summary>
         public void Update()
         {
+
 
             _UpdateApplicationLifecycle();
 
@@ -119,28 +121,29 @@ namespace GoogleARCore.Examples.HelloAR
                 }
                 else
                 {
-                    _ray = FirstPersonCamera.ScreenPointToRay(hit.Pose.position);
-                    HItRayCast();
-                    if (!IsCreate)
+                    if (unityChanObject==null)
                     {
                         //ユニティちゃんの生成
-                         var unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
+                          unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
 
                        MyCharDataManager.Instance.CreateMyChar(unityChanObject);
                         // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                       unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
-
+                     unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
                         // Make Andy model a child of the anchor.
-                     //   unityChanObject.transform.parent = anchor.transform;
-                        IsCreate = true;
+                        //   unityChanObject.transform.parent = anchor.transform;
                         //サウンドボタンの生成
                         m_voiceRecButton.SetActive(true);
+                        IsCreate = true;
+
                     }
-                
+
                 }
             }
+            _debugText.text = unityChanObject.transform.rotation.ToString();
+
         }
 
         /// <summary>
@@ -211,19 +214,6 @@ namespace GoogleARCore.Examples.HelloAR
                         message, 0);
                     toastObject.Call("show");
                 }));
-            }
-        }
-
-        private void HItRayCast()
-        {
-            if(Physics.Raycast(_ray,out _rayCastHit,100.0f))
-            {
-                if (_rayCastHit.collider.name== "Cube")
-                {
-                    Destroy(_rayCastHit.collider.gameObject);
-                    IsCreate = false;
-
-                }
             }
         }
     }
