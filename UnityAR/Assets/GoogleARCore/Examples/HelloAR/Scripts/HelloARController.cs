@@ -78,7 +78,32 @@ namespace GoogleARCore.Examples.HelloAR
 
 
             _UpdateApplicationLifecycle();
+            if (0 < Input.touchCount)
+            {
+                // タッチされている指の数だけ処理
+                for (int i = 0; i < Input.touchCount; i++)
+                {
+                    // タッチ情報をコピー
+                    Touch t = Input.GetTouch(i);
+                    // タッチしたときかどうか
+                    if (t.phase == TouchPhase.Began)
+                    {
+                        //タッチした位置からRayを飛ばす
+                        Ray ray = Camera.main.ScreenPointToRay(t.position);
+                        RaycastHit Rayhit = new RaycastHit();
+                        if (Physics.Raycast(ray, out Rayhit))
+                        {
+                            _debugText.text = Rayhit.collider.gameObject.name;
 
+                            //Rayを飛ばしてあたったオブジェクトが自分自身だったら
+                            if (Rayhit.collider.gameObject.name == "MyChar(Clone)")
+                            {
+                                Destroy(Rayhit.collider.gameObject);
+                            }
+                        }
+                    }
+                }
+            }
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
             bool showSearchingUI = true;
@@ -121,14 +146,15 @@ namespace GoogleARCore.Examples.HelloAR
                 }
                 else
                 {
-                    if (unityChanObject==null)
+
+                    if (unityChanObject == null)
                     {
                         //ユニティちゃんの生成
-                          unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
+                        unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
 
-                       MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                        MyCharDataManager.Instance.CreateMyChar(unityChanObject);
                         // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                     unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                        unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
@@ -139,10 +165,11 @@ namespace GoogleARCore.Examples.HelloAR
                         IsCreate = true;
 
                     }
+                    
 
                 }
             }
-            _debugText.text = unityChanObject.transform.rotation.ToString();
+            
 
         }
 
