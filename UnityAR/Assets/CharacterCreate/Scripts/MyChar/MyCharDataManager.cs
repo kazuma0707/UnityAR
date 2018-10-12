@@ -37,7 +37,7 @@ public enum ChangingPoint
 
 public class MyCharDataManager : MonoBehaviour
 {
-
+    
     // シングルトン ///////////////////////////////////////////////////////////////////////////
     #region Singleton
 
