@@ -56,7 +56,6 @@ public class CharaCreateManager : MonoBehaviour
 
         MyCharDataManager.Instance.BodyColor = defaultBodyColorMat;
 
-
         Remake();
 
         wear[1].SetActive(false);

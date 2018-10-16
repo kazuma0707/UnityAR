@@ -5,22 +5,13 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MoveCamera : MonoBehaviour {
-
+public class MoveCamera : MonoBehaviour
+{
     //ターゲット
     private GameObject Target;
 
-    //Waypointsの数
-    [SerializeField]
-    private Transform[] points = new Transform[4];
-
     //現在の座標
     private int nowPoint = 0;
-
-    //カメラ
-    private NavMeshAgent Camera;
-    //[SerializeField]
-    //private GameObject CameraObject;
 
     //スタートボタン
     [SerializeField]
@@ -58,28 +49,44 @@ public class MoveCamera : MonoBehaviour {
     //キャラクタークリエイトをし直すボタン
     [SerializeField]
     private GameObject ReCharacterCreateButton;
+    
+    ///////////////キャラクタークリエイトし直す////////////////
+    //テキスト
+    [SerializeField]
+    private GameObject ReText;
+    //パネル
+    [SerializeField]
+    private GameObject RePanel;
+    //Yes
+    [SerializeField]
+    private GameObject ReYesButton;
+    //No
+    [SerializeField]
+    private GameObject ReNoButton;
+       
+    // キャラクリ用のカメラ
+    [SerializeField]
+    private GameObject CCCamera;
 
-    //ターゲットを指定するオブジェクト
-    //[SerializeField]
-   // private GameObject LookAtObject;
-    private Vector3 relativePos;
+    //音関連
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip YesSound;
+    [SerializeField]
+    private AudioClip NoSound;
 
     // Use this for initialization
     void Start ()
     {
 
-        //NavMeshの情報を取得
-        Camera = GetComponent<NavMeshAgent>();
-
-        //関数の呼び出し
-        GettoNextPoint();
+        audioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
 
         //UI非表示
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
             ChangeButtons[i].SetActive(false);
         }
-
         CharacterCreateButton.SetActive(false);
         CharacterCreateEndButton.SetActive(false);
         Text.SetActive(false);
@@ -90,53 +97,33 @@ public class MoveCamera : MonoBehaviour {
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
+        ReText.SetActive(false);
+        RePanel.SetActive(false);
+        ReYesButton.SetActive(false);
+        ReNoButton.SetActive(false);
+
+        CCCamera.SetActive(false);
     }
 
     // Update is called once per frame
     void Update ()
     {
-        //remainingDistanceとは↓
-        //エージェントの位置および現在の経路での目標地点の間の距離（読み取り専用）
-        // もし敵の目標地点と間の距離が小さかったら
-        if (Camera.remainingDistance < 0.5f)
-        {
-            GettoNextPoint();
-        }
-        
-    }
-
-    //次の座標に移動するときの関数
-    void GettoNextPoint()
-    {
-        //値が設定されてない場合return
-        if (points.Length == 0)
-        {
-            return;
-        }
-    }
-
-    private void OnTriggerStay(Collider col)
-    {
-        if (col.gameObject.CompareTag("New tag"))
-        {
-            Camera.destination = Target.transform.position;
-        }
-
+       
     }
 
     //スタートボタンをクリックしたら
     public void OnStartButton()
     {
-        Camera.destination = points[0].position;
-
         StartButton.SetActive(false);
         CharacterCreateButton.SetActive(true);
+
+        audioSource.PlayOneShot(YesSound);
     }
 
     //キャラクタークリエイトボタンを押したら
     public void OnCharacterCreate()
     {
-        Camera.destination = points[1].position;
+        Invoke("Rotate1", 0.5f);
 
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
@@ -145,6 +132,8 @@ public class MoveCamera : MonoBehaviour {
 
         CharacterCreateButton.SetActive(false);
         CharacterCreateEndButton.SetActive(true);
+
+        audioSource.PlayOneShot(YesSound);
     }
 
     //完了ボタンを押したら
@@ -156,6 +145,7 @@ public class MoveCamera : MonoBehaviour {
         {
             ChangeButtons[i].SetActive(false);
         }
+        CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = false;
 
         Text.SetActive(true);
         Panel.SetActive(true);
@@ -165,8 +155,8 @@ public class MoveCamera : MonoBehaviour {
 
     //はいを押したら
     public void OnYesButton()
-    {
-        Camera.destination = points[2].position;
+    {       
+        Invoke("Rotate2", 0.5f);
 
         SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
@@ -176,27 +166,32 @@ public class MoveCamera : MonoBehaviour {
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        audioSource.PlayOneShot(YesSound);
     }
 
     //いいえを押したら
     public void OnNoButton()
     {
+        CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = true;
+
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
             ChangeButtons[i].SetActive(true);
         }
-
         CharacterCreateEndButton.SetActive(true);
         Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        audioSource.PlayOneShot(NoSound);
     }
 
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene("ARScene");
+        SceneManager.LoadScene("SchoolIntroduction");
     }
 
     //ゲームボタンを押したら
@@ -213,25 +208,91 @@ public class MoveCamera : MonoBehaviour {
 
     //キャラクタークリエイトをし直す
     public void OnReCharacterCreate()
-    {
-        
-        Camera.destination = points[1].position;
-        Invoke("Rotate", 2.35f);
+    {        
+        ReText.SetActive(true);
+        RePanel.SetActive(true);
+        ReYesButton.SetActive(true);
+        ReNoButton.SetActive(true);
 
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(true);
-        }
-        CharacterCreateEndButton.SetActive(true);
+        Panel.SetActive(false);
         SchoolIntroductionButton.SetActive(false);
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
     }
 
-    void Rotate()
+    //確認用ボタン
+    //はいを押したら
+    public void OnReConfirmationYes()
     {
-        iTween.RotateTo(gameObject, iTween.Hash("y", -30f));
+        Invoke("Rotate3", 0.5f);
+
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(true);
+        }
+
+        CharacterCreateEndButton.SetActive(true);
+
+        ReText.SetActive(false);
+        RePanel.SetActive(false);
+        ReYesButton.SetActive(false);
+        ReNoButton.SetActive(false);
+
+        audioSource.PlayOneShot(YesSound);
+
     }
-    
+
+    //いいえが押されたら
+    public void OnReConfirmationNo()
+    {
+        ReText.SetActive(false);
+        RePanel.SetActive(false);
+        ReYesButton.SetActive(false);
+        ReNoButton.SetActive(false);
+
+        SchoolIntroductionButton.SetActive(true);
+        GameButton.SetActive(true);
+        AppreciationButton.SetActive(true);
+        ReCharacterCreateButton.SetActive(true);
+
+        audioSource.PlayOneShot(NoSound);
+    }
+
+    //キャラクタークリエイトButtonを押したとき
+    void Rotate1()
+    {
+        iTween.MoveTo(this.gameObject, iTween.Hash("z", -8.5f, "time", 6.0f,
+        "oncomplete", "MoveToCharaCreEnd",
+        "oncompletetarget", this.gameObject));
+        iTween.RotateTo(this.gameObject, iTween.Hash("y", 160.0f, "time", 8.0f));
+    }
+    //完了Buttonを押したとき
+    void Rotate2()
+    {
+        this.gameObject.GetComponent<Camera>().enabled = true;
+        CCCamera.SetActive(false);
+
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", new Vector3(4.0f, 0.8f, 3.5f), "time", 7.0f));
+        iTween.RotateTo(this.gameObject, iTween.Hash("y", 100.0f, "time", 9.0f));
+    }
+
+    //キャラクタークリエイトをし直す
+    void Rotate3()
+    {
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", new Vector3(0.8f, 0.8f, -8.3f), "time", 7.0f,
+        "oncomplete", "MoveToCharaCreEnd",
+        "oncompletetarget", this.gameObject));
+        iTween.RotateTo(this.gameObject, iTween.Hash("y", 180.0f, "time", 8.0f));
+    }
+
+    // セレクト画面からキャラクリに戻り終えた時に呼び出される関数
+    void MoveToCharaCreEnd()
+    {
+        Debug.Log("aaa");
+        this.gameObject.GetComponent<Camera>().enabled = false;
+        CCCamera.SetActive(true);
+        CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = true;
+    }
+
 }
