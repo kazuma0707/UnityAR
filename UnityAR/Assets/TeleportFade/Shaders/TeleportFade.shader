@@ -15,6 +15,9 @@ Shader "TeleportFade/Standerd" {
 		_ObjectHeight("Object Height", Float) = 2.0
 		_ObjectFadeHeight("Object Fade Height", Float) = 0.2
 		_ObjectBasePos("Object Base Position", Vector) = (0,0,0,0)
+
+
+
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }

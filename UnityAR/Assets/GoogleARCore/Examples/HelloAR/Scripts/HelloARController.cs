@@ -68,8 +68,8 @@ namespace GoogleARCore.Examples.HelloAR
         private Ray _ray;
         private RaycastHit _rayCastHit;
         private GameObject unityChanObject;
-
-
+        public Slider slider;
+        
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
@@ -78,7 +78,16 @@ namespace GoogleARCore.Examples.HelloAR
 
 
             _UpdateApplicationLifecycle();
+            //生成オブジェクトの回転
+            if (unityChanObject != null)
+            {
+                float minAngle = 0.0f;
+                float maxAngle = slider.value;
+                float angle = Mathf.LerpAngle(minAngle, maxAngle, Time.time);
+                unityChanObject.transform.eulerAngles = new Vector3(0, angle, 0);
+                _debugText.text = slider.value.ToString();
 
+            }
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
             bool showSearchingUI = true;
@@ -100,7 +109,6 @@ namespace GoogleARCore.Examples.HelloAR
                 return;
             }
 
-         
 
             // Raycast against the location the player touched to search for planes.
             TrackableHit hit;
@@ -128,7 +136,7 @@ namespace GoogleARCore.Examples.HelloAR
 
                        MyCharDataManager.Instance.CreateMyChar(unityChanObject);
                         // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                     unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                     　unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
@@ -142,7 +150,7 @@ namespace GoogleARCore.Examples.HelloAR
 
                 }
             }
-            _debugText.text = unityChanObject.transform.rotation.ToString();
+
 
         }
 

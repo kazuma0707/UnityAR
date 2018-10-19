@@ -9,6 +9,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         FadeOut,
         FadeIn,
     }
+    public Material[] SecondMaterial=new Material[2];
     public GameObject fadeObject;
     public MeshRenderer[] fadeMeshes;
     public SkinnedMeshRenderer[] fadeSkinnedMeshes;
@@ -24,6 +25,8 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     float spreadPower = 0.6f;
 
 	void Start () {
+    
+
         foreach (var mesh in fadeMeshes) {
             foreach (var material in mesh.materials) {
                 fadeMaterials.Add(material);
@@ -35,12 +38,13 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
             }
         }
     }
-
+    [SerializeField,Range(0,1)]
+    float fadeRate = 0.0f;
     void Update () {
         fadeTime += Time.deltaTime;
         float fadeDuration = 2.0f / fadeSpeed;
         float fadeStartDelay = 0.9f / fadeSpeed;
-        float fadeRate = 0.0f;
+  
         switch (state) {
         case State.FadeOut:
             fadeRate = Mathf.Clamp((fadeTime - fadeStartDelay) / fadeDuration, 0.0f, 1.0f);
@@ -63,6 +67,10 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     }
 
     public void StartFadeOut() {
+        for (int i = 0; i < 2; i++)
+        {
+            SecondMaterial[i].SetInt("_Threshold", 0);
+        }
         fadeTime = 0.0f;
         state = State.FadeOut;
         if (fadeOutParticle != null) {
