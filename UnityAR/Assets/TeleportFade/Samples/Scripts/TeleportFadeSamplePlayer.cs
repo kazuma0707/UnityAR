@@ -18,25 +18,54 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     List<Material> fadeMaterials = new List<Material>();
     float fadeTime;
     State state;
+    [SerializeField]
     float fadeSpeed = 1.0f;
+    [SerializeField]
     float risePower = 0.2f;
+    [SerializeField]
     float twistPower = 3.0f;
+    [SerializeField]
     float spreadPower = 0.6f;
+    bool isCreate = false;
 
 	void Start () {
-        foreach (var mesh in fadeMeshes) {
-            foreach (var material in mesh.materials) {
-                fadeMaterials.Add(material);
-            }
-        }
-        foreach (var mesh in fadeSkinnedMeshes) {
-            foreach (var material in mesh.materials) {
-                fadeMaterials.Add(material);
-            }
-        }
+
+
+      
     }
 
     void Update () {
+        if (GameObject.Find("jiken(Clone)"))
+        {
+            fadeObject = GameObject.Find("jiken(Clone)");
+            isCreate = true;
+        }
+        if (!isCreate) return;
+            if (GameObject.Find("polySurface8")&&isCreate)
+        {
+            fadeSkinnedMeshes[0] = GameObject.Find("pasted__pasted__pPipe1").GetComponent<SkinnedMeshRenderer>();
+            fadeSkinnedMeshes[1] = GameObject.Find("polySurface1").GetComponent<SkinnedMeshRenderer>();
+            fadeSkinnedMeshes[2] = GameObject.Find("polySurface8").GetComponent<SkinnedMeshRenderer>();
+            fadeSkinnedMeshes[3] = GameObject.Find("polySurface10").GetComponent<SkinnedMeshRenderer>();
+            fadeSkinnedMeshes[4] = GameObject.Find("skin_corrected:body_color_polySurface48").GetComponent<SkinnedMeshRenderer>();
+            fadeSkinnedMeshes[5] = GameObject.Find("TEMPORARY_IMPORT_NAMESPACE___1:collar").GetComponent<SkinnedMeshRenderer>();
+            fadeSkinnedMeshes[6] = GameObject.Find("transform13").GetComponent<SkinnedMeshRenderer>();
+            foreach (var mesh in fadeMeshes)
+            {
+                foreach (var material in mesh.materials)
+                {
+                    fadeMaterials.Add(material);
+                }
+            }
+            foreach (var mesh in fadeSkinnedMeshes)
+            {
+                foreach (var material in mesh.materials)
+                {
+                    fadeMaterials.Add(material);
+                }
+            }
+            isCreate = false;
+        }
         fadeTime += Time.deltaTime;
         float fadeDuration = 2.0f / fadeSpeed;
         float fadeStartDelay = 0.9f / fadeSpeed;
@@ -63,6 +92,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     }
 
     public void StartFadeOut() {
+         
         fadeTime = 0.0f;
         state = State.FadeOut;
         if (fadeOutParticle != null) {
@@ -73,10 +103,13 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
                 mainChild.simulationSpeed = fadeSpeed;
             }
             fadeOutParticle.Play(true);
+       
         }
+
     }
 
     public void StartFadeIn() {
+        
         fadeTime = 0.0f;
         state = State.FadeIn;
         if (fadeInParticle != null) {
@@ -87,6 +120,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
                 mainChild.simulationSpeed = fadeSpeed;
             }
             fadeInParticle.Play(true);
+            //obj.SetActive(true);
         }
     }
 

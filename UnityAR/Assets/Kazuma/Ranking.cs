@@ -14,15 +14,17 @@ public class Ranking : MonoBehaviour {
     public GUIStyleState stylestate;
     private GUIStyle style;
     public Color color;
+    public Vector2 label_ranking;
     // Use this for initialization
     void Start () {
         style = new GUIStyle();
         ranking = new float[RANKING_NUM];
         Debug.Log(Screen.height);
 
-        //saveRanking(10);
-        //saveRanking(100);
-        //saveRanking(122);
+        saveRanking(10);
+       saveRanking(100);
+        saveRanking(122);
+       
 
 
         stylestate.textColor = color;
@@ -32,13 +34,17 @@ public class Ranking : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         style.fontSize = size;
-
-
-
-        Render();
-
-
-
+        #region 値の初期化
+        /*
+if(Input.GetKeyDown(KeyCode.Space))
+{
+    deleteRanking();
+    for(int i=0;i<RANKING_NUM;i++)
+    {
+        ranking[i] = 0;
+    }
+}*/
+        #endregion
     }
     public void getRanking()
     {
@@ -95,8 +101,8 @@ public class Ranking : MonoBehaviour {
     }
     private void OnGUI()
     {
-        Vector2 label_ranking = new Vector2(Screen.width, Screen.height);
-        Rect rect_ranking = new Rect(new Vector2(label_ranking.x/2 , label_ranking.y/2 ), label_ranking);
+       
+        Rect rect_ranking = new Rect(new Vector2(label_ranking.x, label_ranking.y), label_ranking);
         string ranking_string = "";
         for (int i = 0; i < ranking.Length; i++)
         {

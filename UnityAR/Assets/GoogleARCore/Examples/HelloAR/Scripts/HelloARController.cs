@@ -65,11 +65,12 @@ namespace GoogleARCore.Examples.HelloAR
 
         //音声録音ボタン
         public GameObject m_voiceRecButton;
-        private Ray _ray;
-        private RaycastHit _rayCastHit;
         private GameObject unityChanObject;
-        public Slider slider;
-        
+        //public Slider slider;
+        //テレポートフェードオブジェクト
+        [SerializeField]
+        TeleportFadeSamplePlayer _Teleport;
+        int cnt = 0;
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
@@ -81,13 +82,55 @@ namespace GoogleARCore.Examples.HelloAR
             //生成オブジェクトの回転
             if (unityChanObject != null)
             {
-                float minAngle = 0.0f;
-                float maxAngle = slider.value;
-                float angle = Mathf.LerpAngle(minAngle, maxAngle, Time.time);
-                unityChanObject.transform.eulerAngles = new Vector3(0, angle, 0);
-                _debugText.text = slider.value.ToString();
+                var aim = Camera.main.transform.position - unityChanObject.transform.position;
+                var look = Quaternion.LookRotation(aim);
+                unityChanObject.transform.localRotation = look;
+                //float minAngle = 0.0f;
+                //float maxAngle = slider.value;
+                //float angle = Mathf.LerpAngle(minAngle, maxAngle, Time.time);
+                //unityChanObject.transform.eulerAngles = new Vector3(0, angle, 0);
 
             }
+            if (0 < Input.touchCount)
+            {
+                // タッチされている指の数だけ処理
+                for (int i = 0; i < Input.touchCount; i++)
+                {
+                    // タッチ情報をコピー
+                    Touch t = Input.GetTouch(i);
+                    // タッチしたときかどうか
+                    if (t.phase == TouchPhase.Began)
+                    {
+                        //タッチした位置からRayを飛ばす
+                        Ray ray = Camera.main.ScreenPointToRay(t.position);
+                        RaycastHit Rayhit = new RaycastHit();
+                  
+                        if (Physics.Raycast(ray, out Rayhit))
+                        {
+                            _debugText.text = Rayhit.collider.gameObject.name;
+
+                            //Rayを飛ばしてあたったオブジェクトが自分自身だったら
+                            if (Rayhit.collider.gameObject.name == "jiken(Clone)")
+                            {
+                                _Teleport.StartFadeOut();
+                                Destroy(Rayhit.collider.gameObject,5.0f);
+                            }
+                        }
+                    }
+                }
+            }
+            ///デバッグ処理
+
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    unityChanObject = Instantiate(UnityChanPrefab, transform);
+            //    _Teleport.StartFadeIn()
+            //    cnt += 1;
+            //}
+            //if (Input.GetMouseButtonDown(1))
+            //{
+            //    _Teleport.StartFadeOut();
+            //}
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
             bool showSearchingUI = true;
@@ -133,10 +176,14 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
+             
 
-                       MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                        //Camera.main.transform.LookAt(unityChanObject.transform);
+          
+                       //MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                        _Teleport.StartFadeIn();
                         // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                     　unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                       //unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
