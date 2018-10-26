@@ -34,12 +34,7 @@ public class CharaCreateManager : MonoBehaviour
     private GameObject[] hairObjs;              // 髪型
 
     private Vector3[] bodyScale;                // 体型
-
-    [Header("服の登録")]
-    [SerializeField]
-    private GameObject[] wear;                  // 服
-
-
+    
     // Use this for initialization
     void Start ()
     {
@@ -58,35 +53,12 @@ public class CharaCreateManager : MonoBehaviour
 
         Remake();
 
-        wear[1].SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		if(Input.GetKeyDown(KeyCode.K))
-        {
-            wear[0].SetActive(false);
-            wear[1].SetActive(true);
-            // 子オブジェクトを検索
-            //foreach (var child in myChar.GetChildren())
-            //{                
-            //    // 既存のオブジェクトを削除
-            //    if (child.name == "transform13")
-            //    {
-            //        Debug.Log("delete");
-            //        Debug.Log(child.transform.parent.name);
-
-            //        // 定位置にオブジェクトを作る
-            //        GameObject obj = Instantiate(wear, child.transform.position, child.transform.rotation);
-            //        obj.name = child.name;
-            //        obj.GetComponent<SkinnedMeshRenderer>().rootBone = child.GetComponent<SkinnedMeshRenderer>().rootBone;
-            //        obj.transform.SetParent(child.transform.parent);
-            //        Destroy(child);
-            //        break;
-            //    }             
-            //}           
-        }
+		
     }
 
     //----------------------------------------------------------------------------------------------
@@ -120,7 +92,7 @@ public class CharaCreateManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void ResetDefault()
     {
-        if (!myChar) myChar = GameObject.Find("unitychan");
+        if (!myChar) myChar = GameObject.Find("skin");
 
         // 体型を設定
         ChangeBodyObj(BodyNum.NORMAL_BODY);
@@ -229,7 +201,7 @@ public class CharaCreateManager : MonoBehaviour
         // myCharの一を保存
         Vector3 pos = myChar.transform.position;
         // 体型を設定
-        changingPoints[(int)ChangingPoint.BODY].transform.localScale = bodyScale[(int)num];
+        changingPoints[(int)ChangingPoint.SKIN].transform.localScale = bodyScale[(int)num];
         MyCharDataManager.Instance.BodyNumber = num;
     }
 
@@ -245,7 +217,7 @@ public class CharaCreateManager : MonoBehaviour
         //changingPoints[(int)ChangingPoint.EYE_DEF].GetComponent<Renderer>().material.color = color;
         //changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material.color = color;
         //MyCharDataManager.Instance.BodyColor = color;
-        changingPoints[(int)ChangingPoint.SKIN].GetComponent<Renderer>().material = skin;
+        changingPoints[(int)ChangingPoint.BODY].GetComponent<Renderer>().material = skin;
         //changingPoints[(int)ChangingPoint.MAYU].GetComponent<Renderer>().material = skin;
         changingPoints[(int)ChangingPoint.HEAD].GetComponent<Renderer>().material = face;
         //changingPoints[(int)ChangingPoint.MATSUGE].GetComponent<Renderer>().material = face;
@@ -293,4 +265,11 @@ public class CharaCreateManager : MonoBehaviour
         changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<Renderer>().material.color = color;
         MyCharDataManager.Instance.EyeColor = color;
     }
+
+    public GameObject[] ChangingPoints
+    {
+        get { return changingPoints; }
+        set { changingPoints = value; }
+    }
+
 }

@@ -7,79 +7,110 @@ using UnityEngine.SceneManagement;
 
 public class MoveCamera : MonoBehaviour
 {
-    //ターゲット
+    // メインカメラのチェックポイントの登録番号
+    enum CheckPointNum
+    {
+        CHARACRE,
+        SELECT
+    }
+    
+    // ターゲット
     private GameObject Target;
 
-    //現在の座標
-    private int nowPoint = 0;
+    // メインカメラのチェックポイント
+    [SerializeField]
+    private GameObject[] cameraCheckPoint = new GameObject[2];
 
-    //スタートボタン
+    // スタートボタン
     [SerializeField]
     private GameObject StartButton;
-    //キャラクタークリエイトボタン
+    // キャラクタークリエイトボタン
     [SerializeField]
     private GameObject CharacterCreateButton;
-    //キャラクターの部位を変更するボタン
+    // キャラクターの部位を変更するボタン
     [SerializeField]
     private GameObject[] ChangeButtons;
-    //キャラクタークリエイトを完了するボタン
+    // キャラクタークリエイトを完了するボタン
     [SerializeField]
     private GameObject CharacterCreateEndButton;
-    //確認テキスト
+    // 確認テキスト
     [SerializeField]
     private GameObject Text;
-    //確認パネル
+    // 確認パネル
     [SerializeField]
     private GameObject Panel;
-    //はいボタン
+    // はいボタン
     [SerializeField]
     private GameObject YesButton;
-    //いいえボタン
+    // いいえボタン
     [SerializeField]
     private GameObject NoButton;
-    //学校紹介ボタン
-    [SerializeField]
-    private GameObject SchoolIntroductionButton;
-    //ゲームボタン
+    // 学校紹介ボタン
+    //[SerializeField]
+    //private GameObject SchoolIntroductionButton;
+    // ゲームボタン
     [SerializeField]
     private GameObject GameButton;
-    //鑑賞ボタン
+    // 鑑賞ボタン
     [SerializeField]
     private GameObject AppreciationButton;
-    //キャラクタークリエイトをし直すボタン
+    // キャラクタークリエイトをし直すボタン
     [SerializeField]
     private GameObject ReCharacterCreateButton;
-    
-    ///////////////キャラクタークリエイトし直す////////////////
-    //テキスト
+    // タイトル画像
+    [SerializeField]
+    private Image titleImage;
+
+    /////////////// キャラクタークリエイトし直す ////////////////
+    // テキスト
     [SerializeField]
     private GameObject ReText;
-    //パネル
+    // パネル
     [SerializeField]
     private GameObject RePanel;
-    //Yes
+    // Yes
     [SerializeField]
     private GameObject ReYesButton;
-    //No
+    // No
     [SerializeField]
     private GameObject ReNoButton;
        
     // キャラクリ用のカメラ
     [SerializeField]
     private GameObject CCCamera;
+    private Vector3 CCCdefaultPos;      // キャラクリ用のカメラの初期位置
 
-    //音関連
+    // 音関連
     private AudioSource audioSource;
 
     [SerializeField]
     private AudioClip YesSound;
     [SerializeField]
     private AudioClip NoSound;
-
+    
     // Use this for initialization
     void Start ()
     {
+        // 開発している画面を元に縦横比取得 (縦画面) iPhone6, 6sサイズ
+        float developAspect = 1440.0f / 2990.0f;
 
+        // 実機のサイズを取得して、縦横比取得
+        float deviceAspect = (float)Screen.width / (float)Screen.height;
+
+        // 実機と開発画面との対比
+        float scale = deviceAspect / developAspect;
+
+        //Camera mainCamera = Camera.main;
+        Camera mainCamera = CCCamera.GetComponent<Camera>();
+
+        // カメラに設定していたorthographicSizeを実機との対比でスケール
+        float deviceSize = mainCamera.orthographicSize;
+        // scaleの逆数
+        float deviceScale = 1.0f / scale;
+        // orthographicSizeを計算し直す
+        mainCamera.orthographicSize = deviceSize * deviceScale;
+
+        CCCdefaultPos = CCCamera.transform.position;
         audioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
 
         //UI非表示
@@ -93,7 +124,7 @@ public class MoveCamera : MonoBehaviour
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
-        SchoolIntroductionButton.SetActive(false);
+        //SchoolIntroductionButton.SetActive(false);
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
@@ -108,12 +139,13 @@ public class MoveCamera : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-       
+        
     }
 
     //スタートボタンをクリックしたら
     public void OnStartButton()
     {
+        titleImage.enabled = false;
         StartButton.SetActive(false);
         CharacterCreateButton.SetActive(true);
 
@@ -123,15 +155,13 @@ public class MoveCamera : MonoBehaviour
     //キャラクタークリエイトボタンを押したら
     public void OnCharacterCreate()
     {
-        Invoke("Rotate1", 0.5f);
+        //Invoke("Rotate1", 0.5f);
+        
+        // デバッグ用 //////////
+        MoveToCharaCreEnd();
+        ////////////////////////
 
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(true);
-        }
-
-        CharacterCreateButton.SetActive(false);
-        CharacterCreateEndButton.SetActive(true);
+        CharacterCreateButton.SetActive(false);        
 
         audioSource.PlayOneShot(YesSound);
     }
@@ -143,6 +173,8 @@ public class MoveCamera : MonoBehaviour
 
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
+            if (ChangeButtons[i].GetComponent<ButtonScript>())
+                ChangeButtons[i].GetComponent<ButtonScript>().ActiveFalse();
             ChangeButtons[i].SetActive(false);
         }
         CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = false;
@@ -158,7 +190,7 @@ public class MoveCamera : MonoBehaviour
     {       
         Invoke("Rotate2", 0.5f);
 
-        SchoolIntroductionButton.SetActive(true);
+        //SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
         ReCharacterCreateButton.SetActive(true);
@@ -191,7 +223,7 @@ public class MoveCamera : MonoBehaviour
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene("SchoolIntroduction");
+        //SceneManager.LoadScene("SchoolIntroduction");
     }
 
     //ゲームボタンを押したら
@@ -215,7 +247,7 @@ public class MoveCamera : MonoBehaviour
         ReNoButton.SetActive(true);
 
         Panel.SetActive(false);
-        SchoolIntroductionButton.SetActive(false);
+        //SchoolIntroductionButton.SetActive(false);
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
@@ -225,14 +257,7 @@ public class MoveCamera : MonoBehaviour
     //はいを押したら
     public void OnReConfirmationYes()
     {
-        Invoke("Rotate3", 0.5f);
-
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(true);
-        }
-
-        CharacterCreateEndButton.SetActive(true);
+        Invoke("Rotate3", 0.5f);       
 
         ReText.SetActive(false);
         RePanel.SetActive(false);
@@ -240,7 +265,6 @@ public class MoveCamera : MonoBehaviour
         ReNoButton.SetActive(false);
 
         audioSource.PlayOneShot(YesSound);
-
     }
 
     //いいえが押されたら
@@ -251,7 +275,7 @@ public class MoveCamera : MonoBehaviour
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
 
-        SchoolIntroductionButton.SetActive(true);
+        //SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
         ReCharacterCreateButton.SetActive(true);
@@ -260,39 +284,55 @@ public class MoveCamera : MonoBehaviour
     }
 
     //キャラクタークリエイトButtonを押したとき
-    void Rotate1()
+    private void Rotate1()
     {
-        iTween.MoveTo(this.gameObject, iTween.Hash("z", -8.5f, "time", 6.0f,
-        "oncomplete", "MoveToCharaCreEnd",
-        "oncompletetarget", this.gameObject));
-        iTween.RotateTo(this.gameObject, iTween.Hash("y", 160.0f, "time", 8.0f));
+        // キャラクリ用のチェックポイントまで移動
+        Vector3 pos = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.position;
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 6.0f,
+                                                   "oncomplete", "MoveToCharaCreEnd",
+                                                   "oncompletetarget", this.gameObject));
     }
     //完了Buttonを押したとき
-    void Rotate2()
+    private void Rotate2()
     {
+        // カメラを切り替える
         this.gameObject.GetComponent<Camera>().enabled = true;
+        CCCamera.transform.position = CCCdefaultPos;
         CCCamera.SetActive(false);
 
-        iTween.MoveTo(this.gameObject, iTween.Hash("position", new Vector3(4.0f, 0.8f, 3.5f), "time", 7.0f));
-        iTween.RotateTo(this.gameObject, iTween.Hash("y", 100.0f, "time", 9.0f));
+        // セレクト用のチェックポイントまで移動
+        Vector3 pos = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.position;
+        float rot = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.eulerAngles.y;       
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f));
+        iTween.RotateTo(this.gameObject, iTween.Hash("y", rot, "time", 9.0f));
     }
 
     //キャラクタークリエイトをし直す
-    void Rotate3()
+    private void Rotate3()
     {
-        iTween.MoveTo(this.gameObject, iTween.Hash("position", new Vector3(0.8f, 0.8f, -8.3f), "time", 7.0f,
-        "oncomplete", "MoveToCharaCreEnd",
-        "oncompletetarget", this.gameObject));
-        iTween.RotateTo(this.gameObject, iTween.Hash("y", 180.0f, "time", 8.0f));
+        // キャラクリ用のチェックポイントまで移動
+        Vector3 pos = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.position;
+        float rot = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.eulerAngles.y;
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f,
+                                                   "oncomplete", "MoveToCharaCreEnd",
+                                                   "oncompletetarget", this.gameObject));
+        iTween.RotateTo(this.gameObject, iTween.Hash("y", rot, "time", 8.0f));
     }
 
-    // セレクト画面からキャラクリに戻り終えた時に呼び出される関数
-    void MoveToCharaCreEnd()
+    // キャラクリまでの移動が終えた時に呼び出される関数
+    private void MoveToCharaCreEnd()
     {
-        Debug.Log("aaa");
+        // カメラを切り替える
         this.gameObject.GetComponent<Camera>().enabled = false;
         CCCamera.SetActive(true);
         CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = true;
-    }
 
+        // 部位を変更するボタンと完了ボタンを表示
+        for (int i = 0; i < ChangeButtons.Length; i++)
+        {
+            ChangeButtons[i].SetActive(true);
+        }
+        CharacterCreateEndButton.SetActive(true);
+    }
+    
 }
