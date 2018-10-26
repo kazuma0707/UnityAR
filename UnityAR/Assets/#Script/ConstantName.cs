@@ -26,6 +26,7 @@ using UnityEngine;
     //ボタンの定数
     public class ButtonName
     {
+        
         public class ARScene
         {
             public const string GSButton = "GSButton";
