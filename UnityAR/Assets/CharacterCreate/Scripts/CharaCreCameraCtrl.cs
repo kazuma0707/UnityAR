@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class CharaCreCameraCtrl : MonoBehaviour
 {
     private const float ANGLE_LIMIT_UP = 60.0f;
-    private const float ANGLE_LIMIT_DOWN = -60.0f;
+    private const float ANGLE_LIMIT_DOWN = -20.0f;
     private const float ZOOM_LIMIT_MAX = 60.0f;
     private const float ZOOM_LIMIT_MIN = 2.0f;
 
@@ -29,8 +30,11 @@ public class CharaCreCameraCtrl : MonoBehaviour
 
     private Camera cam;
 
-    // Use this for initialization
-    void Start ()
+    [SerializeField]
+    private Text text;
+
+   // Use this for initialization
+   void Start ()
     {
         targetPoint = targetObj.transform.position;
         cam = GetComponent<Camera>();
@@ -42,26 +46,42 @@ public class CharaCreCameraCtrl : MonoBehaviour
         // グリグリ動かせない状態であれば何もしない
         if (!moveFlag) return;
 
-        //int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
-        //if (touchCount == 1)
-        //{
-        //    Touch t = Input.touches.First();
-        //    switch (t.phase)
-        //    {
-        //        case TouchPhase.Moved:
+        int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
+        if (Input.touchCount == 1)
+        {
+            Touch t = Input.touches.First();
 
-        //            //移動量
-        //            float xDelta = t.deltaPosition.x * rotateSpeed;
-        //            float yDelta = t.deltaPosition.y * translateSpeed;
+            // カメラ回転
+            float xDelta = t.deltaPosition.x * rotateSpeed;
+            float yDelta = t.deltaPosition.y * rotateSpeed;
+            RotateCamera(xDelta, yDelta);
+        }
+        else if (Input.touchCount == 2)
+        {
+            // カメラ移動
+            Touch t = Input.touches.First();
+            float xDelta = t.deltaPosition.x * translateSpeed;
+            float yDelta = t.deltaPosition.y * translateSpeed;
+            this.transform.Translate(xDelta, yDelta, 0);
 
-        //            //左右回転
-        //            this.transform.Rotate(0, xDelta, 0, Space.World);
-        //            //上下移動
-        //            this.transform.position += new Vector3(0, -yDelta, 0);
+            // ZOOM
+            // 両方のタッチを格納します
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
 
-        //            break;
-        //    }
-        //}
+            // 各タッチの前フレームでの位置をもとめます
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+            // 各フレームのタッチ間のベクター (距離) の大きさをもとめます
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+            // 各フレーム間の距離の差をもとめます
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+            ZoomCamera(-deltaMagnitudeDiff);
+        }
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
@@ -76,17 +96,6 @@ public class CharaCreCameraCtrl : MonoBehaviour
             this.transform.Translate(mouseX * translateSpeed, mouseY * translateSpeed, 0);
         }
 
-        // 回転(右クリックでドラッグ)
-        //if (Input.GetMouseButton(1))
-        //{
-        //    float dist = Vector3.Distance(this.transform.position, targetPoint);
-
-        //    this.transform.rotation = Quaternion.AngleAxis(rotateSpeed * -mouseY, transform.right) * transform.rotation;
-        //    this.transform.rotation = Quaternion.AngleAxis(rotateSpeed * mouseX, Vector3.up) * transform.rotation;
-
-        //    targetPoint = this.transform.position + this.transform.forward * dist;
-        //}
-
         // ズーム(ホイール回転)
         if (mouseWheelScroll != 0) ZoomCamera(mouseWheelScroll);
 
@@ -100,20 +109,29 @@ public class CharaCreCameraCtrl : MonoBehaviour
     // カメラの回転
     private void RotateCamera(float mouseX, float mouseY)
     {
+        //Vector3 angle = new Vector3(
+        //Input.GetAxis("Mouse X") * rotateSpeed,
+        //Input.GetAxis("Mouse Y") * rotateSpeed,
+        //0);
+
+        //transform.eulerAngles += new Vector3(angle.y, angle.x);
         //カメラの回転に制限をつける
-        // Mathf.Clamp()での制限を容易にする為、X軸の角度が-180～180度の間にする
+        //X軸の角度が - 180～180度の間にする
         float angle_x = 180f <= this.transform.eulerAngles.x ? this.transform.eulerAngles.x - 360 : this.transform.eulerAngles.x;
-        this.transform.eulerAngles = new Vector3(Mathf.Clamp(angle_x, ANGLE_LIMIT_DOWN, ANGLE_LIMIT_UP),
-                                        this.transform.eulerAngles.y,
-                                        this.transform.eulerAngles.z);
-
-        //上回転
-        if (mouseY > 0 && angle_x <= minAngle) return;
+        //this.transform.eulerAngles = new Vector3(Mathf.Clamp(angle_x, ANGLE_LIMIT_DOWN, ANGLE_LIMIT_UP),
+        //                                this.transform.eulerAngles.y,
+        //                                this.transform.eulerAngles.z);
+        
         //下回転
-        if (mouseY < 0 && angle_x >= maxAngle) return;
-
+        if (mouseY > 0 && angle_x <= ANGLE_LIMIT_DOWN) return;
+        //上回転
+        if (mouseY < 0 && angle_x >= ANGLE_LIMIT_UP) return;
+        Mathf.Clamp(mouseY, -10.0f, 10.0f);
+        text.text = "Y:" + mouseY.ToString();
+        
         this.transform.RotateAround(targetPoint, this.transform.right, -mouseY * rotateSpeed);
         this.transform.RotateAround(targetPoint, Vector3.up, mouseX * rotateSpeed);
+               
     }
 
     // カメラのズーム

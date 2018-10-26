@@ -1,41 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
     [Header("表示させたいボタン")]
     [SerializeField]
-    private Button[] buttons;   // 対応するボタン
+    private GameObject[] buttons;   // 対応するボタン
     
-    private bool active = false;  // 表示フラグ
+    private GameObject parent;    // 親オブジェクト
+    private bool active = false;  // アクティブ状態を管理
 
     // Use this for initialization
     void Start()
     {
-       
+        // 親オブジェクトを取得
+        parent = this.transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        // 表示フラグが下りていたら、Buttonを非表示にする
-        if (!active) SetButtonActive(active);
+        // アクティブ状態を設定
+        for(int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].SetActive(active);
+        }        
     }
 
     //----------------------------------------------------------------------------------------------
-    // 関数の内容 | Buttonの表示を設定
-    // 　引　数   | flag：表示フラグ
+    // 関数の内容 | 子Buttonを非表示にする
+    // 　引　数   | なし
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    private void SetButtonActive(bool flag)
+    public void ActiveFalse()
     {
-        // 子オブジェクトを検索
-        foreach (Transform child in transform)
+        // 対応するボタンを非表示にする
+        for (int i = 0; i < buttons.Length; i++)
         {
-            // 子オブジェクトのタグがStatusButtonだったら表示設定をする
-            if (child.tag == "StatusButton") child.gameObject.SetActive(flag);
+            buttons[i].SetActive(false);
         }
     }
 
@@ -46,19 +49,34 @@ public class ButtonScript : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 他のButtonの表示フラグを下す
-        MyCanvas.NotActiveAnother(gameObject.name);
-
-        active = !active;
-
-        // 子Buttonを表示又は非表示にする
-        SetButtonActive(active);
+        // 子オブジェクトを検索
+        ButtonScript[] child = parent.GetComponentsInChildren<ButtonScript>();
+        foreach (ButtonScript obj in child)
+        {
+            // 子オブジェクトのタグがStatusButtonだったら表示設定をする
+            if (obj.name != this.name) obj.Active = false;
+        }
+        // アクティブ状態を変える
+        active = !active;        
     }
 
-    // 表示フラグのアクセッサ
+    // activeのアクセッサ
     public bool Active
     {
         get { return active; }
         set { active = value; }
+    }
+
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 非アクティブになったときの処理
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void OnDisable()
+    {
+        // 非表示にする
+        active = false;
+        ActiveFalse();
     }
 }

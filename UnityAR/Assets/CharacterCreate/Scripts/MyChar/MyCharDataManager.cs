@@ -23,16 +23,14 @@ public enum HairNum
 // 変更する部の登録番号
 public enum ChangingPoint
 {
-    BODY,
     SKIN,
+    BODY,    
     EYE_DEF,
     HEAD,
     HAIR,
     EYE_LINE,
     EYE_PATTERN_L,
     EYE_PATTERN_R,
-    //MATSUGE,
-    //MAYU
 }
 
 public class MyCharDataManager : MonoBehaviour
@@ -81,7 +79,8 @@ public class MyCharDataManager : MonoBehaviour
     private Material eyeLineMat;            // 目の形
     [SerializeField]
     private Material[] eyePatternMat;         // 目の模様
-    
+
+    private GameObject cloth;                 // 服
     //private Color hairColor;                // 髪の色
     private Material hairColor;                // 髪の色
     private Color eyeColor;                 // 目の色
@@ -120,21 +119,25 @@ public class MyCharDataManager : MonoBehaviour
     public void CreateMyChar(GameObject mC)
     {
         // 体型を設定
-        mC.transform.transform.localScale = bodyScale[(int)bodyNum];
+        mC.transform.localScale = bodyScale[(int)bodyNum];
+
+        // 服装を設定
+        ChangeBone cb = new ChangeBone();
+        cb.RootBone = mC.transform.Find("mixamorig:Hips").gameObject;
+        cb.ChangeClothes(cloth);
 
         // 体の色を設定
-        GameObject[] bodies = GameObject.FindGameObjectsWithTag("BodyObj");
-        foreach (GameObject obs in bodies)
+        SkinnedMeshRenderer[] renderer = mC.GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (SkinnedMeshRenderer obs in renderer)
         {
 
-            switch (obs.name)
+            switch (obs.gameObject.tag)
             {
-                case "polySurface4":
-                case "transform6":
+                case "BodyObj":
                 default:
                     obs.GetComponent<Renderer>().material = bodyColor[0];
                     break;
-                case "transform22":
+                case "HeadObj":
                     obs.GetComponent<Renderer>().material = bodyColor[1];
                     break;                    
             }           
@@ -249,5 +252,12 @@ public class MyCharDataManager : MonoBehaviour
     public GameObject[] HairObj
     {
         get { return hairObjs; }
+    }
+
+    // 体型のアクセッサ
+    public GameObject Cloth
+    {
+        get { return cloth; }
+        set { cloth = value; }
     }
 }
