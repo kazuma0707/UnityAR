@@ -229,7 +229,7 @@ public class MoveCamera : MonoBehaviour
     //ゲームボタンを押したら
     public void OnGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Title");
     }
 
     //鑑賞ボタンを押したら

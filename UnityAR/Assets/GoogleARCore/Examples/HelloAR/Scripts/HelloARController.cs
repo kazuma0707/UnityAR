@@ -120,7 +120,6 @@ namespace GoogleARCore.Examples.HelloAR
                 }
             }
             ///デバッグ処理
-
             //if (Input.GetMouseButtonDown(0))
             //{
             //    unityChanObject = Instantiate(UnityChanPrefab, transform);
@@ -131,6 +130,7 @@ namespace GoogleARCore.Examples.HelloAR
             //{
             //    _Teleport.StartFadeOut();
             //}
+
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
             bool showSearchingUI = true;
@@ -192,7 +192,6 @@ namespace GoogleARCore.Examples.HelloAR
                         //サウンドボタンの生成
                         m_voiceRecButton.SetActive(true);
                         IsCreate = true;
-
                     }
 
                 }
