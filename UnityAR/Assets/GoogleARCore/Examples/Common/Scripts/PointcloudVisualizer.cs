@@ -32,6 +32,7 @@ namespace GoogleARCore.Examples.Common
         private Mesh m_Mesh;
 
         private Vector3[] m_Points = new Vector3[k_MaxPointCount];
+        private int m_WaitCount = 0;
 
         /// <summary>
         /// Unity start.
@@ -45,8 +46,11 @@ namespace GoogleARCore.Examples.Common
         /// <summary>
         /// Unity update.
         /// </summary>
+        
         public void Update()
         {
+          
+       
             // Fill in the data to draw the point cloud.
             if (Frame.PointCloud.IsUpdatedThisFrame)
             {

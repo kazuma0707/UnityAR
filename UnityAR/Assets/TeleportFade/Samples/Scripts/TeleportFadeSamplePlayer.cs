@@ -102,6 +102,11 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
                 var mainChild = childParticle.main;
                 mainChild.simulationSpeed = fadeSpeed;
             }
+            Vector3 basePos = new Vector3();
+            basePos.x = fadeObject.transform.position.x;
+            basePos.y = fadeObject.transform.position.y;
+            basePos.z = fadeObject.transform.position.z;
+            fadeInParticle.transform.position = new Vector3(basePos.x, basePos.y+1.726f, basePos.z);
             fadeOutParticle.Play(true);
        
         }
@@ -119,6 +124,11 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
                 var mainChild = childParticle.main;
                 mainChild.simulationSpeed = fadeSpeed;
             }
+            Vector3 basePos = new Vector3();
+            basePos.x = fadeObject.transform.position.x;
+            basePos.y = fadeObject.transform.position.y;
+            basePos.z = fadeObject.transform.position.z;
+            fadeInParticle.transform.position = new Vector3(basePos.x, basePos.y , basePos.z);
             fadeInParticle.Play(true);
             //obj.SetActive(true);
         }
