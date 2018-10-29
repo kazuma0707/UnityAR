@@ -129,7 +129,7 @@ public class Ranking : MonoBehaviour {
 
     public void ReturnTitle()
     {
-        SceneManager.LoadScene("Play");
+        SceneManager.LoadScene("Title");
     }
 
     private void displayScore()
