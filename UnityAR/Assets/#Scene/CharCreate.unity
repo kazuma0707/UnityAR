@@ -26710,7 +26710,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1421494958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ba066b2ced441847aa811bdea0417de, type: 3}
+  m_Script: {fileID: 11500000, guid: 913e0e25ffeaac2428d53514afa06f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraCheckPoint:
@@ -26720,8 +26720,6 @@ MonoBehaviour:
   CharacterCreateButton: {fileID: 2031978381}
   ChangeButtons:
   - {fileID: 1709117221}
-  - {fileID: 967922913}
-  - {fileID: 999325649}
   CharacterCreateEndButton: {fileID: 999325649}
   Text: {fileID: 1786174651}
   Panel: {fileID: 478874928}
