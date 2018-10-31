@@ -9,7 +9,12 @@ public class PoseController : MonoBehaviour
 
     public void ChangePose(string pose)
     {
-        int hash = Animator.StringToHash(pose);//ポーズ名
-        anim.Play(hash, -1, 0);//ハッシュ、レイヤー、正規化された時間(0-1)
+        AnimatorClipInfo clipInfo = anim.GetCurrentAnimatorClipInfo(0)[0];
+
+        if (pose != clipInfo.clip.name)
+        {
+            int hash = Animator.StringToHash(pose);//ポーズ名
+            anim.Play(hash, -1, 0);//ハッシュ、レイヤー、正規化された時間(0-1)
+        }
     }
 }
