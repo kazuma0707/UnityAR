@@ -24,13 +24,11 @@ public enum HairNum
 public enum ChangingPoint
 {
     SKIN,
-    BODY,    
-    EYE_DEF,
+    BODY,
+    EYE_LINE,
     HEAD,
     HAIR,
-    EYE_LINE,
-    EYE_PATTERN_L,
-    EYE_PATTERN_R,
+    EYE_PATTERN,
 }
 
 public class MyCharDataManager : MonoBehaviour
@@ -63,8 +61,10 @@ public class MyCharDataManager : MonoBehaviour
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    public const int left = 0;      // 左
-    public const int right = 1;     // 右
+    public const int LEFT_EYE = 0;        // 左目
+    public const int RIGHT_EYE = 1;       // 右目
+    public const int BODY_COLOR = 0;      // 体の色
+    public const int HEAD_COLOR = 1;      // 顔の色
 
     [SerializeField]
     private GameObject myChar;              // マイキャラオブジェクト
@@ -101,7 +101,7 @@ public class MyCharDataManager : MonoBehaviour
         
         DontDestroyOnLoad(this.gameObject);
 
-        // // 体型と髪型の登録番号を設定
+        // 体型と髪型の登録番号を設定
         bodyNum = BodyNum.NORMAL_BODY;
         hairNum = HairNum.SHORT_HAIR;        
     }
@@ -176,11 +176,11 @@ public class MyCharDataManager : MonoBehaviour
         //}
 
         // 目の形を設定
-        GameObject[] eyeLines = GameObject.FindGameObjectsWithTag("eyeLineObj");
-        foreach (GameObject obs in eyeLines)
-        {
-            obs.GetComponent<Renderer>().material = eyeLineMat;
-        }
+        //GameObject[] eyeLines = GameObject.FindGameObjectsWithTag("eyeLineObj");
+        //foreach (GameObject obs in eyeLines)
+        //{
+        //    obs.GetComponent<Renderer>().material = eyeLineMat;
+        //}
 
         // 目の模様と色を設定
         //GameObject[] eyePatterns = GameObject.FindGameObjectsWithTag("eyePatternObj");

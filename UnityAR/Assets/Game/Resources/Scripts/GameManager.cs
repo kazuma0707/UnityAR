@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     // レベルが変わる時間
     private const float LEVEL1_TIME = 20.0f;//15.0f;
     private const float LEVEL2_TIME = 20.0f;//25.0f;
-    private const float LEVEL3_TIME = 100.0f;//25.0f;
+    private const float LEVEL3_TIME = 30.0f;//25.0f;
 
     // レベルに応じたスピード
     private const float LEVEL1_SPEED = 0.01f;
@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     //  警告から障害物生成までの時間
     private const float WARNING_TIME = 1.5f;
+    //  レベルアップテキスト表示時間
+    private const float LEVEL_UP_TEXT_TIME = 3.0f;
 
     //  障害物の発生確率(obstaclePercent / 100)
     private int obstaclePercent = 35;
@@ -32,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     //  警告表示の点滅時間(数字　大→点滅 早　小→点滅 遅)
     private const int FLASH_TIME = 5;
+    //  レベルアップ表示の点滅時間(数字　大→点滅 早　小→点滅 遅)
+    private const int LEVEL_UP_FLASH_TIME = 10;
 
     [SerializeField]
     private GameObject standPre;                // 台のプレハブ
@@ -40,11 +44,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject[] firstStands;           // 初期の台   
     [SerializeField]
-    private Text score;                         // スコア
+    private Text scoreText;                         // スコア
     [SerializeField]
     private float fallSpeed;                    // 落下速度
     private int level = 1;                      // ゲームレベル
     private float timer = 0.0f;                 // タイマー
+    private int levelScore = 0;                 //  レベルに応じた加算スコア
+    private int score = 0;
+    private float everySecond = 0.0f;
     public static int gameScore;                //  スコア(ランキングシーンへ共有するためpublic static)
     private float deletePos = -1.0f;            // 消える位置
     private Vector3 rightPos = new Vector3(0.7f, 7.0f, 3.5f);            // 右の台が生成される位置
@@ -60,15 +67,24 @@ public class GameManager : MonoBehaviour
     int warningTime = 0;
     bool isRunning = false;
 
+    //  レベルアップフラグ
+    [SerializeField]
+    GameObject LevelUpText;
+    bool LevelUpFlag = false;
 
     // Use this for initialization
     void Start()
     {
+        //  static public変数の初期化
+        gameScore = 0;
+
         // 初期の台をリストに追加
         for (int i = 0; i < firstStands.Length; i++)
         {
             standList.Add(firstStands[i]);
         }
+        StartCoroutine("TextCoRoutine");
+
     }
 
     // Update is called once per frame
@@ -76,7 +92,7 @@ public class GameManager : MonoBehaviour
     {
         // 時間計測
         timer += Time.deltaTime;
-
+        everySecond -= Time.deltaTime;
         // タイムによってレベルを変える
         LevelChange();
 
@@ -97,9 +113,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // タイムをテキストに表示
-        gameScore = ((int)timer);
-        score.text = gameScore.ToString();
+        if (everySecond <= 0.0f)
+        {
+            // タイムをテキストに表示
+            gameScore += levelScore;//(int)timer * levelScore;
+            everySecond = 1.0f;
+        }
+        scoreText.text = gameScore.ToString();
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -123,9 +143,17 @@ public class GameManager : MonoBehaviour
         //  警告オブジェクトがアクティブ状態なら
         if(warningObject.activeSelf)
         {
-            float level = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
+            float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
             //  点滅を行う
-            warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, level);
+            warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
+        }
+
+        //  レベルアップテキストがアクティブ状態なら
+        if (LevelUpText.activeSelf)
+        {
+            float flash = Mathf.Abs(Mathf.Sin(Time.time * LEVEL_UP_FLASH_TIME));
+            //  点滅を行う
+            LevelUpText.GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.0f, flash);
         }
     }
 
@@ -168,12 +196,37 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-
         // リストに追加
         standList.Add(obj);
     }
 
+    /****************************************************************
+    *|　機能　テキストのコルーチン設定
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    IEnumerator TextCoRoutine()
+    {
+        //  実行中にもう一度コルーチンが呼び出されるのを防止
+        if (isRunning) yield break;
+        isRunning = true;
+
+        yield return new WaitForSeconds(LEVEL2_TIME);
+
+        LevelUpText.SetActive(true);
+        //  テキストを消すまでの間隔
+        yield return new WaitForSeconds(LEVEL_UP_TEXT_TIME);
+        LevelUpText.SetActive(false);
+
+        yield return new WaitForSeconds(LEVEL3_TIME - LEVEL2_TIME - LEVEL_UP_TEXT_TIME);
+
+        LevelUpText.SetActive(true);
+        //  テキストを消すまでの間隔
+        yield return new WaitForSeconds(LEVEL_UP_TEXT_TIME);
+        LevelUpText.SetActive(false);
+
+        isRunning = false;
+    }
 
     /****************************************************************
     *|　機能　障害物のコルーチン設定
@@ -211,11 +264,17 @@ public class GameManager : MonoBehaviour
         {
             fallSpeed = LEVEL1_SPEED;
             level = 1;
+            levelScore = 10;
         }
-        else if (timer >= LEVEL1_TIME)
+        else if (timer < LEVEL3_TIME)
         {
             fallSpeed = LEVEL2_SPEED;
             level = 2;
+            levelScore = 100;
+        }
+        else if (timer >= LEVEL3_TIME)
+        {
+            levelScore = 1000;
         }
     }    
 

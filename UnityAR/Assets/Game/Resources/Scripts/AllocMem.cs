@@ -82,8 +82,8 @@ public class AllocMem : MonoBehaviour
             text.Append("\n" + (1F / Time.deltaTime).ToString("0.0") + " fps");
         }
 
-        GUI.Box(new Rect(5, 5, 100, 80 + (showFPS ? 16 : 0)), "");
-        GUI.Label(new Rect(10, 5, 100, 200), text.ToString());
+        GUI.Box(new Rect(5, 5, 60, 10 + (showFPS ? 16 : 0)), "");
+        GUI.Label(new Rect(7, -6, 100, 200), text.ToString());
         /*GUI.Label (new Rect (5,5,1000,200),
 			"Currently allocated			"+(allocMem/1000000F).ToString ("0")+"mb\n"+
 			"Peak allocated				"+(peakAlloc/1000000F).ToString ("0")+"mb "+

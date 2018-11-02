@@ -25,7 +25,7 @@ public class Fade : MonoBehaviour
         blue = this.GetComponent<Image>().color.b;
 
         //サイズを変更
-        this.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
+        //this.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
 
         isFade = FADE_IN;
     }

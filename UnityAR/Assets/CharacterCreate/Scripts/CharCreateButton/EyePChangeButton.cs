@@ -29,6 +29,6 @@ public class EyePChangeButton : MonoBehaviour
     public void OnClick()
     {
         // 目の模様を設定        
-        manager.GetComponent<CharaCreateManager>().ChangeEyePattern(mat[MyCharDataManager.left], mat[MyCharDataManager.right]);
+        manager.GetComponent<CharaCreateManager>().ChangeEyePattern(mat[MyCharDataManager.LEFT_EYE], mat[MyCharDataManager.RIGHT_EYE]);
     }
 }
