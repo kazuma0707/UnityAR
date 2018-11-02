@@ -85,7 +85,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
 
     //=============  定数　===============//
-
     private const float JUMP_HEIGHT = 2.0f;//1.5f;          //  ジャンプの高さ
     private const float JUMP_LIMIT = 2.3f;                  //  ジャンプ可能な高さの限界値
     private const float ADJUSTMENT = 0.01f;                 //  ゲームバランスを調整する定数
@@ -155,7 +154,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
                 animSpeed = 2.4f;
             }
         }
-        Debug.Log(animSpeed);
+
         //  プレイヤーが一定以下に落ちる or 障害物に当たったらゲームオーバー
         if(this.transform.position.y <= -3.0f || obstacleFlag == true)
         {

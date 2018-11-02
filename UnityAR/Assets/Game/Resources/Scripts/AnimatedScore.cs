@@ -7,6 +7,7 @@ public class AnimatedScore : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //  コルーチンを開始する
         StartCoroutine(ScoreAnimation(0.0f, GameManager.gameScore, 2.0f));
     }
 

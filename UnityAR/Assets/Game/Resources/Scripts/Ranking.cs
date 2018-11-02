@@ -7,6 +7,7 @@ using System;
 
 
 public class Ranking : MonoBehaviour {
+    //=============  定数　===============//
     private string RANKING_PREF_KEY = "ranking";
     private int RANKING_NUM = 5;
     private float[] ranking;
@@ -22,6 +23,7 @@ public class Ranking : MonoBehaviour {
     [SerializeField]
     Vector2 label_score;
 
+    //  テキスト
     [SerializeField]
     Text rankText;
     [SerializeField]
@@ -71,6 +73,12 @@ public class Ranking : MonoBehaviour {
         }
 
     }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ランキングの取得
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
     public void getRanking()
     {
         var _ranking = PlayerPrefs.GetString(RANKING_PREF_KEY);
@@ -85,6 +93,12 @@ public class Ranking : MonoBehaviour {
         }
 
     }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ランキングの記録
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
     public void saveRanking(float new_score)
     {
         string rankingString = "";
@@ -116,7 +130,13 @@ public class Ranking : MonoBehaviour {
         }
         PlayerPrefs.SetString(RANKING_PREF_KEY, rankingString);
     }
-   public void deleteRanking()
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ランキングの削除
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void deleteRanking()
     {
         PlayerPrefs.DeleteKey(RANKING_PREF_KEY);
         for (int i = 0; i < ranking.Length; i++)
@@ -127,11 +147,21 @@ public class Ranking : MonoBehaviour {
 
     }
 
-    public void ReturnTitle()
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | タイトルへ戻る
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void ReturnTitle()
     {
         SceneManager.LoadScene("Title");
     }
 
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | スコアの表示
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
     private void displayScore()
     {
         Rect rect_ranking = new Rect(new Vector2(Screen.width, Screen.height), label_ranking);
