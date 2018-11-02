@@ -82,7 +82,7 @@ public class CharaCreateManager : MonoBehaviour
 
         // 目の模様と色を設定
         Material[] mat = MyCharDataManager.Instance.EyePattern;
-        ChangeEyePattern(mat[MyCharDataManager.left], mat[MyCharDataManager.right]);        
+        ChangeEyePattern(mat[MyCharDataManager.LEFT_EYE], mat[MyCharDataManager.RIGHT_EYE]);        
     }
 
     //----------------------------------------------------------------------------------------------
@@ -234,8 +234,7 @@ public class CharaCreateManager : MonoBehaviour
     public void ChangeEyePattern(Material matL, Material matR)
     {
         // マテリアルと色を設定
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<Renderer>().material = matL;
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<Renderer>().material = matR;
+        changingPoints[(int)ChangingPoint.EYE_PATTERN].GetComponent<Renderer>().material = matL;
         MyCharDataManager.Instance.EyePattern[0] = matL;
         MyCharDataManager.Instance.EyePattern[1] = matR;
         ChangeEyeColor(MyCharDataManager.Instance.EyeColor);
@@ -261,8 +260,7 @@ public class CharaCreateManager : MonoBehaviour
     public void ChangeEyeColor(Color color)
     {
         // マテリアルを設定
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_L].GetComponent<Renderer>().material.color = color;
-        changingPoints[(int)ChangingPoint.EYE_PATTERN_R].GetComponent<Renderer>().material.color = color;
+        changingPoints[(int)ChangingPoint.EYE_PATTERN].GetComponent<Renderer>().material.color = color;
         MyCharDataManager.Instance.EyeColor = color;
     }
 
