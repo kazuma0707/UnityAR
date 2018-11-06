@@ -80,8 +80,8 @@ public class ButtonController : BaseButton {
     }
     private void ReturnSelectButtonClick()
     {
-        //SceneManager.LoadScene(SceneName.CharCreate);
-      FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
+        SceneManager.LoadScene(SceneName.CharCreate);
+      //FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
 
     }
     private void GSButtonClick()
