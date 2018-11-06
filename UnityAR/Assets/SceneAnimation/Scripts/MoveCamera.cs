@@ -216,7 +216,7 @@ public class MoveCamera : MonoBehaviour
     {       
         Invoke("Rotate2", 0.5f);
 
-        //SchoolIntroductionButton.SetActive(true);
+        SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
         ReCharacterCreateButton.SetActive(true);
