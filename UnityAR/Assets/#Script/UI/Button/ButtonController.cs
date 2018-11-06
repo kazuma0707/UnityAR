@@ -1,18 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using GoogleARCore;
 using GoogleARCore.Examples.AugmentedImage;
 using ConstantName;
+using UnityEngine.SceneManagement;
 
 public class ButtonController : BaseButton {
+    private string LoadSceneName = SceneName.CharCreate;
+    private AsyncOperation async;
     [SerializeField]
     private GameObject Panel;
     [SerializeField]
     private SetText _setText;
+    [SerializeField]
+    private Animator ClassPanel;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+    }
+    private void Start()
+    {
+    
+    }
+    private void Update()
+    {
+      
+        
     }
 
     protected override void OnClick(string objectName)
@@ -58,8 +73,17 @@ public class ButtonController : BaseButton {
             // Button2がクリックされたとき
             this.ClassButtonClick();
         }
+        else if(ButtonName.ARScene.ReturnSelectButton.Equals(objectName))
+        {
+            this.ReturnSelectButtonClick();
+        }
     }
+    private void ReturnSelectButtonClick()
+    {
+        //SceneManager.LoadScene(SceneName.CharCreate);
+      FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
 
+    }
     private void GSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(1)) return;
@@ -98,14 +122,26 @@ public class ButtonController : BaseButton {
     }
     private void ClassButtonClick()
     {
-        if(!this.Panel.activeSelf)
+        if(!ClassPanel.GetBool("boolAnim"))
         {
-            this.Panel.SetActive(true);
+            ClassPanel.SetBool("boolAnim", true);
         }
         else
         {
-            this.Panel.SetActive(false);
+            ClassPanel.SetBool("boolAnim", false);
+
+        }
+
+        if (!this.Panel.activeSelf)
+        {
+
+            //this.Panel.SetActive(true);
+        }
+        else
+        {
+           // this.Panel.SetActive(false);
         }
         Debug.Log("ClassButton Click");
     }
+    
 }
