@@ -106,10 +106,10 @@ namespace GoogleARCore.Examples.HelloAR
                             _debugText.text = Rayhit.collider.gameObject.name;
 
                             //Rayを飛ばしてあたったオブジェクトが自分自身だったら
-                            if (Rayhit.collider.gameObject.name == "jiken(Clone)")
+                            if (Rayhit.collider.gameObject.name == "skin(Clone)")
                             {
                                 //_Teleport.StartFadeOut();
-                                //Destroy(Rayhit.collider.gameObject,5.0f);
+                                Destroy(Rayhit.collider.gameObject);
                             }
                         }
                     }
@@ -161,11 +161,11 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-             
+
 
                         //Camera.main.transform.LookAt(unityChanObject.transform);
-          
-                       MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                        MyCharDataManager.Instance.ReCreate(unityChanObject);
+                        //MyCharDataManager.Instance.CreateMyChar(unityChanObject);
                         //_Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
