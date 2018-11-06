@@ -3,23 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EyePChangeButton : MonoBehaviour
-{      
+{
     [SerializeField]
-    private Material[] mat;          // 対応するマテリアル
+    private Material resourceMatsYellow;          // 対応するマテリアル・イエローVer. 
     [SerializeField]
-    private GameObject manager;     // キャラクリマネージャー
+    private Material resourceMatsBlue;            // 対応するマテリアル・ブルーVer. 
+    [SerializeField]
+    private Material resourceMatsGreen;            // 対応するマテリアル・グリーンVer.
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField]
+    private EyePatternNum epn;                      // 目の模様の番号
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | クリックされたときの処理
@@ -28,7 +21,22 @@ public class EyePChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 目の模様を設定        
-        manager.GetComponent<CharaCreateManager>().ChangeEyePattern(mat[MyCharDataManager.LEFT_EYE], mat[MyCharDataManager.RIGHT_EYE]);
+        // 目の色を変える        
+        switch (MyCharDataManager.Instance.Data.ecn)
+        {
+            case EyeColorNum.YELLOW:
+            default:
+                MyCharDataManager.Instance.ChangeEyePattern(resourceMatsYellow);
+                break;
+            case EyeColorNum.BLUE:
+                MyCharDataManager.Instance.ChangeEyePattern(resourceMatsBlue);
+                break;
+            case EyeColorNum.GREEN:
+                MyCharDataManager.Instance.ChangeEyePattern(resourceMatsGreen);
+                break;
+        }
+
+        // 目の色の番号を登録
+        MyCharDataManager.Instance.Data.eyePNum = epn;
     }
 }

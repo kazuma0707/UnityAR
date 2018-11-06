@@ -5,11 +5,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 
 public class ShowMyChar : MonoBehaviour
-{
-
-    [SerializeField]
-    private GameObject myChar;      // マイキャラ
-   
+{   
     // Use this for initialization
     void Start ()
     {
@@ -23,14 +19,12 @@ public class ShowMyChar : MonoBehaviour
         if ((Input.touchCount > 0) || (Input.GetMouseButtonDown(0)))
         {
             Debug.Log("create");
-            // マイキャラ生成
-            MyCharDataManager.Instance.CreateMyChar(myChar);
-        }
 
-        if (Input.GetMouseButtonDown(1))
-        {
+            GameObject sotai = GameObject.Find("skin");
+            // マイキャラ生成
+            MyCharDataManager.Instance.ReCreate(sotai);
             // シーン遷移
-            SceneManager.LoadScene("CharCreate");
+            //SceneManager.LoadScene("CharCreate");
         }
     }
     

@@ -5,22 +5,14 @@ using UnityEngine;
 public class BodyCChangeButton : MonoBehaviour
 {
     [SerializeField]
-    private Material skinMat;          // 対応するマテリアル
+    private Material[] resourceMatsNormal;          // 対応するマテリアル・ノーマルVer. (0：BODY_COLOR, 1：HEAD_COLOR)
     [SerializeField]
-    private Material faceMat;          // 対応するマテリアル
+    private Material[] resourceMatsSeihuku;         // 対応するマテリアル・制服Ver. (0：BODY_COLOR, 1：HEAD_COLOR)
+    [SerializeField]
+    private Material[] resourceMatsNanka;           // 対応するマテリアル・なんかVer.(0：BODY_COLOR, 1：HEAD_COLOR)
 
     [SerializeField]
-    private GameObject manager;     // キャラクリマネージャー
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private BodyColorNum bcn;           // 体の色の番号
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | クリックされたときの処理
@@ -29,7 +21,22 @@ public class BodyCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 体の色を設定        
-        manager.GetComponent<CharaCreateManager>().ChangeBodyColor(skinMat, faceMat);
-    }
+        // 体の色を変える
+        switch (MyCharDataManager.Instance.Data.clothNum)
+        {
+            case ClothNum.NORMAL:
+            default:
+                MyCharDataManager.Instance.ChangeBodyColor(resourceMatsNormal);            
+                break;
+            case ClothNum.SEIHUKU:
+                MyCharDataManager.Instance.ChangeBodyColor(resourceMatsSeihuku);
+                break;
+            case ClothNum.NANKA:
+                MyCharDataManager.Instance.ChangeBodyColor(resourceMatsNanka);
+                break;
+        }
+
+        // 体の色の番号を登録
+        MyCharDataManager.Instance.Data.bcn = bcn;
+    }    
 }
