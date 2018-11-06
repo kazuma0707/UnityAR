@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore.Examples.AugmentedImage;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
 using ConstantName;
+
 /// <summary>
 /// マーカを読み込んだ際にどこの
 /// </summary>
@@ -21,14 +23,14 @@ public class SetText : MonoBehaviour {
     //ロック画像
     [SerializeField, Header("ロック画像")]
     private Image[] LockImage;
-
+    public VideoPlayer _video;
 
     // Use this for initialization
     void Start()
     {
         //ImageCheckオブジェクトの鮎徳
         _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
-
+       
 
     }
 
@@ -39,6 +41,10 @@ public class SetText : MonoBehaviour {
         if (GameObject.Find("BordText"))
         {
             _text = GameObject.Find("BordText").GetComponent<Text>();
+        }
+        if(GameObject.Find(""))
+        {
+            _video = GameObject.Find("VideoPlane").GetComponent<VideoPlayer>();
         }
 
         //読み込んだ画像によってテキストの受け渡し
@@ -61,36 +67,51 @@ public class SetText : MonoBehaviour {
         {
             case DepartmentName.GAME:
                 _DepartmentText.text = "ここはゲームサイエンス学科です";
+                _video.url = "/Assets/#Resorces/Movie/ゲームサイエンス学科";
+
                 this.LockImage[DepartmentName.GAME-1].enabled = false;
 
                 break;
             case DepartmentName.CG:
                 _DepartmentText.text = "ここはCGスペシャリスト学科です";
+                _video.url = "/Assets/#Resorces/Movie/CG学科";
                 this.LockImage[DepartmentName.CG-1].enabled = false;
 
                 break;
             case DepartmentName.WEB:
                 _DepartmentText.text = "ここはWebデザイン学科です";
+                _video.url = "/Assets/#Resorces/Movie/Webデザイン学科";
+
                 this.LockImage[DepartmentName.WEB-1].enabled = false;
 
                 break;
             case DepartmentName.CAD:
                 _DepartmentText.text = "ここはCAD学科です";
+                _video.url = "/Assets/#Resorces/Movie/CAD学科";
+
                 this.LockImage[DepartmentName.CAD-1].enabled = false;
 
                 break;
             case DepartmentName.CYBER_SECURITY:
                 _DepartmentText.text = "ここはサイバーセキュリティ学科です";
+                _video.url = "/Assets/#Resorces/Movie/IT学科";
+
+
                 this.LockImage[DepartmentName.CYBER_SECURITY-1].enabled = false;
 
                 break;
             case DepartmentName.ADVANCED_INFORMATION:
                 _DepartmentText.text = "ここは高度情報学科です";
+                _video.url = "/Assets/#Resorces/Movie/IT学科";
+
+
                 this.LockImage[DepartmentName.ADVANCED_INFORMATION-1].enabled = false;
 
                 break;
             case DepartmentName.INFORMATION_PROCESSING:
                 _DepartmentText.text = "ここは情報処理学科です";
+                _video.url = "/Assets/#Resorces/Movie/IT学科";
+
                 this.LockImage[DepartmentName.INFORMATION_PROCESSING-1].enabled = false;
 
                 break;
