@@ -5,20 +5,8 @@ using UnityEngine;
 public class EyeLChangeButton : MonoBehaviour
 {
     [SerializeField]
-    private Material mat;           // 対応するマテリアル
-    [SerializeField]
-    private GameObject manager;     // キャラクリマネージャー
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+    private GameObject resourceObj;           // 差し替えるモデル
+    
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | クリックされたときの処理
     // 　引　数   | なし
@@ -26,7 +14,7 @@ public class EyeLChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 目の形の設定        
-        manager.GetComponent<CharaCreateManager>().ChangeEyeLine(mat);
+        // 目の模様を変える
+        MyCharDataManager.Instance.ChangeHairObj(resourceObj);
     }
 }
