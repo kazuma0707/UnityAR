@@ -26,6 +26,7 @@ public class SetText : MonoBehaviour {
     public VideoPlayer _video;
     public VideoClip[] _videoClip;
 
+
     // Use this for initialization
     void Start()
     {

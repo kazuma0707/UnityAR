@@ -39,6 +39,7 @@ using UnityEngine;
             public const string ZSButton = "ZSButton";
             public const string ClassButton = "ClassButton";
             public const string ReturnSelectButton = "ReturnSelectButton";
+            public const string AllButton = "AllButton";
         }
     }
 }
