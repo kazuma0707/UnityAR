@@ -22,6 +22,7 @@ using UnityEngine;
         public const string CharCreate = "CharCreate";
         public const string ARScene = "ARScene";
         public const string Appreciation = "Appreciation";
+        public const string Title = "Title";
     }
     //ボタンの定数
     public class ButtonName
@@ -37,6 +38,7 @@ using UnityEngine;
             public const string SSButton = "SSButton";
             public const string ZSButton = "ZSButton";
             public const string ClassButton = "ClassButton";
+            public const string ReturnSelectButton = "ReturnSelectButton";
         }
     }
 }
