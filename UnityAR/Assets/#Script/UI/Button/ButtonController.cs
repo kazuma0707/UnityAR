@@ -95,7 +95,11 @@ public class ButtonController : BaseButton {
         else
         {
             AllButtonAnim.SetBool("once", false);
-
+        }
+        if(ClassPanel.GetBool("boolAnim"))
+        {
+            ClassPanel.SetBool("boolAnim", false);
+            ClassPanel.SetBool("OnceAnim", true);
         }
     }
     private void ReturnSelectButtonClick()
@@ -144,12 +148,12 @@ public class ButtonController : BaseButton {
     {
         if(!ClassPanel.GetBool("boolAnim"))
         {
-            ClassPanel.SetBool("boolAnim", true);
+            ClassPanel.SetBool("boolAnim", true); ClassPanel.SetBool("OnceAnim", false);
         }
         else
         {
             ClassPanel.SetBool("boolAnim", false);
-
+            
         }
 
         if (!this.Panel.activeSelf)
