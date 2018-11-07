@@ -21,7 +21,7 @@ public class BodyCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 体の色を変える
+        // 服に合わせて体の色を変える
         switch (MyCharDataManager.Instance.Data.clothNum)
         {
             case ClothNum.NORMAL:

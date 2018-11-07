@@ -15,6 +15,6 @@ public class EyeLChangeButton : MonoBehaviour
     public void OnClick()
     {
         // 目の模様を変える
-        MyCharDataManager.Instance.ChangeHairObj(resourceObj);
+        MyCharDataManager.Instance.ChangeEyeLineObj(resourceObj);
     }
 }

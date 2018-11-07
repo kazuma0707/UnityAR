@@ -129,6 +129,9 @@ public class MyCharDataManager : MonoBehaviour
     private GameObject sotai;               // 素体モデル
 
     private GameObject sotaiBone;           // 素体のBone
+    private Transform leftUpLeg;            // 素体のLeftUpLegBone
+    private Transform rightUpLeg;           // 素体のRightUpLegBone
+    private Transform spine;           // 素体のSpineUpLegBone
 
     //[SerializeField]
     //private GameObject[] hairObjs;          // 対応する髪型オブジェクト
@@ -158,6 +161,7 @@ public class MyCharDataManager : MonoBehaviour
     [SerializeField]
     private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
+    
     public void Awake()
     {
         // インスタンスが複数存在しないようにする
@@ -169,24 +173,27 @@ public class MyCharDataManager : MonoBehaviour
         
         DontDestroyOnLoad(this.gameObject);
 
-        // 体型と髪型の登録番号を設定
-        //bodyNum = BodyNum.NORMAL_BODY;
-
+        // 素体のBoneを取得
         sotaiBone = sotai.transform.Find("mixamorig:Hips").gameObject;
+
+        // DynamicBoneで除外したいオブジェクトを取得
+        leftUpLeg = sotaiBone.transform.Find("mixamorig:LeftUpLeg");
+        rightUpLeg = sotaiBone.transform.Find("mixamorig:RightUpLeg");
+        spine = sotaiBone.transform.Find("mixamorig:Spine");
 
         saveData = new MyCharData();
         //defaultData = new MyCharData();
 
         saveData.hair = defaultHair;
         saveData.hairColor = defaultHairColorMat;
-        saveData.eyeLine = defaultEyeLine;
+        //saveData.eyeLine = defaultEyeLine;
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
         saveData.bodyScale = defaultBodyScale;
-        saveData.bodyColor = defaultBodyColorMat;
+        saveData.bodyColor = defaultBodyColorMat;        
 
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -207,17 +214,21 @@ public class MyCharDataManager : MonoBehaviour
             sotaiBone = sotai.transform.Find("mixamorig:Hips").gameObject;
         }
 
+        // DynamicBoneを除外
+        RemoveDB();
         // 服を変える
         CharaCreateManager.ChangeClothObj(saveData.cloth, sotaiBone);
+        // DynamicBoneの設定
+        SettingDB();
 
         // 目の形を変える
         //CharaCreateManager.ChangeEyeLine(saveData.eyeLine);
 
         // 髪型を変える
-        //CharaCreateManager.ChangeHairObj(saveData.hair);
+        CharaCreateManager.ChangeHairObj(saveData.hair, sotaiBone);
 
         // 髪の色を変える
-        //CharaCreateManager.ChangeHairColor(saveData.hairColor);
+        CharaCreateManager.ChangeHairColor(saveData.hairColor, sotai);
 
         // 目の模様(＋色)を変える
         CharaCreateManager.ChangeEyePattern(saveData.eyePattern, sotai);
@@ -227,23 +238,6 @@ public class MyCharDataManager : MonoBehaviour
 
         // 体の色を変える
         CharaCreateManager.ChangeBodyColor(saveData.bodyColor, sotai);
-
-
-        //// 髪の色を設定
-        //ChangeHairColor(MyCharDataManager.Instance.HairColor);
-
-        //// 体型を設定
-        //ChangeBodyObj(MyCharDataManager.Instance.BodyNumber);
-
-        //// 体の色を設定
-        //ChangeBodyColor(MyCharDataManager.Instance.BodyColor[0], MyCharDataManager.Instance.BodyColor[1]);
-
-        //// 目の形を設定
-        //ChangeEyeLine(MyCharDataManager.Instance.EyeLine);
-
-        //// 目の模様と色を設定
-        //Material[] mat = MyCharDataManager.Instance.EyePattern;
-        //ChangeEyePattern(mat[MyCharDataManager.LEFT_EYE], mat[MyCharDataManager.RIGHT_EYE]);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -257,19 +251,27 @@ public class MyCharDataManager : MonoBehaviour
 
         // 服を変える(既に同じものを選択していなければ)
         if (saveData.cloth.name != defaultCloth.name)
+        {
+            // DynamicBoneを除外
+            RemoveDB();
+
             CharaCreateManager.ChangeClothObj(defaultCloth, sotaiBone);
+            // DynamicBoneの設定
+            SettingDB();
+        }
+            
 
         // 目の形を変える(既に同じものを選択していなければ)
-        if (saveData.eyeLine.name != defaultEyeLine.name)
-            CharaCreateManager.ChangeEyeLine(defaultEyeLine);
+        //if (saveData.eyeLine.name != defaultEyeLine.name)
+        //    CharaCreateManager.ChangeEyeLineObj(defaultEyeLine);
 
         // 髪型を変える(既に同じものを選択していなければ)
         if (saveData.hair.name != defaultHair.name)
-            CharaCreateManager.ChangeHairObj(defaultHair);
+            CharaCreateManager.ChangeHairObj(defaultHair, sotaiBone);
 
         // 髪の色を変える(既に同じものを選択していなければ)
         if (saveData.hairColor.name != defaultHairColorMat.name)
-            CharaCreateManager.ChangeHairColor(defaultHairColorMat);
+            CharaCreateManager.ChangeHairColor(defaultHairColorMat, sotai);
 
         // 目の模様(＋色)を変える(既に同じものを選択していなければ)
         if (saveData.eyePattern.name != defaultEyePatternMat.name)
@@ -302,7 +304,10 @@ public class MyCharDataManager : MonoBehaviour
     {
         // 既に同じものを選択していたら何もしない
         if (saveData.cloth.name == newCloth.name) return;
-        
+
+        // DynamicBoneを除外
+        RemoveDB();
+
         // 服を変え、セーブデータに保存
         CharaCreateManager.ChangeClothObj(newCloth, sotaiBone);
         saveData.cloth = newCloth;
@@ -310,6 +315,11 @@ public class MyCharDataManager : MonoBehaviour
         // 体の色を変え、セーブデータに保存
         CharaCreateManager.ChangeBodyColor(newColor, sotai);
         saveData.bodyColor = newColor;
+
+        // DynamicBoneの設定
+        //SettingDB();
+        StartCoroutine("SettingDB");
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -323,23 +333,27 @@ public class MyCharDataManager : MonoBehaviour
         if (saveData.hairColor.name == newColor.name) return;
 
         // 髪の色を変え、セーブデータに保存
-        CharaCreateManager.ChangeHairColor(newColor);
+        CharaCreateManager.ChangeHairColor(newColor, sotai);
         saveData.hairColor = newColor;
     }
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 髪型を変える
-    // 　引　数   | newHair：髪型
+    // 　引　数   | newHair：髪型, newColor：髪の色
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeHairObj(GameObject newHair)
+    public void ChangeHairObj(GameObject newHair, Material newColor)
     {
         // 既に同じものを選択していたら何もしない
         if (saveData.hair.name == newHair.name) return;
 
         // 髪型を変え、セーブデータに保存
-        CharaCreateManager.ChangeHairObj(newHair);
+        CharaCreateManager.ChangeHairObj(newHair, sotaiBone);
         saveData.hair = newHair;
+
+        // 髪の色を変え、セーブデータに保存
+        CharaCreateManager.ChangeHairColor(newColor, sotai);
+        saveData.hairColor = newColor;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -392,13 +406,13 @@ public class MyCharDataManager : MonoBehaviour
     // 　引　数   | newLine：目の形
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeEyeLine(GameObject newLine)
+    public void ChangeEyeLineObj(GameObject newLine)
     {        
         // 既に同じものを選択していたら何もしない
         if (saveData.eyeLine.name == newLine.name) return;
 
         // 目の形を変え、セーブデータに保存
-        CharaCreateManager.ChangeEyeLine(newLine);
+        CharaCreateManager.ChangeEyeLineObj(newLine);
         saveData.eyeLine = newLine;
     }
 
@@ -409,13 +423,57 @@ public class MyCharDataManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void ChangeEyeColor(Material newColor)
     {
-        Debug.Log(newColor.name);
         // 既に同じものを選択していたら何もしない
         if (saveData.eyePattern.name == newColor.name) return;
 
         // 目の模様を変え、セーブデータに保存
         CharaCreateManager.ChangeEyeColor(newColor, sotai);
         saveData.eyePattern = newColor;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | DynamicBoneを設定
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public IEnumerator SettingDB()
+    {
+        // 1フレーム置いてから処理をする
+        yield return null;
+        // 素体のBoneにDynamicBoneコンポーネントをアタッチ
+        DynamicBone db = sotaiBone.AddComponent<DynamicBone>();
+        //DynamicBone db = sotaiBone.GetComponent<DynamicBone>();
+        
+        // 素体のBoneをルートとして設定
+        db.m_Root = sotaiBone.transform;
+
+        db.m_Exclusions = new List<Transform>();
+
+        // 除外したいオブジェクトを除外リストに追加
+        db.m_Exclusions.Add(leftUpLeg);
+        db.m_Exclusions.Add(rightUpLeg);
+        db.m_Exclusions.Add(spine);
+
+        // コライダーが付いているBoneオブジェクトを取得
+        DynamicBoneCollider[] DBCs = sotaiBone.GetComponentsInChildren<DynamicBoneCollider>();
+
+        db.m_Colliders = new List<DynamicBoneColliderBase>();
+
+        // コライダーが付いているBoneオブジェクトをコライダーリストに追加
+        db.m_Colliders.AddRange(DBCs);     
+
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | DynamicBoneを除外
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void RemoveDB()
+    {
+        // 素体のBoneにDynamicBoneコンポーネントをアタッチ
+        sotaiBone.RemoveComponent<DynamicBone>(); 
+        //sotaiBone.GetComponent<DynamicBone>().enabled = false;       
     }
 
     // 体型のアクセッサ

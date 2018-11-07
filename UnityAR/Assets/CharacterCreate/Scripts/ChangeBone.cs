@@ -11,14 +11,10 @@ public class ChangeBone : MonoBehaviour
     private Dictionary<string, int> RootBoneIndexList =
                                                 new Dictionary<string, int>(); // IndexList
 
-    private GameObject body;                                                   // Managerに登録する体
-
     // Use this for initialization
     void Start()
     {
-        // 初期設定
-        //if (!RootBone) return;
-        //resourceObject = RootBone.transform.parent.gameObject;
+        
     }
 
     // Update is called once per frame
@@ -29,12 +25,12 @@ public class ChangeBone : MonoBehaviour
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 服を変える
-    // 　引　数   | obj：髪型, bone：素体のBone
+    // 　引　数   | obj：服, bone：素体のBone
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
     public void ChangeClothes(GameObject obj, GameObject bone)
     {
-        // 衣装オブジェクトを取得
+        // 服オブジェクトと素体のBoneを取得
         resourceObject = obj;
         RootBone = bone;
 
@@ -47,46 +43,6 @@ public class ChangeBone : MonoBehaviour
         // いらないモデル削除
         DeleteOldModels();
         
-        // リストを再登録
-        BoneTransformList.Clear();
-        BoneTransformList.AddRange(RootBone.GetComponentsInChildren<Transform>());
-        RootBoneIndexList.Clear();
-
-        // 素体のBoneを基にリストを登録
-        for (int boneIndex = 0; boneIndex < BoneTransformList.Count; ++boneIndex)
-        {
-            Transform baseTrans = BoneTransformList[boneIndex].transform;
-            RootBoneIndexList.Add(baseTrans.name, boneIndex);
-        }
-
-        // モデルを変える
-        ChangeModels();
-
-        // 体は色々変更されるため、変更部位に再登録
-        //CharaCreateManager ccm = this.GetComponent<CharaCreateManager>();
-        //ccm.ChangingPoints[(int)ChangingPoint.BODY] = body;
-        //// 肌の色を再設定
-        //ccm.ChangingPoints[(int)ChangingPoint.BODY].GetComponent<Renderer>().material = MyCharDataManager.Instance.BodyColor[0];
-    }
-
-    // 髪型を変える
-    public void ChangeHairs(GameObject obj)
-    {
-        // 同じものを再度選択したら何もしない
-        if (resourceObject.name == obj.name) return;
-
-        // 髪型オブジェクトを取得
-        resourceObject = obj;
-
-        // アバターを差し替えるモデルの物に変える
-        //GameObject RootBoneParent = RootBone.transform.parent.gameObject;
-        //RootBoneParent.GetComponent<Animator>().avatar = resourceObject.GetComponent<Animator>().avatar;
-
-        // いらないBoneを削除
-        //DeleteOldBones();
-        // いらないモデル削除
-        //DeleteOldModels();
-
         // リストを再登録
         BoneTransformList.Clear();
         BoneTransformList.AddRange(RootBone.GetComponentsInChildren<Transform>());
@@ -195,11 +151,6 @@ public class ChangeBone : MonoBehaviour
         newMeshObject.transform.localPosition = Vector3.zero;
         newMeshObject.tag = smr.gameObject.tag;
 
-        if (newMeshObject.tag == "BodyObj")
-        {
-            body = newMeshObject;
-        }
-
         // SkinnedMeshRenderer生成
         SkinnedMeshRenderer r = newMeshObject.AddComponent<SkinnedMeshRenderer>();
         // 部位モデルのMesh情報を複製して適用
@@ -231,11 +182,10 @@ public class ChangeBone : MonoBehaviour
 
         for (int i = 0; i < renderers.Length; i++)
         {
+            if (!renderers[i]) continue;
             // 衣装とBodyオブジェクトを削除
             if (renderers[i].gameObject.tag == "Clothes" || renderers[i].gameObject.tag == "BodyObj")
-            {
                 Destroy(renderers[i].gameObject);
-            }
         }        
     }
 
@@ -247,11 +197,10 @@ public class ChangeBone : MonoBehaviour
 
         for (int i = 0; i < rootBoneTransforms.Length; i++)
         {
+            if (!rootBoneTransforms[i]) continue;
+            // いらないBoneを削除
             if (rootBoneTransforms[i].tag != "NecessaryBone" && rootBoneTransforms[i].tag != "HairBone")
-            {
-                // いらないBoneを削除
                 Destroy(rootBoneTransforms[i].gameObject);
-            }
         }
     }
 }

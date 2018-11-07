@@ -18,45 +18,28 @@ public class CharaCreateManager : MonoBehaviour
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 髪型を変える
-    // 　引　数   | newHair：髪型
+    // 　引　数   | newHair：髪型, bone：素体のBone
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    static public void ChangeHairObj(GameObject newHair)
+    static public void ChangeHairObj(GameObject newHair, GameObject bone)
     {
-
+        ChangeHair cH = new ChangeHair();
+        cH.ChangeHairs(newHair, bone);
     }
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 髪の色を変える
-    // 　引　数   | newColor：髪の色
+    // 　引　数   | newColor：髪の色, sotai：素体モデル
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    static public void ChangeHairColor(Material newColor)
-    {        
-        //// マテリアルと色を設定
-        //for (int i = 0; i < changingHairPoints.Length; i++)
-        //{
-        //    // デバッグ用 ///////////////////////////////////////////////////////////////////////////////////////
-        //    if (!changingHairPoints[i])
-        //    {
-        //        // 子オブジェクトを検索
-        //        foreach (var child in myChar.GetChildren())
-        //        {
-        //            // 既存の髪オブジェクトを削除
-        //            if (child.tag == "HairObj")
-        //            {
-        //                //child.GetComponent<Renderer>().material.color = color;
-        //                child.GetComponent<Renderer>().material = color;
-        //            }
-        //        }
-        //        break;
-        //    }
-        //    ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //    //changingHairPoints[i].GetComponent<Renderer>().material.color = color;
-        //    changingHairPoints[i].GetComponent<Renderer>().material = color;
-        //}
-        //MyCharDataManager.Instance.HairColor = color;
+    static public void ChangeHairColor(Material newColor, GameObject sotai)
+    {
+        // 色を設定       
+        foreach (SkinnedMeshRenderer smr in sotai.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            if (smr.tag == "HairObj")
+                smr.material = newColor;
+        }
     }
 
     //----------------------------------------------------------------------------------------------
@@ -117,7 +100,7 @@ public class CharaCreateManager : MonoBehaviour
     // 　引　数   | newLine：目の形
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    static public void ChangeEyeLine(GameObject newLine)
+    static public void ChangeEyeLineObj(GameObject newLine)
     {
         //// マテリアルを設定
         //changingPoints[(int)ChangingPoint.EYE_LINE].GetComponent<SkinnedMeshRenderer>().material = mat;
