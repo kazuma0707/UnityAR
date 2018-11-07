@@ -8,6 +8,7 @@ public class ScreenShot : MonoBehaviour
 {
     private string _fileName = "";
     public static bool isScreenShot = false;
+    public GameObject ClearScreenShot;
     void Start()
     {
     }
@@ -15,6 +16,9 @@ public class ScreenShot : MonoBehaviour
     {
         StartCoroutine(WriteFileProcess());
         isScreenShot = true;
+    GameObject Src=Instantiate(ClearScreenShot);
+    Src.transform.parent = GameObject.Find("Canvas").transform;
+       Src.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
     }
 
     void Update()
