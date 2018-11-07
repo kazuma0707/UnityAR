@@ -23,6 +23,7 @@ public class WatsonConversation : MonoBehaviour
     private Conversation m_Conversation;
     private string m_WorkspaceID = "7888e1fc-7642-4a1f-a13e-06761d72472f"; //各自変更してください
 
+    [SerializeField]
     private Animator animator; //ここを追加
     private const string key_isGreet = "isGreet"; //ここを追加
 
@@ -56,7 +57,7 @@ public class WatsonConversation : MonoBehaviour
         m_Conversation = new Conversation(conv_credentials);
 
 
-        this.animator = GetComponent<Animator>(); //ここを追加
+        this.animator = GameObject.Find("skin").GetComponent<Animator>(); //ここを追加
         AudioSource audioSource = GetComponent<AudioSource>();
         while (true)
         {
@@ -92,7 +93,7 @@ public class WatsonConversation : MonoBehaviour
     {
         if (resp is Dictionary<string, object>)
         {
-            this.animator.SetBool(key_isGreet, true);
+            //this.animator.SetBool(key_isGreet, true);
 
             Dictionary<string, object> dic_resp = (Dictionary<string, object>)resp;
 
