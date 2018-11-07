@@ -7,6 +7,13 @@ public class PoseController : MonoBehaviour
 
     public Animator anim; // 対象のAnimatorコンポーネント
 
+    //----------------------------------------------------------------------
+    //! @brief ポーズの変更処理
+    //!
+    //! @param[in] ポーズの名前
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void ChangePose(string pose)
     {
         AnimatorClipInfo clipInfo = anim.GetCurrentAnimatorClipInfo(0)[0];

@@ -8,13 +8,14 @@ public class PoseButtonController : MonoBehaviour
     [SerializeField]
     private GameObject PoseScrollView;
 
-    // Use this for initialization
-    void Start ()
-    {
 
-	}
-	
-
+    //----------------------------------------------------------------------
+    //! @brief クリック処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void Onclick()
     {
         if(!isDisplay)

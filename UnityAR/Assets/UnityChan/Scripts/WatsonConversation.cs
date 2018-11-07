@@ -21,12 +21,19 @@ public class WatsonConversation : MonoBehaviour
     private SpeechToText m_SpeechToText;
     private TextToSpeech m_TextToSpeech;
     private Conversation m_Conversation;
-    private string m_WorkspaceID = "7888e1fc-7642-4a1f-a13e-06761d72472f"; //各自変更してください
+    private string m_WorkspaceID = "7888e1fc-7642-4a1f-a13e-06761d72472f"; 
 
     [SerializeField]
-    private Animator animator; //ここを追加
-    private const string key_isGreet = "isGreet"; //ここを追加
+    private Animator animator; 
+    private const string key_isGreet = "isGreet";
 
+    //----------------------------------------------------------------------
+    //! @brief startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     IEnumerator Start()
     {
         m_voiceRecFlag = false;
@@ -57,7 +64,7 @@ public class WatsonConversation : MonoBehaviour
         m_Conversation = new Conversation(conv_credentials);
 
 
-        this.animator = GameObject.Find("skin").GetComponent<Animator>(); //ここを追加
+        this.animator = GameObject.Find("skin").GetComponent<Animator>(); 
         AudioSource audioSource = GetComponent<AudioSource>();
         while (true)
         {
@@ -67,6 +74,13 @@ public class WatsonConversation : MonoBehaviour
     }
 
 
+    //----------------------------------------------------------------------
+    //! @brief 録音処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     IEnumerator RecMic(AudioSource audioSource)
     {
         if (m_voiceRecFlag)
@@ -89,11 +103,18 @@ public class WatsonConversation : MonoBehaviour
 
 
     //void OnMessage(MessageResponse resp, string customData)
+    //----------------------------------------------------------------------
+    //! @brief OnMessage関数
+    //!
+    //! @param[in] object, Dictionary<string, object>
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     void OnMessage(object resp, Dictionary<string, object> customData)
     {
         if (resp is Dictionary<string, object>)
         {
-            //this.animator.SetBool(key_isGreet, true);
+            this.animator.SetBool(key_isGreet, true);
 
             Dictionary<string, object> dic_resp = (Dictionary<string, object>)resp;
 
@@ -120,11 +141,25 @@ public class WatsonConversation : MonoBehaviour
     }
 
     //void HandleToSpeechCallback(AudioClip clip)
+    //----------------------------------------------------------------------
+    //! @brief HandleToSpeechCallback関数
+    //!
+    //! @param[in] AudioClip, Dictionary<string, object>
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     void HandleToSpeechCallback(AudioClip clip, Dictionary<string, object> customData)
     {
         PlayClip(clip);
     }
 
+    //----------------------------------------------------------------------
+    //! @brief 音声再生処理
+    //!
+    //! @param[in] Audioclip
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     private void PlayClip(AudioClip clip)
     {
         if (Application.isPlaying && clip != null)
@@ -141,6 +176,13 @@ public class WatsonConversation : MonoBehaviour
         }
     }
 
+    //----------------------------------------------------------------------
+    //! @brief HandleOnRecognize関数
+    //!
+    //! @param[in] SpeechRecognitionEvent, Dictionary<string, object>
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     void HandleOnRecognize(SpeechRecognitionEvent result, Dictionary<string, object> customData)
     {
         if (result != null && result.results.Length > 0)
@@ -161,17 +203,26 @@ public class WatsonConversation : MonoBehaviour
         }
     }
 
+    //----------------------------------------------------------------------
+    //! @brief OnFail関数
+    //!
+    //! @param[in] RESTConnector.Error, Dictionary<string, object>
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     private void OnFail(RESTConnector.Error error, Dictionary<string, object> customData)
     {
         Debug.Log("SampleSpeechToText.OnFail() Error received: " + error.ToString());
     }
 
-    void Update()
-    {
-        
-    }
 
-
+    //----------------------------------------------------------------------
+    //! @brief Flagのセッター
+    //!
+    //! @param[in] bool
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void SetVoiceRecFlag(bool flag)
     {
         m_voiceRecFlag = flag;
