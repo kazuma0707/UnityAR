@@ -19,6 +19,7 @@ public class ScreenShot : MonoBehaviour
     GameObject Src=Instantiate(ClearScreenShot);
     Src.transform.parent = GameObject.Find("Canvas").transform;
        Src.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+        Src.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
     }
 
     void Update()

@@ -131,7 +131,7 @@ public class ButtonController : BaseButton {
     }
     private void SSButtonClick()
     {
-       // if (!AugmentedImageExampleController.Index.Contains(6)) return;
+        if (!AugmentedImageExampleController.Index.Contains(6)) return;
         _setText.SetTextNumber = DepartmentName.CYBER_SECURITY;
         Debug.Log("SS");
     }
