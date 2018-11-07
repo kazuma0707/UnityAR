@@ -16,6 +16,9 @@ public class ButtonController : BaseButton {
     private SetText _setText;
     [SerializeField]
     private Animator ClassPanel;
+    public Animator AllButtonAnim;
+
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -77,11 +80,28 @@ public class ButtonController : BaseButton {
         {
             this.ReturnSelectButtonClick();
         }
+        else if(ButtonName.ARScene.AllButton.Equals(objectName))
+        {
+            this.AllButtonClick();
+        }
+
+    }
+    private void AllButtonClick()
+    {
+        if (!AllButtonAnim.GetBool("once"))
+        {
+            AllButtonAnim.SetBool("once", true);
+        }
+        else
+        {
+            AllButtonAnim.SetBool("once", false);
+
+        }
     }
     private void ReturnSelectButtonClick()
     {
-        //SceneManager.LoadScene(SceneName.CharCreate);
-      FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
+        SceneManager.LoadScene(SceneName.CharCreate);
+      //FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
 
     }
     private void GSButtonClick()

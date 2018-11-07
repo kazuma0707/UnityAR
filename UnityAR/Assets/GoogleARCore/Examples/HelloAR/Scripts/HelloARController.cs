@@ -85,10 +85,6 @@ namespace GoogleARCore.Examples.HelloAR
                 var aim = Camera.main.transform.position - unityChanObject.transform.position;
                 var look = Quaternion.LookRotation(aim);
                 unityChanObject.transform.localRotation = look;
-                //float minAngle = 0.0f;
-                //float maxAngle = slider.value;
-                //float angle = Mathf.LerpAngle(minAngle, maxAngle, Time.time);
-                //unityChanObject.transform.eulerAngles = new Vector3(0, angle, 0);
 
             }
             if (0 < Input.touchCount)
@@ -110,26 +106,15 @@ namespace GoogleARCore.Examples.HelloAR
                             _debugText.text = Rayhit.collider.gameObject.name;
 
                             //Rayを飛ばしてあたったオブジェクトが自分自身だったら
-                            if (Rayhit.collider.gameObject.name == "jiken(Clone)")
+                            if (Rayhit.collider.gameObject.name == "skin(Clone)")
                             {
-                                _Teleport.StartFadeOut();
-                                Destroy(Rayhit.collider.gameObject,5.0f);
+                                //_Teleport.StartFadeOut();
+                                Destroy(Rayhit.collider.gameObject);
                             }
                         }
                     }
                 }
             }
-            ///デバッグ処理
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    unityChanObject = Instantiate(UnityChanPrefab, transform);
-            //    _Teleport.StartFadeIn()
-            //    cnt += 1;
-            //}
-            //if (Input.GetMouseButtonDown(1))
-            //{
-            //    _Teleport.StartFadeOut();
-            //}
 
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
@@ -176,15 +161,12 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-             
+
 
                         //Camera.main.transform.LookAt(unityChanObject.transform);
-          
-                       //MyCharDataManager.Instance.CreateMyChar(unityChanObject);
-                        _Teleport.StartFadeIn();
-                        // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                       //unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
-
+                        MyCharDataManager.Instance.ReCreate(unityChanObject);
+                        //MyCharDataManager.Instance.CreateMyChar(unityChanObject);
+                        //_Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
                         // Make Andy model a child of the anchor.

@@ -11,18 +11,14 @@ public class MenuButtonController : MonoBehaviour
     [SerializeField]
     private GameObject MenuScrollView;
 
-    // Use this for initialization
-    void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
 
+    //----------------------------------------------------------------------
+    //! @brief クリック処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void Onclick()
     {
         if (!isDisplay)
@@ -37,6 +33,13 @@ public class MenuButtonController : MonoBehaviour
         }
     }
 
+    //----------------------------------------------------------------------
+    //! @brief シーンロード処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void CCSceneLoad()
     {
         SceneManager.LoadScene("CharCreate");

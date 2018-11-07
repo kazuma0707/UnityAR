@@ -10,20 +10,28 @@ public class VoiceRec_ButtonScript : MonoBehaviour
 
     private bool m_flag;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    //----------------------------------------------------------------------
+    //! @brief Startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    void Start ()
     {
         m_obj = GameObject.FindWithTag("Player");
         m_watson = m_obj.GetComponent<WatsonConversation>();
         m_flag = true;
 	}
 	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
+    //----------------------------------------------------------------------
+    //! @brief クリック処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void OnClick()
     {
         if(m_flag)
@@ -32,7 +40,13 @@ public class VoiceRec_ButtonScript : MonoBehaviour
         StartCoroutine("Flag");
     }
 
-
+    //----------------------------------------------------------------------
+    //! @brief フラグ処理用
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     IEnumerator Flag()
     {
         yield return new WaitForSeconds(5.0f);
