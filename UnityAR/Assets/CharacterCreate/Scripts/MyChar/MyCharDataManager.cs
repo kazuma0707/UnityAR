@@ -10,26 +10,64 @@ public enum BodyNum
     BIG_BODY
 }
 
+// 服の登録番号
+public enum ClothNum
+{
+    NORMAL,
+    SEIHUKU,
+    NANKA
+}
+
+// 体の色の登録番号
+public enum BodyColorNum
+{
+    NORMAL,
+    BROWN,
+    BIHAKU
+}
+
+// 目の模様の登録番号
+public enum EyePatternNum
+{
+    NORMAL,
+    NUM_2,
+    NUM_3
+}
+
+// 目の色の登録番号
+public enum EyeColorNum
+{
+    YELLOW,
+    BLUE,
+    GREEN
+}
+
 // 髪型の登録番号
 public enum HairNum
 {
-    SHORT_HAIR,
-    LONG_HAIR,
-    TWIN_TAILS,
-    PONY_TAIL,
-    IF
+    SHORT,
+    LONG,
+    TWIN
+}
+
+// 髪の色の登録番号
+public enum HairColorNum
+{
+    PINK,
+    YELLOW,
+    GREEN
 }
 
 // 変更する部の登録番号
-public enum ChangingPoint
-{
-    SKIN,
-    BODY,
-    EYE_LINE,
-    HEAD,
-    HAIR,
-    EYE_PATTERN,
-}
+//public enum ChangingPoint
+//{
+//    SKIN,
+//    BODY,
+//    EYE_LINE,
+//    HEAD,
+//    HAIR,
+//    EYE_PATTERN,
+//}
 
 public class MyCharDataManager : MonoBehaviour
 {
@@ -61,35 +99,69 @@ public class MyCharDataManager : MonoBehaviour
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
+    // マイキャラのデータの集合体クラス
+    public class MyCharData 
+    {
+        public GameObject hair;         // 髪型
+        public Material hairColor;      // 髪の色
+        public GameObject eyeLine;      // 目の形
+        public Material eyePattern;     // 目の模様
+        public GameObject cloth;        // 服
+        public BodyNum bodyScale;       // 体型の番号
+        public Material[] bodyColor;    // 体の色
+
+        public ClothNum clothNum;       // 服の種類の番号
+        public BodyColorNum bcn;        // 体の色の番号
+
+        public EyePatternNum eyePNum;   // 目の模様の番号
+        public EyeColorNum ecn;         // 目の色の番号
+
+        public HairNum hairNum;         // 髪型の番号
+        public HairColorNum hcn;        // 髪の色の番号
+    }
+
     public const int LEFT_EYE = 0;        // 左目
     public const int RIGHT_EYE = 1;       // 右目
     public const int BODY_COLOR = 0;      // 体の色
     public const int HEAD_COLOR = 1;      // 顔の色
 
     [SerializeField]
-    private GameObject myChar;              // マイキャラオブジェクト
+    private GameObject sotai;               // 素体モデル
+
+    private GameObject sotaiBone;           // 素体のBone
+    private Transform leftUpLeg;            // 素体のLeftUpLegBone
+    private Transform rightUpLeg;           // 素体のRightUpLegBone
+    private Transform spine;           // 素体のSpineUpLegBone
+
+    //[SerializeField]
+    //private GameObject[] hairObjs;          // 対応する髪型オブジェクト
+    [Header("体型(Vector3のScale)")]
+    [SerializeField]
+    private Vector3[] bodyScales;                  // 体型
+        
+    private MyCharData saveData;                 // マイキャラのセーブデータ
+    //private MyCharData defaultData;              // マイキャラのデフォルト用データ
+
+    [Header("初期状態のモデル")]
+    [SerializeField]
+    private GameObject defaultHair;              // 初期の髪型
+    [SerializeField]
+    private Material defaultHairColorMat;        // 初期の髪の色
 
     [SerializeField]
-    private GameObject[] hairObjs;          // 対応する髪型オブジェクト
+    private GameObject defaultEyeLine;           // 初期の目の形
+    [SerializeField]
+    private Material defaultEyePatternMat;       // 初期の目の模様
 
     [SerializeField]
-    private Vector3[] bodyScale;            // 体型
+    private GameObject defaultCloth;              // 初期の服
 
     [SerializeField]
-    private Material eyeLineMat;            // 目の形
+    private BodyNum defaultBodyScale;            // 初期の体型
     [SerializeField]
-    private Material[] eyePatternMat;         // 目の模様
-
-    private GameObject cloth;                 // 服
-    //private Color hairColor;                // 髪の色
-    private Material hairColor;                // 髪の色
-    private Color eyeColor;                 // 目の色
-    private Material[] bodyColor;                // 体の色
+    private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
     
-    private BodyNum bodyNum;                // 体型の登録番号
-    private HairNum hairNum;                // 髪型の登録番号
-
     public void Awake()
     {
         // インスタンスが複数存在しないようにする
@@ -101,163 +173,319 @@ public class MyCharDataManager : MonoBehaviour
         
         DontDestroyOnLoad(this.gameObject);
 
-        // 体型と髪型の登録番号を設定
-        bodyNum = BodyNum.NORMAL_BODY;
-        hairNum = HairNum.SHORT_HAIR;        
+        // 素体のBoneを取得
+        sotaiBone = sotai.transform.Find("mixamorig:Hips").gameObject;
+
+        // DynamicBoneで除外したいオブジェクトを取得
+        leftUpLeg = sotaiBone.transform.Find("mixamorig:LeftUpLeg");
+        rightUpLeg = sotaiBone.transform.Find("mixamorig:RightUpLeg");
+        spine = sotaiBone.transform.Find("mixamorig:Spine");
+
+        saveData = new MyCharData();
+        //defaultData = new MyCharData();
+
+        saveData.hair = defaultHair;
+        saveData.hairColor = defaultHairColorMat;
+        //saveData.eyeLine = defaultEyeLine;
+        saveData.eyePattern = defaultEyePatternMat;
+        saveData.cloth = defaultCloth;
+        saveData.bodyScale = defaultBodyScale;
+        saveData.bodyColor = defaultBodyColorMat;        
+
     }
-    
+
     // Update is called once per frame
     void Update()
     {
-    }  
+    }
 
     //----------------------------------------------------------------------------------------------
-    // 関数の内容 | マイキャラ生成
-    // 　引　数   | mC：マイキャラオブジェクト
+    // 関数の内容 | 別シーンや作り直しする時に変更する部位の再設定
+    // 　引　数   | mC：マイキャラの素体モデル
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void CreateMyChar(GameObject mC)
+    public void ReCreate(GameObject mC)
     {
-        // 体型を設定
-        mC.transform.localScale = bodyScale[(int)bodyNum];
-
-        // 服装を設定
-        ChangeBone cb = new ChangeBone();
-        cb.RootBone = mC.transform.Find("mixamorig:Hips").gameObject;
-        cb.ChangeClothes(cloth);
-
-        // 体の色を設定
-        SkinnedMeshRenderer[] renderer = mC.GetComponentsInChildren<SkinnedMeshRenderer>();
-        foreach (SkinnedMeshRenderer obs in renderer)
+        // 素体モデルが無い場合、再設定
+        if (!sotai)
         {
-
-            switch (obs.gameObject.tag)
-            {
-                case "BodyObj":
-                default:
-                    obs.GetComponent<Renderer>().material = bodyColor[0];
-                    break;
-                case "HeadObj":
-                    obs.GetComponent<Renderer>().material = bodyColor[1];
-                    break;                    
-            }           
-
+            //sotai = GameObject.Find("skin");
+            sotai = mC;
+            sotaiBone = sotai.transform.Find("mixamorig:Hips").gameObject;
         }
 
-        // 髪型を設定   
-        // 子オブジェクトを検索
-        foreach (var child in mC.GetChildren())
+        // DynamicBoneを除外
+        RemoveDB();
+        // 服を変える
+        CharaCreateManager.ChangeClothObj(saveData.cloth, sotaiBone);
+        // DynamicBoneの設定
+        SettingDB();
+
+        // 目の形を変える
+        //CharaCreateManager.ChangeEyeLine(saveData.eyeLine);
+
+        // 髪型を変える
+        CharaCreateManager.ChangeHairObj(saveData.hair, sotaiBone);
+
+        // 髪の色を変える
+        CharaCreateManager.ChangeHairColor(saveData.hairColor, sotai);
+
+        // 目の模様(＋色)を変える
+        CharaCreateManager.ChangeEyePattern(saveData.eyePattern, sotai);
+
+        // 体型を変える
+        CharaCreateManager.ChangeBodyScale(saveData.bodyScale, sotai);
+
+        // 体の色を変える
+        CharaCreateManager.ChangeBodyColor(saveData.bodyColor, sotai);
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | デフォルトに戻す
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ResetDefault()
+    {
+        if (!sotai) sotai = GameObject.Find("skin");
+
+        // 服を変える(既に同じものを選択していなければ)
+        if (saveData.cloth.name != defaultCloth.name)
         {
-            // 既存の髪オブジェクトを削除
-            if (child.tag == "HairObj")
-            {
-                Destroy(child);
-                continue;
-            }
+            // DynamicBoneを除外
+            RemoveDB();
 
-            // 定位置に髪オブジェクトを作る
-            if (child.name == "HairPos")
-            {
-                GameObject hair = Instantiate(hairObjs[(int)hairNum], child.transform.position, child.transform.rotation) as GameObject;
-                
-                hair.transform.SetParent(child.transform.parent.transform);
-                // 髪の色を設定
-                //hair.GetComponent<MeshRenderer>().material.color = hairColor;
-                hair.GetComponent<Renderer>().material = hairColor;
-                break;
-            }
+            CharaCreateManager.ChangeClothObj(defaultCloth, sotaiBone);
+            // DynamicBoneの設定
+            SettingDB();
         }
+            
 
-        // 髪の色を設定
-        //GameObject[] hairs = GameObject.FindGameObjectsWithTag("HairObj");
-        //foreach (GameObject obs in hairs)
-        //{
-        //    obs.GetComponent<Renderer>().material.color = hairColor;
-        //}
+        // 目の形を変える(既に同じものを選択していなければ)
+        //if (saveData.eyeLine.name != defaultEyeLine.name)
+        //    CharaCreateManager.ChangeEyeLineObj(defaultEyeLine);
 
-        // 目の形を設定
-        //GameObject[] eyeLines = GameObject.FindGameObjectsWithTag("eyeLineObj");
-        //foreach (GameObject obs in eyeLines)
-        //{
-        //    obs.GetComponent<Renderer>().material = eyeLineMat;
-        //}
+        // 髪型を変える(既に同じものを選択していなければ)
+        if (saveData.hair.name != defaultHair.name)
+            CharaCreateManager.ChangeHairObj(defaultHair, sotaiBone);
 
-        // 目の模様と色を設定
-        //GameObject[] eyePatterns = GameObject.FindGameObjectsWithTag("eyePatternObj");
+        // 髪の色を変える(既に同じものを選択していなければ)
+        if (saveData.hairColor.name != defaultHairColorMat.name)
+            CharaCreateManager.ChangeHairColor(defaultHairColorMat, sotai);
 
-        //eyePatterns[0].GetComponent<MeshRenderer>().material = eyePatternMat[1];
-        //eyePatterns[1].GetComponent<MeshRenderer>().material = eyePatternMat[0];
-        //for (int i = 0; i < eyePatterns.Length; i++)
-        //{
-        //    eyePatterns[i].GetComponent<MeshRenderer>().material.color = eyeColor;
-        //}
+        // 目の模様(＋色)を変える(既に同じものを選択していなければ)
+        if (saveData.eyePattern.name != defaultEyePatternMat.name)
+            CharaCreateManager.ChangeEyePattern(defaultEyePatternMat, sotai);
+
+        // 体型を変える(既に同じものを選択していなければ)
+        if (saveData.bodyScale != defaultBodyScale)
+            CharaCreateManager.ChangeBodyScale(defaultBodyScale, sotai);
+
+        // 体の色を変える(既に同じものを選択していなければ)
+        if (saveData.bodyColor[BODY_COLOR].name != defaultBodyColorMat[BODY_COLOR].name)
+            CharaCreateManager.ChangeBodyColor(defaultBodyColorMat, sotai);
+
+        // セーブデータに保存
+        saveData.hair = defaultHair;
+        saveData.hairColor = defaultHairColorMat;
+        saveData.eyeLine = defaultEyeLine;
+        saveData.eyePattern = defaultEyePatternMat;
+        saveData.cloth = defaultCloth;
+        saveData.bodyScale = defaultBodyScale;
+        saveData.bodyColor = defaultBodyColorMat;
     }
 
-    // 体型の登録番号のアクセッサ
-    public BodyNum BodyNumber
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 服を変える
+    // 　引　数   | newCloth：髪型, newColor：体の色の配列
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeClothObj(GameObject newCloth, Material[] newColor)
     {
-        get { return bodyNum; }
-        set { bodyNum = value; }
+        // 既に同じものを選択していたら何もしない
+        if (saveData.cloth.name == newCloth.name) return;
+
+        // DynamicBoneを除外
+        RemoveDB();
+
+        // 服を変え、セーブデータに保存
+        CharaCreateManager.ChangeClothObj(newCloth, sotaiBone);
+        saveData.cloth = newCloth;
+
+        // 体の色を変え、セーブデータに保存
+        CharaCreateManager.ChangeBodyColor(newColor, sotai);
+        saveData.bodyColor = newColor;
+
+        // DynamicBoneの設定
+        //SettingDB();
+        StartCoroutine("SettingDB");
+
     }
 
-    // 髪型の登録番号のアクセッサ
-    public HairNum HairNumber
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 髪の色を変える
+    // 　引　数   | newColor：髪の色
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeHairColor(Material newColor)
     {
-        get { return hairNum; }
-        set { hairNum = value; }
+        // 既に同じものを選択していたら何もしない
+        if (saveData.hairColor.name == newColor.name) return;
+
+        // 髪の色を変え、セーブデータに保存
+        CharaCreateManager.ChangeHairColor(newColor, sotai);
+        saveData.hairColor = newColor;
     }
 
-    // 目の形のアクセッサ
-    public Material EyeLine
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 髪型を変える
+    // 　引　数   | newHair：髪型, newColor：髪の色
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeHairObj(GameObject newHair, Material newColor)
     {
-        get { return eyeLineMat; }
-        set { eyeLineMat = value; }
+        // 既に同じものを選択していたら何もしない
+        if (saveData.hair.name == newHair.name) return;
+
+        // 髪型を変え、セーブデータに保存
+        CharaCreateManager.ChangeHairObj(newHair, sotaiBone);
+        saveData.hair = newHair;
+
+        // 髪の色を変え、セーブデータに保存
+        CharaCreateManager.ChangeHairColor(newColor, sotai);
+        saveData.hairColor = newColor;
     }
 
-    // 目の模様のアクセッサ
-    public Material[] EyePattern
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 体型を変える
+    // 　引　数   | newScale：体型の登録番号
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeBodyScale(BodyNum newScale)
     {
-        get { return eyePatternMat; }
-        set { eyePatternMat = value; }
+        // 既に同じものを選択していたら何もしない
+        if (saveData.bodyScale == newScale) return;
+
+        // 体型を変え、セーブデータに保存
+        CharaCreateManager.ChangeBodyScale(newScale, sotai);
+        saveData.bodyScale = newScale;
     }
 
-    // 髪の色のアクセッサ
-    public Material HairColor
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 体の色を変える
+    // 　引　数   | newColor：体の色の配列
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeBodyColor(Material[] newColor)
     {
-        get { return hairColor; }
-        set { hairColor = value; }
+        // 既に同じものを選択していたら何もしない
+        if (saveData.bodyColor[BODY_COLOR].name == newColor[BODY_COLOR].name) return;
+        // 体の色を変え、セーブデータに保存
+        CharaCreateManager.ChangeBodyColor(newColor, sotai);
+        saveData.bodyColor = newColor;
     }
 
-    // 目の色のアクセッサ
-    public Color EyeColor
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 目の模様を変える
+    // 　引　数   | newPattern：目の模様のマテリアル
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeEyePattern(Material newPattern)
     {
-        get { return eyeColor; }
-        set { eyeColor = value; }
+        Debug.Log(newPattern.name);
+        // 既に同じものを選択していたら何もしない
+        if (saveData.eyePattern.name == newPattern.name) return;
+
+        // 目の模様を変え、セーブデータに保存
+        CharaCreateManager.ChangeEyePattern(newPattern, sotai);
+        saveData.eyePattern = newPattern;
     }
 
-    // 体の色のアクセッサ
-    public Material[] BodyColor
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 目の形を変える
+    // 　引　数   | newLine：目の形
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeEyeLineObj(GameObject newLine)
+    {        
+        // 既に同じものを選択していたら何もしない
+        if (saveData.eyeLine.name == newLine.name) return;
+
+        // 目の形を変え、セーブデータに保存
+        CharaCreateManager.ChangeEyeLineObj(newLine);
+        saveData.eyeLine = newLine;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 目の色を変える
+    // 　引　数   | newColor：目の色
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeEyeColor(Material newColor)
     {
-        get { return bodyColor; }
-        set { bodyColor = value; }
+        // 既に同じものを選択していたら何もしない
+        if (saveData.eyePattern.name == newColor.name) return;
+
+        // 目の模様を変え、セーブデータに保存
+        CharaCreateManager.ChangeEyeColor(newColor, sotai);
+        saveData.eyePattern = newColor;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | DynamicBoneを設定
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public IEnumerator SettingDB()
+    {
+        // 1フレーム置いてから処理をする
+        yield return null;
+        // 素体のBoneにDynamicBoneコンポーネントをアタッチ
+        DynamicBone db = sotaiBone.AddComponent<DynamicBone>();
+        
+        // 素体のBoneをルートとして設定
+        db.m_Root = sotaiBone.transform;
+
+        // 円の当たり判定の半径を設定
+        db.m_Radius = 0.05f;
+
+        // 除外したいオブジェクトを除外リストに追加
+        db.m_Exclusions = new List<Transform>();        
+        db.m_Exclusions.Add(leftUpLeg);
+        db.m_Exclusions.Add(rightUpLeg);
+        db.m_Exclusions.Add(spine);
+
+        // コライダーが付いているBoneオブジェクトを取得
+        DynamicBoneCollider[] DBCs = sotaiBone.GetComponentsInChildren<DynamicBoneCollider>();
+
+        // コライダーが付いているBoneオブジェクトをコライダーリストに追加
+        db.m_Colliders = new List<DynamicBoneColliderBase>();
+        db.m_Colliders.AddRange(DBCs);     
+
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | DynamicBoneを除外
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void RemoveDB()
+    {
+        // 素体のBoneにDynamicBoneコンポーネントをアタッチ
+        sotaiBone.RemoveComponent<DynamicBone>(); 
+        //sotaiBone.GetComponent<DynamicBone>().enabled = false;       
     }
 
     // 体型のアクセッサ
-    public Vector3[] BodySize
+    public Vector3[] BodyScales
     {
-        get { return bodyScale; }
+        get { return bodyScales; }
     }
 
-    // 髪型のアクセッサ
-    public GameObject[] HairObj
+    // セーブデータのアクセッサ
+    public MyCharData Data
     {
-        get { return hairObjs; }
-    }
-
-    // 体型のアクセッサ
-    public GameObject Cloth
-    {
-        get { return cloth; }
-        set { cloth = value; }
+        get { return saveData; }
+        set { saveData = value; }
     }
 }

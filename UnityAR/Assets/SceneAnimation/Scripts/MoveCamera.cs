@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using ConstantName;
 
 public class MoveCamera : MonoBehaviour
 {
@@ -50,8 +51,8 @@ public class MoveCamera : MonoBehaviour
     [SerializeField]
     private GameObject NoButton;
     // 学校紹介ボタン
-    //[SerializeField]
-    //private GameObject SchoolIntroductionButton;
+    [SerializeField]
+    private GameObject SchoolIntroductionButton;
     // ゲームボタン
     [SerializeField]
     private GameObject GameButton;
@@ -139,7 +140,7 @@ public class MoveCamera : MonoBehaviour
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
-        //SchoolIntroductionButton.SetActive(false);
+        SchoolIntroductionButton.SetActive(false);
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
@@ -215,7 +216,7 @@ public class MoveCamera : MonoBehaviour
     {       
         Invoke("Rotate2", 0.5f);
 
-        //SchoolIntroductionButton.SetActive(true);
+        SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
         ReCharacterCreateButton.SetActive(true);
@@ -248,19 +249,19 @@ public class MoveCamera : MonoBehaviour
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        //SceneManager.LoadScene("SchoolIntroduction");
+        SceneManager.LoadScene(SceneName.ARScene);
     }
 
     //ゲームボタンを押したら
     public void OnGame()
     {
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadScene(SceneName.Game);
     }
 
     //鑑賞ボタンを押したら
     public void OnAppreciation()
     {
-        SceneManager.LoadScene("Appreciation");
+        SceneManager.LoadScene(SceneName.Appreciation);
     }
 
     //キャラクタークリエイトをし直す
@@ -272,7 +273,7 @@ public class MoveCamera : MonoBehaviour
         ReNoButton.SetActive(true);
 
         Panel.SetActive(false);
-        //SchoolIntroductionButton.SetActive(false);
+        SchoolIntroductionButton.SetActive(false);
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
@@ -300,7 +301,7 @@ public class MoveCamera : MonoBehaviour
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
 
-        //SchoolIntroductionButton.SetActive(true);
+        SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
         ReCharacterCreateButton.SetActive(true);

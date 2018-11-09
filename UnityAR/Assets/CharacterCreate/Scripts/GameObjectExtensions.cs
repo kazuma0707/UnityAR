@@ -18,6 +18,14 @@ public static class GameObjectExtensions
             .Select(c => c.gameObject)
             .ToArray();
     }
+
+    /// <summary>
+    /// コンポーネントを削除します
+    /// </summary>
+    public static void RemoveComponent<T>(this GameObject self) where T : Component
+    {
+        GameObject.Destroy(self.GetComponent<T>());
+    }
 }
 
 public static class ComponentExtensions
@@ -36,5 +44,13 @@ public static class ComponentExtensions
             .Where(c => c != self.transform)
             .Select(c => c.gameObject)
             .ToArray();
+    }
+
+    /// <summary>
+    /// コンポーネントを削除します
+    /// </summary>
+    public static void RemoveComponent<T>(this Component self) where T : Component
+    {
+        GameObject.Destroy(self.GetComponent<T>());
     }
 }

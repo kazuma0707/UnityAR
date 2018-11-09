@@ -5,18 +5,14 @@ using UnityEngine;
 public class HairCChangeButton : MonoBehaviour
 {
     [SerializeField]
-    private Material mat;          // 対応するマテリアル
+    private Material resourceMatsShortHair;          // 対応するマテリアル・ショートヘアーVer.
     [SerializeField]
-    private GameObject manager;     // キャラクリマネージャー
+    private Material resourceMatsLongHair;           // 対応するマテリアル・ロングヘアーVer.
+    [SerializeField]
+    private Material resourceMatsTwinTail;           // 対応するマテリアル・ツインテールVer.
 
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    private HairColorNum hcn;                        // 髪の色の番号
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | クリックされたときの処理
@@ -25,8 +21,25 @@ public class HairCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 髪の色を設定
-        //manager.GetComponent<CharaCreateManager>().ChangeHairColor(mat.color);
-        manager.GetComponent<CharaCreateManager>().ChangeHairColor(mat);
+        // 髪型に合わせて髪(＋それに合わせた体の色)を変える
+        switch (MyCharDataManager.Instance.Data.hairNum)
+        {
+            case HairNum.SHORT:
+            default:
+                // 髪の色を変える
+                MyCharDataManager.Instance.ChangeHairColor(resourceMatsShortHair);
+                break;
+            case HairNum.LONG:
+                // 髪の色を変える
+                MyCharDataManager.Instance.ChangeHairColor(resourceMatsLongHair);
+                break;
+            case HairNum.TWIN:
+                // 髪の色を変える
+                MyCharDataManager.Instance.ChangeHairColor(resourceMatsTwinTail);
+                break;
+        }
+
+        // 髪の色の番号を登録
+        MyCharDataManager.Instance.Data.hcn = hcn;
     }
 }
