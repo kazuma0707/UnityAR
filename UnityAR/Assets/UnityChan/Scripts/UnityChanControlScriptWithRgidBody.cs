@@ -51,6 +51,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 	static int locoState = Animator.StringToHash("Base Layer.Locomotion");
 	static int jumpState = Animator.StringToHash("Base Layer.Jump");
 	static int restState = Animator.StringToHash("Base Layer.Rest");
+    static int deadState = Animator.StringToHash("Base Layer.Dead");
 
     private Vector3 localGravity = new Vector3(0, -3.0f, 0);
 
@@ -83,6 +84,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     bool jumpPossibleFlag = false;                          //  ジャンプ可能かどうかのフラグ
     private float downVelocity = 0.4f;                      //  ジャンプ落下時の速度変化
 
+    //  シーンのロードが複数行われるのの防止
+    bool isLoad = false;
 
     //=============  定数　===============//
     private const float JUMP_HEIGHT = 2.0f;//1.5f;          //  ジャンプの高さ
@@ -158,7 +161,13 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         //  プレイヤーが一定以下に落ちる or 障害物に当たったらゲームオーバー
         if(this.transform.position.y <= -3.0f || obstacleFlag == true)
         {
-            SceneManager.LoadScene("Ranking");
+            //  シーンが複数ロードされるのの防止
+            if (!isLoad)
+            {
+                //SceneManager.LoadScene("Ranking");
+                FadeManager.Instance.LoadScene("Ranking", 2.0f);
+            }
+            isLoad = true;
         }
 
         //  プレイヤーの下に床があるかどうか
@@ -537,6 +546,16 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    /****************************************************************
+    *|　機能　プレイヤーが障害物にあたったかどうかのフラグの取得
+    *|　引数　なし
+    *|　戻値　bool(当たっていればtrue、当たっていなければfalse)
+    ***************************************************************/
+    public bool GetObstacleFlag()
+    {
+        return obstacleFlag;
     }
 }
 
