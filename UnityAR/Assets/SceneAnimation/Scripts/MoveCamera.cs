@@ -99,7 +99,29 @@ public class MoveCamera : MonoBehaviour
     [SerializeField]
     private GameObject welcomeText;     // Welcomeのテキスト
 
-    public PlayableDirector playableDirector;
+    public PlayableDirector playableDirector1;
+    public PlayableDirector playableDirector2;
+    public PlayableDirector playableDirector3;
+
+    [SerializeField]
+    private GameObject Camera1;
+    [SerializeField]
+    private GameObject Camera2;
+    [SerializeField]
+    private GameObject Camera3;
+
+    [SerializeField]
+    private GameObject cmCamera5;
+    [SerializeField]
+    private GameObject cmCamera6;
+    [SerializeField]
+    private GameObject cmCamera7;
+    [SerializeField]
+    private GameObject cmCamera8;
+    [SerializeField]
+    private GameObject cmCamera9;
+    [SerializeField]
+    private GameObject cmCamera10;
 
     [SerializeField]
     private GameObject fade;                 // フェード用の画像
@@ -150,11 +172,22 @@ public class MoveCamera : MonoBehaviour
         ReNoButton.SetActive(false);
         welcomeText.SetActive(false);
 
+        Camera2.SetActive(false);
+        Camera3.SetActive(false);
+        cmCamera5.SetActive(false);
+        cmCamera6.SetActive(false);
+        cmCamera7.SetActive(false);
+        cmCamera8.SetActive(false);
+        cmCamera9.SetActive(false);
+        cmCamera10.SetActive(false);
+
         // キャラクリ用のカメラを停止
         CCCamera.SetActive(false);
         // メインカメラを停止
-        StopTimeline();
-               
+        StopTimeline1();
+        StopTimeline2();
+        StopTimeline3();
+
     }
 
     // Update is called once per frame
@@ -189,7 +222,7 @@ public class MoveCamera : MonoBehaviour
         iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 0.5f, "EaseType", iTween.EaseType.linear));
 
         welcomeText.SetActive(true);
-        PlayTimeline();
+        PlayTimeline1();
     }
 
     //完了ボタンを押したら
@@ -225,7 +258,19 @@ public class MoveCamera : MonoBehaviour
         YesButton.SetActive(false);
         NoButton.SetActive(false);
 
+        Camera1.SetActive(false);
+        Camera2.SetActive(true);
+        cmCamera5.SetActive(true);
+        cmCamera6.SetActive(true);
+        cmCamera7.SetActive(false);
+
+        welcomeText.SetActive(false);
+
+        iTween.MoveTo(MyC, iTween.Hash("x", -3.3f, "y", 0.2f, "z", -2.2f, "speed", 1.1f, "EaseType", iTween.EaseType.linear));
+
         audioSource.PlayOneShot(YesSound);
+
+        PlayTimeline2();
     }
 
     //いいえを押したら
@@ -255,7 +300,7 @@ public class MoveCamera : MonoBehaviour
     //ゲームボタンを押したら
     public void OnGame()
     {
-        SceneManager.LoadScene(SceneName.Game);
+        SceneManager.LoadScene(SceneName.Title);
     }
 
     //鑑賞ボタンを押したら
@@ -289,6 +334,15 @@ public class MoveCamera : MonoBehaviour
         RePanel.SetActive(false);
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
+
+        Camera2.SetActive(false);
+        Camera3.SetActive(true);
+        cmCamera8.SetActive(true);
+        cmCamera9.SetActive(true);
+        cmCamera10.SetActive(true);
+
+
+        iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 1.1f, "EaseType", iTween.EaseType.linear));
 
         audioSource.PlayOneShot(YesSound);
     }
@@ -327,8 +381,8 @@ public class MoveCamera : MonoBehaviour
         CCCamera.SetActive(false);
 
         // セレクト用のチェックポイントまで移動
-        //Vector3 pos = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.position;
-        //float rot = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.eulerAngles.y;       
+        Vector3 pos = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.position;
+        float rot = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.eulerAngles.y;
         //iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f));
         //iTween.RotateTo(this.gameObject, iTween.Hash("y", rot, "time", 9.0f));
     }
@@ -337,8 +391,8 @@ public class MoveCamera : MonoBehaviour
     private void Rotate3()
     {
         // キャラクリ用のチェックポイントまで移動
-        //Vector3 pos = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.position;
-        //float rot = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.eulerAngles.y;
+        Vector3 pos = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.position;
+        float rot = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.eulerAngles.y;
         //iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f,
         //                                           "oncomplete", "MoveToCharaCreEnd",
         //                                           "oncompletetarget", this.gameObject));
@@ -369,9 +423,9 @@ public class MoveCamera : MonoBehaviour
     // フェードイン・アウトの管理
     private void FadeInOut()
     {
-        double time = playableDirector.time;
+        double time = playableDirector1.time;
         // 一定時間経過したらフェードアウトする
-        if (time >= FADE_OUT && playableDirector.state == PlayState.Playing)
+        if (time >= FADE_OUT && playableDirector1.state == PlayState.Playing)
         {
             fade.GetComponent<Fade>().FadeOut();
         }
@@ -384,15 +438,33 @@ public class MoveCamera : MonoBehaviour
     }
 
     //開始
-    void PlayTimeline()
+    void PlayTimeline1()
     {
-        playableDirector.Play();
-        
-        
+        playableDirector1.Play();
     }
     //停止
-    void StopTimeline()
+    void StopTimeline1()
     {
-        playableDirector.Stop();
+        playableDirector1.Stop();
+    }
+    //開始
+    void PlayTimeline2()
+    {
+        playableDirector2.Play();
+    }
+    //停止
+    void StopTimeline2()
+    {
+        playableDirector2.Stop();
+    }
+    //開始
+    void PlayTimeline3()
+    {
+        playableDirector3.Play();
+    }
+    //停止
+    void StopTimeline3()
+    {
+        playableDirector3.Stop();
     }
 }

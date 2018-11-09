@@ -73,7 +73,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     private bool lerpflag = false;
     [SerializeField]
     private GameObject manager;
-
+    
     private bool floorFlag = false;                         //  プレイヤーが床に接触しているかどうか
     private bool obstacleFlag = false;                      //  障害物に当たったかどうかのフラグ
     private bool LRjumpFlag = false;                        //  左右ジャンプ時のフラグ
@@ -81,6 +81,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     //  ジャンプ用変数
     bool jumpFlag = false;                                  //  ジャンプ中かどうかのフラグ
     float jumpVel = 0.0f;
+    [SerializeField]
     bool jumpPossibleFlag = false;                          //  ジャンプ可能かどうかのフラグ
     private float downVelocity = 0.4f;                      //  ジャンプ落下時の速度変化
 

@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     private const float FADE_TIME = 2.0f;
 
     [SerializeField]
+    private GameObject sotai;                // 素体モデル
+    [SerializeField]
     private GameObject standPre;                // 台のプレハブ
     [SerializeField]
     private GameObject obstaclePre;             //  障害物プレハブ
@@ -89,6 +91,10 @@ public class GameManager : MonoBehaviour
     {
         //  static public変数の初期化
         gameScore = 0;
+
+        // 素体モデルにデータを適用させる
+        MyCharDataManager.Instance.ReCreate(sotai);
+        MyCharDataManager.Instance.ChangeBodyScale(BodyNum.NORMAL_BODY);
 
         //  ゲームの停止
         GameStop();
@@ -344,6 +350,8 @@ public class GameManager : MonoBehaviour
             levelScore = 1000;
         }
     }    
+
+
 
 
     public float FallSpeed
