@@ -51,27 +51,7 @@ public class ChangeHair : MonoBehaviour
             Transform baseTrans = BoneTransformList[boneIndex].transform;
             RootBoneIndexList.Add(baseTrans.name, boneIndex);
         }
-
-
-        //// リストを再登録
-        //BoneTransformList.Clear();
-        //// HairBoneのタグが付いたオブジェクトを取得し、リストに追加        
-        //Transform[] hairBoneTransforms = RootBone.GetComponentsInChildren<Transform>();
-        //for (int i = 0; i < hairBoneTransforms.Length; i++)
-        //{
-        //    //if (hairBoneTransforms[i].tag == "HairBone")
-        //        BoneTransformList.Add(hairBoneTransforms[i]);
-        //}
-
-        //RootBoneIndexList.Clear();
-
-        //// 素体のBoneを基にリストを登録
-        //for (int boneIndex = 0; boneIndex < BoneTransformList.Count; boneIndex++)
-        //{
-        //    Transform baseTrans = BoneTransformList[boneIndex].transform;
-        //    RootBoneIndexList.Add(baseTrans.name, boneIndex);
-        //}
-
+        
         // モデルを変える
         ChangeHairModels();
     }
@@ -121,20 +101,6 @@ public class ChangeHair : MonoBehaviour
 
         // MeshObjectを作成する
         CreateMeshObject(smr, localTransforms);
-
-
-        // Boneの取得
-        //Transform[] meshBones = smr.bones;
-
-        //for (int boneIndex = 0; boneIndex < meshBones.Length; boneIndex++)
-        //{
-        //    if (!RootBoneIndexList.ContainsKey(meshBones[boneIndex].name))
-        //    {
-        //        Debug.Log(meshBones[boneIndex].name);
-        //        CreateBones(meshBones[boneIndex]);
-        //    }            
-        //}
-
     }
 
 
@@ -171,17 +137,6 @@ public class ChangeHair : MonoBehaviour
             }
         }
     }
-
-    // ボーンを新規で作成
-    //private void CreateBones(Transform meshBone)
-    //{
-    //    // 同名且つ同じTransformのBoneを作成
-    //    GameObject obj = Instantiate(meshBone.gameObject);
-    //    obj.name = meshBone.name;
-    //    obj.transform.SetParent(BoneTransformList[RootBoneIndexList[meshBone.parent.name]]);
-    //    obj.transform.localPosition = meshBone.gameObject.transform.localPosition;
-    //    obj.transform.localEulerAngles = meshBone.gameObject.transform.localEulerAngles;
-    //}
 
     // MeshObjectを作成する
     private void CreateMeshObject(SkinnedMeshRenderer smr, Transform[] localTransforms)

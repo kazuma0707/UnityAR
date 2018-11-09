@@ -58,17 +58,6 @@ public enum HairColorNum
     GREEN
 }
 
-// 変更する部の登録番号
-//public enum ChangingPoint
-//{
-//    SKIN,
-//    BODY,
-//    EYE_LINE,
-//    HEAD,
-//    HAIR,
-//    EYE_PATTERN,
-//}
-
 public class MyCharDataManager : MonoBehaviour
 {
     
@@ -120,21 +109,28 @@ public class MyCharDataManager : MonoBehaviour
         public HairColorNum hcn;        // 髪の色の番号
     }
 
-    public const int LEFT_EYE = 0;        // 左目
-    public const int RIGHT_EYE = 1;       // 右目
-    public const int BODY_COLOR = 0;      // 体の色
-    public const int HEAD_COLOR = 1;      // 顔の色
+    // 定数宣言 /////////////////////////////////////////////////////////////////////////////
+    public const int LEFT_EYE = 0;                                   // 左目
+    public const int RIGHT_EYE = 1;                                  // 右目
+    public const int BODY_COLOR = 0;                                 // 体の色
+    public const int HEAD_COLOR = 1;                                 // 顔の色
+    public const string HIPS_BONE = "mixamorig:Hips";                // 素体のBone(Hips)
+    public const string HAIR_BONE = "hiar";                          // 素体のBone(Hair)
+    public const string LEFT_UP_LEG_BONE = "mixamorig:LeftUpLeg";    // 素体のBone(LeftUpLeg)
+    public const string RIGHT_UP_LEG = "mixamorig:RightUpLeg";       // 素体のBone(RightUpLeg)
+    public const string SPINE_BONE = "mixamorig:Spine";              // 素体のBone(Spine)
+
+    /////////////////////////////////////////////////////////////////////////////////////////
 
     [SerializeField]
     private GameObject sotai;               // 素体モデル
 
     private GameObject sotaiBone;           // 素体のBone
+    private GameObject hairBaseBone;        // 素体の髪型の基点となるBone
     private Transform leftUpLeg;            // 素体のLeftUpLegBone
     private Transform rightUpLeg;           // 素体のRightUpLegBone
-    private Transform spine;           // 素体のSpineUpLegBone
+    private Transform spine;                // 素体のSpineUpLegBone
 
-    //[SerializeField]
-    //private GameObject[] hairObjs;          // 対応する髪型オブジェクト
     [Header("体型(Vector3のScale)")]
     [SerializeField]
     private Vector3[] bodyScales;                  // 体型
@@ -174,12 +170,15 @@ public class MyCharDataManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         // 素体のBoneを取得
-        sotaiBone = sotai.transform.Find("mixamorig:Hips").gameObject;
+        sotaiBone = sotai.transform.Find(HIPS_BONE).gameObject;
+
+        // 素体の髪型の基点となるBoneを取得
+        hairBaseBone = sotai.transform.FindDeep(HAIR_BONE).gameObject;
 
         // DynamicBoneで除外したいオブジェクトを取得
-        leftUpLeg = sotaiBone.transform.Find("mixamorig:LeftUpLeg");
-        rightUpLeg = sotaiBone.transform.Find("mixamorig:RightUpLeg");
-        spine = sotaiBone.transform.Find("mixamorig:Spine");
+        leftUpLeg = sotaiBone.transform.Find(LEFT_UP_LEG_BONE);
+        rightUpLeg = sotaiBone.transform.Find(RIGHT_UP_LEG);
+        spine = sotaiBone.transform.Find(SPINE_BONE);
 
         saveData = new MyCharData();
         //defaultData = new MyCharData();
@@ -211,21 +210,26 @@ public class MyCharDataManager : MonoBehaviour
         {
             //sotai = GameObject.Find("skin");
             sotai = mC;
-            sotaiBone = sotai.transform.Find("mixamorig:Hips").gameObject;
+            sotaiBone = sotai.transform.Find(HIPS_BONE).gameObject;
         }
 
         // DynamicBoneを除外
-        RemoveDB();
+        RemoveDB(sotaiBone);
         // 服を変える
         CharaCreateManager.ChangeClothObj(saveData.cloth, sotaiBone);
         // DynamicBoneの設定
-        SettingDB();
+        SettingClothDB();
 
         // 目の形を変える
         //CharaCreateManager.ChangeEyeLine(saveData.eyeLine);
 
+        
+        // DynamicBoneを除外
+        RemoveDB(hairBaseBone);
         // 髪型を変える
         CharaCreateManager.ChangeHairObj(saveData.hair, sotaiBone);
+        // DynamicBoneの設定
+        SettingHairDB();
 
         // 髪の色を変える
         CharaCreateManager.ChangeHairColor(saveData.hairColor, sotai);
@@ -253,11 +257,11 @@ public class MyCharDataManager : MonoBehaviour
         if (saveData.cloth.name != defaultCloth.name)
         {
             // DynamicBoneを除外
-            RemoveDB();
+            RemoveDB(sotaiBone);
 
             CharaCreateManager.ChangeClothObj(defaultCloth, sotaiBone);
             // DynamicBoneの設定
-            SettingDB();
+            SettingClothDB();
         }
             
 
@@ -267,7 +271,14 @@ public class MyCharDataManager : MonoBehaviour
 
         // 髪型を変える(既に同じものを選択していなければ)
         if (saveData.hair.name != defaultHair.name)
+        {
+            // DynamicBoneを除外
+            RemoveDB(hairBaseBone);
             CharaCreateManager.ChangeHairObj(defaultHair, sotaiBone);
+            // DynamicBoneの設定
+            SettingHairDB();
+        }
+            
 
         // 髪の色を変える(既に同じものを選択していなければ)
         if (saveData.hairColor.name != defaultHairColorMat.name)
@@ -306,7 +317,7 @@ public class MyCharDataManager : MonoBehaviour
         if (saveData.cloth.name == newCloth.name) return;
 
         // DynamicBoneを除外
-        RemoveDB();
+        RemoveDB(sotaiBone);
 
         // 服を変え、セーブデータに保存
         CharaCreateManager.ChangeClothObj(newCloth, sotaiBone);
@@ -317,8 +328,7 @@ public class MyCharDataManager : MonoBehaviour
         saveData.bodyColor = newColor;
 
         // DynamicBoneの設定
-        //SettingDB();
-        StartCoroutine("SettingDB");
+        StartCoroutine("SettingClothDB");
 
     }
 
@@ -347,6 +357,9 @@ public class MyCharDataManager : MonoBehaviour
         // 既に同じものを選択していたら何もしない
         if (saveData.hair.name == newHair.name) return;
 
+        // DynamicBoneを除外
+        RemoveDB(hairBaseBone);
+
         // 髪型を変え、セーブデータに保存
         CharaCreateManager.ChangeHairObj(newHair, sotaiBone);
         saveData.hair = newHair;
@@ -354,6 +367,9 @@ public class MyCharDataManager : MonoBehaviour
         // 髪の色を変え、セーブデータに保存
         CharaCreateManager.ChangeHairColor(newColor, sotai);
         saveData.hairColor = newColor;
+
+        // DynamicBoneの設定
+        StartCoroutine("SettingHairDB");
     }
 
     //----------------------------------------------------------------------------------------------
@@ -432,11 +448,11 @@ public class MyCharDataManager : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------
-    // 関数の内容 | DynamicBoneを設定
+    // 関数の内容 | 服についているDynamicBoneを設定
     // 　引　数   | なし
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public IEnumerator SettingDB()
+    public IEnumerator SettingClothDB()
     {
         // 1フレーム置いてから処理をする
         yield return null;
@@ -465,14 +481,43 @@ public class MyCharDataManager : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 髪型についているDynamicBoneを設定
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public IEnumerator SettingHairDB()
+    {
+        // 1フレーム置いてから処理をする
+        yield return null;
+        // 髪型の基点となるBoneにDynamicBoneコンポーネントをアタッチ
+        DynamicBone db = hairBaseBone.AddComponent<DynamicBone>();
+
+        // 髪型の基点となるBoneをルートとして設定
+        db.m_Root = hairBaseBone.transform;
+
+        // 円の当たり判定の半径を設定
+        db.m_Radius = 0.05f;
+
+        // 除外したいオブジェクトを除外リストに追加
+        db.m_Exclusions = new List<Transform>();
+        
+        // コライダーが付いているBoneオブジェクトを取得
+        DynamicBoneCollider[] DBCs = sotaiBone.GetComponentsInChildren<DynamicBoneCollider>();
+
+        // コライダーが付いているBoneオブジェクトをコライダーリストに追加
+        db.m_Colliders = new List<DynamicBoneColliderBase>();
+        db.m_Colliders.AddRange(DBCs);
+    }
+
+    //----------------------------------------------------------------------------------------------
     // 関数の内容 | DynamicBoneを除外
     // 　引　数   | なし
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void RemoveDB()
+    public void RemoveDB(GameObject bone)
     {
         // 素体のBoneにDynamicBoneコンポーネントをアタッチ
-        sotaiBone.RemoveComponent<DynamicBone>(); 
+        bone.RemoveComponent<DynamicBone>(); 
         //sotaiBone.GetComponent<DynamicBone>().enabled = false;       
     }
 
