@@ -189,8 +189,9 @@ public class MyCharDataManager : MonoBehaviour
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
         saveData.bodyScale = defaultBodyScale;
-        saveData.bodyColor = defaultBodyColorMat;        
+        saveData.bodyColor = defaultBodyColorMat;
 
+        ReCreate(sotai);
     }
 
     // Update is called once per frame
@@ -211,14 +212,22 @@ public class MyCharDataManager : MonoBehaviour
             //sotai = GameObject.Find("skin");
             sotai = mC;
             sotaiBone = sotai.transform.Find(HIPS_BONE).gameObject;
+            hairBaseBone = sotai.transform.FindDeep(HAIR_BONE).gameObject;
+            leftUpLeg = sotaiBone.transform.Find(LEFT_UP_LEG_BONE);
+            rightUpLeg = sotaiBone.transform.Find(RIGHT_UP_LEG);
+            spine = sotaiBone.transform.Find(SPINE_BONE);
         }
 
-        // DynamicBoneを除外
-        RemoveDB(sotaiBone);
-        // 服を変える
-        CharaCreateManager.ChangeClothObj(saveData.cloth, sotaiBone);
-        // DynamicBoneの設定
-        SettingClothDB();
+        if (saveData.cloth.name != defaultCloth.name)
+        {
+            // DynamicBoneを除外
+            RemoveDB(sotaiBone);
+            // 服を変える
+            //ChangeClothObj(saveData.cloth, saveData.bodyColor);
+            CharaCreateManager.ChangeClothObj(saveData.cloth, sotaiBone);
+            // DynamicBoneの設定
+            StartCoroutine("SettingClothDB");
+        }
 
         // 目の形を変える
         //CharaCreateManager.ChangeEyeLine(saveData.eyeLine);
@@ -229,7 +238,7 @@ public class MyCharDataManager : MonoBehaviour
         // 髪型を変える
         CharaCreateManager.ChangeHairObj(saveData.hair, sotaiBone);
         // DynamicBoneの設定
-        SettingHairDB();
+        StartCoroutine("SettingHairDB");
 
         // 髪の色を変える
         CharaCreateManager.ChangeHairColor(saveData.hairColor, sotai);
@@ -261,7 +270,7 @@ public class MyCharDataManager : MonoBehaviour
 
             CharaCreateManager.ChangeClothObj(defaultCloth, sotaiBone);
             // DynamicBoneの設定
-            SettingClothDB();
+            StartCoroutine("SettingClothDB");
         }
             
 
@@ -494,6 +503,9 @@ public class MyCharDataManager : MonoBehaviour
 
         // 髪型の基点となるBoneをルートとして設定
         db.m_Root = hairBaseBone.transform;
+
+        // Boneの減速の値を設定
+        db.m_Damping = 0.2f;
 
         // 円の当たり判定の半径を設定
         db.m_Radius = 0.05f;
