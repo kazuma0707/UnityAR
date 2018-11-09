@@ -13,6 +13,10 @@ TagManager:
   - eyeLineObj
   - HeadObj
   - NecessaryBone
+  - Obstacle
+  - Floor
+  - TriggerCollider
+  - FadeObj
   layers:
   - Default
   - TransparentFX

@@ -108,13 +108,14 @@ namespace GoogleARCore.Examples.HelloAR
                             //Rayを飛ばしてあたったオブジェクトが自分自身だったら
                             if (Rayhit.collider.gameObject.name == "skin(Clone)")
                             {
-                                //_Teleport.StartFadeOut();
-                                Destroy(Rayhit.collider.gameObject);
+                                _Teleport.StartFadeOut();
+                                Destroy(Rayhit.collider.gameObject,5.0f);
                             }
                         }
                     }
                 }
             }
+            
 
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
@@ -161,12 +162,8 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-
-
-                        //Camera.main.transform.LookAt(unityChanObject.transform);
-                        MyCharDataManager.Instance.ReCreate(unityChanObject);
-                        //MyCharDataManager.Instance.CreateMyChar(unityChanObject);
-                        //_Teleport.StartFadeIn();
+                        //MyCharDataManager.Instance.ReCreate(unityChanObject);
+                        _Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
                         // Make Andy model a child of the anchor.

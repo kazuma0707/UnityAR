@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     //  レベルアップ表示の点滅時間(数字　大→点滅 早　小→点滅 遅)
     private const int LEVEL_UP_FLASH_TIME = 10;
 
+    //  フェード時間
+    private const float FADE_TIME = 2.0f;
+
     [SerializeField]
     private GameObject standPre;                // 台のプレハブ
     [SerializeField]
@@ -72,24 +75,37 @@ public class GameManager : MonoBehaviour
     GameObject LevelUpText;
     bool LevelUpFlag = false;
 
+    //  ポーズフラグ
+    public bool pauseFlag = false;
+
+    private float count = 4.0f;             //  カウントダウン用変数
+    [SerializeField]
+    Text countDownText;
+
+    private float waitGame = 0.0f;
+
     // Use this for initialization
     void Start()
     {
         //  static public変数の初期化
         gameScore = 0;
 
+        //  ゲームの停止
+        GameStop();
+
         // 初期の台をリストに追加
         for (int i = 0; i < firstStands.Length; i++)
         {
             standList.Add(firstStands[i]);
         }
-        StartCoroutine("TextCoRoutine");
+        //StartCoroutine("TextCoRoutine");
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // 時間計測
         timer += Time.deltaTime;
         everySecond -= Time.deltaTime;
@@ -113,10 +129,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (everySecond <= 0.0f)
+        
+        if (everySecond <= 0.0f && pauseFlag == false)
         {
-            // タイムをテキストに表示
-            gameScore += levelScore;//(int)timer * levelScore;
+            GameObject player = GameObject.FindGameObjectWithTag("TriggerCollider");
+            float playerY = player.transform.position.y;
+            bool obstaclFlag = player.GetComponent<UnityChanControlScriptWithRgidBody>().GetObstacleFlag();
+            if (playerY >= -3.0f && obstaclFlag == false)
+            {
+                // タイムをテキストに表示
+                gameScore += levelScore;//(int)timer * levelScore;
+            }
             everySecond = 1.0f;
         }
         scoreText.text = gameScore.ToString();
@@ -198,6 +221,50 @@ public class GameManager : MonoBehaviour
 
         // リストに追加
         standList.Add(obj);
+    }
+    
+    /****************************************************************
+    *|　機能　カウントダウンの表示
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    public void CountDown()
+    {
+        if(count > 0.0f)
+        {
+            count = count - Time.unscaledDeltaTime;
+            countDownText.text = count.ToString("f0");
+            if((int)count == 0)
+            {
+                countDownText.text = "";
+            }
+        }
+        else
+        {
+            countDownText.enabled = false;
+        }
+    }
+
+    /****************************************************************
+    *|　機能　スタート時のゲーム停止処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    void GameStop()
+    {
+        pauseFlag = true;
+        Time.timeScale = 0.0f;
+    }
+
+    /****************************************************************
+    *|　機能 ゲーム再開処理(開始)
+    *|　引数 なし
+    *|　戻値 なし
+    ***************************************************************/
+    public void GameStart()
+    {
+        Time.timeScale = 1.0f;
+        pauseFlag = false;
     }
 
     /****************************************************************

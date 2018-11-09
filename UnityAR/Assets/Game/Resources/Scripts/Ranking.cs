@@ -33,6 +33,16 @@ public class Ranking : MonoBehaviour {
     public GameObject fireworksParticle;
     GameObject obj;
 
+    //  シーンのロードが複数行われるのの防止
+    bool isLoad = false;
+
+    //  FadeObject
+    GameObject fadeObj;
+
+    //  ボタン
+    [SerializeField]
+    Button returnTitleButton;
+
     // Use this for initialization
     void Start () {
         style = new GUIStyle();
@@ -52,13 +62,13 @@ public class Ranking : MonoBehaviour {
         //GUI.Label(rect_ranking, ranking_string, style);
 
         //GUI.Label(rect_score, score_string, style);
+
+        fadeObj = GameObject.FindGameObjectWithTag("FadeObj");
     }
   
 	// Update is called once per frame
 	void Update () {
         style.fontSize = size;
-
-
 
         Render();
 
@@ -72,6 +82,26 @@ public class Ranking : MonoBehaviour {
             }
         }
 
+        //  fade中はボタンを非アクティブ化する
+        ButtonActive();
+
+    }
+
+    /****************************************************************
+    *|　機能　ボタンのアクティブ状態を変える
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    private void ButtonActive()
+    {
+        if (fadeObj.GetComponent<FadeManager>().GetFadeFlag() == true)
+        {
+            returnTitleButton.interactable = false;
+        }
+        else
+        {
+            returnTitleButton.interactable = true;
+        }
     }
 
     //----------------------------------------------------------------------------------------------
@@ -154,7 +184,12 @@ public class Ranking : MonoBehaviour {
     //----------------------------------------------------------------------------------------------
     private void ReturnTitle()
     {
-        SceneManager.LoadScene("Title");
+        if (!isLoad)
+        {
+            //SceneManager.LoadScene("Title");
+            FadeManager.Instance.LoadScene("Title", 2.0f);
+        }
+        isLoad = true;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -164,16 +199,22 @@ public class Ranking : MonoBehaviour {
     //----------------------------------------------------------------------------------------------
     private void displayScore()
     {
-        Rect rect_ranking = new Rect(new Vector2(Screen.width, Screen.height), label_ranking);
-        Rect rect_score = new Rect(new Vector2(label_score.x, label_score.y), label_score);
+        //Rect rect_ranking = new Rect(new Vector2(Screen.width, Screen.height), label_ranking);
+        //Rect rect_score = new Rect(new Vector2(label_score.x, label_score.y), label_score);
         string ranking_string = "";
         string score_string = "";
         for (int i = 0; i < ranking.Length; i++)
         {
             //ranking_string = ranking_string + (i + 1) + "位" + "  " + ranking[i] + "秒\n";
-            ranking_string = ranking_string + (i + 1) + "位\n";
-            score_string = score_string + ranking[i] + "秒\n";
+            //ranking_string = ranking_string + (i + 1) + "位\n";
+            score_string = score_string + ranking[i] + "\n";
         }
+        ranking_string = ranking_string + "1st\n";
+        ranking_string = ranking_string + "2nd\n";
+        ranking_string = ranking_string + "3rd\n";
+        ranking_string = ranking_string + "4th\n";
+        ranking_string = ranking_string + "5th\n";
+
         style.alignment = TextAnchor.UpperRight;
         rankText.text = ranking_string.ToString();
         scoreText.text = score_string.ToString();
