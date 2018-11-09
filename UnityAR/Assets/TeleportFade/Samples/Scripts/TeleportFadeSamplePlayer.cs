@@ -27,7 +27,9 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     [SerializeField]
     float spreadPower = 0.6f;
     bool isCreate = false;
-
+    [SerializeField]
+    bool startFade = false;
+    bool EndFade = false;
 	void Start () {
 
 
@@ -35,9 +37,9 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     }
 
     void Update () {
-        if (GameObject.Find("jiken(Clone)"))
+        if (GameObject.Find("skin(Clone)"))
         {
-            fadeObject = GameObject.Find("jiken(Clone)");
+            fadeObject = GameObject.Find("skin(Clone)");
             isCreate = true;
         }
         if (!isCreate) return;
@@ -88,6 +90,11 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
             material.SetFloat("_RisePower", risePower);
             material.SetFloat("_TwistPower", twistPower);
             material.SetFloat("_SpreadPower", spreadPower);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            StartFadeIn();
         }
     }
 

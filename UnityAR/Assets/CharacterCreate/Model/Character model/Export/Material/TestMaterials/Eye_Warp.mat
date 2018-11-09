@@ -144,7 +144,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FadeRate: 0
+    - _FadeRate: 1
     - _Farthest_Distance: 10
     - _GI_Intensity: 0
     - _GlossMapScale: 1
@@ -203,7 +203,7 @@ Material:
     - _Tweak_MatcapMaskLevel: 0
     - _Tweak_RimLightMaskLevel: 0
     - _Tweak_SystemShadowsLevel: 0
-    - _TwistPower: 0
+    - _TwistPower: 0.1
     - _UVSec: 0
     - _Unlit_Intensity: 1
     - _ZWrite: 1
