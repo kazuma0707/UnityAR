@@ -442,14 +442,15 @@ public class MyCharDataManager : MonoBehaviour
         yield return null;
         // 素体のBoneにDynamicBoneコンポーネントをアタッチ
         DynamicBone db = sotaiBone.AddComponent<DynamicBone>();
-        //DynamicBone db = sotaiBone.GetComponent<DynamicBone>();
         
         // 素体のBoneをルートとして設定
         db.m_Root = sotaiBone.transform;
 
-        db.m_Exclusions = new List<Transform>();
+        // 円の当たり判定の半径を設定
+        db.m_Radius = 0.05f;
 
         // 除外したいオブジェクトを除外リストに追加
+        db.m_Exclusions = new List<Transform>();        
         db.m_Exclusions.Add(leftUpLeg);
         db.m_Exclusions.Add(rightUpLeg);
         db.m_Exclusions.Add(spine);
@@ -457,9 +458,8 @@ public class MyCharDataManager : MonoBehaviour
         // コライダーが付いているBoneオブジェクトを取得
         DynamicBoneCollider[] DBCs = sotaiBone.GetComponentsInChildren<DynamicBoneCollider>();
 
-        db.m_Colliders = new List<DynamicBoneColliderBase>();
-
         // コライダーが付いているBoneオブジェクトをコライダーリストに追加
+        db.m_Colliders = new List<DynamicBoneColliderBase>();
         db.m_Colliders.AddRange(DBCs);     
 
     }

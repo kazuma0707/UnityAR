@@ -93,6 +93,9 @@ public class ChangeBone : MonoBehaviour
                 Transform t = BoneTransformList[RootBoneIndexList[meshBones[boneIndex].name]];
                 t.localPosition = meshBones[boneIndex].localPosition;
                 t.localEulerAngles = meshBones[boneIndex].localEulerAngles;
+                // DynamicBoneColliderが付いていれば素体に同じ情報を設定する
+                if (meshBones[boneIndex].GetComponent<DynamicBoneCollider>())
+                    TakeOverDBC(t.GetComponent<DynamicBoneCollider>(),meshBones[boneIndex].GetComponent<DynamicBoneCollider>());
                 localTransforms[boneIndex] = t;
             }
             else
@@ -202,5 +205,17 @@ public class ChangeBone : MonoBehaviour
             if (rootBoneTransforms[i].tag != "NecessaryBone" && rootBoneTransforms[i].tag != "HairBone")
                 Destroy(rootBoneTransforms[i].gameObject);
         }
+    }
+
+    // DynamicBoneColliderを受け継ぐ
+    private void TakeOverDBC(DynamicBoneCollider sotaiDBC, DynamicBoneCollider resourcesDBC)
+    {
+
+        // 全ての要素を受け継ぐ
+        sotaiDBC.m_Bound = resourcesDBC.m_Bound;
+        sotaiDBC.m_Center = resourcesDBC.m_Center;
+        sotaiDBC.m_Direction = resourcesDBC.m_Direction;
+        sotaiDBC.m_Height = resourcesDBC.m_Height;
+        sotaiDBC.m_Radius = resourcesDBC.m_Radius;
     }
 }
