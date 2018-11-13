@@ -224,7 +224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &119280578
 RectTransform:
   m_ObjectHideFlags: 0
@@ -886,6 +886,11 @@ Prefab:
       propertyPath: fadeSkinnedMeshes.Array.data[6]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
+        type: 2}
+      propertyPath: _helloARController
+      value: 
+      objectReference: {fileID: 627916103}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 39476f39a8c784145888adaaf7072183, type: 2}
   m_IsPrefabParent: 0
@@ -2225,12 +2230,12 @@ GameObject:
   - component: {fileID: 2006148253}
   - component: {fileID: 2006148252}
   m_Layer: 5
-  m_Name: Button
+  m_Name: VoiceRecButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2006148251
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2247,7 +2252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -568}
+  m_AnchoredPosition: {x: 0, y: -1089}
   m_SizeDelta: {x: 480, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2006148252
