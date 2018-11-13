@@ -189,7 +189,7 @@ public class MyCharDataManager : MonoBehaviour
 
         saveData.hair = defaultHair;
         saveData.hairColor = defaultHairColorMat;
-        //saveData.eyeLine = defaultEyeLine;
+        saveData.eyeLine = defaultEyeLine;
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
         saveData.bodyScale = defaultBodyScale;
@@ -227,21 +227,21 @@ public class MyCharDataManager : MonoBehaviour
             spine = sotaiBone.transform.Find(SPINE_BONE);
         }
 
+        // 何も変わっていなければ服を変える
         if (saveData.cloth.name != defaultCloth.name)
         {
             // DynamicBoneを除外
             RemoveDB(sotaiBone);
             // 服を変える
-            //ChangeClothObj(saveData.cloth, saveData.bodyColor);
             CharaCreateManager.ChangeClothObj(saveData.cloth, sotaiBone);
             // DynamicBoneの設定
             StartCoroutine("SettingClothDB");
         }
 
-        // 目の形を変える
-        //CharaCreateManager.ChangeEyeLine(saveData.eyeLine);
+        // 何も変わっていなければ目の形を変える
+        if (saveData.eyeLine.name != defaultEyeLine.name)
+            CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
 
-        
         // DynamicBoneを除外
         RemoveDB(hairBaseBone);
         // 髪型を変える
@@ -281,11 +281,11 @@ public class MyCharDataManager : MonoBehaviour
             // DynamicBoneの設定
             StartCoroutine("SettingClothDB");
         }
-            
+
 
         // 目の形を変える(既に同じものを選択していなければ)
-        //if (saveData.eyeLine.name != defaultEyeLine.name)
-        //    CharaCreateManager.ChangeEyeLineObj(defaultEyeLine);
+        if (saveData.eyeLine.name != defaultEyeLine.name)
+            CharaCreateManager.ChangeEyeLineObj(defaultEyeLine, sotaiBone);
 
         // 髪型を変える(既に同じものを選択していなければ)
         if (saveData.hair.name != defaultHair.name)
@@ -442,7 +442,6 @@ public class MyCharDataManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void ChangeEyeLineObj(GameObject newLine)
     {
-        Debug.Log(saveData.eyeLine + " , " + newLine);
         // 既に同じものを選択していたら何もしない
         if (saveData.eyeLine.name == newLine.name) return;
 
