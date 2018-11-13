@@ -64,7 +64,7 @@ public class WatsonConversation : MonoBehaviour
         m_Conversation = new Conversation(conv_credentials);
 
 
-        this.animator = GameObject.Find("skin").GetComponent<Animator>(); 
+        this.animator = this.GetComponent<Animator>(); 
         AudioSource audioSource = GetComponent<AudioSource>();
         while (true)
         {

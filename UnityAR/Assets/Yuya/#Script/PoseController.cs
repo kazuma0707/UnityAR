@@ -5,7 +5,13 @@ using UnityEngine;
 public class PoseController : MonoBehaviour
 {
 
-    public Animator anim; // 対象のAnimatorコンポーネント
+    [SerializeField]
+    private Animator anim; // 対象のAnimatorコンポーネント
+
+    void Start()
+    {
+        anim = GameObject.Find("skin").GetComponent<Animator>();
+    }
 
     //----------------------------------------------------------------------
     //! @brief ポーズの変更処理
