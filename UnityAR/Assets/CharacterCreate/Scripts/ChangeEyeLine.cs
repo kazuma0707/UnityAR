@@ -7,9 +7,9 @@ public class ChangeEyeLine : MonoBehaviour
 
     private GameObject RootBone;                                               // 基礎となる骨構造
     private GameObject resourceObject;                                         // 差し替えるモデル                                                                               
-    private List<Transform> BoneTransformList = new List<Transform>();         // 髪型のBoneの構造リスト
+    private List<Transform> BoneTransformList = new List<Transform>();         // 目の形のBoneの構造リスト
     private Dictionary<string, int> RootBoneIndexList =
-                                                new Dictionary<string, int>(); // 髪型のIndexList
+                                                new Dictionary<string, int>(); // 目の形のIndexList
 
     // Use this for initialization
     void Start()
@@ -24,8 +24,8 @@ public class ChangeEyeLine : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 髪型を変える
-    // 　引　数   | obj：髪型, bone：素体のBone
+    // 関数の内容 | 目の形を変える
+    // 　引　数   | obj：目の形, bone：素体のBone
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
     public void ChangeEyeLines(GameObject obj, GameObject bone)
@@ -51,26 +51,6 @@ public class ChangeEyeLine : MonoBehaviour
             Transform baseTrans = BoneTransformList[boneIndex].transform;
             RootBoneIndexList.Add(baseTrans.name, boneIndex);
         }
-
-
-        //// リストを再登録
-        //BoneTransformList.Clear();
-        //// HairBoneのタグが付いたオブジェクトを取得し、リストに追加        
-        //Transform[] hairBoneTransforms = RootBone.GetComponentsInChildren<Transform>();
-        //for (int i = 0; i < hairBoneTransforms.Length; i++)
-        //{
-        //    //if (hairBoneTransforms[i].tag == "HairBone")
-        //        BoneTransformList.Add(hairBoneTransforms[i]);
-        //}
-
-        //RootBoneIndexList.Clear();
-
-        //// 素体のBoneを基にリストを登録
-        //for (int boneIndex = 0; boneIndex < BoneTransformList.Count; boneIndex++)
-        //{
-        //    Transform baseTrans = BoneTransformList[boneIndex].transform;
-        //    RootBoneIndexList.Add(baseTrans.name, boneIndex);
-        //}
 
         // モデルを変える
         ChangeHairModels();
@@ -121,20 +101,7 @@ public class ChangeEyeLine : MonoBehaviour
 
         // MeshObjectを作成する
         CreateMeshObject(smr, localTransforms);
-
-
-        // Boneの取得
-        //Transform[] meshBones = smr.bones;
-
-        //for (int boneIndex = 0; boneIndex < meshBones.Length; boneIndex++)
-        //{
-        //    if (!RootBoneIndexList.ContainsKey(meshBones[boneIndex].name))
-        //    {
-        //        Debug.Log(meshBones[boneIndex].name);
-        //        CreateBones(meshBones[boneIndex]);
-        //    }            
-        //}
-
+        
     }
 
 
@@ -171,17 +138,6 @@ public class ChangeEyeLine : MonoBehaviour
             }
         }
     }
-
-    // ボーンを新規で作成
-    //private void CreateBones(Transform meshBone)
-    //{
-    //    // 同名且つ同じTransformのBoneを作成
-    //    GameObject obj = Instantiate(meshBone.gameObject);
-    //    obj.name = meshBone.name;
-    //    obj.transform.SetParent(BoneTransformList[RootBoneIndexList[meshBone.parent.name]]);
-    //    obj.transform.localPosition = meshBone.gameObject.transform.localPosition;
-    //    obj.transform.localEulerAngles = meshBone.gameObject.transform.localEulerAngles;
-    //}
 
     // MeshObjectを作成する
     private void CreateMeshObject(SkinnedMeshRenderer smr, Transform[] localTransforms)
@@ -227,8 +183,8 @@ public class ChangeEyeLine : MonoBehaviour
         for (int i = 0; i < renderers.Length; i++)
         {
             if (!renderers[i]) continue;
-            // 髪型オブジェクトを削除
-            if (renderers[i].gameObject.tag == "HairObj")
+            // 頭部オブジェクトを削除
+            if (renderers[i].gameObject.tag == "HeadObj")
                 Destroy(renderers[i].gameObject);
         }
     }

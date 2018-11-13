@@ -63,5 +63,6 @@ public class Fade : MonoBehaviour
     public bool IsFade
     {
         get { return isFade; }
+        set { isFade = value; }
     }
 }

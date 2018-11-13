@@ -97,14 +97,13 @@ public class CharaCreateManager : MonoBehaviour
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 目の形を変える
-    // 　引　数   | newLine：目の形
+    // 　引　数   | bone：素体のBone
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    static public void ChangeEyeLineObj(GameObject newLine)
+    static public void ChangeEyeLineObj(GameObject newLine, GameObject bone)
     {
-        //// マテリアルを設定
-        //changingPoints[(int)ChangingPoint.EYE_LINE].GetComponent<SkinnedMeshRenderer>().material = mat;
-        //MyCharDataManager.Instance.EyeLine = mat;
+        ChangeEyeLine cEL = new ChangeEyeLine();
+        cEL.ChangeEyeLines(newLine, bone);
     }
 
     //----------------------------------------------------------------------------------------------
