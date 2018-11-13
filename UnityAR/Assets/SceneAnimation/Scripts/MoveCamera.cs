@@ -16,8 +16,16 @@ public class MoveCamera : MonoBehaviour
         SELECT
     }
 
-    private const double FADE_IN = 10;      // フェードインする時間
-    private const double FADE_OUT = 6;      // フェードアウトする時間
+    // 定数宣言 //////////////////////////////////////////////////////////////////////////////////
+    private const double RE_FADE_OUT = 3;            // セレクトからキャラクリにフェードインする時間
+    private const double FADE_OUT = 6;               // タイトルからキャラクリにフェードアウトする時間
+    private const float CHARA_CRE_POS_X = -0.1f;     // キャラクリする時のポジションX
+    private const float CHARA_CRE_POS_Y = 0.2f;      // キャラクリする時のポジションY
+    private const float CHARA_CRE_POS_Z = 2.5f;      // キャラクリする時のポジションZ
+    private const int TITLE_FADE = 0;                // タイトルからキャラクリに移動する時のフェード
+    private const int SELECT_FADE = 1;               // セレクトからキャラクリに移動する時のフェード
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
     // ターゲット
     private GameObject Target;
@@ -32,7 +40,7 @@ public class MoveCamera : MonoBehaviour
     // キャラクタークリエイトボタン
     [SerializeField]
     private GameObject CharacterCreateButton;
-    // キャラクターの部位を変更するボタン
+    // キャラクターの部位を変更するボタン(ResetButtonとTypeViewArea)
     [SerializeField]
     private GameObject[] ChangeButtons;
     // キャラクタークリエイトを完了するボタン
@@ -124,7 +132,7 @@ public class MoveCamera : MonoBehaviour
     private GameObject cmCamera10;
 
     [SerializeField]
-    private GameObject fade;                 // フェード用の画像
+    private GameObject[] fades;                 // フェード用の画像
 
     // Use this for initialization
     void Start ()
@@ -172,8 +180,8 @@ public class MoveCamera : MonoBehaviour
         ReNoButton.SetActive(false);
         welcomeText.SetActive(false);
 
-        Camera2.SetActive(false);
-        Camera3.SetActive(false);
+        Camera2.GetComponent<Camera>().enabled = false;
+        Camera3.GetComponent<Camera>().enabled = false;
         cmCamera5.SetActive(false);
         cmCamera6.SetActive(false);
         cmCamera7.SetActive(false);
@@ -188,12 +196,17 @@ public class MoveCamera : MonoBehaviour
         StopTimeline2();
         StopTimeline3();
 
+        // タイトルシーンの読み込みが2回目以降であればキャラクリから始める
+        if (MyCharDataManager.Instance.SceneLoadOnce) StartCharacterCreateMode();
+
     }
 
     // Update is called once per frame
     void Update ()
-    {
-        FadeInOut();
+    {       
+        // キャラクリに行くときのフェードの管理
+        if (playableDirector1.enabled) FadeInOut(playableDirector1, fades[TITLE_FADE], FADE_OUT);
+        if (playableDirector3.enabled) FadeInOut(playableDirector3, fades[SELECT_FADE], RE_FADE_OUT);
     }
 
     //スタートボタンをクリックしたら
@@ -219,10 +232,27 @@ public class MoveCamera : MonoBehaviour
 
         audioSource.PlayOneShot(YesSound);
 
-        iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 0.5f, "EaseType", iTween.EaseType.linear));
+        iTween.MoveTo(MyC, iTween.Hash("x", CHARA_CRE_POS_X, "y", CHARA_CRE_POS_Y, "z", CHARA_CRE_POS_Z, "speed", 0.5f, "EaseType", iTween.EaseType.linear));
 
         welcomeText.SetActive(true);
         PlayTimeline1();
+    }
+
+    // キャラクリから始めるときの処理
+    private void StartCharacterCreateMode()
+    {        
+        // キャラのデータを適用
+        MyCharDataManager.Instance.ReCreate(MyC.transform.Find(MyCharDataManager.SOTAI_MODEL).gameObject);
+        // タイトルのUIを非表示にする
+        welcomeText.SetActive(false);
+        titleImage.enabled = false;
+        StartButton.SetActive(false);
+        CharacterCreateButton.SetActive(false);
+        // キャラの座標を設定
+        MyC.transform.localPosition = new Vector3(CHARA_CRE_POS_X, CHARA_CRE_POS_Y, CHARA_CRE_POS_Z);
+        // タイトルフェードをフェードインが終わった状態にしてキャラクリ用のUIを表示
+        fades[TITLE_FADE].GetComponent<Fade>().IsFade = Fade.FADE_IN;
+        MoveToCharaCreEnd(fades[TITLE_FADE]);
     }
 
     //完了ボタンを押したら
@@ -249,24 +279,24 @@ public class MoveCamera : MonoBehaviour
     {       
         Invoke("Rotate2", 0.5f);
 
-        SchoolIntroductionButton.SetActive(true);
-        GameButton.SetActive(true);
-        AppreciationButton.SetActive(true);
-        ReCharacterCreateButton.SetActive(true);
+       
         Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
 
-        Camera1.SetActive(false);
-        Camera2.SetActive(true);
+        Camera1.GetComponent<Camera>().enabled = false;
+        Camera2.GetComponent<Camera>().enabled = true;
         cmCamera5.SetActive(true);
         cmCamera6.SetActive(true);
         cmCamera7.SetActive(false);
 
         welcomeText.SetActive(false);
 
-        iTween.MoveTo(MyC, iTween.Hash("x", -3.3f, "y", 0.2f, "z", -2.2f, "speed", 1.1f, "EaseType", iTween.EaseType.linear));
+        iTween.MoveTo(MyC, iTween.Hash("x", -3.3f, "y", 0.2f, "z", -2.2f, "speed", 1.1f,
+                                       "EaseType", iTween.EaseType.linear, 
+                                       "oncomplete", "SelectUIActive",
+                                       "oncompletetarget", this.gameObject));
 
         audioSource.PlayOneShot(YesSound);
 
@@ -335,8 +365,8 @@ public class MoveCamera : MonoBehaviour
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
 
-        Camera2.SetActive(false);
-        Camera3.SetActive(true);
+        Camera2.GetComponent<Camera>().enabled = false;
+        Camera3.GetComponent<Camera>().enabled = true;
         cmCamera8.SetActive(true);
         cmCamera9.SetActive(true);
         cmCamera10.SetActive(true);
@@ -345,6 +375,8 @@ public class MoveCamera : MonoBehaviour
         iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 1.1f, "EaseType", iTween.EaseType.linear));
 
         audioSource.PlayOneShot(YesSound);
+
+        PlayTimeline3();
     }
 
     //いいえが押されたら
@@ -376,7 +408,7 @@ public class MoveCamera : MonoBehaviour
     private void Rotate2()
     {
         // カメラを切り替える
-        this.gameObject.GetComponent<Camera>().enabled = true;
+        //this.gameObject.GetComponent<Camera>().enabled = true;
         CCCamera.transform.position = CCCdefaultPos;
         CCCamera.SetActive(false);
 
@@ -400,10 +432,14 @@ public class MoveCamera : MonoBehaviour
     }
 
     // キャラクリまでの移動が終えた時に呼び出される関数
-    private void MoveToCharaCreEnd()
+    private void MoveToCharaCreEnd(GameObject fade)
     {
         // カメラを切り替える
         this.gameObject.GetComponent<Camera>().enabled = false;
+        Camera3.GetComponent<Camera>().enabled = false;
+        cmCamera8.SetActive(false);
+        cmCamera9.SetActive(false);
+        cmCamera10.SetActive(false);
         CCCamera.SetActive(true);
 
         // フェードインがまだ終わっていなければ何もしない
@@ -421,11 +457,10 @@ public class MoveCamera : MonoBehaviour
     }
 
     // フェードイン・アウトの管理
-    private void FadeInOut()
+    private void FadeInOut(PlayableDirector pd, GameObject fade, double time)
     {
-        double time = playableDirector1.time;
         // 一定時間経過したらフェードアウトする
-        if (time >= FADE_OUT && playableDirector1.state == PlayState.Playing)
+        if (pd.time >= time && pd.state == PlayState.Playing)
         {
             fade.GetComponent<Fade>().FadeOut();
         }
@@ -433,8 +468,16 @@ public class MoveCamera : MonoBehaviour
         if (fade.GetComponent<Fade>().IsFade == Fade.FADE_OUT)
         {
             fade.GetComponent<Fade>().FadeIn();
-            MoveToCharaCreEnd();
+            MoveToCharaCreEnd(fade);
         }
+    }
+
+    private void SelectUIActive()
+    {
+        SchoolIntroductionButton.SetActive(true);
+        GameButton.SetActive(true);
+        AppreciationButton.SetActive(true);
+        ReCharacterCreateButton.SetActive(true);
     }
 
     //開始

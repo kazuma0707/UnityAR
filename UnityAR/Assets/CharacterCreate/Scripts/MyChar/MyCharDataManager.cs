@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using ConstantName;
 
 // 体型の登録番号
 public enum BodyNum
@@ -114,6 +116,7 @@ public class MyCharDataManager : MonoBehaviour
     public const int RIGHT_EYE = 1;                                  // 右目
     public const int BODY_COLOR = 0;                                 // 体の色
     public const int HEAD_COLOR = 1;                                 // 顔の色
+    public const string SOTAI_MODEL = "skin";                        // 素体モデル
     public const string HIPS_BONE = "mixamorig:Hips";                // 素体のBone(Hips)
     public const string HAIR_BONE = "hiar";                          // 素体のBone(Hair)
     public const string LEFT_UP_LEG_BONE = "mixamorig:LeftUpLeg";    // 素体のBone(LeftUpLeg)
@@ -157,7 +160,8 @@ public class MyCharDataManager : MonoBehaviour
     [SerializeField]
     private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
-    
+    private bool sceneLoadOnce;                  // タイトルシーンが初回ロードかどうかのフラグ(true：2回目以降, false：初回)
+
     public void Awake()
     {
         // インスタンスが複数存在しないようにする
@@ -180,8 +184,8 @@ public class MyCharDataManager : MonoBehaviour
         rightUpLeg = sotaiBone.transform.Find(RIGHT_UP_LEG);
         spine = sotaiBone.transform.Find(SPINE_BONE);
 
+        // セーブデータにデフォルト値を設定
         saveData = new MyCharData();
-        //defaultData = new MyCharData();
 
         saveData.hair = defaultHair;
         saveData.hairColor = defaultHairColorMat;
@@ -192,11 +196,16 @@ public class MyCharDataManager : MonoBehaviour
         saveData.bodyColor = defaultBodyColorMat;
 
         ReCreate(sotai);
+
+        sceneLoadOnce = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 現在のシーンがタイトルシーンでなければタイトルシーン初回ロードのフラグを上げる
+        if (SceneManager.GetActiveScene().name != SceneName.CharCreate)
+            sceneLoadOnce = true;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -260,7 +269,7 @@ public class MyCharDataManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void ResetDefault()
     {
-        if (!sotai) sotai = GameObject.Find("skin");
+        if (!sotai) sotai = GameObject.Find(SOTAI_MODEL);
 
         // 服を変える(既に同じものを選択していなければ)
         if (saveData.cloth.name != defaultCloth.name)
@@ -432,13 +441,17 @@ public class MyCharDataManager : MonoBehaviour
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
     public void ChangeEyeLineObj(GameObject newLine)
-    {        
+    {
+        Debug.Log(saveData.eyeLine + " , " + newLine);
         // 既に同じものを選択していたら何もしない
         if (saveData.eyeLine.name == newLine.name) return;
 
         // 目の形を変え、セーブデータに保存
-        CharaCreateManager.ChangeEyeLineObj(newLine);
+        CharaCreateManager.ChangeEyeLineObj(newLine, sotaiBone);
         saveData.eyeLine = newLine;
+
+        // 体の色を変える
+        CharaCreateManager.ChangeBodyColor(saveData.bodyColor, sotai);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -544,5 +557,11 @@ public class MyCharDataManager : MonoBehaviour
     {
         get { return saveData; }
         set { saveData = value; }
+    }
+
+    // タイトルシーン初回ロードのフラグのアクセッサ
+    public bool SceneLoadOnce
+    {
+        get { return sceneLoadOnce; }
     }
 }

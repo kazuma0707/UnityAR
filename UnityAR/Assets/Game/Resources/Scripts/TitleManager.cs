@@ -50,8 +50,13 @@ public class TitleManager: MonoBehaviour {
 
     public void exitGame()
     {
-        //  シーン切り替え
-        SceneManager.LoadScene("CharCreate");
+        if (!isLoad)
+        {
+            //  シーン切り替え
+            //SceneManager.LoadScene("Play");
+            FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+        }
+        isLoad = true;
     }
 
 }
