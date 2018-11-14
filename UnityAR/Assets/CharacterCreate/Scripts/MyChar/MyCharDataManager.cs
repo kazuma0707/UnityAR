@@ -161,6 +161,8 @@ public class MyCharDataManager : MonoBehaviour
     private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
     private bool sceneLoadOnce;                  // タイトルシーンが初回ロードかどうかのフラグ(true：2回目以降, false：初回)
+    [SerializeField]
+    private GameObject debugCloth;              // デバッグ用の服
 
     public void Awake()
     {
@@ -336,7 +338,7 @@ public class MyCharDataManager : MonoBehaviour
 
         // DynamicBoneを除外
         RemoveDB(sotaiBone);
-
+        
         // 服を変え、セーブデータに保存
         CharaCreateManager.ChangeClothObj(newCloth, sotaiBone);
         saveData.cloth = newCloth;
