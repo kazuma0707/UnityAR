@@ -173,7 +173,7 @@ namespace GoogleARCore.Examples.HelloAR
                         // Make Andy model a child of the anchor.
                         //   unityChanObject.transform.parent = anchor.transform;
                         //サウンドボタンの生成
-                        m_voiceRecButton.SetActive(true);
+                        //m_voiceRecButton.SetActive(true);
                         IsCreate = true;
                     }
 
