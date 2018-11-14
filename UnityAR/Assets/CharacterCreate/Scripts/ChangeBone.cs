@@ -5,11 +5,10 @@ using UnityEngine;
 public class ChangeBone : MonoBehaviour
 {
     
-    private GameObject RootBone;                                               // 基礎となる骨構造
-    private GameObject resourceObject;                                         // 差し替えるモデル                                                                               
-    private List<Transform> BoneTransformList = new List<Transform>();         // Boneの構造リスト
-    private Dictionary<string, int> RootBoneIndexList =
-                                                new Dictionary<string, int>(); // IndexList
+    private GameObject RootBone;                                                       // 基礎となる骨構造
+    private GameObject resourceObject;                                                 // 差し替えるモデル                                                                               
+    private List<Transform> BoneTransformList = new List<Transform>();                 // Boneの構造リスト
+    private Dictionary<string, int> RootBoneIndexList = new Dictionary<string, int>(); // IndexList
 
     // Use this for initialization
     void Start()

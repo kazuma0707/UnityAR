@@ -35,7 +35,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
     private Text text;                                         // デバッグ用テキスト
 
    // Use this for initialization
-   void Start ()
+    void Start ()
     {
         cam = GetComponent<Camera>();
     }
