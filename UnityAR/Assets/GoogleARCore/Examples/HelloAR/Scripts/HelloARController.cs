@@ -50,6 +50,10 @@ namespace GoogleARCore.Examples.HelloAR
         //ユニティちゃんのオブジェクト
         [Header("生成するキャラクター")]
         public GameObject UnityChanPrefab;
+        public GameObject GetCreateCharcter {
+            get { return unityChanObject; }
+            
+       }
         //A gameobject parenting UI for displaying the "searching for planes" snackbar.
         public GameObject SearchingForPlaneUI;
         //The rotation in degrees need to apply to model when the Andy model is placed.
