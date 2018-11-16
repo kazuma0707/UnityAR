@@ -43,6 +43,12 @@ public class Ranking : MonoBehaviour {
     [SerializeField]
     Button returnTitleButton;
 
+    //  シーン開始時に行う処理
+    private void Awake()
+    {
+        Time.timeScale = 1.0f;
+    }
+
     // Use this for initialization
     void Start () {
         style = new GUIStyle();
