@@ -46,7 +46,8 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         }
         else if(GameObject.Find("skin"))
         {
-
+            fadeObject = GameObject.Find("skin");
+            isCreate = true;
         }
         if (!isCreate) return;
             if (GameObject.Find("polySurface8"))
@@ -128,6 +129,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         basePos.x = fadeObject.transform.position.x;
         basePos.y = fadeObject.transform.position.y;
         basePos.z = fadeObject.transform.position.z;
+        SetObjectHeight(basePos.y);
         foreach (var material in fadeMaterials) {
             material.SetVector("_ObjectBasePos", basePos);
             material.SetFloat("_FadeRate", fadeRate);
@@ -145,7 +147,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     {
         foreach (var material in fadeMaterials)
         {
-
+            material.SetFloat("_ObjectHeight", Height+2.0f);
         }
     }
 
