@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.SceneManagement;
 using ConstantName;
+using UnityEngine.EventSystems;
 
 public class AppreciationCameraCtr : MonoBehaviour
 {
@@ -85,8 +87,7 @@ public class AppreciationCameraCtr : MonoBehaviour
 #else
         int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
         
-        text.text = "Y:" + Input.GetTouch(0).position.y.ToString() + ", T:" + touchPosLimit.ToString();
-        //text.text = "W:" + Screen.width + ", H:" + Screen.height;
+
         if (Input.touchCount == 1)
         {
             // タッチポジションが一定値以下であればカメラを動かさない
