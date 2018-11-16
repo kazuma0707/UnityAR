@@ -44,6 +44,10 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
             fadeObject = GameObject.Find("skin(Clone)");
             isCreate = true;
         }
+        else if(GameObject.Find("skin"))
+        {
+
+        }
         if (!isCreate) return;
             if (GameObject.Find("polySurface8"))
             {
@@ -135,6 +139,13 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             StartFadeIn();
+        }
+    }
+    public void SetObjectHeight(float Height)
+    {
+        foreach (var material in fadeMaterials)
+        {
+
         }
     }
 
