@@ -366,7 +366,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &480157783 stripped
 MonoBehaviour:
@@ -749,7 +749,7 @@ MonoBehaviour:
     type: 2}
   SearchingForPlaneUI: {fileID: 1133631540}
   m_voiceRecButton: {fileID: 2006148250}
-  _Teleport: {fileID: 1335598869}
+  _Teleport: {fileID: 0}
 --- !u!114 &631808998 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114508084465849196, guid: 261dcf100e604f6478f7ff39fefcf35e,
@@ -778,122 +778,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1284325353}
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!1001 &924602216
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeMeshes.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4162775027366332, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeObject
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[4]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[5]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: twistPower
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: spreadPower
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeOutParticle
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeInParticle
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954997095053502, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: fadeSkinnedMeshes.Array.data[6]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-        type: 2}
-      propertyPath: _helloARController
-      value: 
-      objectReference: {fileID: 627916103}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 39476f39a8c784145888adaaf7072183, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &956112450
 Prefab:
   m_ObjectHideFlags: 0
@@ -1837,12 +1721,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1284325353}
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!114 &1335598869 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114230881313763620, guid: 39476f39a8c784145888adaaf7072183,
-    type: 2}
-  m_PrefabInternal: {fileID: 924602216}
-  m_Script: {fileID: 11500000, guid: 49a195fa85626ff418ad179dbde3b064, type: 3}
 --- !u!1001 &1394164186
 Prefab:
   m_ObjectHideFlags: 0
@@ -2058,7 +1936,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1759795985
 GameObject:

@@ -31,8 +31,11 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     [SerializeField]
     bool startFade = false;
     bool EndFade = false;
-    public HelloARController _helloARController;
-	void Start () {
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+    void Start () {
 
 
       
@@ -52,7 +55,6 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         if (!isCreate) return;
             if (GameObject.Find("polySurface8"))
             {
-            //SkinnedMeshRenderer unitychanRenderer = fadeObject.GetComponent<SkinnedMeshRenderer>();
             SkinnedMeshRenderer[] unitychanRendererList = fadeObject.GetComponentsInChildren<SkinnedMeshRenderer>();
 
             foreach(SkinnedMeshRenderer obj in unitychanRendererList)
@@ -87,16 +89,6 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
                 }
             }
 
- 
-            //fadeSkinnedMeshes[0] = GameObject.Find("pasted__pasted__pPipe1").GetComponent<SkinnedMeshRenderer>();
-            //fadeSkinnedMeshes[1] = GameObject.Find("polySurface1").GetComponent<SkinnedMeshRenderer>();
-            //fadeSkinnedMeshes[2] = GameObject.Find("polySurface8").GetComponent<SkinnedMeshRenderer>();
-            //fadeSkinnedMeshes[3] = GameObject.Find("polySurface10").GetComponent<SkinnedMeshRenderer>();
-            //fadeSkinnedMeshes[4] = GameObject.Find("skin_corrected:body_color_polySurface48").GetComponent<SkinnedMeshRenderer>();
-            //fadeSkinnedMeshes[5] = GameObject.Find("TEMPORARY_IMPORT_NAMESPACE___1:collar").GetComponent<SkinnedMeshRenderer>();
-            //fadeSkinnedMeshes[6] = GameObject.Find("transform13").GetComponent<SkinnedMeshRenderer>();
-
-
             foreach (var mesh in fadeMeshes)
             {
                 foreach (var material in mesh.materials)
@@ -129,7 +121,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         basePos.x = fadeObject.transform.position.x;
         basePos.y = fadeObject.transform.position.y;
         basePos.z = fadeObject.transform.position.z;
-        SetObjectHeight(basePos.y);
+        //SetObjectHeight(basePos.y);
         foreach (var material in fadeMaterials) {
             material.SetVector("_ObjectBasePos", basePos);
             material.SetFloat("_FadeRate", fadeRate);
