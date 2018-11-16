@@ -1,4 +1,14 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   TitleManager.cs
+//!
+//! @brief  タイトルで行う処理
+//!
+//! @date   2018/11/14
+//!
+//! @author 加藤　竜哉
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -53,8 +63,8 @@ public class TitleManager: MonoBehaviour {
         if (!isLoad)
         {
             //  シーン切り替え
-            //SceneManager.LoadScene("Play");
-            FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+            SceneManager.LoadScene("CharCreate");
+            //FadeManager.Instance.LoadScene("CharCreate", 2.0f);
         }
         isLoad = true;
     }

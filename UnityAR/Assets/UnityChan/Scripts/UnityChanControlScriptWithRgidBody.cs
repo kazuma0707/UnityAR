@@ -88,6 +88,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     //  シーンのロードが複数行われるのの防止
     bool isLoad = false;
 
+    bool deadFlag = false;
+
     //=============  定数　===============//
     private const float JUMP_HEIGHT = 2.0f;//1.5f;          //  ジャンプの高さ
     private const float JUMP_LIMIT = 2.3f;                  //  ジャンプ可能な高さの限界値
@@ -159,8 +161,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             }
         }
 
-        //  プレイヤーが一定以下に落ちる or 障害物に当たったらゲームオーバー
-        if(this.transform.position.y <= -3.0f || obstacleFlag == true)
+        //  プレイヤーが一定以下に落ちたら
+        if(this.transform.position.y <= -3.0f)
         {
             //  シーンが複数ロードされるのの防止
             if (!isLoad)
@@ -169,6 +171,19 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
                 FadeManager.Instance.LoadScene("Ranking", 2.0f);
             }
             isLoad = true;
+        }
+
+        //  障害物と当たったら
+        if(obstacleFlag == true)
+        {
+            //  TimeScaleに依存しないタイム
+            anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+            //  時間を止める
+            Time.timeScale = 0.0f;
+            //  死亡フラグをtrueに
+            deadFlag = true;
+            //  ゲームをポーズする
+            manager.GetComponent<GameManager>().pauseFlag = true;
         }
 
         //  プレイヤーの下に床があるかどうか
@@ -557,6 +572,16 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     public bool GetObstacleFlag()
     {
         return obstacleFlag;
+    }
+
+    /****************************************************************
+    *|　機能　プレイヤーが死んだときのフラグ
+    *|　引数　なし
+    *|　戻値　bool(死んだときにtrue、生きていればfalse)
+    ***************************************************************/
+    public bool GetDeadFlag()
+    {
+        return deadFlag;
     }
 }
 

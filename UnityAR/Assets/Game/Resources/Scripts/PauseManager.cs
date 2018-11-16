@@ -1,4 +1,14 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   PauseManager.cs
+//!
+//! @brief  ポーズするオブジェクトを管理する
+//!
+//! @date   2018/11/14
+//!
+//! @author 加藤　竜哉
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

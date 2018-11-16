@@ -122,8 +122,9 @@ public class FadeManager : MonoBehaviour
 		float time = 0;
 		while (time <= interval) {
 			this.fadeAlpha = Mathf.Lerp (0f, 1f, time / interval);
-			time += Time.deltaTime;
-			yield return 0;
+            //time += Time.deltaTime;
+            time += Time.unscaledDeltaTime;
+            yield return 0;
 		}
 
 		//シーン切替 .

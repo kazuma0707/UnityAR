@@ -16,8 +16,10 @@ using UnityEngine.UI;
 public class Pause : MonoBehaviour {
     //=============  定数　===============//
     private const float WAIT_TIME = 3.0f;
+
     //  ゲームを待つための時間用変数
     private float waitGame = 0.0f;
+    private bool startFlag = true;             //  スタート時かどうかのフラグ
 
     // Use this for initialization
     void Start () {
@@ -25,16 +27,20 @@ public class Pause : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //  Time.Scaleに依存しないタイムを取得
-        waitGame += Time.unscaledDeltaTime;
-
-        //  カウントダウンの実行
-        this.GetComponent<GameManager>().CountDown();
-
-        //  カウントダウン後にゲームを動かす
-        if (waitGame >= WAIT_TIME)
+        if (startFlag == true)
         {
-            this.GetComponent<GameManager>().GameStart();
+            //  Time.Scaleに依存しないタイムを取得
+            waitGame += Time.unscaledDeltaTime;
+
+            //  カウントダウンの実行
+            this.GetComponent<GameManager>().CountDown();
+
+            //  カウントダウン後にゲームを動かす
+            if (waitGame >= WAIT_TIME)
+            {
+                this.GetComponent<GameManager>().GameStart();
+                startFlag = false;
+            }
         }
     }
 }
