@@ -166,7 +166,7 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-                        //MyCharDataManager.Instance.ReCreate(unityChanObject);
+                        MyCharDataManager.Instance.ReCreate(unityChanObject);
                         _Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
