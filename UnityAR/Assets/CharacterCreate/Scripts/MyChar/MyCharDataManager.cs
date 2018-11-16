@@ -161,9 +161,7 @@ public class MyCharDataManager : MonoBehaviour
     private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
     private bool sceneLoadOnce;                  // タイトルシーンが初回ロードかどうかのフラグ(true：2回目以降, false：初回)
-    [SerializeField]
-    private GameObject debugCloth;              // デバッグ用の服
-
+   
     public void Awake()
     {
         // インスタンスが複数存在しないようにする
