@@ -24,7 +24,7 @@ public class HairChageButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
-        // 髪の色に合わせて髪(＋それに合わせた体の色)を変える
+        // 髪の色に合わせて髪を変える
         switch (MyCharDataManager.Instance.Data.hcn)
         {
             case HairColorNum.PINK:

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
+using GoogleARCore.Examples.HelloAR;
 public class TeleportFadeSamplePlayer : MonoBehaviour {
 
     enum State {
@@ -30,6 +31,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     [SerializeField]
     bool startFade = false;
     bool EndFade = false;
+    public HelloARController _helloARController;
 	void Start () {
 
 
@@ -42,16 +44,59 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
             fadeObject = GameObject.Find("skin(Clone)");
             isCreate = true;
         }
-        if (!isCreate) return;
-            if (GameObject.Find("polySurface8")&&isCreate)
+        else if(GameObject.Find("skin"))
         {
-            fadeSkinnedMeshes[0] = GameObject.Find("pasted__pasted__pPipe1").GetComponent<SkinnedMeshRenderer>();
-            fadeSkinnedMeshes[1] = GameObject.Find("polySurface1").GetComponent<SkinnedMeshRenderer>();
-            fadeSkinnedMeshes[2] = GameObject.Find("polySurface8").GetComponent<SkinnedMeshRenderer>();
-            fadeSkinnedMeshes[3] = GameObject.Find("polySurface10").GetComponent<SkinnedMeshRenderer>();
-            fadeSkinnedMeshes[4] = GameObject.Find("skin_corrected:body_color_polySurface48").GetComponent<SkinnedMeshRenderer>();
-            fadeSkinnedMeshes[5] = GameObject.Find("TEMPORARY_IMPORT_NAMESPACE___1:collar").GetComponent<SkinnedMeshRenderer>();
-            fadeSkinnedMeshes[6] = GameObject.Find("transform13").GetComponent<SkinnedMeshRenderer>();
+            fadeObject = GameObject.Find("skin");
+            isCreate = true;
+        }
+        if (!isCreate) return;
+            if (GameObject.Find("polySurface8"))
+            {
+            //SkinnedMeshRenderer unitychanRenderer = fadeObject.GetComponent<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer[] unitychanRendererList = fadeObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+
+            foreach(SkinnedMeshRenderer obj in unitychanRendererList)
+            {
+                switch(obj.name)
+                {
+                    case "pasted__pasted__pPipe1":
+                        fadeSkinnedMeshes[0] = obj;
+                        break;
+                    case "polySurface1":
+                        fadeSkinnedMeshes[1] = obj;
+                        break;
+                    case "polySurface8":
+                        fadeSkinnedMeshes[2] = obj;
+                        break;
+                    case "polySurface10":
+                        fadeSkinnedMeshes[3] = obj;
+                        break;
+                    case "skin_corrected:body_color_polySurface48":
+                        fadeSkinnedMeshes[4] = obj;
+                        break;
+                    case "TEMPORARY_IMPORT_NAMESPACE___1:collar":
+                        fadeSkinnedMeshes[5] = obj;
+                        break;
+                    case "transform13":
+                        fadeSkinnedMeshes[6] = obj;
+                        break;
+
+                    default:
+                        
+                        break;
+                }
+            }
+
+ 
+            //fadeSkinnedMeshes[0] = GameObject.Find("pasted__pasted__pPipe1").GetComponent<SkinnedMeshRenderer>();
+            //fadeSkinnedMeshes[1] = GameObject.Find("polySurface1").GetComponent<SkinnedMeshRenderer>();
+            //fadeSkinnedMeshes[2] = GameObject.Find("polySurface8").GetComponent<SkinnedMeshRenderer>();
+            //fadeSkinnedMeshes[3] = GameObject.Find("polySurface10").GetComponent<SkinnedMeshRenderer>();
+            //fadeSkinnedMeshes[4] = GameObject.Find("skin_corrected:body_color_polySurface48").GetComponent<SkinnedMeshRenderer>();
+            //fadeSkinnedMeshes[5] = GameObject.Find("TEMPORARY_IMPORT_NAMESPACE___1:collar").GetComponent<SkinnedMeshRenderer>();
+            //fadeSkinnedMeshes[6] = GameObject.Find("transform13").GetComponent<SkinnedMeshRenderer>();
+
+
             foreach (var mesh in fadeMeshes)
             {
                 foreach (var material in mesh.materials)
@@ -84,6 +129,7 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         basePos.x = fadeObject.transform.position.x;
         basePos.y = fadeObject.transform.position.y;
         basePos.z = fadeObject.transform.position.z;
+        SetObjectHeight(basePos.y);
         foreach (var material in fadeMaterials) {
             material.SetVector("_ObjectBasePos", basePos);
             material.SetFloat("_FadeRate", fadeRate);
@@ -95,6 +141,13 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             StartFadeIn();
+        }
+    }
+    public void SetObjectHeight(float Height)
+    {
+        foreach (var material in fadeMaterials)
+        {
+            material.SetFloat("_ObjectHeight", Height+2.0f);
         }
     }
 

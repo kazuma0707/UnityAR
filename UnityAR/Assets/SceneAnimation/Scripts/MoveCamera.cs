@@ -92,6 +92,7 @@ public class MoveCamera : MonoBehaviour
     [SerializeField]
     private GameObject CCCamera;
     private Vector3 CCCdefaultPos;      // キャラクリ用のカメラの初期位置
+    private Vector3 CCCdefaultRot;      // キャラクリ用のカメラの初期角度
 
     // 音関連
     private AudioSource audioSource;
@@ -134,6 +135,11 @@ public class MoveCamera : MonoBehaviour
     [SerializeField]
     private GameObject[] fades;                 // フェード用の画像
 
+    //アニメーター
+    private Animator animator;
+    // 素体となるモデル
+    private GameObject sotai;
+
     // Use this for initialization
     void Start ()
     {
@@ -156,7 +162,14 @@ public class MoveCamera : MonoBehaviour
         //// orthographicSizeを計算し直す
         //mainCamera.orthographicSize = deviceSize * deviceScale;
 
+        // 素体となるモデルを取得
+        sotai = MyC.transform.Find("skin").gameObject;
+
+        //アニメーターの取得
+        animator = sotai.GetComponent<Animator>();
+
         CCCdefaultPos = CCCamera.transform.position;
+        CCCdefaultRot = CCCamera.transform.localEulerAngles;
         audioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
 
         //UI非表示
@@ -232,7 +245,15 @@ public class MoveCamera : MonoBehaviour
 
         audioSource.PlayOneShot(YesSound);
 
-        iTween.MoveTo(MyC, iTween.Hash("x", CHARA_CRE_POS_X, "y", CHARA_CRE_POS_Y, "z", CHARA_CRE_POS_Z, "speed", 0.5f, "EaseType", iTween.EaseType.linear));
+        animator.SetBool("Walk", true);
+
+        iTween.RotateTo(MyC, iTween.Hash("y", 150f,"time", 2f));
+
+        iTween.MoveTo(MyC, iTween.Hash("x", CHARA_CRE_POS_X, "y", CHARA_CRE_POS_Y, "z", CHARA_CRE_POS_Z, 
+            "speed", 0.5f, 
+            "EaseType", iTween.EaseType.linear,
+            "oncomplete","WalkStop",
+            "oncompletetarget", this.gameObject));
 
         welcomeText.SetActive(true);
         PlayTimeline1();
@@ -293,10 +314,15 @@ public class MoveCamera : MonoBehaviour
 
         welcomeText.SetActive(false);
 
+        animator.SetBool("Walk", true);
+
+        iTween.RotateTo(MyC, iTween.Hash("y", 50f));
         iTween.MoveTo(MyC, iTween.Hash("x", -3.3f, "y", 0.2f, "z", -2.2f, "speed", 1.1f,
                                        "EaseType", iTween.EaseType.linear, 
-                                       "oncomplete", "SelectUIActive",
-                                       "oncompletetarget", this.gameObject));
+                                       "oncomplete", "MoveToSelectEnd",
+                                       //"oncomplete", "WalkStop",
+                                       "oncompletetarget", this.gameObject
+                                       ));
 
         audioSource.PlayOneShot(YesSound);
 
@@ -371,8 +397,14 @@ public class MoveCamera : MonoBehaviour
         cmCamera9.SetActive(true);
         cmCamera10.SetActive(true);
 
+        animator.SetBool("Walk", true);
 
-        iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 1.1f, "EaseType", iTween.EaseType.linear));
+        iTween.RotateTo(MyC, iTween.Hash("y", 210f));
+
+        iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 1.1f, 
+            "EaseType", iTween.EaseType.linear,
+            "oncomplete", "WalkStop",
+            "oncompletetarget", this.gameObject));
 
         audioSource.PlayOneShot(YesSound);
 
@@ -410,6 +442,7 @@ public class MoveCamera : MonoBehaviour
         // カメラを切り替える
         //this.gameObject.GetComponent<Camera>().enabled = true;
         CCCamera.transform.position = CCCdefaultPos;
+        CCCamera.transform.localEulerAngles = CCCdefaultRot;
         CCCamera.SetActive(false);
 
         // セレクト用のチェックポイントまで移動
@@ -472,12 +505,22 @@ public class MoveCamera : MonoBehaviour
         }
     }
 
-    private void SelectUIActive()
+    //private void SelectUIActive()
+    private void MoveToSelectEnd()
     {
+        WalkStop();
         SchoolIntroductionButton.SetActive(true);
         GameButton.SetActive(true);
         AppreciationButton.SetActive(true);
         ReCharacterCreateButton.SetActive(true);
+        iTween.RotateTo(MyC, iTween.Hash("y", 50f));
+    }
+
+    //止まる
+    private void WalkStop()
+    {
+        animator.SetBool("Walk", false);
+        iTween.RotateTo(MyC, iTween.Hash("y", 0f));
     }
 
     //開始

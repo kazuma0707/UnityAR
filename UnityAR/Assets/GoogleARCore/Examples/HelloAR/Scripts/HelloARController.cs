@@ -50,6 +50,10 @@ namespace GoogleARCore.Examples.HelloAR
         //ユニティちゃんのオブジェクト
         [Header("生成するキャラクター")]
         public GameObject UnityChanPrefab;
+        public GameObject GetCreateCharcter {
+            get { return unityChanObject; }
+            
+       }
         //A gameobject parenting UI for displaying the "searching for planes" snackbar.
         public GameObject SearchingForPlaneUI;
         //The rotation in degrees need to apply to model when the Andy model is placed.
@@ -162,14 +166,14 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
-                        //MyCharDataManager.Instance.ReCreate(unityChanObject);
+                        MyCharDataManager.Instance.ReCreate(unityChanObject);
                         _Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
                         // Make Andy model a child of the anchor.
                         //   unityChanObject.transform.parent = anchor.transform;
                         //サウンドボタンの生成
-                        m_voiceRecButton.SetActive(true);
+                        //m_voiceRecButton.SetActive(true);
                         IsCreate = true;
                     }
 
