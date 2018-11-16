@@ -545,6 +545,20 @@ public class MyCharDataManager : MonoBehaviour
         //sotaiBone.GetComponent<DynamicBone>().enabled = false;       
     }
 
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 体型を変える(ミニゲーム用)
+    // 　引　数   | newScale：体型の登録番号
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeBodyScaleInGame(BodyNum newScale)
+    {
+        // 既に同じものを選択していたら何もしない
+        if (saveData.bodyScale == newScale) return;
+
+        // 体型を変え、セーブデータに保存
+        CharaCreateManager.ChangeBodyScale(newScale, sotai);
+    }
+
     // 体型のアクセッサ
     public Vector3[] BodyScales
     {
