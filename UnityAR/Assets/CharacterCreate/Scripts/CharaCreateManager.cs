@@ -17,6 +17,21 @@ public class CharaCreateManager : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 服の色を変える
+    // 　引　数   | newColor：服の色, sotai：素体モデル
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    static public void ChangeClothColor(Material newColor, GameObject sotai)
+    {
+        // 色を設定       
+        foreach (SkinnedMeshRenderer smr in sotai.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            if (smr.tag == "Clothes")
+                smr.material = newColor;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
     // 関数の内容 | 髪型を変える
     // 　引　数   | newHair：髪型, bone：素体のBone
     //  戻 り 値  | なし

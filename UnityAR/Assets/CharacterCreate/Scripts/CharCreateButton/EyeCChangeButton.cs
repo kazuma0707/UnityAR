@@ -5,14 +5,10 @@ using UnityEngine;
 public class EyeCChangeButton : MonoBehaviour
 {
     [SerializeField]
-    private Material resourceMatsNormal;          // 対応するマテリアル・ノーマルVer. 
-    [SerializeField]
-    private Material resourceMatsNum2;            // 対応するマテリアル・なんか２Ver. 
-    [SerializeField]
-    private Material resourceMatsNum3;            // 対応するマテリアル・なんか３Ver.
+    private EyeColorNum ecn;                      // 目の色の番号
 
     [SerializeField]
-    private EyeColorNum ecn;                      // 目の色の番号
+    private MaterialManager matManager;        // マテリアルの管理するオブジェクト
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | クリックされたときの処理
@@ -21,22 +17,52 @@ public class EyeCChangeButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
+        // マテリアルの管理するオブジェクトが無い場合、再設定
+        if (!matManager)
+            matManager = GameObject.Find("MaterialManager").GetComponent<MaterialManager>();
+
         // 目の色を変える        
         switch (MyCharDataManager.Instance.Data.eyePNum)
         {
             case EyePatternNum.NORMAL:
             default:
-                MyCharDataManager.Instance.ChangeEyeColor(resourceMatsNormal);
+                FitEyeColorMaterial(matManager.EyePatternOneMats);
                 break;
             case EyePatternNum.NUM_2:
-                MyCharDataManager.Instance.ChangeEyeColor(resourceMatsNum2);
+                FitEyeColorMaterial(matManager.EyePatternTwoMats);
                 break;
             case EyePatternNum.NUM_3:
-                MyCharDataManager.Instance.ChangeEyeColor(resourceMatsNum3);
+                FitEyeColorMaterial(matManager.EyePatternThreeMats);
                 break;
         }
 
         // 目の色の番号を登録
         MyCharDataManager.Instance.Data.ecn = ecn;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 目の色を変える
+    // 　引　数   | matMana：マテリアルの管理するオブジェクト
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void FitEyeColorMaterial(Material[] matMana)
+    {
+        // 目の色を変える        
+        switch (ecn)
+        {
+            case EyeColorNum.YELLOW:
+            default:
+                MyCharDataManager.Instance.ChangeEyePattern(matMana[(int)EyeColorNum.YELLOW]);
+                break;
+            case EyeColorNum.BLUE:
+                MyCharDataManager.Instance.ChangeEyePattern(matMana[(int)EyeColorNum.BLUE]);
+                break;
+            case EyeColorNum.GREEN:
+                MyCharDataManager.Instance.ChangeEyePattern(matMana[(int)EyeColorNum.GREEN]);
+                break;
+            case EyeColorNum.RED:
+                MyCharDataManager.Instance.ChangeEyePattern(matMana[(int)EyeColorNum.RED]);
+                break;
+        }
     }
 }

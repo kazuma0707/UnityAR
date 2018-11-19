@@ -17,7 +17,7 @@ public enum ClothNum
 {
     NORMAL,
     SEIHUKU,
-    NANKA
+    CYBER
 }
 
 // 体の色の登録番号
@@ -25,7 +25,7 @@ public enum BodyColorNum
 {
     NORMAL,
     BROWN,
-    BIHAKU
+    WHITE
 }
 
 // 目の模様の登録番号
@@ -41,7 +41,8 @@ public enum EyeColorNum
 {
     YELLOW,
     BLUE,
-    GREEN
+    GREEN,
+    RED
 }
 
 // 髪型の登録番号
@@ -57,7 +58,19 @@ public enum HairColorNum
 {
     PINK,
     YELLOW,
-    GREEN
+    GREEN,
+    BLUE,
+    RED
+}
+
+// 服の色の登録番号
+public enum ClothColorNum
+{
+    PINK,
+    YELLOW,
+    GREEN,
+    BLUE,
+    RED
 }
 
 public class MyCharDataManager : MonoBehaviour
@@ -98,10 +111,12 @@ public class MyCharDataManager : MonoBehaviour
         public GameObject eyeLine;      // 目の形
         public Material eyePattern;     // 目の模様
         public GameObject cloth;        // 服
+        public Material clothColor;     // 服の色
         public BodyNum bodyScale;       // 体型の番号
         public Material[] bodyColor;    // 体の色
 
         public ClothNum clothNum;       // 服の種類の番号
+        public ClothColorNum ccn;       // 服の色の番号
         public BodyColorNum bcn;        // 体の色の番号
 
         public EyePatternNum eyePNum;   // 目の模様の番号
@@ -153,7 +168,9 @@ public class MyCharDataManager : MonoBehaviour
     private Material defaultEyePatternMat;       // 初期の目の模様
 
     [SerializeField]
-    private GameObject defaultCloth;              // 初期の服
+    private GameObject defaultCloth;             // 初期の服
+    [SerializeField]
+    private Material defaultClothColorMat;       // 初期の服の色
 
     [SerializeField]
     private BodyNum defaultBodyScale;            // 初期の体型
@@ -192,6 +209,7 @@ public class MyCharDataManager : MonoBehaviour
         saveData.eyeLine = defaultEyeLine;
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
+        saveData.clothColor = defaultClothColorMat;
         saveData.bodyScale = defaultBodyScale;
         saveData.bodyColor = defaultBodyColorMat;
 
@@ -238,6 +256,9 @@ public class MyCharDataManager : MonoBehaviour
             StartCoroutine("SettingClothDB");
         }
 
+        // 服の色を変える
+        CharaCreateManager.ChangeClothColor(saveData.clothColor,sotai);
+
         // 何も変わっていなければ目の形を変える
         if (saveData.eyeLine.name != defaultEyeLine.name)
             CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
@@ -282,6 +303,8 @@ public class MyCharDataManager : MonoBehaviour
             StartCoroutine("SettingClothDB");
         }
 
+        // 服の色を変える
+        CharaCreateManager.ChangeClothColor(defaultClothColorMat, sotai);
 
         // 目の形を変える(既に同じものを選択していなければ)
         if (saveData.eyeLine.name != defaultEyeLine.name)
@@ -320,6 +343,7 @@ public class MyCharDataManager : MonoBehaviour
         saveData.eyeLine = defaultEyeLine;
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
+        saveData.clothColor = defaultClothColorMat;
         saveData.bodyScale = defaultBodyScale;
         saveData.bodyColor = defaultBodyColorMat;
     }
@@ -348,6 +372,21 @@ public class MyCharDataManager : MonoBehaviour
         // DynamicBoneの設定
         StartCoroutine("SettingClothDB");
 
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 服の色を変える
+    // 　引　数   | newColor：目の色
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void ChangeClothColor(Material newColor)
+    {
+        // 既に同じものを選択していたら何もしない
+        if (saveData.clothColor.name == newColor.name) return;
+
+        // 服の色を変え、セーブデータに保存
+        CharaCreateManager.ChangeClothColor(newColor, sotai);
+        saveData.clothColor = newColor;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -413,7 +452,9 @@ public class MyCharDataManager : MonoBehaviour
     public void ChangeBodyColor(Material[] newColor)
     {
         // 既に同じものを選択していたら何もしない
-        if (saveData.bodyColor[BODY_COLOR].name == newColor[BODY_COLOR].name) return;
+        if (saveData.bodyColor[BODY_COLOR].name == newColor[BODY_COLOR].name &&
+            saveData.bodyColor[HEAD_COLOR].name == newColor[HEAD_COLOR].name)
+            return;
         // 体の色を変え、セーブデータに保存
         CharaCreateManager.ChangeBodyColor(newColor, sotai);
         saveData.bodyColor = newColor;
@@ -426,7 +467,6 @@ public class MyCharDataManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void ChangeEyePattern(Material newPattern)
     {
-        Debug.Log(newPattern.name);
         // 既に同じものを選択していたら何もしない
         if (saveData.eyePattern.name == newPattern.name) return;
 
@@ -467,7 +507,7 @@ public class MyCharDataManager : MonoBehaviour
         CharaCreateManager.ChangeEyeColor(newColor, sotai);
         saveData.eyePattern = newColor;
     }
-
+       
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 服についているDynamicBoneを設定
     // 　引　数   | なし
