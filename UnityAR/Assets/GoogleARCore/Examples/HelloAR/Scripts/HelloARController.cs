@@ -110,7 +110,7 @@ namespace GoogleARCore.Examples.HelloAR
                             _debugText.text = Rayhit.collider.gameObject.name;
 
                             //Rayを飛ばしてあたったオブジェクトが自分自身だったら
-                            if (Rayhit.collider.gameObject.name == "skin"+ConstantName.ExmpleName.Clone)
+                            if (Rayhit.collider.gameObject.name == "skin(Clone)")
                             {
                                 _Teleport.StartFadeOut();
                                 Destroy(Rayhit.collider.gameObject,5.0f);

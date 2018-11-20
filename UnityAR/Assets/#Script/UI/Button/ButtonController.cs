@@ -17,7 +17,6 @@ public class ButtonController : BaseButton {
     [SerializeField]
     private Animator ClassPanel;
     public Animator AllButtonAnim;
-    public bool isActiveClassButton{ get;private set;}
 
 
     private void Awake()
@@ -62,7 +61,7 @@ public class ButtonController : BaseButton {
             // Button2がクリックされたとき
             this.KZButtonClick();
         }
-        else if (ButtonName.ARScene.SSButton.Equals(objectName))
+        else if ("SSButton".Equals(objectName))
         {
             // Button2がクリックされたとき
             this.SSButtonClick();
@@ -87,55 +86,48 @@ public class ButtonController : BaseButton {
         }
 
     }
-    //まとめボタン
     private void AllButtonClick()
     {
         if (!AllButtonAnim.GetBool("once"))
         {
-            AllButtonAnim.SetBool("once", true);//まとめボタンの中身を展開
+            AllButtonAnim.SetBool("once", true);
         }
         else
         {
-            AllButtonAnim.SetBool("once", false);//まとめボタンの中身を縮小
+            AllButtonAnim.SetBool("once", false);
         }
         if(ClassPanel.GetBool("boolAnim"))
-        {//学科ボタンの中身を展開した状態でまとめボタンを押したとき
+        {
             ClassPanel.SetBool("boolAnim", false);
             ClassPanel.SetBool("OnceAnim", true);
         }
     }
-    //キャラクリシーンに戻る
     private void ReturnSelectButtonClick()
     {
         SceneManager.LoadScene(SceneName.CharCreate);
       //FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
 
     }
-    //ゲームサイエンスのボタン
     private void GSButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(1)) return;
         _setText.SetTextNumber = DepartmentName.GAME;
     }
-    //CGのボタン
     private void CGButtuonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(2)) return;
         _setText.SetTextNumber = DepartmentName.CG;
     }
-    //Webデザインのボタン
     private void WDButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(3)) return;
         _setText.SetTextNumber = DepartmentName.WEB;
     }
-    //CADのボタン
     private void CADButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(4)) return;
         _setText.SetTextNumber = DepartmentName.CAD;
     }
-    //高度情報のボタン
     private void KZButtonClick()
     {
         if (!AugmentedImageExampleController.Index.Contains(5)) return;

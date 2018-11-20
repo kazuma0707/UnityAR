@@ -32,10 +32,6 @@ public class SetText : MonoBehaviour {
     {
         //ImageCheckオブジェクトの鮎徳
         _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
-   for(int i=0;i<LockImage.Length;i++)
-        {
-            LockImage[i].gameObject.SetActive(false);
-        }
 
     }
 
