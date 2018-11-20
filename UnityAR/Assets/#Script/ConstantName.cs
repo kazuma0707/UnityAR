@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 //列挙型を管理する
- namespace ConstantName
+namespace ConstantName
 {
     //学科の定数
     public class DepartmentName
@@ -27,7 +27,7 @@ using UnityEngine;
     //ボタンの定数
     public class ButtonName
     {
-        
+
         public class ARScene
         {
             public const string GSButton = "GSButton";
@@ -42,4 +42,10 @@ using UnityEngine;
             public const string AllButton = "AllButton";
         }
     }
+    public class ExmpleName
+    {
+        public const string Clone = "(Clone)";
+    }
+        
+
 }
