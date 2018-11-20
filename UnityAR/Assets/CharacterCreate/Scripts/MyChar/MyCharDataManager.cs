@@ -213,6 +213,8 @@ public class MyCharDataManager : MonoBehaviour
         saveData.bodyScale = defaultBodyScale;
         saveData.bodyColor = defaultBodyColorMat;
 
+        CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
+
         ReCreate(sotai);
 
         sceneLoadOnce = false;
@@ -261,8 +263,9 @@ public class MyCharDataManager : MonoBehaviour
 
         // 何も変わっていなければ目の形を変える
         if (saveData.eyeLine.name != defaultEyeLine.name)
+        {
             CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
-
+        }
         // DynamicBoneを除外
         RemoveDB(hairBaseBone);
         // 髪型を変える
