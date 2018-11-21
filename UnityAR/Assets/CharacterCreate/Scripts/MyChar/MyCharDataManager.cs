@@ -137,6 +137,9 @@ public class MyCharDataManager : MonoBehaviour
     public const string LEFT_UP_LEG_BONE = "mixamorig:LeftUpLeg";    // 素体のBone(LeftUpLeg)
     public const string RIGHT_UP_LEG = "mixamorig:RightUpLeg";       // 素体のBone(RightUpLeg)
     public const string SPINE_BONE = "mixamorig:Spine";              // 素体のBone(Spine)
+    public const int MATERIAL_VERSION_NORMAL = 0;                    // NormalTSのマテリアル
+    public const int MATERIAL_VERSION_TELEPORT = 1;                  // Teleportのマテリアル
+    public const int MATERIAL_VERSION_UNIT = 2;                      // Unitのマテリアル
 
     /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -178,7 +181,10 @@ public class MyCharDataManager : MonoBehaviour
     private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
     private bool sceneLoadOnce;                  // タイトルシーンが初回ロードかどうかのフラグ(true：2回目以降, false：初回)
-   
+
+    [SerializeField]
+    private int materialVerion = MATERIAL_VERSION_NORMAL;   // マテリアルのVersion
+
     public void Awake()
     {
         // インスタンスが複数存在しないようにする
@@ -619,5 +625,11 @@ public class MyCharDataManager : MonoBehaviour
     public bool SceneLoadOnce
     {
         get { return sceneLoadOnce; }
+    }
+
+    // マテリアルのVersionのアクセッサ
+    public int MaterialVerion
+    {
+        get { return materialVerion; }
     }
 }
