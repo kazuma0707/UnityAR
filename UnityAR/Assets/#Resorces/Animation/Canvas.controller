@@ -128,7 +128,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: New State 0
+  m_Name: ReturnMenu
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -142,7 +142,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d4c34720463b68345ab334e27fe451f8, type: 2}
+  m_Motion: {fileID: 7400000, guid: df447ceeceefc0c468c1b7f8104f5d04, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -168,7 +168,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 60b04ac1488db694caeb9677c5d6e524, type: 2}
+  m_Motion: {fileID: 7400000, guid: 9d61f087939725f4ebbfe8945176d3f4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

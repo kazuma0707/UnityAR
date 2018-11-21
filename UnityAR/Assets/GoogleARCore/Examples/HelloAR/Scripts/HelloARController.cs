@@ -83,7 +83,7 @@ namespace GoogleARCore.Examples.HelloAR
 
 
             _UpdateApplicationLifecycle();
-            //生成オブジェクトの回転
+            //生成オブジェクトの回転（生成時に常に自分を向くようにする）
             if (unityChanObject != null)
             {
                 var aim = Camera.main.transform.position - unityChanObject.transform.position;
@@ -110,7 +110,7 @@ namespace GoogleARCore.Examples.HelloAR
                             _debugText.text = Rayhit.collider.gameObject.name;
 
                             //Rayを飛ばしてあたったオブジェクトが自分自身だったら
-                            if (Rayhit.collider.gameObject.name == "skin"+ConstantName.ExmpleName.Clone)
+                            if (Rayhit.collider.gameObject.name == "skin(Clone)")
                             {
                                 _Teleport.StartFadeOut();
                                 Destroy(Rayhit.collider.gameObject,5.0f);
@@ -126,13 +126,14 @@ namespace GoogleARCore.Examples.HelloAR
             bool showSearchingUI = true;
             for (int i = 0; i < m_AllPlanes.Count; i++)
             {
+                //水平面の検知ができたら
                 if (m_AllPlanes[i].TrackingState == TrackingState.Tracking)
                 {
                     showSearchingUI = false;
                     break;
                 }
             }
-
+            //水平面検知中のUIを非表示
             SearchingForPlaneUI.SetActive(showSearchingUI);
 
             // If the player has not touched the screen, we are done with this update.
