@@ -91,7 +91,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
 #else
         int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
         
-        text.text = "Y:" + Input.GetTouch(0).position.y.ToString() + ", T:" + touchPosLimit.ToString();
+        
         //text.text = "W:" + Screen.width + ", H:" + Screen.height;
         if (Input.touchCount == 1)
         {
@@ -115,8 +115,9 @@ public class CharaCreCameraCtrl : MonoBehaviour
             
             float xDelta = t.deltaPosition.x * translateSpeed;
             float yDelta = t.deltaPosition.y * translateSpeed;
-            xDelta = Mathf.Clamp(xDelta, -10.0f, 10.0f);
-            yDelta = Mathf.Clamp(yDelta, -10.0f, 10.0f);
+            xDelta = Mathf.Clamp(xDelta, -5.0f, 5.0f);
+            yDelta = Mathf.Clamp(yDelta, -5.0f, 5.0f);
+            text.text = "X:" + xDelta.ToString() + ", Y:" + yDelta.ToString();
             this.transform.Translate(xDelta, yDelta, 0);
 
             // ZOOM

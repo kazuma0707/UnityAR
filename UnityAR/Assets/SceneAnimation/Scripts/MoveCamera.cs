@@ -210,7 +210,7 @@ public class MoveCamera : MonoBehaviour
         StopTimeline3();
 
         // タイトルシーンの読み込みが2回目以降であればキャラクリから始める
-        if (MyCharDataManager.Instance.SceneLoadOnce) StartCharacterCreateMode();
+        //if (MyCharDataManager.Instance.SceneLoadOnce) StartCharacterCreateMode();
 
     }
 

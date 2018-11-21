@@ -5,7 +5,16 @@ using UnityEngine;
 public class ClothChangeButton : MonoBehaviour
 {
     [Header("差し替えるモデル")]
+    [Header("NormalTS用のモデル")]
     [SerializeField]
+    private GameObject normalTSObj;            // NormalTS用のモデル
+    [Header("Teleropt用のモデル")]
+    [SerializeField]
+    private GameObject teleportObj;            // Teleropt用のモデル
+    [Header("Unit用のモデル")]
+    [SerializeField]
+    private GameObject unitObj;                // Unit用のモデル
+
     private GameObject resourceObj;            // 差し替えるモデル
 
     [SerializeField]
@@ -16,6 +25,24 @@ public class ClothChangeButton : MonoBehaviour
 
 
     private Material[] mat = new Material[2];
+
+    private void Start()
+    {
+        // マテリアルのVerionに合わせて渡す物を変える
+        switch (MyCharDataManager.Instance.MaterialVerion)
+        {
+            case MyCharDataManager.MATERIAL_VERSION_NORMAL:
+            default:
+                resourceObj = normalTSObj;
+                break;
+            case MyCharDataManager.MATERIAL_VERSION_TELEPORT:
+                resourceObj = teleportObj;
+                break;
+            case MyCharDataManager.MATERIAL_VERSION_UNIT:
+                resourceObj = unitObj;
+                break;
+        }        
+    }
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | クリックされたときの処理
