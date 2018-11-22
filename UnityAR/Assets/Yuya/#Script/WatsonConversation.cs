@@ -10,8 +10,8 @@ using IBM.Watson.DeveloperCloud.Utilities;
 
 public class WatsonConversation : MonoBehaviour
 {
-    //[SerializeField]
-    //private Text m_text;
+    [SerializeField]
+    private Text m_text;
 
     [SerializeField]
     private bool m_voiceRecFlag;
@@ -37,6 +37,8 @@ public class WatsonConversation : MonoBehaviour
     IEnumerator Start()
     {
         m_voiceRecFlag = false;
+
+        m_text = GameObject.Find("VoiceText").GetComponent<Text>();
 
         string tts_id = "be09fdb0-d674-480d-a6bb-19e50445da09";                  // 資格情報より
         string tts_pw = "papBdt1cRbfp";                                          // 資格情報より
@@ -197,7 +199,7 @@ public class WatsonConversation : MonoBehaviour
                     //text を Conversation Service に送って処理
                     m_Conversation.VersionDate = "2017-05-26";
                     m_Conversation.Message(OnMessage, OnFail ,m_WorkspaceID, text);
-                    //m_text.text = text;
+                    m_text.text = text;
                 }
             }
         }
