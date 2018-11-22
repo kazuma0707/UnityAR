@@ -46,9 +46,6 @@ public class MoveCamera : MonoBehaviour
     // キャラクタークリエイトを完了するボタン
     [SerializeField]
     private GameObject CharacterCreateEndButton;
-    // 確認テキスト
-    [SerializeField]
-    private GameObject Text;
     // 確認パネル
     [SerializeField]
     private GameObject Panel;
@@ -75,9 +72,6 @@ public class MoveCamera : MonoBehaviour
     private Image titleImage;
 
     /////////////// キャラクタークリエイトし直す ////////////////
-    // テキスト
-    [SerializeField]
-    private GameObject ReText;
     // パネル
     [SerializeField]
     private GameObject RePanel;
@@ -179,7 +173,6 @@ public class MoveCamera : MonoBehaviour
         }
         CharacterCreateButton.SetActive(false);
         CharacterCreateEndButton.SetActive(false);
-        Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
@@ -187,7 +180,6 @@ public class MoveCamera : MonoBehaviour
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
-        ReText.SetActive(false);
         RePanel.SetActive(false);
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
@@ -289,7 +281,6 @@ public class MoveCamera : MonoBehaviour
         }
         CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = false;
 
-        Text.SetActive(true);
         Panel.SetActive(true);
         YesButton.SetActive(true);
         NoButton.SetActive(true);
@@ -300,8 +291,6 @@ public class MoveCamera : MonoBehaviour
     {       
         Invoke("Rotate2", 0.5f);
 
-       
-        Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
@@ -339,7 +328,6 @@ public class MoveCamera : MonoBehaviour
             ChangeButtons[i].SetActive(true);
         }
         CharacterCreateEndButton.SetActive(true);
-        Text.SetActive(false);
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
@@ -368,7 +356,6 @@ public class MoveCamera : MonoBehaviour
     //キャラクタークリエイトをし直す
     public void OnReCharacterCreate()
     {        
-        ReText.SetActive(true);
         RePanel.SetActive(true);
         ReYesButton.SetActive(true);
         ReNoButton.SetActive(true);
@@ -386,7 +373,6 @@ public class MoveCamera : MonoBehaviour
     {
         Invoke("Rotate3", 0.5f);       
 
-        ReText.SetActive(false);
         RePanel.SetActive(false);
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
@@ -414,7 +400,6 @@ public class MoveCamera : MonoBehaviour
     //いいえが押されたら
     public void OnReConfirmationNo()
     {
-        ReText.SetActive(false);
         RePanel.SetActive(false);
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
