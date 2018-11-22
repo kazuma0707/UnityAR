@@ -93,8 +93,8 @@ public class GameManager : MonoBehaviour
         gameScore = 0;
 
         // 素体モデルにデータを適用させる
-        //MyCharDataManager.Instance.ReCreate(sotai);
-        //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
+        MyCharDataManager.Instance.ReCreate(sotai);
+        MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
 
         //  ゲームの停止
         GameStop();
