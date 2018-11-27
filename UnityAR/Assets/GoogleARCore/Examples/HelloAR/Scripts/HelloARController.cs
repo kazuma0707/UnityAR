@@ -75,6 +75,13 @@ namespace GoogleARCore.Examples.HelloAR
         [SerializeField]
         TeleportFadeSamplePlayer _Teleport;
         int cnt = 0;
+        //ButtonCanvasのアニメーション
+        public Animator ButtonCanvas;
+        bool showSearchingUI = true;
+        private void Start()
+        {
+            ButtonCanvas.SetBool("PopHorizon", showSearchingUI);
+        }
         /// <summary>
         /// The Unity Update() method.
         /// </summary>
@@ -107,13 +114,13 @@ namespace GoogleARCore.Examples.HelloAR
                   
                         if (Physics.Raycast(ray, out Rayhit))
                         {
-                            _debugText.text = Rayhit.collider.gameObject.name;
+                            //_debugText.text = Rayhit.collider.gameObject.name;
 
                             //Rayを飛ばしてあたったオブジェクトが自分自身だったら
                             if (Rayhit.collider.gameObject.name == "skin(Clone)")
                             {
-                                _Teleport.StartFadeOut();
-                                Destroy(Rayhit.collider.gameObject,5.0f);
+                                //_Teleport.StartFadeOut();
+                                Destroy(Rayhit.collider.gameObject);
                             }
                         }
                     }
@@ -123,18 +130,20 @@ namespace GoogleARCore.Examples.HelloAR
 
             // Hide snackbar when currently tracking at least one plane.
             Session.GetTrackables<DetectedPlane>(m_AllPlanes);
-            bool showSearchingUI = true;
+
             for (int i = 0; i < m_AllPlanes.Count; i++)
             {
                 //水平面の検知ができたら
                 if (m_AllPlanes[i].TrackingState == TrackingState.Tracking)
                 {
                     showSearchingUI = false;
+                    //水平面検知中のUIを非表示
+                    ButtonCanvas.SetBool("PopHorizon", showSearchingUI);
                     break;
                 }
             }
-            //水平面検知中のUIを非表示
-            SearchingForPlaneUI.SetActive(showSearchingUI);
+
+           // SearchingForPlaneUI.SetActive(showSearchingUI);
 
             // If the player has not touched the screen, we are done with this update.
             Touch touch;
@@ -168,7 +177,7 @@ namespace GoogleARCore.Examples.HelloAR
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
                         MyCharDataManager.Instance.ReCreate(unityChanObject);
-                        _Teleport.StartFadeIn();
+                       // _Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
                         // Make Andy model a child of the anchor.
