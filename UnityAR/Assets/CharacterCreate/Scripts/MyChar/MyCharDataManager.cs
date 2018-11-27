@@ -343,7 +343,8 @@ public class MyCharDataManager : MonoBehaviour
             CharaCreateManager.ChangeBodyScale(defaultBodyScale, sotai);
 
         // 体の色を変える(既に同じものを選択していなければ)
-        if (saveData.bodyColor[BODY_COLOR].name != defaultBodyColorMat[BODY_COLOR].name)
+        if (saveData.bodyColor[BODY_COLOR].name != defaultBodyColorMat[BODY_COLOR].name &&
+            saveData.bodyColor[HEAD_COLOR].name != defaultBodyColorMat[HEAD_COLOR].name)
             CharaCreateManager.ChangeBodyColor(defaultBodyColorMat, sotai);
 
         // セーブデータに保存
