@@ -287,8 +287,8 @@ public class MoveCamera : MonoBehaviour
 
         animator.SetBool("Walk", true);
 
-        iTween.RotateTo(MyC, iTween.Hash("y", 50f));
-        iTween.MoveTo(MyC, iTween.Hash("x", -3.3f, "y", 0.2f, "z", -2.2f, "speed", 1.1f,
+        iTween.RotateTo(MyC, iTween.Hash("y", 35f));
+        iTween.MoveTo(MyC, iTween.Hash("x", -3.3f, "y", 0.2f, "z", -2.2f, "speed",0.75f,
                                        "EaseType", iTween.EaseType.linear, 
                                        "oncomplete", "MoveToSelectEnd",
                                        //"oncomplete", "WalkStop",
@@ -369,7 +369,7 @@ public class MoveCamera : MonoBehaviour
 
         iTween.RotateTo(MyC, iTween.Hash("y", 210f));
 
-        iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 1.1f, 
+        iTween.MoveTo(MyC, iTween.Hash("x", -0.1f, "y", 0.2f, "z", 2.5f, "speed", 0.75f, 
             "EaseType", iTween.EaseType.linear,
             "oncomplete", "WalkStop",
             "oncompletetarget", this.gameObject));
@@ -471,7 +471,7 @@ public class MoveCamera : MonoBehaviour
             MoveToCharaCreEnd(fade);
         }
     }
-
+    
     //private void SelectUIActive()
     private void MoveToSelectEnd()
     {
