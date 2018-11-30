@@ -75,7 +75,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
         {            
             // マウスポジションが一定値以下であればカメラを動かさない
             if (Input.mousePosition.y < posY) return;
-            this.transform.Translate(mouseX * translateSpeed, mouseY * translateSpeed, 0);
+            this.transform.Translate(-mouseX * translateSpeed,- mouseY * translateSpeed, 0);
         }
 
         // ズーム(ホイール回転)
@@ -118,7 +118,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
             xDelta = Mathf.Clamp(xDelta, -5.0f, 5.0f);
             yDelta = Mathf.Clamp(yDelta, -5.0f, 5.0f);
             text.text = "X:" + xDelta.ToString() + ", Y:" + yDelta.ToString();
-            this.transform.Translate(xDelta, yDelta, 0);
+            this.transform.Translate(-xDelta, -yDelta, 0);
 
             // ZOOM
             // 両方のタッチを格納します
