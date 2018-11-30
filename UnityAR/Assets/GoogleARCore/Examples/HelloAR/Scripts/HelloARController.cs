@@ -76,11 +76,12 @@ namespace GoogleARCore.Examples.HelloAR
         TeleportFadeSamplePlayer _Teleport;
         int cnt = 0;
         //ButtonCanvasのアニメーション
-        public Animator ButtonCanvas;
+        public Animator SnackBarAnim;
         bool showSearchingUI = true;
+        bool IsSetRot { get { return IsSetRot; }  set { IsSetRot = value; } }
         private void Start()
         {
-            ButtonCanvas.SetBool("PopHorizon", showSearchingUI);
+            SnackBarAnim.SetBool("PopHorizon", showSearchingUI);
         }
         /// <summary>
         /// The Unity Update() method.
@@ -91,11 +92,14 @@ namespace GoogleARCore.Examples.HelloAR
 
             _UpdateApplicationLifecycle();
             //生成オブジェクトの回転（生成時に常に自分を向くようにする）
-            if (unityChanObject != null)
+            if (unityChanObject != null && IsSetRot==false)
             {
-                var aim = Camera.main.transform.position - unityChanObject.transform.position;
-                var look = Quaternion.LookRotation(aim);
-                unityChanObject.transform.localRotation = look;
+                //var aim = Camera.main.transform.localPosition - unityChanObject.transform.position;
+       
+                //var look =  Quaternion.LookRotation(aim);
+                //unityChanObject.transform.localRotation = new Quaternion( look.x,180.0f+look.y,look.z,look.w);
+                unityChanObject.transform.LookAt(Camera.main.transform.localPosition);
+                IsSetRot = true;
 
             }
             if (0 < Input.touchCount)
@@ -121,6 +125,7 @@ namespace GoogleARCore.Examples.HelloAR
                             {
                                 //_Teleport.StartFadeOut();
                                 Destroy(Rayhit.collider.gameObject);
+                                IsSetRot = false;
                             }
                         }
                     }
@@ -138,7 +143,7 @@ namespace GoogleARCore.Examples.HelloAR
                 {
                     showSearchingUI = false;
                     //水平面検知中のUIを非表示
-                    ButtonCanvas.SetBool("PopHorizon", showSearchingUI);
+                    SnackBarAnim.SetBool("PopHorizon", showSearchingUI);
                     break;
                 }
             }
@@ -176,6 +181,7 @@ namespace GoogleARCore.Examples.HelloAR
                     {
                         //ユニティちゃんの生成
                           unityChanObject = Instantiate(UnityChanPrefab, hit.Pose.position, hit.Pose.rotation);
+                          unityChanObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
                         MyCharDataManager.Instance.ReCreate(unityChanObject);
                        // _Teleport.StartFadeIn();
                         var anchor = hit.Trackable.CreateAnchor(hit.Pose);
