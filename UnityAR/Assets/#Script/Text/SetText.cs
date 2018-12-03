@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GoogleARCore.Examples.AugmentedImage;
+//using GoogleARCore.Examples.AugmentedImage;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
@@ -11,10 +11,10 @@ using ConstantName;
 /// マーカを読み込んだ際にどこの
 /// </summary>
 public class SetText : MonoBehaviour {
-    [SerializeField]
-    private AugmentedImageExampleController _ImageController;
+    //[SerializeField]
+    //private AugmentedImageExampleController _ImageController;
     [SerializeField, Header("表示するテキスト")]
-    private Text _text;
+    private Text BordText;
     [SerializeField, Header("現在いる学科を表示するテキスト")]
     private TextMeshProUGUI _DepartmentText;
     //現在のテキストを変更する
@@ -22,7 +22,7 @@ public class SetText : MonoBehaviour {
     public ButtonController _ButtonController;
     //ロック画像
     [SerializeField, Header("ロック画像")]
-    private Image[] LockImage;
+   // private Image[] LockImage;
     public VideoPlayer _video;
     public VideoClip[] _videoClip;
 
@@ -31,7 +31,7 @@ public class SetText : MonoBehaviour {
     void Start()
     {
         //ImageCheckオブジェクトの鮎徳
-        _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
+     //   _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
 
     }
 
@@ -41,7 +41,7 @@ public class SetText : MonoBehaviour {
 
         if (GameObject.Find("BordText"))
         {
-            _text = GameObject.Find("BordText").GetComponent<Text>();
+            BordText = GameObject.Find("BordText").GetComponent<Text>();
         }
         if (GameObject.Find("VideoPlane"))
         {
@@ -54,16 +54,13 @@ public class SetText : MonoBehaviour {
         UIViewText();
         PanelViewText();
 
-
-
-
     }
     public void UIViewText()
     {
-        if (AugmentedImageExampleController.isLoadImage)
-        {
-            this.SetTextNumber = this._ImageController.GetMarkerNumber;
-        }
+        //if (AugmentedImageExampleController.isLoadImage)
+        //{
+        //    this.SetTextNumber = this._ImageController.GetMarkerNumber;
+        //}
 
 
         switch (SetTextNumber)
@@ -72,28 +69,28 @@ public class SetText : MonoBehaviour {
                 _DepartmentText.text = "ここはゲームサイエンス学科です";
                 _video.clip = _videoClip[DepartmentName.GAME - 1];
 
-                this.LockImage[DepartmentName.GAME-1].enabled = false;
+               // this.LockImage[DepartmentName.GAME-1].enabled = false;
 
                 break;
             case DepartmentName.CG:
                 _DepartmentText.text = "ここはCGスペシャリスト学科です";
 
                 _video.clip = _videoClip[DepartmentName.CG - 1];
-                this.LockImage[DepartmentName.CG-1].enabled = false;
+           //     this.LockImage[DepartmentName.CG-1].enabled = false;
 
                 break;
             case DepartmentName.WEB:
                 _DepartmentText.text = "ここはWebデザイン学科です";
                 _video.clip = _videoClip[DepartmentName.WEB - 1];
 
-                this.LockImage[DepartmentName.WEB-1].enabled = false;
+             //  this.LockImage[DepartmentName.WEB-1].enabled = false;
 
                 break;
             case DepartmentName.CAD:
                 _DepartmentText.text = "ここはCAD学科です";
                 _video.clip = _videoClip[DepartmentName.CAD - 1];
 
-                this.LockImage[DepartmentName.CAD-1].enabled = false;
+               // this.LockImage[DepartmentName.CAD-1].enabled = false;
 
                 break;
             case DepartmentName.CYBER_SECURITY:
@@ -101,7 +98,7 @@ public class SetText : MonoBehaviour {
                 _video.clip = _videoClip[DepartmentName.CYBER_SECURITY - 1];
 
 
-                this.LockImage[DepartmentName.CYBER_SECURITY-1].enabled = false;
+             //   this.LockImage[DepartmentName.CYBER_SECURITY-1].enabled = false;
 
                 break;
             case DepartmentName.ADVANCED_INFORMATION:
@@ -109,14 +106,14 @@ public class SetText : MonoBehaviour {
                 _video.clip = _videoClip[DepartmentName.CYBER_SECURITY - 1];
 
 
-                this.LockImage[DepartmentName.ADVANCED_INFORMATION-1].enabled = false;
+                //this.LockImage[DepartmentName.ADVANCED_INFORMATION-1].enabled = false;
 
                 break;
             case DepartmentName.INFORMATION_PROCESSING:
                 _DepartmentText.text = "ここは情報処理学科です";
                 _video.clip = _videoClip[DepartmentName.CYBER_SECURITY - 1];
 
-                this.LockImage[DepartmentName.INFORMATION_PROCESSING-1].enabled = false;
+              //  this.LockImage[DepartmentName.INFORMATION_PROCESSING-1].enabled = false;
 
                 break;
             default:
@@ -124,43 +121,43 @@ public class SetText : MonoBehaviour {
         }
 
 
-        AugmentedImageExampleController.isLoadImage = false;
+        //AugmentedImageExampleController.isLoadImage = false;
     }
     void PanelViewText()
     {
         //パネルが生成されてなければリターン
-        if (_text == null) return;
-        if (AugmentedImageExampleController.isLoadImage)
-        {
-            this.SetTextNumber = this._ImageController.GetMarkerNumber;
-        }
+        if (BordText == null) return;
+        //if (AugmentedImageExampleController.isLoadImage)
+        //{
+        //    this.SetTextNumber = this._ImageController.GetMarkerNumber;
+        //}
         switch (this.SetTextNumber)
         {
             case DepartmentName.GAME:
-                this._text.text = "ここはゲームサイエンス学科です";
+                this.BordText.text = "ここはゲームサイエンス学科です";
                 break;
             case DepartmentName.CG:
-                this._text.text = "ここはCGスペシャリスト学科です";
+                this.BordText.text = "ここはCGスペシャリスト学科です";
                 break;
             case DepartmentName.WEB:
-                this._text.text = "ここはWebデザイン学科です";
+                this.BordText.text = "ここはWebデザイン学科です";
                 break;
             case DepartmentName.CAD:
-                this._text.text = "ここはCAD学科です";
+                this.BordText.text = "ここはCAD学科です";
                 break;
             case DepartmentName.CYBER_SECURITY:
                 _DepartmentText.text = "ここはサイバーセキュリティ学科です";
                 break;
             case DepartmentName.ADVANCED_INFORMATION:
-                this._text.text = "高度情報学科です";
+                this.BordText.text = "高度情報学科です";
                 break;
             case DepartmentName.INFORMATION_PROCESSING:
-                this._text.text = "情報処理学科です";
+                this.BordText.text = "情報処理学科です";
                 break;
             default:
                 return;
         }
-        AugmentedImageExampleController.isLoadImage = false;
+        //AugmentedImageExampleController.isLoadImage = false;
 
     }
 }
