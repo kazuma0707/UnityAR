@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     //  警告から障害物生成までの時間
     private const float WARNING_TIME = 1.5f;
     //  レベルアップテキスト表示時間
-    private const float LEVEL_UP_TEXT_TIME = 3.0f;
+    private const float LEVEL_UP_TEXT_TIME = 2.0f;
 
     //  障害物の発生確率(obstaclePercent / 100)
     private int obstaclePercent = 35;
@@ -93,8 +93,8 @@ public class GameManager : MonoBehaviour
         gameScore = 0;
 
         // 素体モデルにデータを適用させる
-        MyCharDataManager.Instance.ReCreate(sotai);
-        MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
+        //MyCharDataManager.Instance.ReCreate(sotai);
+        //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
 
         //  ゲームの停止
         GameStop();
@@ -104,8 +104,8 @@ public class GameManager : MonoBehaviour
         {
             standList.Add(firstStands[i]);
         }
-        //StartCoroutine("TextCoRoutine");
 
+        StartCoroutine("TextCoRoutine");
     }
 
     // Update is called once per frame
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        
+        //  毎秒スコアを加算する
         if (everySecond <= 0.0f && pauseFlag == false)
         {
             GameObject player = GameObject.FindGameObjectWithTag("TriggerCollider");
@@ -349,10 +349,7 @@ public class GameManager : MonoBehaviour
         {
             levelScore = 1000;
         }
-    }    
-
-
-
+    }
 
     public float FallSpeed
     {
