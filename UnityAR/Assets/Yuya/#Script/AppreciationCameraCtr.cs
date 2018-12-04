@@ -1,10 +1,36 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   AppreciationCameraCtr.cs
+//!
+//! @brief  アプリケーションシーンのカメラスクリプト
+//!
+//! @date   2018/11/4 
+//!
+//! @author Y.okada
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using ConstantName;
 using UnityEngine.EventSystems;
+
+
+public enum ACCSetPosNum
+{
+    DEFAULT_POS,
+    POSE1_POS,
+    POSE2_POS,
+    POSE3_POS,
+    POSE4_POS,
+    POSE5_POS,
+    POSE6_POS,
+    POSE7_POS,
+    POSE8_POS,
+    POSE9_POS,
+    POSE10_POS
+}
 
 public class AppreciationCameraCtr : MonoBehaviour
 {
@@ -21,34 +47,63 @@ public class AppreciationCameraCtr : MonoBehaviour
     [SerializeField]
     private Transform targetObj;                               // 注視するオブジェクト
     [SerializeField]
-    private GameObject[] AppreciationButtons;                  // キャラクリするボタン
+    private GameObject[] AppreciationObjects;                  // 鑑賞シーンのオブジェクト
+    [SerializeField]
+    private GameObject[] camSetPositions;                      // 鑑賞用カメラが特定の部位を選択時に移動する位置
+    [SerializeField]
+    private GameObject[] VPSetPositions;                       // 鑑賞用カメラが特定の部位を選択時のViewPointの位置
     [SerializeField]
     private float rotateSpeed = 5.0f;                          // 回転する速度
     [SerializeField]
     private float translateSpeed = 0.5f;                       // 移動する速度
     [SerializeField]
     private float zoomSpeed = 1.0f;                            // 拡大する速度 
+    [SerializeField]
+    private float lerpTime = 1.0f;                             // 補間する時間
     private float touchPosLimit = TOUCH_POS_LIMIT_MIN;         // 拡大する速度    
     private Vector3 targetPoint;                               // 注視点
     private Camera cam;                                        // カメラコンポーネント
 
 
+    //----------------------------------------------------------------------
+    //! @brief Startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     // Use this for initialization
     void Start ()
     {
         cam = GetComponent<Camera>();
+
+        // 初期位置を設定
+        Debug.Log("this.transform.position : " + this.transform.position);
+        Debug.Log("camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition : " + camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition);
+        this.transform.position = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition;
+        Debug.Log("this.transform.positionAAAAAAA : " + this.transform.position);
+
+        this.transform.eulerAngles = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.eulerAngles;
+        targetObj.transform.position = VPSetPositions[0].transform.localPosition;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    //----------------------------------------------------------------------
+    //! @brief Updateメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    // Update is called once per frame
+    void Update ()
     {
         targetPoint = targetObj.transform.position;
 
-        // キャラクリ用のボタンを検索
-        for (int i = 0; i < AppreciationButtons.Length; i++)
+        // 鑑賞用のオブジェクトを検索
+        for (int i = 0; i < AppreciationObjects.Length; i++)
         {
             // アクティブであればタッチポジションの最大値を設定
-            if (AppreciationButtons[i].activeInHierarchy)
+            if (AppreciationObjects[i].activeInHierarchy)
             {
                 touchPosLimit = TOUCH_POS_LIMIT_MAX;
                 break;
@@ -135,7 +190,14 @@ public class AppreciationCameraCtr : MonoBehaviour
 #endif
     }
 
-    // カメラの回転
+    //----------------------------------------------------------------------
+    //! @brief カメラの回転処理
+    //!
+    //! @param[in] x座標,ｙ座標
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    // 
     private void RotateCamera(float x, float y)
     {
         //カメラの回転に制限をつける
@@ -160,8 +222,14 @@ public class AppreciationCameraCtr : MonoBehaviour
         this.transform.RotateAround(targetPoint, Vector3.up, x);
 
     }
-
-    // カメラのズーム
+    
+    //----------------------------------------------------------------------
+    //! @brief カメラのズーム処理
+    //!
+    //! @param[in] スクロールする量
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     private void ZoomCamera(float scroll)
     {
         // 拡大率を設定
@@ -169,19 +237,131 @@ public class AppreciationCameraCtr : MonoBehaviour
         cam.fieldOfView = Mathf.Clamp(view, ZOOM_LIMIT_MIN, ZOOM_LIMIT_MAX);
     }
 
-    //学校紹介ボタンを押したら
+
+    //----------------------------------------------------------------------
+    //! @brief 鑑賞用カメラとViewPointを特定の位置に移動させる
+    //!
+    //! @param[in] ポジションナンバー
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    public void CameraSetPos(ACCSetPosNum accSetPosNum)
+    {
+        switch (accSetPosNum)
+        {
+            case ACCSetPosNum.DEFAULT_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE1_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE1_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE1_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE2_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE2_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE2_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE3_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE3_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE3_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE4_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE4_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE4_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE5_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE5_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE5_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE6_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE6_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE6_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE7_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE7_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE7_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE8_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE8_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE8_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE9_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE9_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE9_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+            case ACCSetPosNum.POSE10_POS:
+                // 鑑賞用カメラの補間移動・回転
+                LerpMove(this.gameObject, camSetPositions[(int)ACCSetPosNum.POSE10_POS].transform.localPosition,
+                         camSetPositions[(int)ACCSetPosNum.POSE10_POS].transform.eulerAngles, lerpTime, iTween.EaseType.linear);
+                break;
+        }
+
+        // 拡大率を初期化
+        cam.fieldOfView = ZOOM_LIMIT_MAX;
+    }
+
+
+    //----------------------------------------------------------------------
+    //! @brief ラープ処理
+    //!
+    //! @param[in] オブジェクト、ポジション、ローテーション、時間、タイプ
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    private void LerpMove(GameObject obj, Vector3 pos, Vector3 rot, float time, iTween.EaseType type)
+    {
+        // 回転
+        iTween.RotateTo(obj, iTween.Hash("x", rot.x, "y", rot.y, "z", rot.z, "time", time));
+
+        // 移動
+        iTween.MoveTo(obj, iTween.Hash("x", pos.x, "y", pos.y, "z", pos.z,
+            "time", time, "EaseType", type));
+    }
+
+
+
+
+    //----------------------------------------------------------------------
+    //! @brief 学校紹介ボタンを押したときの処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void OnSchoolIntroduction()
     {
         SceneManager.LoadScene(SceneName.ARScene);
     }
 
-    //ゲームボタンを押したら
+    //----------------------------------------------------------------------
+    //! @brief ゲームボタンを押したときの処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void OnGame()
     {
         SceneManager.LoadScene(SceneName.Title);
     }
 
-    //キャラクタークリエイトをし直す
+    //----------------------------------------------------------------------
+    //! @brief キャラクタークリエイトボタンを押したときの処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void OnReCharacterCreate()
     {
         SceneManager.LoadScene(SceneName.CharCreate);

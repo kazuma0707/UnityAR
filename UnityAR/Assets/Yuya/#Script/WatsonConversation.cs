@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   WatsonConversation.cs
+//!
+//! @brief  Watsonを使った会話処理スクリプト
+//!
+//! @date   2018/8/7 
+//!
+//! @author Y.okada
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,23 +97,28 @@ public class WatsonConversation : MonoBehaviour
         if (m_voiceRecFlag)
         {
             Debug.Log("Start record");
+            m_text.text = "録音開始";
             audioSource.clip = Microphone.Start(null, true, 10, 44100);
             audioSource.loop = false;
             audioSource.spatialBlend = 0.0f;
             yield return new WaitForSeconds(2.0f);
             Microphone.End(null);
             Debug.Log("Finish record");
+            m_text.text = "録音終了";
+
 
             // SpeechToText を日本語指定して、録音音声をテキストに変換
             m_SpeechToText.RecognizeModel = "ja-JP_BroadbandModel";
             m_SpeechToText.Recognize(HandleOnRecognize, OnFail, audioSource.clip);
 
             m_voiceRecFlag = false;
+
+            m_text.text = "認識中";
+
         }
     }
 
 
-    //void OnMessage(MessageResponse resp, string customData)
     //----------------------------------------------------------------------
     //! @brief OnMessage関数
     //!
@@ -112,6 +126,7 @@ public class WatsonConversation : MonoBehaviour
     //!
     //! @return なし
     //----------------------------------------------------------------------
+    //void OnMessage(MessageResponse resp, string customData)
     void OnMessage(object resp, Dictionary<string, object> customData)
     {
         if (resp is Dictionary<string, object>)
@@ -142,7 +157,6 @@ public class WatsonConversation : MonoBehaviour
 
     }
 
-    //void HandleToSpeechCallback(AudioClip clip)
     //----------------------------------------------------------------------
     //! @brief HandleToSpeechCallback関数
     //!
@@ -150,6 +164,7 @@ public class WatsonConversation : MonoBehaviour
     //!
     //! @return なし
     //----------------------------------------------------------------------
+    //void HandleToSpeechCallback(AudioClip clip)
     void HandleToSpeechCallback(AudioClip clip, Dictionary<string, object> customData)
     {
         PlayClip(clip);

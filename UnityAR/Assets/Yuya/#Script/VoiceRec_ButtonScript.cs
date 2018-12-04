@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   VoiceRec_ButtonScript.cs
+//!
+//! @brief  音声録音ボタンの処理スクリプト
+//!
+//! @date   2018/8/7 
+//!
+//! @author Y.okada
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +19,6 @@ public class VoiceRec_ButtonScript : MonoBehaviour
 
     private bool m_flag;
 
-    // Use this for initialization
     //----------------------------------------------------------------------
     //! @brief Startメソッド
     //!
@@ -18,6 +26,7 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     //!
     //! @return なし
     //----------------------------------------------------------------------
+    // Use this for initialization
     void Start ()
     {
         m_obj = GameObject.FindWithTag("Player");

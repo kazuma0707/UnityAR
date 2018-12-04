@@ -6,16 +6,24 @@ public class ButtonScript : MonoBehaviour
 {
     [Header("表示させたいボタン")]
     [SerializeField]
-    private GameObject[] buttons;   // 対応するボタン
-    
-    private GameObject parent;    // 親オブジェクト
-    private bool active = false;  // アクティブ状態を管理
+    private GameObject[] buttons;       // 対応するボタン
+    [Header("キャラクリ用カメラ")]
+    [SerializeField]
+    private GameObject cCCamera;        // キャラクリ用カメラ
+    [Header("キャラクリ用カメラの位置番号")]
+    [SerializeField]
+    private CCCSetPosNum cCCSetPosNum;  // キャラクリ用カメラの位置番号   
+
+    private GameObject parent;          // 親オブジェクト
+    private bool active = false;        // アクティブ状態を管理
 
     // Use this for initialization
     void Start()
     {
         // 親オブジェクトを取得
         parent = this.transform.parent.gameObject;
+
+        if (!cCCamera) cCCamera = GameObject.Find("CCCamera");
     }
 	
 	// Update is called once per frame
@@ -25,7 +33,7 @@ public class ButtonScript : MonoBehaviour
         for(int i = 0; i < buttons.Length; i++)
         {
             buttons[i].SetActive(active);
-        }        
+        }       
     }
 
     //----------------------------------------------------------------------------------------------
@@ -57,7 +65,10 @@ public class ButtonScript : MonoBehaviour
             if (obj.name != this.name) obj.Active = false;
         }
         // アクティブ状態を変える
-        active = !active;        
+        active = !active;
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        cCCamera.GetComponent<CharaCreCameraCtrl>().CameraSetPos(cCCSetPosNum);
     }
 
     // activeのアクセッサ
