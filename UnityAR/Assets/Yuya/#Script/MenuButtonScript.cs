@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   MenuButtonScript.cs 
+//!
+//! @brief  メニューボタンの操作スクリプト
+//!
+//! @date   2018/11/29 
+//!
+//! @author Y.okada
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +15,9 @@ using UnityEngine.UI;
 public class MenuButtonScript : MonoBehaviour
 {
 
-    [Header("表示させたいボタン")]
+    [Header("表示させたいオブジェクト")]
     [SerializeField]
-    private GameObject[] buttons;   // 対応するボタン
+    private GameObject[] objects;   // 対応するオブジェクト
 
     private GameObject parent;    // 親オブジェクト
     private static bool active = false;  // アクティブ状態を管理
@@ -30,6 +39,13 @@ public class MenuButtonScript : MonoBehaviour
 
 
 
+    //----------------------------------------------------------------------
+    //! @brief Startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     // Use this for initialization
     void Start()
     {
@@ -39,39 +55,50 @@ public class MenuButtonScript : MonoBehaviour
         variable_cs = variable.GetComponent<Variable>();
     }
 
+    //----------------------------------------------------------------------
+    //! @brief Updateメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     // Update is called once per frame
     void Update()
     {
         // アクティブ状態を設定
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < objects.Length; i++)
         {
-            buttons[i].SetActive(active);
+            objects[i].SetActive(active);
         }
     }
 
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 子Buttonを非表示にする
-    // 　引　数   | なし
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //! @brief 子オブジェクトを非表示にする
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void ActiveFalse()
     {
 
         // 対応するボタンを非表示にする
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i <objects.Length; i++)
         {
-            buttons[i].SetActive(false);
+            objects[i].SetActive(false);
         }
     }
 
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | クリックされたときの処理
-    // 　引　数   | なし
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //! @brief クリック処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void OnClick()
     {
-        StartCoroutine(WaitAnim());
+        StartCoroutine(InteractiveButtonChange());
 
         // 子オブジェクトを検索
         ButtonScript[] child = parent.GetComponentsInChildren<ButtonScript>();
@@ -86,6 +113,7 @@ public class MenuButtonScript : MonoBehaviour
 
         variable_cs.Active = !variable_cs.Active;
 
+        // アニメーションのフラグ変更
         if (!variable_cs.Active && animator.GetBool(key_isPose))
         {
             animator.SetBool(key_isPose, variable_cs.Active);
@@ -97,8 +125,6 @@ public class MenuButtonScript : MonoBehaviour
             variable_cs.Active = false;
         }
 
-
-        Debug.Log("Menu" + variable_cs.Active);
 
         animator.SetBool(key_isMenu, variable_cs.Active);
 
@@ -112,11 +138,13 @@ public class MenuButtonScript : MonoBehaviour
     }
 
 
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | 非アクティブになったときの処理
-    // 　引　数   | なし
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------
+    //! @brief 非アクティブになったときの処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     private void OnDisable()
     {
         // 非表示にする
@@ -124,22 +152,40 @@ public class MenuButtonScript : MonoBehaviour
         ActiveFalse();
     }
 
+    //----------------------------------------------------------------------
+    //! @brief ボタンのinteractableをFalseにする処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void NonActiveButton()
     {
-        //animator.Update(0);
-        //stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        ////if(stateInfo.IsName("")
         this.GetComponent<Button>().interactable = false;
         poseButton.interactable = false;
     }
 
+    //----------------------------------------------------------------------
+    //! @brief ボタンのinteractableをTrueにする処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void ActiveButton()
     {
         this.GetComponent<Button>().interactable = true;
         poseButton.interactable = true;
     }
 
-    IEnumerator WaitAnim()
+    //----------------------------------------------------------------------
+    //! @brief ボタンのinteractableを変更するコルーチン
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    IEnumerator InteractiveButtonChange()
     {
         NonActiveButton();
 

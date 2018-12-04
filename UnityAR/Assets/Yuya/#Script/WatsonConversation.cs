@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   WatsonConversation.cs
+//!
+//! @brief  Watsonを使った会話処理スクリプト
+//!
+//! @date   2018/8/7 
+//!
+//! @author Y.okada
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -110,7 +119,6 @@ public class WatsonConversation : MonoBehaviour
     }
 
 
-    //void OnMessage(MessageResponse resp, string customData)
     //----------------------------------------------------------------------
     //! @brief OnMessage関数
     //!
@@ -118,6 +126,7 @@ public class WatsonConversation : MonoBehaviour
     //!
     //! @return なし
     //----------------------------------------------------------------------
+    //void OnMessage(MessageResponse resp, string customData)
     void OnMessage(object resp, Dictionary<string, object> customData)
     {
         if (resp is Dictionary<string, object>)
@@ -148,7 +157,6 @@ public class WatsonConversation : MonoBehaviour
 
     }
 
-    //void HandleToSpeechCallback(AudioClip clip)
     //----------------------------------------------------------------------
     //! @brief HandleToSpeechCallback関数
     //!
@@ -156,6 +164,7 @@ public class WatsonConversation : MonoBehaviour
     //!
     //! @return なし
     //----------------------------------------------------------------------
+    //void HandleToSpeechCallback(AudioClip clip)
     void HandleToSpeechCallback(AudioClip clip, Dictionary<string, object> customData)
     {
         PlayClip(clip);

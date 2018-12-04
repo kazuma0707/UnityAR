@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+//! @file   Variable.cs
+//!
+//! @brief  変数を管理するスクリプト
+//!
+//! @date   2018/12/4 
+//!
+//! @author Y.okada
+//__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,17 +16,19 @@ public class Variable : MonoBehaviour
     [SerializeField]
     private bool active;
 
-	// Use this for initialization
-	void Start ()
+    //----------------------------------------------------------------------
+    //! @brief Startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    // Use this for initialization
+    void Start ()
     {
         active = false;
 	}
 	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
 
     // activeのアクセッサ
     public bool Active
