@@ -16,6 +16,9 @@ using UnityEngine.UI;
 
 public class TitleManager: MonoBehaviour {
 
+    //  警告表示の点滅時間(数字　大→点滅 早　小→点滅 遅)
+    private const int FLASH_TIME = 2;
+
     //  シーンのロードが複数行われるのの防止
     bool isLoad = false;
     //  FadeObject
@@ -27,6 +30,13 @@ public class TitleManager: MonoBehaviour {
     [SerializeField]
     Button endButton;
 
+    //  テキスト
+    [SerializeField]
+    GameObject startText;
+
+    //  メニューオブジェクト
+    [SerializeField]
+    GameObject scrollView;
 
     private void Start()
     {
@@ -44,6 +54,21 @@ public class TitleManager: MonoBehaviour {
         {
             startButton.interactable = true;
             endButton.interactable = true;
+        }
+
+        //  テキストのアクティブがtrueなら
+        if (startText.activeSelf)
+        {
+            float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
+            //  点滅を行う
+            startText.GetComponent<Text>().color = new Color(1.0f, 1.0f, 1.0f, flash);
+        }
+
+        // 左クリックされた瞬間
+        if (Input.GetMouseButtonDown(0))
+        {
+            startText.SetActive(false);
+            scrollView.SetActive(true);
         }
     }
 
