@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using GoogleARCore;
-using GoogleARCore.Examples.AugmentedImage;
 using ConstantName;
 using UnityEngine.SceneManagement;
 
 public class ButtonController : BaseButton {
     private string LoadSceneName = SceneName.CharCreate;
     private AsyncOperation async;
-    [SerializeField]
-    private GameObject Panel;
     [SerializeField]
     private SetText _setText;
     [SerializeField]
@@ -88,6 +84,7 @@ public class ButtonController : BaseButton {
     }
     private void AllButtonClick()
     {
+        Debug.Log("ALLButtonClick");
         if (!AllButtonAnim.GetBool("once"))
         {
             AllButtonAnim.SetBool("once", true);
@@ -110,38 +107,38 @@ public class ButtonController : BaseButton {
     }
     private void GSButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(1)) return;
+       // if (!AugmentedImageExampleController.Index.Contains(1)) return;
         _setText.SetTextNumber = DepartmentName.GAME;
     }
     private void CGButtuonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(2)) return;
+        //if (!AugmentedImageExampleController.Index.Contains(2)) return;
         _setText.SetTextNumber = DepartmentName.CG;
     }
     private void WDButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(3)) return;
+        //if (!AugmentedImageExampleController.Index.Contains(3)) return;
         _setText.SetTextNumber = DepartmentName.WEB;
     }
     private void CADButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(4)) return;
+        //if (!AugmentedImageExampleController.Index.Contains(4)) return;
         _setText.SetTextNumber = DepartmentName.CAD;
     }
     private void KZButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(5)) return;
+       //if (!AugmentedImageExampleController.Index.Contains(5)) return;
         _setText.SetTextNumber = DepartmentName.ADVANCED_INFORMATION;
     }
     private void SSButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(6)) return;
+        //if (!AugmentedImageExampleController.Index.Contains(6)) return;
         _setText.SetTextNumber = DepartmentName.CYBER_SECURITY;
         Debug.Log("SS");
     }
     private void ZSButtonClick()
     {
-        if (!AugmentedImageExampleController.Index.Contains(7)) return;
+        //if (!AugmentedImageExampleController.Index.Contains(7)) return;
         _setText.SetTextNumber = DepartmentName.INFORMATION_PROCESSING;
     }
     private void ClassButtonClick()
@@ -155,17 +152,6 @@ public class ButtonController : BaseButton {
             ClassPanel.SetBool("boolAnim", false);
             
         }
-
-        if (!this.Panel.activeSelf)
-        {
-
-            //this.Panel.SetActive(true);
-        }
-        else
-        {
-           // this.Panel.SetActive(false);
-        }
-        Debug.Log("ClassButton Click");
     }
     
 }
