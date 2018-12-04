@@ -11,8 +11,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Japan
-  productName: ARGirl
+  companyName: DefaultCompany
+  productName: UnityAR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -127,9 +127,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets:
-  - {fileID: 11400000, guid: 36ab87ca1dac6aa40a896376986b1330, type: 2}
-  - {fileID: 1188576872571226, guid: 3cd15630e30ed9d48b01bdf41128b481, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -157,11 +155,10 @@ PlayerSettings:
   m_ColorGamuts: 00000000
   targetPixelDensity: 30
   resolutionScalingMode: 0
-  androidSupportedAspectRatio: 0
+  androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.google.ar.core.examples.unity.augmentedimage
-    Standalone: com.Japan.UnityAR
+    Android: com.AR.Argirl
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
@@ -171,8 +168,8 @@ PlayerSettings:
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
-  ForceInternetPermission: 1
-  ForceSDCardPermission: 1
+  ForceInternetPermission: 0
+  ForceSDCardPermission: 0
   CreateWallpaper: 0
   APKExpansionFiles: 0
   keepLoadedShadersAlive: 0
@@ -188,7 +185,7 @@ PlayerSettings:
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
-  uIStatusBarHidden: 0
+  uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
   iPhoneSplashScreen: {fileID: 0}
@@ -250,7 +247,7 @@ PlayerSettings:
   AndroidKeyaliasName: 
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
-  AndroidEnableTango: 1
+  AndroidEnableTango: 0
   androidEnableBanner: 1
   androidUseLowAccuracyLocation: 0
   m_AndroidBanners:
@@ -268,53 +265,44 @@ PlayerSettings:
       m_Height: 192
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0c8b7f97f58417a4fba4a698a5a4ba1a, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 144
       m_Height: 144
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0c8b7f97f58417a4fba4a698a5a4ba1a, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 96
       m_Height: 96
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0c8b7f97f58417a4fba4a698a5a4ba1a, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 72
       m_Height: 72
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0c8b7f97f58417a4fba4a698a5a4ba1a, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 48
       m_Height: 48
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0c8b7f97f58417a4fba4a698a5a4ba1a, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 36
       m_Height: 36
-      m_Kind: 0
-  - m_BuildTarget: 
-    m_Icons:
-    - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0c8b7f97f58417a4fba4a698a5a4ba1a, type: 3}
-      m_Width: 128
-      m_Height: 128
       m_Kind: 0
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: AndroidPlayer
     m_APIs: 08000000
     m_Automatic: 0
-  m_BuildTargetVRSettings:
+  m_BuildTargetVRSettings: []
+  m_BuildTargetEnableVuforiaSettings:
   - m_BuildTarget: Android
-    m_Enabled: 0
-    m_Devices:
-    - cardboard
-  m_BuildTargetEnableVuforiaSettings: []
+    m_Enabled: 1
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
   m_TemplateCustomTags: {}
   mobileMTRendering:
-    Android: 0
+    Android: 1
     iPhone: 1
     tvOS: 1
   m_BuildTargetGroupLightmapEncodingQuality: []
@@ -690,12 +678,7 @@ PlayerSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
-  cloudServicesEnabled:
-    Build: 0
-    Collab: 0
-    ErrorHub: 0
-    Hub: 0
-    UNet: 0
+  cloudServicesEnabled: {}
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: e21b18e8-3728-4cc7-962c-372b69652c38

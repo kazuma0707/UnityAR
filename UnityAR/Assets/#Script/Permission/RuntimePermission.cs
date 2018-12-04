@@ -5,31 +5,26 @@ using UnityEngine.UI;
 
 
 public class RuntimePermission : MonoBehaviour {
-    private string[] permission = { "android.permission.WRITE_EXTERNAL_STORAGE" ,
-                                                 "android.permission.CAMERA" ,
-                                                 "android.permission.WRITE_EXTERNAL_STORAGE" };
+    private string permission = "android.permission.CAMERA" ;
+    private string StoragePermission = "android.permission.WRITE_EXTERNAL_STORAGE";
     private bool permissionRequested = false;
-    private const int MAX_PERMISSION=3;
+    private const int MAX_PERMISSION=2;
     void Start()
     {
-        for (int i = 0; i < MAX_PERMISSION; i++)
-        {
 
-        
-            if (!RuntimePermissionHelper.HasPermission(permission[i]))
+            if (!RuntimePermissionHelper.HasPermission(permission))
             {
-                if (RuntimePermissionHelper.ShouldShowRequestPermissionRationale(permission[i]))
+                if (RuntimePermissionHelper.ShouldShowRequestPermissionRationale(permission))
                 {
                     // パーミッションを要求する意味を説明するUIを表示
                 }
                 else
                 {
                     // パーミッションをリクエスト
-                    RuntimePermissionHelper.RequestPermission(new string[] { permission[i] });
+                    RuntimePermissionHelper.RequestPermission(new string[] { permission,StoragePermission});
                     permissionRequested = true;
                 }
             }
-        }
     }
 
     // パーミッションダイアログから戻ってきたときなどに呼ばれる
@@ -38,15 +33,14 @@ public class RuntimePermission : MonoBehaviour {
         // ポーズからの復帰時かつパーミッションリクエストの直後の場合
         if (!pauseStatus && permissionRequested)
         {
-            for (int i = 0; i < MAX_PERMISSION; i++)
-            {
+          
                 // パーミッションを持っているかどうか
-                if (RuntimePermissionHelper.HasPermission(permission[i]))
+                if (RuntimePermissionHelper.HasPermission(permission))
                 {
                     Debug.Log("パーミッションリクエスト成功!");
                     permissionRequested = false;
                 }
-            }
+            
         }
     }
 }
