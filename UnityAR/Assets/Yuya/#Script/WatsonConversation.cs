@@ -88,18 +88,24 @@ public class WatsonConversation : MonoBehaviour
         if (m_voiceRecFlag)
         {
             Debug.Log("Start record");
+            m_text.text = "録音開始";
             audioSource.clip = Microphone.Start(null, true, 10, 44100);
             audioSource.loop = false;
             audioSource.spatialBlend = 0.0f;
             yield return new WaitForSeconds(2.0f);
             Microphone.End(null);
             Debug.Log("Finish record");
+            m_text.text = "録音終了";
+
 
             // SpeechToText を日本語指定して、録音音声をテキストに変換
             m_SpeechToText.RecognizeModel = "ja-JP_BroadbandModel";
             m_SpeechToText.Recognize(HandleOnRecognize, OnFail, audioSource.clip);
 
             m_voiceRecFlag = false;
+
+            m_text.text = "認識中";
+
         }
     }
 
