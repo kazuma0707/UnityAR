@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PoseButtonScript : MonoBehaviour
+public class MenuButtonScript : MonoBehaviour
 {
+
     [Header("表示させたいボタン")]
     [SerializeField]
     private GameObject[] buttons;   // 対応するボタン
 
     private GameObject parent;    // 親オブジェクト
-    private bool active = false;  // アクティブ状態を管理
+    private static bool active = false;  // アクティブ状態を管理
+
 
     [SerializeField]
     private GameObject variable;
     private Variable variable_cs;
 
     [SerializeField]
-    private Button MenuButton;
+    private Button poseButton;
 
 
     [SerializeField]
     private Animator animator;
-    [SerializeField]
-    private Animation[] anim;
     private const string key_isPose = "isPose";
     private const string key_isMenu = "isMenu";
+    private AnimatorStateInfo stateInfo;
+
 
 
     // Use this for initialization
@@ -70,7 +72,7 @@ public class PoseButtonScript : MonoBehaviour
     public void OnClick()
     {
         StartCoroutine(WaitAnim());
-    
+
         // 子オブジェクトを検索
         ButtonScript[] child = parent.GetComponentsInChildren<ButtonScript>();
         foreach (ButtonScript obj in child)
@@ -78,29 +80,27 @@ public class PoseButtonScript : MonoBehaviour
             // 子オブジェクトのタグがStatusButtonだったら表示設定をする
             if (obj.name != this.name) obj.Active = false;
         }
+
         // アクティブ状態を変える
         active = !active;
 
         variable_cs.Active = !variable_cs.Active;
 
-
-        if (!variable_cs.Active && animator.GetBool(key_isMenu))
+        if (!variable_cs.Active && animator.GetBool(key_isPose))
         {
-            animator.SetBool(key_isMenu, variable_cs.Active);
+            animator.SetBool(key_isPose, variable_cs.Active);
             variable_cs.Active = true;
         }
 
-        if (variable_cs.Active && animator.GetBool(key_isPose))
+        if (variable_cs.Active && animator.GetBool(key_isMenu))
         {
             variable_cs.Active = false;
         }
 
 
-        Debug.Log("Pose" + variable_cs.Active);
+        Debug.Log("Menu" + variable_cs.Active);
 
-        animator.SetBool(key_isPose, variable_cs.Active);
-
-        AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        animator.SetBool(key_isMenu, variable_cs.Active);
 
     }
 
@@ -126,16 +126,18 @@ public class PoseButtonScript : MonoBehaviour
 
     public void NonActiveButton()
     {
+        //animator.Update(0);
+        //stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        ////if(stateInfo.IsName("")
         this.GetComponent<Button>().interactable = false;
-        MenuButton.interactable = false;
+        poseButton.interactable = false;
     }
 
     public void ActiveButton()
     {
         this.GetComponent<Button>().interactable = true;
-        MenuButton.interactable = true;
+        poseButton.interactable = true;
     }
-
 
     IEnumerator WaitAnim()
     {
@@ -146,3 +148,4 @@ public class PoseButtonScript : MonoBehaviour
         ActiveButton();
     }
 }
+
