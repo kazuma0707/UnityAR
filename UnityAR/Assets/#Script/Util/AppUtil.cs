@@ -15,12 +15,14 @@ public static class AppUtil
 
     private static Vector3 TouchPosition = Vector3.zero;
 
+
     /// <summary>
     /// タッチ情報を取得(エディタと実機を考慮)
     /// </summary>
     /// <returns>タッチ情報。タッチされていない場合は null</returns>
     public static TouchInfo GetTouch()
     {
+  
         if (AppConst.IsEditor)
         {
             if (Input.GetMouseButtonDown(0)) { return TouchInfo.Began; }
@@ -31,6 +33,7 @@ public static class AppUtil
         {
             if (Input.touchCount > 0)
             {
+                
                 return (TouchInfo)((int)Input.GetTouch(0).phase);
             }
         }
