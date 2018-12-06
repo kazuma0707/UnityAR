@@ -17,7 +17,8 @@ namespace Vuforia
         #region PRIVATE_MEMBER_VARIABLES
  
         private TrackableBehaviour mTrackableBehaviour;
-    
+
+        public GameObject skin;
         #endregion // PRIVATE_MEMBER_VARIABLES
 
 
@@ -70,7 +71,7 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-
+            MyCharDataManager.Instance.ReCreate(skin);
             // Enable rendering:
             foreach (Renderer component in rendererComponents)
             {

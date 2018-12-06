@@ -540,7 +540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!54 &31737487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2444,7 +2444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 409b64c11d605e04884e48ea62b2a17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  script: {fileID: 1141495046}
+  script: {fileID: 31737486}
 --- !u!114 &417808095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2789,7 +2789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454df8c50118e2f43bad21b43aa4ef63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sotai: {fileID: 1141495046}
+  sotai: {fileID: 31737486}
   standPre: {fileID: 1365371331155614, guid: 6782c64a72f8c3f47933738a80db265f, type: 2}
   obstaclePre: {fileID: 1919784307722746, guid: de8010d3329bde44b9f6788ced21b357,
     type: 2}
@@ -2828,7 +2828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd73a10693ad614895ccb56bdc151a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1141495046}
+  player: {fileID: 31737486}
 --- !u!114 &442695925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6911,7 +6911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2596dd2cb292c9441ac427386937f5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1141495046}
+  player: {fileID: 31737486}
 --- !u!1 &1126612566
 GameObject:
   m_ObjectHideFlags: 0
@@ -7022,7 +7022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1141495047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9230,7 +9230,7 @@ GameObject:
   - component: {fileID: 1443276731}
   - component: {fileID: 1443276730}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13560,7 +13560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0335be5774d552d4f876ae80cf314978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  script: {fileID: 1141495046}
+  script: {fileID: 31737486}
 --- !u!114 &2073526985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13821,7 +13821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8af004665d1b5488c2edc4dbd0b78c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  script: {fileID: 1141495046}
+  script: {fileID: 31737486}
 --- !u!114 &2086742229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14159,7 +14159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2144009075
 MonoBehaviour:
   m_ObjectHideFlags: 0
