@@ -1,16 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using ConstantName;
 
 public class FreeSelectColor : MonoBehaviour
-{
-    // 定数宣言 //////////////////////////////////////////////////////////////////////////////////
-
-    private const string BASE_COLOR = "_BaseColor";                   // _BaseColor
-    private const string FIST_SHADE_COLOR = "_1st_ShadeColor";        // _1st_ShadeColor
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
+{  
     [SerializeField]
     private ColorPicker picker;      // カラーピッカー
     [SerializeField]
@@ -21,25 +16,65 @@ public class FreeSelectColor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        picker.onValueChanged.AddListener(color =>
+        // キャラクリシーンでなければ何もしない
+        //if (SceneManager.GetActiveScene().name != SceneName.CharCreate) return;
+
+        // 特定のコンポーネントを取得できれば
+        if (FindComponent())
         {
-            renderer.material.SetColor(BASE_COLOR, color);
-            renderer.material.SetColor(FIST_SHADE_COLOR, color);
-            Color = color;
-        });
+            ColorChange();
 
-        renderer.material.SetColor(BASE_COLOR, picker.CurrentColor);
-        renderer.material.SetColor(FIST_SHADE_COLOR, picker.CurrentColor);
+            renderer.material.SetColor(MyCharDataManager.BASE_COLOR, picker.CurrentColor);
+            renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, picker.CurrentColor);
 
-        picker.CurrentColor = Color;
+            picker.CurrentColor = Color;
+        }        
     }
 
     // Update is called once per frame
     void Update ()
     {
+        // ピッカーの更新
+        //if(picker) picker.CurrentColor = MyCharDataManager.Instance.Data.hairColor2;
+    }
+
+    // 色を変える
+    public void ColorChange()
+    {        
+        picker.onValueChanged.AddListener(color =>
+        {
+            renderer.material.SetColor(MyCharDataManager.BASE_COLOR, color);
+            renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, color);
+            Color = color;
+
+            // データマネージャーに設定
+            MyCharDataManager.Instance.Data.hairColor2 = Color;
+        });
+    }
+
+    // 特定のコンポーネントを探す・取得する
+    private bool FindComponent()
+    {
+        // ピッカーを探す
+        if (!picker)
+        {
+            picker = GameObject.Find("Picker 2.0").GetComponent<ColorPicker>();
+            return false;
+        }
+
+        // レンダラーを取得する
         if (!renderer)
         {
-            renderer = GameObject.Find("polySurface10").GetComponent<Renderer>();
-        }               
+            renderer = this.gameObject.GetComponent<Renderer>();
+            return false;
+        }
+
+        return true;
     }
+
+    public ColorPicker Picker
+    {
+        get { return picker; }
+    }
+
 }

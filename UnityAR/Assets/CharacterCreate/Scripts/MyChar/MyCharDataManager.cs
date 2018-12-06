@@ -108,6 +108,7 @@ public class MyCharDataManager : MonoBehaviour
     {
         public GameObject hair;         // 髪型
         public Material hairColor;      // 髪の色
+        public Color hairColor2;        // 髪の色
         public GameObject eyeLine;      // 目の形
         public Material eyePattern;     // 目の模様
         public GameObject cloth;        // 服
@@ -140,6 +141,8 @@ public class MyCharDataManager : MonoBehaviour
     public const int MATERIAL_VERSION_NORMAL = 0;                    // NormalTSのマテリアル
     public const int MATERIAL_VERSION_TELEPORT = 1;                  // Teleportのマテリアル
     public const int MATERIAL_VERSION_UNIT = 2;                      // Unitのマテリアル
+    public const string BASE_COLOR = "_BaseColor";                   // _BaseColor
+    public const string SECOND_SHADE_COLOR = "_2nd_ShadeColor";      // _2nd_ShadeColor
 
     /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,6 +167,8 @@ public class MyCharDataManager : MonoBehaviour
     private GameObject defaultHair;              // 初期の髪型
     [SerializeField]
     private Material defaultHairColorMat;        // 初期の髪の色
+    [SerializeField]
+    private Color defaultHairColor;        // 初期の髪の色
 
     [SerializeField]
     private GameObject defaultEyeLine;           // 初期の目の形
@@ -212,6 +217,7 @@ public class MyCharDataManager : MonoBehaviour
 
         saveData.hair = defaultHair;
         saveData.hairColor = defaultHairColorMat;
+        saveData.hairColor2 = defaultHairColor;
         saveData.eyeLine = defaultEyeLine;
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
@@ -280,7 +286,7 @@ public class MyCharDataManager : MonoBehaviour
         StartCoroutine("SettingHairDB");
 
         // 髪の色を変える
-        CharaCreateManager.ChangeHairColor(saveData.hairColor, sotai);
+        CharaCreateManager.ChangeHairColor(saveData.hairColor2, sotai);
 
         // 目の模様(＋色)を変える
         CharaCreateManager.ChangeEyePattern(saveData.eyePattern, sotai);
@@ -331,8 +337,8 @@ public class MyCharDataManager : MonoBehaviour
             
 
         // 髪の色を変える(既に同じものを選択していなければ)
-        if (saveData.hairColor.name != defaultHairColorMat.name)
-            CharaCreateManager.ChangeHairColor(defaultHairColorMat, sotai);
+        if (saveData.hairColor2 != defaultHairColor)
+            CharaCreateManager.ChangeHairColor(defaultHairColor, sotai);
 
         // 目の模様(＋色)を変える(既に同じものを選択していなければ)
         if (saveData.eyePattern.name != defaultEyePatternMat.name)
@@ -404,14 +410,14 @@ public class MyCharDataManager : MonoBehaviour
     // 　引　数   | newColor：髪の色
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeHairColor(Material newColor)
+    public void ChangeHairColor(Color newColor)
     {
         // 既に同じものを選択していたら何もしない
-        if (saveData.hairColor.name == newColor.name) return;
+        if (saveData.hairColor2 == newColor) return;
 
         // 髪の色を変え、セーブデータに保存
         CharaCreateManager.ChangeHairColor(newColor, sotai);
-        saveData.hairColor = newColor;
+        saveData.hairColor2 = newColor;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -419,7 +425,7 @@ public class MyCharDataManager : MonoBehaviour
     // 　引　数   | newHair：髪型, newColor：髪の色
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeHairObj(GameObject newHair, Material newColor)
+    public void ChangeHairObj(GameObject newHair, Color newColor)
     {
         // 既に同じものを選択していたら何もしない
         if (saveData.hair.name == newHair.name) return;
@@ -432,8 +438,7 @@ public class MyCharDataManager : MonoBehaviour
         saveData.hair = newHair;
 
         // 髪の色を変え、セーブデータに保存
-        CharaCreateManager.ChangeHairColor(newColor, sotai);
-        saveData.hairColor = newColor;
+        CharaCreateManager.ChangeHairColor(saveData.hairColor2, sotai);
 
         // DynamicBoneの設定
         StartCoroutine("SettingHairDB");
