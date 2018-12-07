@@ -42,9 +42,10 @@ public class HairCChangeButton : MonoBehaviour
         //}
 
         // 髪の色を登録
-        ColorPicker picker = GameObject.Find("Picker 2.0").GetComponent<ColorPicker>();
-        picker.CurrentColor = hairColor;
-        MyCharDataManager.Instance.Data.hairColor2 = hairColor;
+        //ColorPicker picker = GameObject.Find("Picker 2.0").GetComponent<ColorPicker>();
+        //picker.CurrentColor = hairColor;        
+        //MyCharDataManager.Instance.Data.hairColor2 = hairColor;
+        MyCharDataManager.Instance.ChangeHairColor(hairColor);
     }
 
     //----------------------------------------------------------------------------------------------

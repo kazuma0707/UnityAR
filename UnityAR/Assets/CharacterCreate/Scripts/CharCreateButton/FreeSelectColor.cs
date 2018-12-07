@@ -20,15 +20,15 @@ public class FreeSelectColor : MonoBehaviour
         //if (SceneManager.GetActiveScene().name != SceneName.CharCreate) return;
 
         // 特定のコンポーネントを取得できれば
-        if (FindComponent())
-        {
-            ColorChange();
+        if (!FindComponent()) return;
+        
+        ColorChange();
 
-            renderer.material.SetColor(MyCharDataManager.BASE_COLOR, picker.CurrentColor);
-            renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, picker.CurrentColor);
+        renderer.material.SetColor(MyCharDataManager.BASE_COLOR, picker.CurrentColor);
+        renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, picker.CurrentColor);
 
-            picker.CurrentColor = Color;
-        }        
+        picker.CurrentColor = Color;
+             
     }
 
     // Update is called once per frame
@@ -58,15 +58,16 @@ public class FreeSelectColor : MonoBehaviour
         // ピッカーを探す
         if (!picker)
         {
-            picker = GameObject.Find("Picker 2.0").GetComponent<ColorPicker>();
-            return false;
+            GameObject pickerObj = GameObject.Find("Picker 2.0");
+            if (!pickerObj) return false;
+            picker = pickerObj.GetComponent<ColorPicker>();            
         }
 
         // レンダラーを取得する
         if (!renderer)
         {
+            //if (!this.gameObject.GetComponent<Renderer>()) return false;
             renderer = this.gameObject.GetComponent<Renderer>();
-            return false;
         }
 
         return true;
