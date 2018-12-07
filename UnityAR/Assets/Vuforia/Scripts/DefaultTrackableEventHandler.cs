@@ -19,6 +19,7 @@ namespace Vuforia
         private TrackableBehaviour mTrackableBehaviour;
 
         public GameObject skin;
+        public GameObject SnackBar;
         #endregion // PRIVATE_MEMBER_VARIABLES
 
 
@@ -72,6 +73,7 @@ namespace Vuforia
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
             MyCharDataManager.Instance.ReCreate(skin);
+            SnackBar.GetComponent<Animator>().SetBool("PopHorizon", false);
             // Enable rendering:
             foreach (Renderer component in rendererComponents)
             {
@@ -92,7 +94,7 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-
+           SnackBar.GetComponent<Animator>().SetBool("PopHorizon", true);
             // Disable rendering:
             foreach (Renderer component in rendererComponents)
             {
