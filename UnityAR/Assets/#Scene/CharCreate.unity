@@ -3878,9 +3878,9 @@ MonoBehaviour:
   VPSetPositions:
   - {fileID: 1869353993}
   - {fileID: 890567098}
-  rotateSpeed: 10
-  translateSpeed: 0.01
-  zoomSpeed: 10
+  rotateSpeed: 0.1
+  translateSpeed: 0.001
+  zoomSpeed: 0.1
   lerpTime: 1
   text: {fileID: 1861137118}
 --- !u!20 &248708320
@@ -15894,21 +15894,21 @@ MonoBehaviour:
   - {x: 1.1, y: 1.1, z: 1.1}
   defaultHair: {fileID: 1944573024032576, guid: 48f6bc771109780419a6f9e28a1ab804,
     type: 2}
-  defaultHairColorMat: {fileID: 2100000, guid: 073bad69d03ea864880434ba3c04171f, type: 2}
+  defaultHairColorMat: {fileID: 2100000, guid: f51dd5193351d634bb15b35597a2bee1, type: 2}
   defaultHairColor: {r: 1, g: 0.4191177, b: 0.5472535, a: 1}
-  defaultEyeLine: {fileID: 1550743060945336, guid: 48124c9e2f28d8049ae1d24ba0279b88,
+  defaultEyeLine: {fileID: 1410521877251222, guid: 32a3e5363a9b76f4c8ac2952e6c6f725,
     type: 2}
-  defaultEyePatternMat: {fileID: 2100000, guid: 7c4854d117fad964295733e4d23d51f7,
+  defaultEyePatternMat: {fileID: 2100000, guid: c7fb7f61650e7784aa25012c8d5f7ba0,
     type: 2}
-  defaultCloth: {fileID: 1493320780150856, guid: 9a70206cd95aa3549a07aadd6d564824,
+  defaultCloth: {fileID: 1310169747049986, guid: 0d3b9525b4d84174da08eb57ea9d0364,
     type: 2}
-  defaultClothColorMat: {fileID: 2100000, guid: dbd7fd7c491912844b5d69c91ed09711,
+  defaultClothColorMat: {fileID: 2100000, guid: 364d491b9f5f1404f8e2bec8a03123ce,
     type: 2}
   defaultBodyScale: 1
   defaultBodyColorMat:
-  - {fileID: 2100000, guid: 77a277eaf53e26e43b5409c6c9d9fd35, type: 2}
-  - {fileID: 2100000, guid: c14454b59da23f0468ccfa25603d8e5e, type: 2}
-  materialVerion: 0
+  - {fileID: 2100000, guid: 55b1172cdb618bf419e9a3b496fa7d90, type: 2}
+  - {fileID: 2100000, guid: 2129f9662d1973e4aaa17039c8d5eb63, type: 2}
+  materialVerion: 1
 --- !u!4 &1019937045
 Transform:
   m_ObjectHideFlags: 0
