@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 using System;
 
 
-public class Ranking : MonoBehaviour {
+public class Ranking : MonoBehaviour
+{
     //=============  定数　===============//
     private string RANKING_PREF_KEY = "ranking";
     private int RANKING_NUM = 5;
@@ -32,6 +33,7 @@ public class Ranking : MonoBehaviour {
     bool rankInFlag = false;
     public GameObject fireworksParticle;
     GameObject obj;
+    public bool modeFlag = false;
 
     //  シーンのロードが複数行われるのの防止
     bool isLoad = false;
@@ -43,6 +45,16 @@ public class Ranking : MonoBehaviour {
     [SerializeField]
     Button returnTitleButton;
 
+    //  パスワード以外のUI
+    [SerializeField]
+    GameObject[] uiObject;
+    //  パスワード入力オブジェクト
+    [SerializeField]
+    GameObject[] inputField;
+    //  モード変更ボタン
+    [SerializeField]
+    GameObject ModeBotton;
+
     //  シーン開始時に行う処理
     private void Awake()
     {
@@ -50,7 +62,8 @@ public class Ranking : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         style = new GUIStyle();
         ranking = new float[RANKING_NUM];
 
@@ -71,9 +84,10 @@ public class Ranking : MonoBehaviour {
 
         fadeObj = GameObject.FindGameObjectWithTag("FadeObj");
     }
-  
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         style.fontSize = size;
 
         Render();
@@ -81,8 +95,8 @@ public class Ranking : MonoBehaviour {
         if (rankInFlag && !obj)
         {
             Vector3 pos = new Vector3(UnityEngine.Random.Range(-4, 4), UnityEngine.Random.Range(1, 4), 0.0f);
-            obj = Instantiate(fireworksParticle,pos,Quaternion.identity);
-            if(!obj.GetComponent<ParticleSystem>().isPlaying)
+            obj = Instantiate(fireworksParticle, pos, Quaternion.identity);
+            if (!obj.GetComponent<ParticleSystem>().isPlaying)
             {
                 obj = null;
             }
@@ -118,11 +132,11 @@ public class Ranking : MonoBehaviour {
     public void getRanking()
     {
         var _ranking = PlayerPrefs.GetString(RANKING_PREF_KEY);
-        if(_ranking.Length>0)
+        if (_ranking.Length > 0)
         {
             var _score = _ranking.Split(","[0]);
             ranking = new float[RANKING_NUM];
-            for(var i=0;i<_score.Length&&i<RANKING_NUM;i++)
+            for (var i = 0; i < _score.Length && i < RANKING_NUM; i++)
             {
                 ranking[i] = float.Parse(_score[i]);
             }
@@ -138,12 +152,12 @@ public class Ranking : MonoBehaviour {
     public void saveRanking(float new_score)
     {
         string rankingString = "";
-        if(ranking.Length!=0)
+        if (ranking.Length != 0)
         {
             float _tmp = 0.0f;
-            for(int i=0;i<ranking.Length;i++)
+            for (int i = 0; i < ranking.Length; i++)
             {
-                if(ranking[i]<new_score)
+                if (ranking[i] < new_score)
                 {
                     _tmp = ranking[i];
                     ranking[i] = new_score;
@@ -159,7 +173,7 @@ public class Ranking : MonoBehaviour {
         for (int i = 0; i < ranking.Length; i++)
         {
             rankingString += ranking[i].ToString();
-            if(i + 1 < ranking.Length)
+            if (i + 1 < ranking.Length)
             {
                 rankingString += ",";
             }
@@ -179,7 +193,7 @@ public class Ranking : MonoBehaviour {
         {
             ranking[i] = 0;
         }
-            displayScore();
+        //displayScore();
 
     }
 
@@ -228,12 +242,47 @@ public class Ranking : MonoBehaviour {
 
     private void Render()
     {
- 
+
     }
     private void OnGUI()
     {
         //Vector2 label_ranking = new Vector2(Screen.width, Screen.height);
 
 
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | パスワード画面の表示
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void displayPassword()
+    {
+        if (modeFlag == false)
+        {
+            for (int i = 0; i < inputField.Length; i++)
+            {
+                inputField[i].SetActive(true);
+            }
+            for (int i = 0; i < uiObject.Length; i++)
+            {
+                uiObject[i].SetActive(false);
+            }
+
+            modeFlag = true;
+        }
+        else if (modeFlag == true)
+        {
+            for (int i = 0; i < inputField.Length; i++)
+            {
+                inputField[i].SetActive(false);
+            }
+            for (int i = 0; i < uiObject.Length; i++)
+            {
+                uiObject[i].SetActive(true);
+            }
+
+            modeFlag = false;
+        }
     }
 }
