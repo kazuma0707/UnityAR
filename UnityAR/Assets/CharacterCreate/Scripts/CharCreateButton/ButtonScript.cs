@@ -68,7 +68,7 @@ public class ButtonScript : MonoBehaviour
         active = !active;
 
         // キャラクリ用カメラとViewPointを特定の位置に移動させる
-        cCCamera.GetComponent<CharaCreCameraCtrl>().CameraSetPos(cCCSetPosNum);
+        //cCCamera.GetComponent<CharaCreCameraCtrl>().CameraSetPos(cCCSetPosNum);
     }
 
     // activeのアクセッサ

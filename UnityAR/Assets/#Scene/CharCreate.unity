@@ -2255,7 +2255,7 @@ GameObject:
   - component: {fileID: 145173975}
   - component: {fileID: 145173974}
   m_Layer: 5
-  m_Name: Button
+  m_Name: OK_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2318,7 +2318,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 145173975}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102128898}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &145173975
@@ -4578,9 +4589,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -235, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &304745949
 MonoBehaviour:
@@ -8342,7 +8353,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17201,13 +17212,14 @@ GameObject:
   - component: {fileID: 1102128896}
   - component: {fileID: 1102128895}
   - component: {fileID: 1102128894}
+  - component: {fileID: 1102128898}
   m_Layer: 5
   m_Name: Picker 2.0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1102128894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17284,6 +17296,19 @@ RectTransform:
   m_AnchoredPosition: {x: 191, y: -585}
   m_SizeDelta: {x: 450, y: 400}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1102128898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1102128893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 1102128894}
+  Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1104809241
 GameObject:
   m_ObjectHideFlags: 0
@@ -25663,7 +25688,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1662234397}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ae2475ce023f7548ba6eb7d7d0a7cdb, type: 3}
   m_Name: 
@@ -27534,7 +27559,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1760608651}
   - component: {fileID: 1760608652}
-  - component: {fileID: 1760608653}
   m_Layer: 0
   m_Name: polySurface10
   m_TagString: HairObj
@@ -27606,20 +27630,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0013642609, y: 0.16610152, z: -0.014696151}
     m_Extent: {x: 0.11953053, y: 0.1350866, z: 0.12784447}
   m_DirtyAABB: 0
---- !u!114 &1760608653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1760608650}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  picker: {fileID: 1102128894}
-  renderer: {fileID: 1760608652}
-  Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1773567533
 GameObject:
   m_ObjectHideFlags: 0
