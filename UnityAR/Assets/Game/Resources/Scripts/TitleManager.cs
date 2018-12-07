@@ -83,13 +83,38 @@ public class TitleManager: MonoBehaviour {
         isLoad = true;
     }
 
-    public void exitGame()
+    //  キャラクリシーンに遷移するための関数
+    public void CharCreate()
     {
         if (!isLoad)
         {
             //  シーン切り替え
             SceneManager.LoadScene("CharCreate");
             //FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+        }
+        isLoad = true;
+    }
+
+    //  学校紹介に遷移するための関数
+    public void SchoolIntroduction()
+    {
+        if (!isLoad)
+        {
+            //  シーン切り替え
+            //SceneManager.LoadScene("");
+            //FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+        }
+        isLoad = true;
+    }
+
+    //  鑑賞シーンに遷移するための関数
+    public void Appreciation()
+    {
+        if (!isLoad)
+        {
+            //  シーン切り替え
+            SceneManager.LoadScene("Appreciation");
+            //FadeManager.Instance.LoadScene("Appreciation", 2.0f);
         }
         isLoad = true;
     }
