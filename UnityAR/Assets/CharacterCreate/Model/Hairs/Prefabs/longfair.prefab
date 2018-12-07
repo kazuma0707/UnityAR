@@ -245,6 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4119839685967870}
   - component: {fileID: 137447989406779946}
+  - component: {fileID: 114955403092244044}
   m_Layer: 0
   m_Name: hiar1
   m_TagString: HairObj
@@ -725,6 +726,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114955403092244044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1555052906484728}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137447989406779946}
+  Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!137 &137447989406779946
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -739,7 +754,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 84b82d4aa537e504b92408825be97f83, type: 2}
+  - {fileID: 2100000, guid: 8984e1de4ef1757478e0b973408b6e12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

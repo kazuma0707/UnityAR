@@ -169,6 +169,11 @@ public class ChangeHair : MonoBehaviour
         // 各種細かい設定
         r.receiveShadows = false;
         r.quality = SkinQuality.Auto;
+
+        // FreeSelectColor生成
+        FreeSelectColor freeSelectColor = newMeshObject.AddComponent<FreeSelectColor>();
+       
+        freeSelectColor.Color = MyCharDataManager.Instance.Data.hairColor2;
     }
 
     // 古いモデルを削除する

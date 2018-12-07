@@ -47,13 +47,16 @@ public class CharaCreateManager : MonoBehaviour
     // 　引　数   | newColor：髪の色, sotai：素体モデル
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    static public void ChangeHairColor(Material newColor, GameObject sotai)
+    static public void ChangeHairColor(Color newColor, GameObject sotai)
     {
         // 色を設定       
         foreach (SkinnedMeshRenderer smr in sotai.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             if (smr.tag == "HairObj")
-                smr.material = newColor;
+            {                
+                smr.material.SetColor(MyCharDataManager.BASE_COLOR, newColor);
+                smr.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, newColor);
+            }
         }
     }
 

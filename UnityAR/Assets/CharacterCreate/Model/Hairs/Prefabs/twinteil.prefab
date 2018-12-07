@@ -80,6 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4014060724886368}
   - component: {fileID: 137747133274669094}
+  - component: {fileID: 114039219330064320}
   m_Layer: 0
   m_Name: hair:polySurface99
   m_TagString: HairObj
@@ -126,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4820974033914564}
   - component: {fileID: 137289200879319790}
+  - component: {fileID: 114373574588513526}
   m_Layer: 0
   m_Name: hair:polySurface137
   m_TagString: HairObj
@@ -142,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4389622142754222}
   - component: {fileID: 137419068153885538}
+  - component: {fileID: 114459960200641470}
   m_Layer: 0
   m_Name: hair:polySurface142
   m_TagString: HairObj
@@ -218,6 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4436466979012924}
   - component: {fileID: 137023532329240264}
+  - component: {fileID: 114021570090002612}
   m_Layer: 0
   m_Name: hair:polySurface141
   m_TagString: HairObj
@@ -354,6 +358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4366105673285266}
   - component: {fileID: 137245893260073088}
+  - component: {fileID: 114994561289300740}
   m_Layer: 0
   m_Name: twintail:pSphere3
   m_TagString: HairObj
@@ -400,6 +405,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4922423672573372}
   - component: {fileID: 137035732315173826}
+  - component: {fileID: 114281470383918796}
   m_Layer: 0
   m_Name: twintail:polySurface98
   m_TagString: HairObj
@@ -1514,6 +1520,90 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114021570090002612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1286830705747196}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137023532329240264}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114039219330064320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117162510144282}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137747133274669094}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114281470383918796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605926590766554}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137035732315173826}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114373574588513526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212186855562938}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137289200879319790}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114459960200641470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223383740626852}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137419068153885538}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114994561289300740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1557839155764370}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7086076bb125864b84c751ab96c717a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picker: {fileID: 0}
+  renderer: {fileID: 137245893260073088}
+  Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!137 &137023532329240264
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1528,7 +1618,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 130e3385a66c22244b8df80a8f7cbcbd, type: 2}
+  - {fileID: 2100000, guid: da15de8135b9c4847b0e275805b13243, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1617,7 +1707,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 130e3385a66c22244b8df80a8f7cbcbd, type: 2}
+  - {fileID: 2100000, guid: da15de8135b9c4847b0e275805b13243, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1706,7 +1796,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 130e3385a66c22244b8df80a8f7cbcbd, type: 2}
+  - {fileID: 2100000, guid: da15de8135b9c4847b0e275805b13243, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1795,7 +1885,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 130e3385a66c22244b8df80a8f7cbcbd, type: 2}
+  - {fileID: 2100000, guid: da15de8135b9c4847b0e275805b13243, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1884,7 +1974,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 130e3385a66c22244b8df80a8f7cbcbd, type: 2}
+  - {fileID: 2100000, guid: da15de8135b9c4847b0e275805b13243, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1973,7 +2063,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 130e3385a66c22244b8df80a8f7cbcbd, type: 2}
+  - {fileID: 2100000, guid: da15de8135b9c4847b0e275805b13243, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
