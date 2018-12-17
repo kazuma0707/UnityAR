@@ -15,15 +15,6 @@ using UnityEngine;
         public const int ADVANCED_INFORMATION = 6;//高度情報学科
         public const int INFORMATION_PROCESSING = 7;//情報処理学科
     }
-    //シーンの定数
-    public class SceneName
-    {
-        public const string Game = "Game";
-        public const string CharCreate = "CharCreate";
-        public const string ARScene = "ARScene";
-        public const string Appreciation = "Appreciation";
-        public const string Title = "Title";
-    }
     //ボタンの定数
     public class ButtonName
     {
