@@ -230,6 +230,9 @@ public class MyCharDataManager : MonoBehaviour
         ReCreate(sotai);
 
         sceneLoadOnce = false;
+
+        // フレームレートを60に固定
+        Application.targetFrameRate = 60;
     }
 
     // Update is called once per frame

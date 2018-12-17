@@ -48,7 +48,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
     private Vector3 targetPoint;                               // 注視点
     private bool moveFlag = false;                             // グリグリ動かせるかのフラグ
     private Camera cam;                                        // カメラコンポーネント
-
+    
     [SerializeField]
     private Text text;                                         // デバッグ用テキスト
 
@@ -78,9 +78,18 @@ public class CharaCreCameraCtrl : MonoBehaviour
             // アクティブでなければタッチポジションの最小値を設定
             touchPosLimit = TOUCH_POS_LIMIT_MIN;
         }
-              
-#if UNITY_EDITOR
 
+        // 各デバイスごとに処理を変える
+#if UNITY_EDITOR
+        UnityEditorMouse();
+#else
+        SmartPhoneTouch();
+#endif
+    }
+
+    // Unityエディタ上のマウス処理
+    private void UnityEditorMouse()
+    {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         float mouseWheelScroll = Input.GetAxis("Mouse ScrollWheel");
@@ -90,7 +99,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
 
         // 平行移動(ホイール押下でドラッグ)
         if (Input.GetMouseButton(2))
-        {            
+        {
             // マウスポジションが一定値以下であればカメラを動かさない
             if (Input.mousePosition.y < posY) return;
             this.transform.Translate(-mouseX * translateSpeed, -mouseY * translateSpeed, 0);
@@ -102,15 +111,20 @@ public class CharaCreCameraCtrl : MonoBehaviour
 
         // 注視点の周りを回る(左クリック＋ドラッグ)
         if (Input.GetMouseButton(0))
-        {
+        {            
             // マウスポジションが一定値以下であればカメラを動かさない
             if (Input.mousePosition.y < posY) return;
+
             RotateCamera(mouseX, mouseY);
         }
-#else
+    }
+
+    // スマホ上のタッチ処理
+    private void SmartPhoneTouch()
+    {
         int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
-        
-        
+
+
         //text.text = "W:" + Screen.width + ", H:" + Screen.height;
         if (Input.touchCount == 1)
         {
@@ -131,7 +145,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
 
             // カメラ移動
             Touch t = Input.touches.First();
-            
+
             float xDelta = t.deltaPosition.x * translateSpeed;
             float yDelta = t.deltaPosition.y * translateSpeed;
             xDelta = Mathf.Clamp(xDelta, -5.0f, 5.0f);
@@ -158,8 +172,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             ZoomCamera(-deltaMagnitudeDiff);
-        }        
-#endif
+        }
     }
 
     // カメラの回転
@@ -169,18 +182,16 @@ public class CharaCreCameraCtrl : MonoBehaviour
         //X軸の角度が - 180～180度の間にする
         float angle_x = 180f <= this.transform.eulerAngles.x ? this.transform.eulerAngles.x - 360 : this.transform.eulerAngles.x;
        
-        //下回転
+        // 下回転の上限
         if (y > 0 && angle_x <= ANGLE_LIMIT_MIN) return;
-        //上回転
+        // 上回転の上限
         if (y < 0 && angle_x >= ANGLE_LIMIT_MAX) return;
         
         // マウス(タッチ)の移動した値が一定値を越えたら最大(最小)値に設定
-        if (y > MOVE_LIMIT_MAX)
-            y = MOVE_LIMIT_MAX;
+        if (y > MOVE_LIMIT_MAX) y = MOVE_LIMIT_MAX;
 
-        if (y < MOVE_LIMIT_MIN)
-            y = MOVE_LIMIT_MIN;        
-
+        if (y < MOVE_LIMIT_MIN) y = MOVE_LIMIT_MIN;
+       
         // 縦回転
         this.transform.RotateAround(targetPoint, this.transform.right, -y);
         // 横回転

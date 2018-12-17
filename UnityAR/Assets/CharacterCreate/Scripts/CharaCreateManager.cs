@@ -120,8 +120,8 @@ public class CharaCreateManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     static public void ChangeEyeLineObj(GameObject newLine, GameObject bone)
     {
-        ChangeEyeLine cEL = new ChangeEyeLine();
-        cEL.ChangeEyeLines(newLine, bone);
+        ChangeEyeLine cel = new ChangeEyeLine();
+        cel.ChangeEyeLines(newLine, bone);
     }
 
     //----------------------------------------------------------------------------------------------

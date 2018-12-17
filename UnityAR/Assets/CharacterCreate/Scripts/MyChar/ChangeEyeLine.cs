@@ -53,11 +53,11 @@ public class ChangeEyeLine : MonoBehaviour
         }
 
         // モデルを変える
-        ChangeHairModels();
+        ChangeEyeLineModels();
     }
 
     // モデルを変える
-    private void ChangeHairModels()
+    private void ChangeEyeLineModels()
     {
         // 差し替え用のモデルにあるすべてのRendererコンポーネントの取得
         SkinnedMeshRenderer[] smRenderersParts = resourceObject.GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -170,6 +170,11 @@ public class ChangeEyeLine : MonoBehaviour
         // 各種細かい設定
         r.receiveShadows = false;
         r.quality = SkinQuality.Auto;
+
+        // Animatorを生成
+        Animator animator = newMeshObject.AddComponent<Animator>();
+        // Controllerを設定
+        animator.runtimeAnimatorController = smr.gameObject.GetComponent<Animator>().runtimeAnimatorController;
     }
 
     // 古いモデルを削除する
