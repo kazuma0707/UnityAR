@@ -22,17 +22,20 @@ public class moveto : MonoBehaviour {
             DebugText.SetText = skin.transform.position.ToString();
 
             //Animtimeが3秒以上だった場合
-            if (skin.transform.position.z == EndPos)
+            if (skin.transform.position.z != EndPos)
+            {
+                //歩くアニメーション
+                skin.GetComponent<Animator>().SetBool("Walk", true);
+         
+            }
+            else
             {
                 skin.GetComponent<Animator>().SetBool("Walk", false);
                 isOnceFlag = false;
             }
-            else
-            {
-                //歩くアニメーション
-                skin.GetComponent<Animator>().SetBool("Walk", true);
-            }
         }
     }
+
+
 
 }

@@ -43,14 +43,8 @@ public class TeleportFadeSamplePlayer : MonoBehaviour {
     }
 
     void Update () {
-        if (GameObject.Find("skin(Clone)"))
+        if (fadeObject!=null)
         {
-            fadeObject = GameObject.Find("skin(Clone)");
-            isCreate = true;
-        }
-        else if(GameObject.Find("skin"))
-        {
-            fadeObject = GameObject.Find("skin");
             isCreate = true;
         }
         if (!isCreate) return;
