@@ -6,8 +6,6 @@ public class TouchManager : MonoBehaviour {
     public GameObject skin;
     public GameObject hitObject { get; private set; }
     TouchInfo touch;
-    [SerializeField]
-    Text debugText;
     //回転用
     Vector2 sPos;   //タッチした座標
     Quaternion sRot;//タッチしたときの回転
@@ -54,7 +52,6 @@ public class TouchManager : MonoBehaviour {
         if (Physics.Raycast(ray, out rayhit))
         {
             hitObject = rayhit.collider.gameObject;
-            //debugText.text = hitObject.name;
         }
     }
     private void TouchPinchEvent()

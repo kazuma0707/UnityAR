@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using GoogleARCore.Examples.HelloAR;
+using Vuforia;
 public class TeleportFadeSamplePlayer : MonoBehaviour {
 
     enum State {
