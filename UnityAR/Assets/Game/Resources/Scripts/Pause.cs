@@ -21,24 +21,28 @@ public class Pause : MonoBehaviour {
     private float waitGame = 0.0f;
     private bool startFlag = true;             //  スタート時かどうかのフラグ
 
+    private GameManager managerScript;
+
     // Use this for initialization
     void Start () {
-	}
+        managerScript = this.GetComponent<GameManager>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (startFlag == true)
+        if (startFlag == true && managerScript.tutorialCloseFlag == true)
         {
             //  Time.Scaleに依存しないタイムを取得
             waitGame += Time.unscaledDeltaTime;
 
             //  カウントダウンの実行
-            this.GetComponent<GameManager>().CountDown();
+            managerScript.CountDown();
 
             //  カウントダウン後にゲームを動かす
             if (waitGame >= WAIT_TIME)
             {
-                this.GetComponent<GameManager>().GameStart();
+                managerScript.GameStart();
                 startFlag = false;
             }
         }

@@ -258,7 +258,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
                  rate = lerpTime / time * 2.0f;
             }
 
-            transform.position = Vector3.Lerp(startPosition, endPosition, rate);
+            //transform.position = Vector3.Lerp(startPosition, endPosition, rate);
+            transform.position = Vector3.Slerp(startPosition, endPosition, rate);
         }
 
         // 上下のキー入力でキャラクターを移動させる

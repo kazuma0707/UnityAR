@@ -14,6 +14,11 @@ public class AllocMem : MonoBehaviour
         useGUILayout = false;
     }
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     // Use this for initialization
     public void OnGUI()
     {

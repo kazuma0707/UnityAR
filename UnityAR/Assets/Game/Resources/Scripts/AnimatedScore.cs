@@ -29,7 +29,7 @@ public class AnimatedScore : MonoBehaviour
             float updateValue = (float)((endScore - startScore) * timeRate + startScore);
 
             // テキストの更新
-            this.GetComponent<Text>().text = "今回のスコア:";
+            this.GetComponent<Text>().text = "Your Score : ";
             this.GetComponent<Text>().text += updateValue.ToString("f0"); // （"f0" の "0" は、小数点以下の桁数指定）
 
             // 1フレーム待つ
@@ -38,7 +38,7 @@ public class AnimatedScore : MonoBehaviour
         } while (Time.time < endTime);
 
         // 最終的な着地のスコア
-        this.GetComponent<Text>().text = "今回のスコア:";
+        this.GetComponent<Text>().text = "Your Score : ";
         this.GetComponent<Text>().text += endScore.ToString();
     }
 }

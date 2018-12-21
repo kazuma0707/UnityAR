@@ -51,9 +51,14 @@ public class Ranking : MonoBehaviour
     //  パスワード入力オブジェクト
     [SerializeField]
     GameObject[] inputField;
-    //  モード変更ボタン
+    ////  モード変更ボタン
+    //[SerializeField]
+    //GameObject ModeBotton;
     [SerializeField]
-    GameObject ModeBotton;
+    GameObject missText;
+    [SerializeField]
+    GameObject resetButton;
+
 
     //  シーン開始時に行う処理
     private void Awake()
@@ -88,6 +93,7 @@ public class Ranking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(missText.activeSelf);
         style.fontSize = size;
 
         Render();
@@ -103,8 +109,7 @@ public class Ranking : MonoBehaviour
         }
 
         //  fade中はボタンを非アクティブ化する
-        ButtonActive();
-
+        ButtonActive(); 
     }
 
     /****************************************************************
@@ -193,7 +198,7 @@ public class Ranking : MonoBehaviour
         {
             ranking[i] = 0;
         }
-        //displayScore();
+        displayScore();
 
     }
 
@@ -281,8 +286,10 @@ public class Ranking : MonoBehaviour
             {
                 uiObject[i].SetActive(true);
             }
-
             modeFlag = false;
+            inputField[0].GetComponent<InputManager>().MissTextReset();
+            missText.SetActive(false);
+            resetButton.SetActive(false);
         }
     }
 }
