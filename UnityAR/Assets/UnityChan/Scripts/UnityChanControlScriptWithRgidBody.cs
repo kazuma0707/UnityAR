@@ -85,6 +85,12 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     bool jumpPossibleFlag = false;                          //  ジャンプ可能かどうかのフラグ
     private float downVelocity = 0.4f;                      //  ジャンプ落下時の速度変化
 
+    //特殊障害物に当たったときのフラグ
+    private bool isFilipEvent=false;
+    private bool isNoizeEye = false;
+
+    public Material NoizeMat;
+
     //  シーンのロードが複数行われるのの防止
     bool isLoad = false;
 
@@ -115,6 +121,21 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            isNoizeEye = true;
+        }
+        if (isFilipEvent)
+        {
+            FilipButton();
+        }
+        if(isNoizeEye)
+        {
+            NoizeEye();
+        }
+    
+       
+
         gameObject.transform.Translate(0, -manager.GetComponent<GameManager>().FallSpeed - ADJUSTMENT, 0);
 
         //  プレイヤーの上方向に速度が加わったら
@@ -349,16 +370,26 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     //  他のオブジェクトと接触したとき
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Obstacle")
+        if (other.gameObject.tag == TagName.Obstacle)
         {
             obstacleFlag = true;
+        }
+        if (other.gameObject.tag == TagName.BadEye)
+        {
+            isFilipEvent = true;
+        }
+        if(other.gameObject.tag == TagName.FlipButton)
+        {
+            isNoizeEye=true;
+ 
         }
     }
 
     //  他のオブジェクトと接触している間
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.tag == "Floor")
+    
+        if(collision.gameObject.tag ==TagName.Floor)
         {
             
             floorFlag = true;
@@ -368,10 +399,13 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     //  他のオブジェクトとの接触が離れた時
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+
+        if (collision.gameObject.tag == TagName.Floor)
         {
             floorFlag = false;
         }
+   
+
     }
 
     void OnGUI()
@@ -583,5 +617,68 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     {
         return deadFlag;
     }
+
+    public GameObject[] buttons;//ジャンプボタン
+    private Vector3[] FirstPos=new Vector3[3];
+    private const int MAX_BUTTON = 3;//ジャンプボタンの最大数
+    bool _once = false;//1フレームだけに制御するフラグ
+    [SerializeField,Header("ボタンの反転時間")]
+    private int FilipNum;
+    float _Time = 0;//タイマー
+        /****************************************************************
+    *|　機能　特殊障害物に当たった時
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    private void FilipButton()
+    {
+        _Time+=Time.deltaTime;
+        int second = (int)_Time % 60;//秒.timeを60で割った余り.
+        if (!_once)//1フレームだけに制御する。
+        {
+            for (int i = 0; i < MAX_BUTTON; i++)
+            {
+                //ボタンの初期座標を保存
+                FirstPos[i] = buttons[i].transform.position;
+            }
+            //ボタンの反転
+            buttons[0].transform.position = FirstPos[2];
+            buttons[2].transform.position = FirstPos[0];
+            _once = true;
+        }
+        //反転終了時間を超えたら
+        if(second>FilipNum)
+        {
+            for (int i = 0; i < MAX_BUTTON; i++)
+            {
+                //ボタンの座標を初期化
+                buttons[i].transform.position = FirstPos[i];
+                isFilipEvent = false;
+                _once = false;
+                _Time = 0;
+            }
+        }
+    }
+
+    float NoizeTimer;
+    const int EndNoize = 5;
+    private void NoizeEye()
+    {
+        NoizeTimer += Time.deltaTime;
+        int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
+        if(!Camera.main.gameObject.GetComponent<CRT>())
+        {
+            Camera.main.gameObject.AddComponent<CRT>();
+            CRT.material = NoizeMat;
+        }
+        
+        if(second>EndNoize)
+        {
+            Destroy(Camera.main.gameObject.GetComponent<CRT>());
+            NoizeTimer = 0;
+            isNoizeEye = false;
+        }
+    }
+    
 }
 

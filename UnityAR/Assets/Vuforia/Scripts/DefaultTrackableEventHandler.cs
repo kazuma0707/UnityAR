@@ -70,30 +70,30 @@ namespace Vuforia
 
         private void Update()
         {
-            EmergenceCharEvent();
-
-
-        }
-        private void EmergenceCharEvent()
-        {
             if (isOnceFlag)
             {
-                //移動
                 iTween.MoveTo(this.skin, iTween.Hash("z", 1.0f, "time", 3.0f, "EaseType", iTween.EaseType.easeInOutQuart));
-                //DebugText.SetText = skin.transform.position.ToString();
 
-                //Animtimeが3秒以上だった場合
-                if (skin.transform.position.z == EndPos)
+                //移動
+                DebugText.SetText = skin.transform.position.ToString();
+
+                //skinの座標Zが1.0fだった場合
+                if (skin.transform.position.z != EndPos)
                 {
-                    skin.GetComponent<Animator>().SetBool("Walk", false);
-                    isOnceFlag = false;
+                    skin.GetComponent<Animator>().SetBool("Walk", true);
                 }
                 else
                 {
                     //歩くアニメーション
-                    skin.GetComponent<Animator>().SetBool("Walk", true);
+                    skin.GetComponent<Animator>().SetBool("Walk", false);
+                    isOnceFlag = false;
                 }
             }
+
+        }
+        private void EmergenceCharEvent()
+        {
+            
         }
 
         #region PRIVATE_METHODS
