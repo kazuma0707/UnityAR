@@ -25,4 +25,6 @@ public static class TagName
 	public const string FadeObj = "FadeObj";
 	public const string HairBone = "HairBone";
 	public const string Accessory = "Accessory";
+	public const string BadEye = "BadEye";
+	public const string FlipButton = "FlipButton";
 }

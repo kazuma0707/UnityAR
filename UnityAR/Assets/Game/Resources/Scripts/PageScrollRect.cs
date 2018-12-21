@@ -57,6 +57,7 @@ public class PageScrollRect : ScrollRect
             "to", pageIndex * pageWidth,
             "delay", 0,
             "time", 0.3f,
+            "ignoretimescale",true,
             "easeType", iTween.EaseType.easeInOutSine,
             "onupdatetarget", this.gameObject,
             "onupdate", "OnUpdatePos")

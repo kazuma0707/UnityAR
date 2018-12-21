@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a195fa85626ff418ad179dbde3b064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeObject: {fileID: 0}
+  fadeObject: {fileID: 1226037421850738, guid: 19dc3dbaa6247cb41ab9aec41f247c89, type: 2}
   fadeMeshes: []
   fadeSkinnedMeshes:
   - {fileID: 0}
@@ -68,4 +68,3 @@ MonoBehaviour:
   twistPower: 0
   spreadPower: 0.3
   startFade: 0
-  _helloARController: {fileID: 0}

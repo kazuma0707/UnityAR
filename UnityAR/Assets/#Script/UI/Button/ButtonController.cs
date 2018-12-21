@@ -13,6 +13,8 @@ public class ButtonController : BaseButton {
     [SerializeField]
     private Animator ClassPanel;
     public Animator AllButtonAnim;
+    const string BOLL_ANIM= "boolAnim";
+    const string ONCE= "once";
 
 
     private void Awake()
@@ -84,18 +86,17 @@ public class ButtonController : BaseButton {
     }
     private void AllButtonClick()
     {
-        Debug.Log("ALLButtonClick");
-        if (!AllButtonAnim.GetBool("once"))
+        if (!AllButtonAnim.GetBool(ONCE))
         {
-            AllButtonAnim.SetBool("once", true);
+            AllButtonAnim.SetBool(ONCE, true);
         }
         else
         {
-            AllButtonAnim.SetBool("once", false);
+            AllButtonAnim.SetBool(ONCE, false);
         }
-        if(ClassPanel.GetBool("boolAnim"))
+        if(ClassPanel.GetBool(BOLL_ANIM))
         {
-            ClassPanel.SetBool("boolAnim", false);
+            ClassPanel.SetBool(BOLL_ANIM, false);
             ClassPanel.SetBool("OnceAnim", true);
         }
     }
@@ -134,7 +135,6 @@ public class ButtonController : BaseButton {
     {
         //if (!AugmentedImageExampleController.Index.Contains(6)) return;
         _setText.SetTextNumber = DepartmentName.CYBER_SECURITY;
-        Debug.Log("SS");
     }
     private void ZSButtonClick()
     {
@@ -143,13 +143,13 @@ public class ButtonController : BaseButton {
     }
     private void ClassButtonClick()
     {
-        if(!ClassPanel.GetBool("boolAnim"))
+        if(!ClassPanel.GetBool(BOLL_ANIM))
         {
-            ClassPanel.SetBool("boolAnim", true); ClassPanel.SetBool("OnceAnim", false);
+            ClassPanel.SetBool(BOLL_ANIM, true); ClassPanel.SetBool("OnceAnim", false);
         }
         else
         {
-            ClassPanel.SetBool("boolAnim", false);
+            ClassPanel.SetBool(BOLL_ANIM, false);
             
         }
     }

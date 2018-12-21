@@ -12,15 +12,24 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     GameObject resetBotton;
 
+    //  OKボタン
+    [SerializeField]
+    GameObject OKBotton;
+
     //  ミステキスト
     [SerializeField]
     GameObject missText;
     bool isRunning = false;
+    [SerializeField]
+    GameObject passText;
 
     InputField inputField;
     [SerializeField]
     GameObject gameManager;
     Coroutine missCoRoutine;
+
+    int missTextTime = 0;
+    bool missTextFlag = false;
 
     /// <summary>
     /// Startメソッド
@@ -35,10 +44,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameManager.GetComponent<Ranking>().modeFlag == false)
-        {
-            StopCoroutine(missCoRoutine);
-        }
+        MissTextProcess();
     }
 
     /// <summary>
@@ -67,11 +73,15 @@ public class InputManager : MonoBehaviour
 
         if(inputValue == PASSWORD)
         {
+            OKBotton.SetActive(false);
             resetBotton.SetActive(true);
+            inputField.gameObject.SetActive(false);
+            passText.SetActive(false);
         }
         else if(inputValue != PASSWORD && inputField.gameObject.activeSelf == true)
         {
-            missCoRoutine = StartCoroutine("MissCoRoutine");
+            //missCoRoutine = StartCoroutine("MissCoRoutine");
+            missTextFlag = true;
         }
 
         InitInputField();
@@ -90,6 +100,37 @@ public class InputManager : MonoBehaviour
 
         // フォーカス
         inputField.ActivateInputField();
+    }
+
+    /****************************************************************
+    *|　機能　ミステキスト関係の処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    void MissTextProcess()
+    {
+        if (missTextFlag == true)
+        {
+            missText.SetActive(true);
+            missTextTime++;
+        }
+        if (missTextTime >= 100)
+        {
+            missText.SetActive(false);
+            missTextFlag = false;
+            missTextTime = 0;
+        }
+    }
+
+    /****************************************************************
+    *|　機能　ミステキスト関係の処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    public void MissTextReset()
+    {
+        missTextFlag = false;
+        missTextTime = 0;
     }
 
     /****************************************************************

@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     //=============  定数　===============//
     // 幹の登録番号
     private const int RIGHT = 0;
-    private const int LEFT = 1;
+    private const int CENTER = 1;
+    private const int LEFT = 2;
 
     // レベルが変わる時間
     private const float LEVEL1_TIME = 20.0f;//15.0f;
@@ -57,11 +58,16 @@ public class GameManager : MonoBehaviour
     private int levelScore = 0;                 //  レベルに応じた加算スコア
     private int score = 0;
     private float everySecond = 0.0f;
+
+    //  ゲーム終了まで残す変数(public static)
     public static int gameScore;                //  スコア(ランキングシーンへ共有するためpublic static)
+    public static bool tutorialSkipFlag = false;    //  チュートリアルを表示するかどうかのフラグ
+
     private float deletePos = -1.0f;            // 消える位置
-    private Vector3 rightPos = new Vector3(0.7f, 7.0f, 3.5f);            // 右の台が生成される位置
+    private Vector3 rightPos = new Vector3(2.1f, 7.0f, 3.5f);            // 右の台が生成される位置
+    private Vector3 centerPos = new Vector3(0.7f, 7.0f, 3.5f);            // 中央の台が生成される位置
     private Vector3 leftPos = new Vector3(-0.7f, 7.0f, 3.5f);            // 左の台が生成される位置
-    private Vector3 centerPos = new Vector3(0.0f, 5.5f, 3.5f);          // 中央の障害物が生成される位置
+    private Vector3 obstaclePos = new Vector3(0.0f, 5.5f, 3.5f);          // 中央の障害物が生成される位置
     private List<GameObject> standList = new List<GameObject>();   // 台のリスト
 
     //  障害物関係
@@ -80,11 +86,15 @@ public class GameManager : MonoBehaviour
     //  ポーズフラグ
     public bool pauseFlag = false;
 
-    private float count = 4.0f;             //  カウントダウン用変数
+    private float count = 3.0f;             //  カウントダウン用変数
     [SerializeField]
     Text countDownText;
 
-    private float waitGame = 0.0f;
+    //  チュートリアルオブジェクト
+    [SerializeField]
+    private GameObject tutorialObject;
+    //  チュートリアルを閉じたかどうかのフラグ
+    public bool tutorialCloseFlag = false;
 
     // Use this for initialization
     void Start()
@@ -96,6 +106,17 @@ public class GameManager : MonoBehaviour
         //MyCharDataManager.Instance.ReCreate(sotai);
         //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
 
+        //  チュートリアルをスキップする処理
+        if (tutorialSkipFlag == true)
+        {
+            tutorialCloseFlag = true;
+
+            tutorialObject.SetActive(false);
+
+            //  チュートリアルスキップ時はフェードを考慮する
+            count += 1.0f;
+        }
+
         //  ゲームの停止
         GameStop();
 
@@ -105,7 +126,7 @@ public class GameManager : MonoBehaviour
             standList.Add(firstStands[i]);
         }
 
-        StartCoroutine("TextCoRoutine");
+        //StartCoroutine("TextCoRoutine");
     }
 
     // Update is called once per frame
@@ -115,6 +136,7 @@ public class GameManager : MonoBehaviour
         // 時間計測
         timer += Time.deltaTime;
         everySecond -= Time.deltaTime;
+
         // タイムによってレベルを変える
         LevelChange();
 
@@ -177,13 +199,13 @@ public class GameManager : MonoBehaviour
             warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
         }
 
-        //  レベルアップテキストがアクティブ状態なら
-        if (LevelUpText.activeSelf)
-        {
-            float flash = Mathf.Abs(Mathf.Sin(Time.time * LEVEL_UP_FLASH_TIME));
-            //  点滅を行う
-            LevelUpText.GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.0f, flash);
-        }
+        ////  レベルアップテキストがアクティブ状態なら
+        //if (LevelUpText.activeSelf)
+        //{
+        //    float flash = Mathf.Abs(Mathf.Sin(Time.time * LEVEL_UP_FLASH_TIME));
+        //    //  点滅を行う
+        //    LevelUpText.GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.0f, flash);
+        //}
     }
 
     //----------------------------------------------------------------------------------------------
@@ -196,7 +218,7 @@ public class GameManager : MonoBehaviour
         GameObject obj = null;
 
         // ランダムで生成される台を決める
-        int num = Random.Range(0, 2);
+        int num = Random.Range(0, 3);
         int obstacleNum = Random.Range(0, 100);
         // 決められた新しい台を生成       
         switch (num)
@@ -204,6 +226,9 @@ public class GameManager : MonoBehaviour
             case RIGHT:
             default:
                 obj = Instantiate(standPre, rightPos, Quaternion.identity);
+                break;
+            case CENTER:
+                obj = Instantiate(standPre, centerPos, Quaternion.identity);
                 break;
             case LEFT:
                 obj = Instantiate(standPre, leftPos, Quaternion.identity);
@@ -319,7 +344,7 @@ public class GameManager : MonoBehaviour
         //  警告表示を消す
         warningObject.SetActive(false);
         //  障害物を出す
-        Instantiate(obstaclePre, centerPos, Quaternion.identity);
+        Instantiate(obstaclePre, obstaclePos, Quaternion.identity);
         intervalFlag = false;
         startTime = timer;
 
@@ -348,6 +373,35 @@ public class GameManager : MonoBehaviour
         else if (timer >= LEVEL3_TIME)
         {
             levelScore = 1000;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | チュートリアル閉じるボタンが押されたときの処理
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void tutorialClose()
+    {
+        tutorialObject.SetActive(false);
+
+        tutorialCloseFlag = true;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | チュートリアルスキップするかどうかの処理
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void tutorialSkip()
+    {
+        if(tutorialSkipFlag == true)
+        {
+            tutorialSkipFlag = false;
+        }
+        else
+        {
+            tutorialSkipFlag = true;
         }
     }
 
