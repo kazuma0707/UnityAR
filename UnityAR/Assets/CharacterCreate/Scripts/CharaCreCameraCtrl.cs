@@ -253,12 +253,19 @@ public class CharaCreCameraCtrl : MonoBehaviour
             "time", time, "EaseType", type));       
     }
 
+    // 非アクティブ化した時に呼び出される関数
+    private void OnDisable()
+    {
+        MyCharDataManager.Instance.phase = Phase.SELECT;
+    }
+
     // アクティブ化した時に呼び出される関数
     private void OnEnable()
     {
         // 初期位置を設定
         this.transform.position = camSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
         targetObj.transform.position = VPSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
+        MyCharDataManager.Instance.phase = Phase.CHARA_CREATE;
     }
 
     // 動かせるかのフラグのアクセッサ

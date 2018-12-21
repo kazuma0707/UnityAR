@@ -73,6 +73,14 @@ public enum ClothColorNum
     RED
 }
 
+// フェイズの状態
+public enum Phase
+{
+    TITLE,
+    CHARA_CREATE,
+    SELECT
+}
+
 public class MyCharDataManager : MonoBehaviour
 {
     
@@ -190,6 +198,8 @@ public class MyCharDataManager : MonoBehaviour
     [SerializeField]
     private int materialVerion = MATERIAL_VERSION_NORMAL;   // マテリアルのVersion
 
+    public Phase phase;                          // フェーズの状態
+
     public void Awake()
     {
         // インスタンスが複数存在しないようにする
@@ -233,6 +243,9 @@ public class MyCharDataManager : MonoBehaviour
 
         // フレームレートを60に固定
         Application.targetFrameRate = 60;
+
+        // フェーズをTitleに設定
+        phase = Phase.TITLE;
     }
 
     // Update is called once per frame
