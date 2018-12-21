@@ -121,10 +121,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            isNoizeEye = true;
-        }
+
         if (isFilipEvent)
         {
             FilipButton();
