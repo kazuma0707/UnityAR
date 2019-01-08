@@ -17,14 +17,15 @@ public class CharaCreCameraCtrl : MonoBehaviour
 {
     // 定数宣言 //////////////////////////////////////////////////////////////////////////////////
 
-    private const float ANGLE_LIMIT_MAX = 60.0f;         // 角度の最大値
-    private const float ANGLE_LIMIT_MIN = -20.0f;        // 角度の最小値
-    private const float ZOOM_LIMIT_MAX = 60.0f;          // 拡大の最大値
-    private const float ZOOM_LIMIT_MIN = 2.0f;           // 拡大の最小値
-    private const float TOUCH_POS_LIMIT_MAX = 525.0f;    // タッチポジションの最大値
-    private const float TOUCH_POS_LIMIT_MIN = 300.0f;    // タッチポジションの最小値
-    private const float MOVE_LIMIT_MAX = 5.0f;           // マウス(タッチ)の移動した値の最小値
-    private const float MOVE_LIMIT_MIN = -5.0f;          // マウス(タッチ)の移動した値の最小値
+    private const string STATUS_BUTTON = "StatusButton";   // StatusButtonのタグ
+    private const float ANGLE_LIMIT_MAX = 60.0f;            // 角度の最大値
+    private const float ANGLE_LIMIT_MIN = -20.0f;           // 角度の最小値
+    private const float ZOOM_LIMIT_MAX = 60.0f;             // 拡大の最大値
+    private const float ZOOM_LIMIT_MIN = 2.0f;              // 拡大の最小値
+    private const float TOUCH_POS_LIMIT_MAX = 525.0f;       // タッチポジションの最大値
+    private const float TOUCH_POS_LIMIT_MIN = 300.0f;       // タッチポジションの最小値
+    private const float MOVE_LIMIT_MAX = 5.0f;              // マウス(タッチ)の移動した値の最小値
+    private const float MOVE_LIMIT_MIN = -5.0f;             // マウス(タッチ)の移動した値の最小値
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,21 +49,30 @@ public class CharaCreCameraCtrl : MonoBehaviour
     private Vector3 targetPoint;                               // 注視点
     private bool moveFlag = false;                             // グリグリ動かせるかのフラグ
     private Camera cam;                                        // カメラコンポーネント
-
+    
     [SerializeField]
     private Text text;                                         // デバッグ用テキスト
+        
+    private Vector3 defaultTargetPos;                          // ターゲットポジションのデフォルト値
+    private CursorHit cursorHit;                               // CursorHitコンポーネント
 
-   // Use this for initialization
+    private List<RaycastResult> raycastResults = new List<RaycastResult>();
+
+    // Use this for initialization
     void Start ()
     {
-        cam = GetComponent<Camera>();        
+        cam = this.GetComponent<Camera>();
+        cursorHit = this.GetComponent<CursorHit>();
+        defaultTargetPos = this.gameObject.transform.position;
     }
     
     // Update is called once per frame
     void Update ()
     {
         // グリグリ動かせない状態であれば何もしない
-        if (!moveFlag) return;       
+        if (!moveFlag) return;
+
+        CursorSetting();
 
         targetPoint = targetObj.transform.position;
 
@@ -70,17 +80,91 @@ public class CharaCreCameraCtrl : MonoBehaviour
         for (int i = 0; i < charaCreButtons.Length; i++)
         {
             // アクティブであればタッチポジションの最大値を設定
-            if (charaCreButtons[i].activeInHierarchy)
-            {
-                touchPosLimit = TOUCH_POS_LIMIT_MAX;
-                break;
-            }
+            //if (charaCreButtons[i].activeInHierarchy)
+            //{
+            //    touchPosLimit = TOUCH_POS_LIMIT_MAX;
+            //    break;
+            //}
             // アクティブでなければタッチポジションの最小値を設定
             touchPosLimit = TOUCH_POS_LIMIT_MIN;
         }
-              
-#if UNITY_EDITOR
 
+        //for (int i = 0; i < Input.touchCount; ++i)
+        //{
+        //    var touch = Input.touches[i];
+        //    if (touch.phase == TouchPhase.Began)
+        //    {
+        //        if (IsPointerOverUIObject(touch.position))
+        //        {
+        //            text.text = "タップ！";
+        //            //Debug.Log(touch.fingerId + ": タップ！");
+        //        }
+        //    }
+        ////}
+        //for (int i = 0; i < Input.touchCount; ++i)
+        //{
+        //    var touch = Input.touches[i];
+        //    if (Input.GetMouseButton(0))
+        //    {
+        //        if (!IsPointerOverUIObject(Input.mousePosition))
+        //        {
+        //            text.text = "タップ！";
+        //            //Debug.Log(touch.fingerId + ": タップ！");
+        //        }
+        //    }
+        //}
+        //if (Input.GetMouseButton(0))
+        //{
+        //    if (IsPointerOverUIObject(Input.mousePosition))
+        //    {
+        //        text.text = "タップ！";
+        //        //Debug.Log(touch.fingerId + ": タップ！");
+        //    }
+        //}
+
+        // 各デバイスごとに処理を変える
+#if UNITY_EDITOR
+        UnityEditorMouse();
+#else
+        SmartPhoneTouch();
+#endif
+    }
+
+    // 画面上のUIに触れているかを検知
+    private bool IsPointerOverUIObject(Vector2 screenPosition)
+    {
+        
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = screenPosition;
+        
+        // リストに検知結果を入れる
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, raycastResults);
+        
+        bool over = false;
+
+        // 何もなければfalseを返す
+        if (raycastResults.Count <= 0) return over;
+
+        // 検知したオブジェクト分を調べる
+        for (int result = 0; result < raycastResults.Count; result++)
+        {
+            // StatusButtonのタグが付いたオブジェクトかどうか
+            if (raycastResults[result].gameObject.tag == STATUS_BUTTON)
+            {
+                over = true;
+                break;
+            }
+            over = false;
+        }
+        
+        // リストをクリア
+        raycastResults.Clear();
+        return over;
+    }
+
+    // Unityエディタ上のマウス処理
+    private void UnityEditorMouse()
+    {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         float mouseWheelScroll = Input.GetAxis("Mouse ScrollWheel");
@@ -90,9 +174,15 @@ public class CharaCreCameraCtrl : MonoBehaviour
 
         // 平行移動(ホイール押下でドラッグ)
         if (Input.GetMouseButton(2))
-        {            
-            // マウスポジションが一定値以下であればカメラを動かさない
-            if (Input.mousePosition.y < posY) return;
+        {
+            // UIに触れていたらカメラを動かさない
+            //if (Input.mousePosition.y < posY) return;
+            if (IsPointerOverUIObject(Input.mousePosition))
+            {
+                text.text = "UIだお";
+                return;
+            }
+            text.text = "なんもないよ";
             this.transform.Translate(-mouseX * translateSpeed, -mouseY * translateSpeed, 0);
             targetObj.transform.Translate(-mouseX * translateSpeed, -mouseY * translateSpeed, 0);
         }
@@ -103,19 +193,36 @@ public class CharaCreCameraCtrl : MonoBehaviour
         // 注視点の周りを回る(左クリック＋ドラッグ)
         if (Input.GetMouseButton(0))
         {
-            // マウスポジションが一定値以下であればカメラを動かさない
-            if (Input.mousePosition.y < posY) return;
+            // UIに触れていたらカメラを動かさない
+            //if (Input.mousePosition.y < posY) return;
+            if (IsPointerOverUIObject(Input.mousePosition))
+            {
+                text.text = "UIだお";
+                return;
+            }
+            text.text = "なんもないよ";
             RotateCamera(mouseX, mouseY);
         }
-#else
+    }
+
+    // スマホ上のタッチ処理
+    private void SmartPhoneTouch()
+    {
         int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
-        
-        
+
+
         //text.text = "W:" + Screen.width + ", H:" + Screen.height;
         if (Input.touchCount == 1)
         {
             // タッチポジションが一定値以下であればカメラを動かさない
-            if (Input.GetTouch(0).position.y < touchPosLimit) return;
+            //if (Input.GetTouch(0).position.y < touchPosLimit) return;
+            // UIに触れていたらカメラを動かさない
+            if (IsPointerOverUIObject(Input.GetTouch(0).position))
+            {
+                text.text = "UIだお";
+                return;
+            }
+            text.text = "なんもないよ";
 
             Touch t = Input.touches.First();
 
@@ -127,16 +234,22 @@ public class CharaCreCameraCtrl : MonoBehaviour
         else if (Input.touchCount == 2)
         {
             // タッチポジションが一定値以下であればカメラを動かさない
-            if (Input.GetTouch(0).position.y < touchPosLimit) return;
+            //if (Input.GetTouch(0).position.y < touchPosLimit) return;
+            if (IsPointerOverUIObject(Input.GetTouch(0).position))
+            {
+                text.text = "UIだお";
+                return;
+            }
+            text.text = "なんもないよ";
 
             // カメラ移動
             Touch t = Input.touches.First();
-            
+
             float xDelta = t.deltaPosition.x * translateSpeed;
             float yDelta = t.deltaPosition.y * translateSpeed;
             xDelta = Mathf.Clamp(xDelta, -5.0f, 5.0f);
             yDelta = Mathf.Clamp(yDelta, -5.0f, 5.0f);
-            text.text = "X:" + xDelta.ToString() + ", Y:" + yDelta.ToString();
+            //text.text = "X:" + xDelta.ToString() + ", Y:" + yDelta.ToString();
             //this.transform.Translate(-xDelta, -yDelta, 0);
             this.transform.Translate(-xDelta, -yDelta, 0);
             targetObj.transform.Translate(-xDelta, -yDelta, 0);
@@ -158,8 +271,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             ZoomCamera(-deltaMagnitudeDiff);
-        }        
-#endif
+        }
     }
 
     // カメラの回転
@@ -169,18 +281,16 @@ public class CharaCreCameraCtrl : MonoBehaviour
         //X軸の角度が - 180～180度の間にする
         float angle_x = 180f <= this.transform.eulerAngles.x ? this.transform.eulerAngles.x - 360 : this.transform.eulerAngles.x;
        
-        //下回転
+        // 下回転の上限
         if (y > 0 && angle_x <= ANGLE_LIMIT_MIN) return;
-        //上回転
+        // 上回転の上限
         if (y < 0 && angle_x >= ANGLE_LIMIT_MAX) return;
         
         // マウス(タッチ)の移動した値が一定値を越えたら最大(最小)値に設定
-        if (y > MOVE_LIMIT_MAX)
-            y = MOVE_LIMIT_MAX;
+        if (y > MOVE_LIMIT_MAX) y = MOVE_LIMIT_MAX;
 
-        if (y < MOVE_LIMIT_MIN)
-            y = MOVE_LIMIT_MIN;        
-
+        if (y < MOVE_LIMIT_MIN) y = MOVE_LIMIT_MIN;
+       
         // 縦回転
         this.transform.RotateAround(targetPoint, this.transform.right, -y);
         // 横回転
@@ -193,6 +303,24 @@ public class CharaCreCameraCtrl : MonoBehaviour
         // 拡大率を設定
         float view = cam.fieldOfView - scroll * zoomSpeed;
         cam.fieldOfView = Mathf.Clamp(view, ZOOM_LIMIT_MIN, ZOOM_LIMIT_MAX);
+    }
+
+    // CursorHitの設定
+    private void CursorSetting()
+    {
+        Vector3 pos = this.gameObject.transform.position;
+        // 一定の角度に達したら
+        if (pos.z > 2.0f)
+        {
+            cursorHit.headLook.target = defaultTargetPos;
+            // CursorHitコンポーネントを非アクティブ化
+            cursorHit.enabled = false;
+        }
+        else
+        {
+            // CursorHitコンポーネントをアクティブ化
+            cursorHit.enabled = true;
+        }
     }
 
     // デバッグ用ギズモを表示
@@ -242,12 +370,19 @@ public class CharaCreCameraCtrl : MonoBehaviour
             "time", time, "EaseType", type));       
     }
 
+    // 非アクティブ化した時に呼び出される関数
+    private void OnDisable()
+    {
+
+    }
+
     // アクティブ化した時に呼び出される関数
     private void OnEnable()
     {
         // 初期位置を設定
         this.transform.position = camSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
         targetObj.transform.position = VPSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
+        MyCharDataManager.Instance.phase = Phase.CHARA_CREATE;
     }
 
     // 動かせるかのフラグのアクセッサ

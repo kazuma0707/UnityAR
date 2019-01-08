@@ -1,77 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using ConstantName;
+
 
 public class FreeSelectColor : MonoBehaviour
 {  
     [SerializeField]
     private ColorPicker picker;      // カラーピッカー
-    [SerializeField]
-    private Renderer renderer;    // 色を変えたいオブジェクトのレンダラー
 
-    public Color Color = Color.red;
+    public Color Color = Color.white;
 
     // Use this for initialization
     void Start()
     {
-        // キャラクリシーンでなければ何もしない
-        //if (SceneManager.GetActiveScene().name != SceneName.CharCreate) return;
+        if (!picker)
+            picker = this.gameObject.GetComponent<ColorPicker>();
 
-        // 特定のコンポーネントを取得できれば
-        if (!FindComponent()) return;
-        
         ColorChange();
 
-        renderer.material.SetColor(MyCharDataManager.BASE_COLOR, picker.CurrentColor);
-        renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, picker.CurrentColor);
-
-        picker.CurrentColor = Color;
-             
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update ()
     {
-        // ピッカーの更新
-        //if(picker) picker.CurrentColor = MyCharDataManager.Instance.Data.hairColor2;
+       
     }
 
-    // 色を変える
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 色を変える
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
     public void ColorChange()
     {        
         picker.onValueChanged.AddListener(color =>
         {
-            renderer.material.SetColor(MyCharDataManager.BASE_COLOR, color);
-            renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, color);
+            //renderer.material.SetColor(MyCharDataManager.BASE_COLOR, color);
+            //renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, color);
             Color = color;
 
             // データマネージャーに設定
             MyCharDataManager.Instance.Data.hairColor2 = Color;
         });
-    }
 
-    // 特定のコンポーネントを探す・取得する
-    private bool FindComponent()
-    {
-        // ピッカーを探す
-        if (!picker)
-        {
-            GameObject pickerObj = GameObject.Find("Picker 2.0");
-            if (!pickerObj) return false;
-            picker = pickerObj.GetComponent<ColorPicker>();            
-        }
-
-        // レンダラーを取得する
-        if (!renderer)
-        {
-            //if (!this.gameObject.GetComponent<Renderer>()) return false;
-            renderer = this.gameObject.GetComponent<Renderer>();
-        }
-
-        return true;
-    }
+        picker.CurrentColor = Color;
+    }   
 
     public ColorPicker Picker
     {

@@ -411,9 +411,10 @@ public class MoveCamera : MonoBehaviour
         CCCamera.transform.position = CCCdefaultPos;
         CCCamera.transform.localEulerAngles = CCCdefaultRot;
         CCCamera.SetActive(false);
+        MyCharDataManager.Instance.phase = Phase.SELECT;
 
         // セレクト用のチェックポイントまで移動
-       // Vector3 pos = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.position;
+        // Vector3 pos = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.position;
         //float rot = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.eulerAngles.y;
         //iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f));
         //iTween.RotateTo(this.gameObject, iTween.Hash("y", rot, "time", 9.0f));

@@ -27,8 +27,6 @@ public class TitleManager: MonoBehaviour {
     //  ボタン
     [SerializeField]
     Button startButton;
-    [SerializeField]
-    Button endButton;
 
     //  テキスト
     [SerializeField]
@@ -45,17 +43,6 @@ public class TitleManager: MonoBehaviour {
 
     private void Update()
     {
-        if(fadeObj.GetComponent<FadeManager>().GetFadeFlag() == true)
-        {
-            startButton.interactable = false;
-            endButton.interactable = false;
-        }
-        else
-        {
-            startButton.interactable = true;
-            endButton.interactable = true;
-        }
-
         //  テキストのアクティブがtrueなら
         if (startText.activeSelf)
         {
@@ -107,7 +94,12 @@ public class TitleManager: MonoBehaviour {
         isLoad = true;
     }
 
-    //  鑑賞シーンに遷移するための関数
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ランキングの削除
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    //  
     public void Appreciation()
     {
         if (!isLoad)
@@ -118,5 +110,4 @@ public class TitleManager: MonoBehaviour {
         }
         isLoad = true;
     }
-
 }
