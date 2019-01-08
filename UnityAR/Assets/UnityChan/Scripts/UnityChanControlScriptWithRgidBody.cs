@@ -68,6 +68,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     [SerializeField]
     private GameObject LeftPosition;
     [SerializeField]
+    private GameObject CenterPosition;
+    [SerializeField]
     private GameObject RightPosition;
     [SerializeField]
     private bool lerpflag = false;
@@ -495,63 +497,105 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         //  左ボタンが押されたら
         if (LeftButtonFlag == true)
         {
-
-            //  プレイヤーが左側にいるときはジャンプを行わない
-            if (transform.position.x > LeftPosition.transform.position.x)
-            {
-                //アニメーションのステートがLocomotionの最中のみジャンプできる
-                if (currentBaseState.nameHash == idleState)
-                {
-                    //ステート遷移中でなかったらジャンプできる
-                    if (!anim.IsInTransition(0))
-                    {
-                        anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
-                        LRjumpFlag = true;
-                        //  補間開始処理
-                        Lerp();
-
-                        //  補間処理
-                        Vector3 pos = transform.position;
-                        pos.y += JUMP_HEIGHT;
-                        endPosition = new Vector3(LeftPosition.transform.position.x, pos.y, 3.5f);
-                        lerpflag = true;
-                    }
-                }
-            }
-            //  ボタンのフラグをもとに戻す
-            LeftButtonFlag = false;
+            //  左ボタン押下しの処理を行う
+            PressButtonLeft();
         }
 
         //  右ボタンが押されたら
         if (RightButtonFlag == true)
         {
-            //  プレイヤーが右側にいるときはジャンプを行わない
-            if (transform.position.x < RightPosition.transform.position.x)
-            {
-                //アニメーションのステートがLocomotionの最中のみジャンプできる
-                if (currentBaseState.nameHash == idleState)
-                {
-                    //ステート遷移中でなかったらジャンプできる
-                    if (!anim.IsInTransition(0))
-                    {
-                        //rb.AddForce(right * jumpPower, ForceMode.VelocityChange);
-                        anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
-                        LRjumpFlag = true;
-                        //  補間開始処理
-                        Lerp();
-
-                        //  補間処理
-                        Vector3 pos = transform.position;
-                        pos.y += JUMP_HEIGHT;
-                        endPosition = new Vector3(RightPosition.transform.position.x, pos.y, 3.5f);
-                        lerpflag = true;
-                    }
-                }
-
-            }
-            //  ボタンのフラグをもとに戻す
-            RightButtonFlag = false;
+            //  右ボタン押下しの処理を行う
+            PressButtonRight();
         }
+    }
+
+    /****************************************************************
+    *|　機能　左ボタン押下時に行う処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    void PressButtonLeft()
+    {
+        //  プレイヤーが左側にいるときはジャンプを行わない
+        if (transform.position.x > LeftPosition.transform.position.x)
+        {
+            //アニメーションのステートがLocomotionの最中のみジャンプできる
+            if (currentBaseState.nameHash == idleState)
+            {
+                //ステート遷移中でなかったらジャンプできる
+                if (!anim.IsInTransition(0))
+                {
+                    anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
+                    LRjumpFlag = true;
+                    //  補間開始処理
+                    Lerp();
+
+                    //  補間処理
+                    Vector3 pos = transform.position;
+                    pos.y += JUMP_HEIGHT;
+
+                    //  現在のポジションが右側なら(少数の誤差を埋めるための+0.1f)
+                    if (transform.position.x > CenterPosition.transform.position.x + 0.1f)
+                    {
+                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, 3.5f);
+                    }
+                    //  現在のポジションが中央なら
+                    else
+                    {
+                        endPosition = new Vector3(LeftPosition.transform.position.x, pos.y, 3.5f);
+                    }
+
+                    lerpflag = true;
+                }
+            }
+        }
+        //  ボタンのフラグをもとに戻す
+        LeftButtonFlag = false;
+    }
+
+    /****************************************************************
+    *|　機能　右ボタン押下時に行う処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    void PressButtonRight()
+    {
+        //  プレイヤーが右側にいるときはジャンプを行わない
+        if (transform.position.x < RightPosition.transform.position.x)
+        {
+            //アニメーションのステートがLocomotionの最中のみジャンプできる
+            if (currentBaseState.nameHash == idleState)
+            {
+                //ステート遷移中でなかったらジャンプできる
+                if (!anim.IsInTransition(0))
+                {
+                    //rb.AddForce(right * jumpPower, ForceMode.VelocityChange);
+                    anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
+                    LRjumpFlag = true;
+                    //  補間開始処理
+                    Lerp();
+
+                    //  補間処理
+                    Vector3 pos = transform.position;
+                    pos.y += JUMP_HEIGHT;
+
+                    //  現在のポジションが左側なら(少数の誤差を埋めるための-0.1f)
+                    if (transform.position.x < CenterPosition.transform.position.x - 0.1f)
+                    {
+                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, 3.5f);
+                    }
+                    else
+                    {
+                        endPosition = new Vector3(RightPosition.transform.position.x, pos.y, 3.5f);
+                    }
+
+                    lerpflag = true;
+                }
+            }
+
+        }
+        //  ボタンのフラグをもとに戻す
+        RightButtonFlag = false;
     }
 
     /****************************************************************
