@@ -42,13 +42,14 @@ public class GameManager : MonoBehaviour
     private const float FADE_TIME = 2.0f;
 
     [SerializeField]
-    private GameObject sotai;                // 素体モデル
+    private GameObject sotai;                       // 素体モデル
     [SerializeField]
-    private GameObject standPre;                // 台のプレハブ
+    private GameObject standPre;                    // 台のプレハブ
     [SerializeField]
-    private GameObject obstaclePre;             //  障害物プレハブ
+    private GameObject obstaclePre;                 //  障害物プレハブ
     [SerializeField]
-    private GameObject[] firstStands;           // 初期の台   
+    private GameObject[] firstStands;               // 初期の台   
+    private int oldStand = 0;                       //  前の台情報
     [SerializeField]
     private Text scoreText;                         // スコア
     [SerializeField]
@@ -67,7 +68,8 @@ public class GameManager : MonoBehaviour
     private Vector3 rightPos = new Vector3(2.1f, 7.0f, 3.5f);            // 右の台が生成される位置
     private Vector3 centerPos = new Vector3(0.7f, 7.0f, 3.5f);            // 中央の台が生成される位置
     private Vector3 leftPos = new Vector3(-0.7f, 7.0f, 3.5f);            // 左の台が生成される位置
-    private Vector3 obstaclePos = new Vector3(0.0f, 5.5f, 3.5f);          // 中央の障害物が生成される位置
+    private Vector3 obstaclePosLeft = new Vector3(0.0f, 5.5f, 3.5f);          // 左の障害物が生成される位置
+    private Vector3 obstaclePosRight = new Vector3(1.4f, 5.5f, 3.5f);          // 右の障害物が生成される位置
     private List<GameObject> standList = new List<GameObject>();   // 台のリスト
 
     //  障害物関係
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
     GameObject warningObject;
     int warningTime = 0;
     bool isRunning = false;
+    int PosNum = 0;                 //  場所用変数
 
     //  レベルアップフラグ
     [SerializeField]
@@ -217,23 +220,47 @@ public class GameManager : MonoBehaviour
     {
         GameObject obj = null;
 
+        //  台を生成する場所
+        int num = 0;
+
         // ランダムで生成される台を決める
-        int num = Random.Range(0, 3);
-        int obstacleNum = Random.Range(0, 100);
+        switch (oldStand)
+        {
+            case RIGHT:                 //  ひとつ前の台が右だった場合
+            default:
+                num = Random.Range(0, 2);
+                break;
+            case CENTER:                //  ひとつ前の台が中央だった場合
+                num = Random.Range(0, 3);
+                break;
+            case LEFT:                  //  ひとつ前の台が左だった場合
+                num = Random.Range(1, 3);
+                break;
+        }
+
         // 決められた新しい台を生成       
         switch (num)
         {
             case RIGHT:
             default:
                 obj = Instantiate(standPre, rightPos, Quaternion.identity);
+                oldStand = 0;
                 break;
             case CENTER:
                 obj = Instantiate(standPre, centerPos, Quaternion.identity);
+                oldStand = 1;
                 break;
             case LEFT:
                 obj = Instantiate(standPre, leftPos, Quaternion.identity);
+                oldStand = 2;
                 break;
         }
+
+        //  障害物の生成確立用
+        int obstacleNum = Random.Range(0, 100);
+
+        // 障害物の生成場所
+        PosNum = Random.Range(0, 2);
 
         //  障害物の生成
         if (timer >= LEVEL2_TIME)
@@ -253,7 +280,7 @@ public class GameManager : MonoBehaviour
         // リストに追加
         standList.Add(obj);
     }
-    
+
     /****************************************************************
     *|　機能　カウントダウンの表示
     *|　引数　なし
@@ -344,7 +371,14 @@ public class GameManager : MonoBehaviour
         //  警告表示を消す
         warningObject.SetActive(false);
         //  障害物を出す
-        Instantiate(obstaclePre, obstaclePos, Quaternion.identity);
+        if (PosNum == 0)
+        {
+            Instantiate(obstaclePre, obstaclePosLeft, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(obstaclePre, obstaclePosRight, Quaternion.identity);
+        }
         intervalFlag = false;
         startTime = timer;
 
