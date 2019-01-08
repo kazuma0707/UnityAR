@@ -6997,14 +6997,14 @@ RectTransform:
   m_GameObject: {fileID: 892850534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.25, y: 0.2, z: 0.1}
   m_Children: []
   m_Father: {fileID: 1322309345}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -16.5}
+  m_AnchoredPosition: {x: 0, y: -1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &892850536
@@ -7039,9 +7039,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '
-
-'
+  m_Text: "\u2261"
 --- !u!222 &892850537
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9902,6 +9900,10 @@ MonoBehaviour:
   objects: []
   variable: {fileID: 1268288205}
   poseButton: {fileID: 1937436055}
+  menuButtons:
+  - {fileID: 697295235}
+  - {fileID: 433089360}
+  - {fileID: 1547371537}
   animator: {fileID: 321354270}
 --- !u!114 &1322309347
 MonoBehaviour:
@@ -15400,7 +15402,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objects: []
   variable: {fileID: 1268288205}
-  MenuButton: {fileID: 1322309347}
+  menuButton: {fileID: 1322309347}
+  poseButtons:
+  - {fileID: 830037207}
+  - {fileID: 552342538}
+  - {fileID: 2103760774}
+  - {fileID: 520079308}
+  - {fileID: 2030242188}
+  - {fileID: 80994848}
+  - {fileID: 1203499926}
+  - {fileID: 1039459379}
+  - {fileID: 260309563}
+  - {fileID: 1447165796}
   animator: {fileID: 321354270}
 --- !u!1 &1942685792
 GameObject:

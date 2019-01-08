@@ -26,7 +26,9 @@ public class PoseButtonScript : MonoBehaviour
     private Variable variable_cs;
 
     [SerializeField]
-    private Button MenuButton;
+    private Button menuButton;
+    [SerializeField]
+    private Button[] poseButtons;
 
 
     [SerializeField]
@@ -164,7 +166,11 @@ public class PoseButtonScript : MonoBehaviour
     public void NonActiveButton()
     {
         this.GetComponent<Button>().interactable = false;
-        MenuButton.interactable = false;
+        menuButton.interactable = false;
+        for(int i = 0; i < poseButtons.Length; i++)
+        {
+            poseButtons[i].interactable = false;
+        }
     }
 
     //----------------------------------------------------------------------
@@ -177,7 +183,11 @@ public class PoseButtonScript : MonoBehaviour
     public void ActiveButton()
     {
         this.GetComponent<Button>().interactable = true;
-        MenuButton.interactable = true;
+        menuButton.interactable = true;
+        for (int i = 0; i < poseButtons.Length; i++)
+        {
+            poseButtons[i].interactable = true;
+        }
     }
 
 
@@ -192,7 +202,7 @@ public class PoseButtonScript : MonoBehaviour
     {
         NonActiveButton();
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.8f);
 
         ActiveButton();
     }
