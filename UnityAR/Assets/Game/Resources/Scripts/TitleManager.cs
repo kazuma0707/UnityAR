@@ -35,6 +35,8 @@ public class TitleManager: MonoBehaviour {
     //  メニューオブジェクト
     [SerializeField]
     GameObject scrollView;
+    [SerializeField]
+    GameObject menuImage;
 
     private void Start()
     {
@@ -56,6 +58,7 @@ public class TitleManager: MonoBehaviour {
         {
             startText.SetActive(false);
             scrollView.SetActive(true);
+            menuImage.SetActive(true);
         }
     }
 
