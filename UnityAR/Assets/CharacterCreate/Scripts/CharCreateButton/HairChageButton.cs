@@ -56,32 +56,32 @@ public class HairChageButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     private void FitHairColorMaterial(Material[] matMana)
     {
-        MyCharDataManager.Instance.ChangeHairObj(resourceObj, MyCharDataManager.Instance.Data.hairColor2);
+        //MyCharDataManager.Instance.ChangeHairObj(resourceObj, MyCharDataManager.Instance.Data.hairColor2);
         // 体の色に合わせて服(＋それに合わせた体の色)を変える
-        //switch (MyCharDataManager.Instance.Data.hcn)
-        //{
-        //    case HairColorNum.PINK:
-        //    default:
-        //        // 髪型を変える
-        //        MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.PINK]);       
-        //        break;
-        //    case HairColorNum.YELLOW:
-        //        // 髪型を変える
-        //        MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.YELLOW]);
-        //        break;
-        //    case HairColorNum.GREEN:
-        //        // 髪型を変える
-        //        MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.GREEN]);
-        //        break;
-        //    case HairColorNum.BLUE:
-        //        // 髪型を変える
-        //        MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.BLUE]);
-        //        break;
-        //    case HairColorNum.RED:
-        //        // 髪型を変える
-        //        MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.RED]);
-        //        break;
-        //}
+        switch (MyCharDataManager.Instance.Data.hcn)
+        {
+            case HairColorNum.PINK:
+            default:
+                // 髪型を変える
+                MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.PINK]);
+                break;
+            case HairColorNum.YELLOW:
+                // 髪型を変える
+                MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.YELLOW]);
+                break;
+            case HairColorNum.GREEN:
+                // 髪型を変える
+                MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.GREEN]);
+                break;
+            case HairColorNum.BLUE:
+                // 髪型を変える
+                MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.BLUE]);
+                break;
+            case HairColorNum.RED:
+                // 髪型を変える
+                MyCharDataManager.Instance.ChangeHairObj(resourceObj, matMana[(int)HairColorNum.RED]);
+                break;
+        }
 
         // 現在選択中の髪を登録
         MyCharDataManager.Instance.Data.hairNum = hn;

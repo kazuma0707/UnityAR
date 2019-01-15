@@ -171,7 +171,7 @@ public class ChangeHair : MonoBehaviour
         r.quality = SkinQuality.Auto;
 
         // FreeSelectColor生成
-        SetHairsFreeColor hairsFreeColor = newMeshObject.AddComponent<SetHairsFreeColor>();
+        //SetHairsFreeColor hairsFreeColor = newMeshObject.AddComponent<SetHairsFreeColor>();
 
         //hairsFreeColor.Color = MyCharDataManager.Instance.Data.hairColor2;
     }

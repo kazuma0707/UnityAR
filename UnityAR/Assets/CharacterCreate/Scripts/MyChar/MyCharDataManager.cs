@@ -116,7 +116,7 @@ public class MyCharDataManager : MonoBehaviour
     {
         public GameObject hair;         // 髪型
         public Material hairColor;      // 髪の色
-        public Color hairColor2;        // 髪の色
+        //public Color hairColor2;        // 髪の色
         public GameObject eyeLine;      // 目の形
         public Material eyePattern;     // 目の模様
         public GameObject cloth;        // 服
@@ -194,10 +194,7 @@ public class MyCharDataManager : MonoBehaviour
     private Material[] defaultBodyColorMat;      // 初期の体の色(0:skin, 1:face)
 
     private bool sceneLoadOnce;                  // タイトルシーンが初回ロードかどうかのフラグ(true：2回目以降, false：初回)
-
-    [SerializeField]
-    private int materialVerion = MATERIAL_VERSION_NORMAL;   // マテリアルのVersion
-
+    
     private DynamicBone defaultClothDB;          // 服のDynamicBoneのデフォルト値
     private DynamicBone defaultHairDB;           // 髪のDynamicBoneのデフォルト値
 
@@ -230,7 +227,7 @@ public class MyCharDataManager : MonoBehaviour
 
         saveData.hair = defaultHair;
         saveData.hairColor = defaultHairColorMat;
-        saveData.hairColor2 = defaultHairColor;
+        //saveData.hairColor2 = defaultHairColor;
         saveData.eyeLine = defaultEyeLine;
         saveData.eyePattern = defaultEyePatternMat;
         saveData.cloth = defaultCloth;
@@ -238,7 +235,7 @@ public class MyCharDataManager : MonoBehaviour
         saveData.bodyScale = defaultBodyScale;
         saveData.bodyColor = defaultBodyColorMat;
 
-        CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
+        //CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
 
         ReCreate(sotai);
 
@@ -296,7 +293,7 @@ public class MyCharDataManager : MonoBehaviour
         CharaCreateManager.ChangeClothColor(saveData.clothColor,sotai);
 
         // 何も変わっていなければ目の形を変える
-        if (saveData.eyeLine.name != defaultEyeLine.name)
+        //if (saveData.eyeLine.name != defaultEyeLine.name)
         {
             CharaCreateManager.ChangeEyeLineObj(saveData.eyeLine, sotaiBone);
         }
@@ -308,7 +305,7 @@ public class MyCharDataManager : MonoBehaviour
         StartCoroutine("SettingHairDB");
 
         // 髪の色を変える
-        CharaCreateManager.ChangeHairColor(saveData.hairColor2, sotai);
+        CharaCreateManager.ChangeHairColor(saveData.hairColor, sotai);
 
         // 目の模様(＋色)を変える
         CharaCreateManager.ChangeEyePattern(saveData.eyePattern, sotai);
@@ -356,11 +353,14 @@ public class MyCharDataManager : MonoBehaviour
             // DynamicBoneの設定
             SettingHairDB();
         }
-            
+
 
         // 髪の色を変える(既に同じものを選択していなければ)
-        if (saveData.hairColor2 != defaultHairColor)
-            CharaCreateManager.ChangeHairColor(defaultHairColor, sotai);
+        if (saveData.hairColor.name != defaultHairColorMat.name)
+            CharaCreateManager.ChangeHairColor(defaultHairColorMat, sotai);
+
+        //if (saveData.hairColor2 != defaultHairColor)
+        //    CharaCreateManager.ChangeHairColor(defaultHairColor, sotai);
 
         // 目の模様(＋色)を変える(既に同じものを選択していなければ)
         if (saveData.eyePattern.name != defaultEyePatternMat.name)
@@ -432,22 +432,31 @@ public class MyCharDataManager : MonoBehaviour
     // 　引　数   | newColor：髪の色
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeHairColor(Color newColor)
+    public void ChangeHairColor(Material newColor)
     {
         // 既に同じものを選択していたら何もしない
-        if (saveData.hairColor2 == newColor) return;
+        if (saveData.hairColor.name == newColor.name) return;
 
         // 髪の色を変え、セーブデータに保存
         CharaCreateManager.ChangeHairColor(newColor, sotai);
-        saveData.hairColor2 = newColor;
+        saveData.hairColor = newColor;
     }
+    //public void ChangeHairColor(Color newColor)
+    //{
+    //    // 既に同じものを選択していたら何もしない
+    //    if (saveData.hairColor2 == newColor) return;
+
+    //    // 髪の色を変え、セーブデータに保存
+    //    CharaCreateManager.ChangeHairColor(newColor, sotai);
+    //    saveData.hairColor2 = newColor;
+    //}
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 髪型を変える
     // 　引　数   | newHair：髪型, newColor：髪の色
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    public void ChangeHairObj(GameObject newHair, Color newColor)
+    public void ChangeHairObj(GameObject newHair, Material newColor)
     {
         // 既に同じものを選択していたら何もしない
         if (saveData.hair.name == newHair.name) return;
@@ -460,11 +469,30 @@ public class MyCharDataManager : MonoBehaviour
         saveData.hair = newHair;
 
         // 髪の色を変え、セーブデータに保存
-        CharaCreateManager.ChangeHairColor(saveData.hairColor2, sotai);
+        CharaCreateManager.ChangeHairColor(newColor, sotai);
+        saveData.hairColor = newColor;
 
         // DynamicBoneの設定
         StartCoroutine("SettingHairDB");
     }
+    //public void ChangeHairObj(GameObject newHair, Color newColor)
+    //{
+    //    // 既に同じものを選択していたら何もしない
+    //    if (saveData.hair.name == newHair.name) return;
+
+    //    // DynamicBoneを除外
+    //    RemoveDB(hairBaseBone);
+
+    //    // 髪型を変え、セーブデータに保存
+    //    CharaCreateManager.ChangeHairObj(newHair, sotaiBone);
+    //    saveData.hair = newHair;
+
+    //    // 髪の色を変え、セーブデータに保存
+    //    CharaCreateManager.ChangeHairColor(saveData.hairColor2, sotai);
+
+    //    // DynamicBoneの設定
+    //    StartCoroutine("SettingHairDB");
+    //}
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 体型を変える
@@ -684,9 +712,5 @@ public class MyCharDataManager : MonoBehaviour
         get { return sceneLoadOnce; }
     }
 
-    // マテリアルのVersionのアクセッサ
-    public int MaterialVerion
-    {
-        get { return materialVerion; }
-    }
+    
 }
