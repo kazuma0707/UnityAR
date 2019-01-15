@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: TwinTail_Base
-  m_Shader: {fileID: 4800000, guid: 1d10c7840eb6ba74c889a27f14ba6081, type: 3}
+  m_Shader: {fileID: 4800000, guid: faa1cfca07a31f043ada5b42b1d891e9, type: 3}
   m_ShaderKeywords: _IS_BLENDADDTOHICOLOR_ON _IS_BLENDADDTOMATCAP_ON _IS_BLENDBASECOLOR_ON
     _IS_LIGHTCOLOR_1ST_SHADE_ON _IS_LIGHTCOLOR_2ND_SHADE_ON _IS_LIGHTCOLOR_AP_RIMLIGHT_ON
     _IS_LIGHTCOLOR_BASE_ON _IS_LIGHTCOLOR_HIGHCOLOR_ON _IS_LIGHTCOLOR_MATCAP_ON _IS_LIGHTCOLOR_RIMLIGHT_ON
@@ -174,6 +174,6 @@ Material:
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor: {r: 1, g: 1, b: 1, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Outline_Color: {r: 0.7058823, g: 0.03633217, b: 0.113843344, a: 1}
+    - _Outline_Color: {r: 0.7058823, g: 0.03633217, b: 0.113843344, a: 0}
     - _RimLightColor: {r: 0.88620687, g: 0.88620687, b: 0.88620687, a: 1}
     - _ShadowColor: {r: 0.89705884, g: 0.9182526, b: 1, a: 1}

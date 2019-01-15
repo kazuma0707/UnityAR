@@ -141,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4018809245249096}
   - component: {fileID: 137304036843411874}
+  - component: {fileID: 95394390075562190}
   m_Layer: 0
   m_Name: mayuge
   m_TagString: HeadObj
@@ -172,8 +173,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4628651371355196}
   - component: {fileID: 137229469363418960}
+  - component: {fileID: 95421261739854740}
   m_Layer: 0
-  m_Name: hade 1
+  m_Name: face
   m_TagString: HeadObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,6 +345,40 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 42eed517452806e43ae47163280bab41, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95394390075562190
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1785533788742876}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 24ff6be22c286c247ae84a61df33cd52, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95421261739854740
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928340468305458}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4ca184b5fba58ce47ad1b51442331294, type: 2}
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

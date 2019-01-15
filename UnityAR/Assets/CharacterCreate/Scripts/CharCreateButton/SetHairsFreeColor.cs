@@ -26,9 +26,9 @@ public class SetHairsFreeColor : MonoBehaviour
         FindComponent();
 
         // 色を変える
-        Color color = MyCharDataManager.Instance.Data.hairColor2;
-        renderer.material.SetColor(MyCharDataManager.BASE_COLOR, color);
-        renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, color);
+        //Color color = MyCharDataManager.Instance.Data.hairColor2;
+        //renderer.material.SetColor(MyCharDataManager.BASE_COLOR, color);
+        //renderer.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, color);
     }
 
     // マイキャラのデータマネージャーとレンダラーのコンポーネントを取得

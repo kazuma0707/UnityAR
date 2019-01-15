@@ -149,6 +149,7 @@ public class ChangeEyeLine : MonoBehaviour
         newMeshObject.transform.localEulerAngles = Vector3.zero;
         newMeshObject.transform.localPosition = Vector3.zero;
         newMeshObject.tag = smr.gameObject.tag;
+        Debug.Log(smr.gameObject.tag);
 
         // SkinnedMeshRenderer生成
         SkinnedMeshRenderer r = newMeshObject.AddComponent<SkinnedMeshRenderer>();
@@ -161,10 +162,7 @@ public class ChangeEyeLine : MonoBehaviour
         // rootBoneを設定を設定
         foreach (Transform t in BoneTransformList)
         {
-            if (t.name == smr.rootBone.name)
-            {
-                r.rootBone = t;
-            }
+            if (t.name == smr.rootBone.name) r.rootBone = t;
         }
 
         // 各種細かい設定
