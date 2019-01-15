@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CharaCreateManager : MonoBehaviour
 {
+    // 定数宣言 /////////////////////////////////////////////////////////////////////////////
+
+    private const float SCALING_TIME = 1.5f;                    // スケールを変える時間
+
+    /////////////////////////////////////////////////////////////////////////////////////////
    
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 服を変える
@@ -71,7 +77,8 @@ public class CharaCreateManager : MonoBehaviour
         //Vector3 pos = myChar.transform.position;
         Vector3[] scales = MyCharDataManager.Instance.BodyScales;
         // 体型を設定
-        sotai.transform.localScale = scales[(int)newScale];
+        //sotai.transform.localScale = scales[(int)newScale];
+        iTween.ScaleTo(sotai, scales[(int)newScale], SCALING_TIME);
     }
 
     //----------------------------------------------------------------------------------------------

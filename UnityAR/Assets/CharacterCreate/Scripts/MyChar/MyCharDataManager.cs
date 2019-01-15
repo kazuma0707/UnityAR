@@ -198,6 +198,9 @@ public class MyCharDataManager : MonoBehaviour
     [SerializeField]
     private int materialVerion = MATERIAL_VERSION_NORMAL;   // マテリアルのVersion
 
+    private DynamicBone defaultClothDB;          // 服のDynamicBoneのデフォルト値
+    private DynamicBone defaultHairDB;           // 髪のDynamicBoneのデフォルト値
+
     public Phase phase;                          // フェーズの状態
 
     public void Awake()
@@ -246,6 +249,9 @@ public class MyCharDataManager : MonoBehaviour
 
         // フェーズをTitleに設定
         phase = Phase.TITLE;
+
+        defaultClothDB = sotaiBone.GetComponent<DynamicBone>();
+        defaultHairDB = hairBaseBone.GetComponent<DynamicBone>();
     }
 
     // Update is called once per frame
@@ -554,8 +560,26 @@ public class MyCharDataManager : MonoBehaviour
         // 素体のBoneをルートとして設定
         db.m_Root = sotaiBone.transform;
 
+        // Boneの減速の値を設定
+        db.m_Damping = defaultClothDB.m_Damping;
+
+        // Boneの減速の分布を設定
+        db.m_DampingDistrib = defaultClothDB.m_DampingDistrib;
+
+        // Boneの弾性の値を設定
+        db.m_Elasticity = defaultClothDB.m_Elasticity;
+
+        // Boneの減速の分布を設定
+        db.m_ElasticityDistrib = defaultClothDB.m_ElasticityDistrib;
+
+        // Boneの剛性の値を設定
+        db.m_Stiffness = defaultClothDB.m_Stiffness;
+
+        // Boneの不活性の値を設定
+        db.m_Inert = defaultClothDB.m_Inert;
+
         // 円の当たり判定の半径を設定
-        db.m_Radius = 0.05f;
+        db.m_Radius = defaultClothDB.m_Radius;
 
         // 除外したいオブジェクトを除外リストに追加
         db.m_Exclusions = new List<Transform>();        
@@ -588,20 +612,31 @@ public class MyCharDataManager : MonoBehaviour
         db.m_Root = hairBaseBone.transform;
 
         // Boneの減速の値を設定
-        db.m_Damping = 0.2f;
+        db.m_Damping = defaultHairDB.m_Damping;
+
+        // Boneの弾性の値を設定
+        db.m_Elasticity = defaultHairDB.m_Elasticity;
+
+        // Boneの剛性の値を設定
+        db.m_Stiffness = defaultHairDB.m_Stiffness;
+
+        // Boneの不活性の値を設定
+        db.m_Inert = defaultHairDB.m_Inert;
 
         // 円の当たり判定の半径を設定
-        db.m_Radius = 0.05f;
+        db.m_Radius = defaultHairDB.m_Radius;
 
         // 除外したいオブジェクトを除外リストに追加
         db.m_Exclusions = new List<Transform>();
         
         // コライダーが付いているBoneオブジェクトを取得
         DynamicBoneCollider[] DBCs = sotaiBone.GetComponentsInChildren<DynamicBoneCollider>();
+        DynamicBonePlaneCollider[] DBPCs = sotaiBone.GetComponentsInChildren<DynamicBonePlaneCollider>();
 
         // コライダーが付いているBoneオブジェクトをコライダーリストに追加
         db.m_Colliders = new List<DynamicBoneColliderBase>();
         db.m_Colliders.AddRange(DBCs);
+        db.m_Colliders.AddRange(DBPCs);
     }
 
     //----------------------------------------------------------------------------------------------
