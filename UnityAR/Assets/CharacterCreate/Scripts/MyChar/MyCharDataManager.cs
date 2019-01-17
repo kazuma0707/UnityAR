@@ -620,8 +620,10 @@ public class MyCharDataManager : MonoBehaviour
 
         // コライダーが付いているBoneオブジェクトをコライダーリストに追加
         db.m_Colliders = new List<DynamicBoneColliderBase>();
-        db.m_Colliders.AddRange(DBCs);     
+        db.m_Colliders.AddRange(DBCs);
 
+        // FacialManagerのsmileフラグを上げる
+        sotai.GetComponent<FacialManager>().SmileAnimation();
     }
 
     //----------------------------------------------------------------------------------------------
