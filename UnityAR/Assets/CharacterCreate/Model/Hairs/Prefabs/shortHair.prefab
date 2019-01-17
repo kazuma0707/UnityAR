@@ -140,7 +140,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4626427311777368}
   - component: {fileID: 137149735775121346}
-  - component: {fileID: 114628372843604640}
   m_Layer: 0
   m_Name: polySurface10
   m_TagString: HairObj
@@ -378,17 +377,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114628372843604640
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1879542526499598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 838f480be07a4ba4ab6b2491b8d27913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137149735775121346
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
