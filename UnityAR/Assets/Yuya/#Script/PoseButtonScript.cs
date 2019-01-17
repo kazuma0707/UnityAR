@@ -129,9 +129,6 @@ public class PoseButtonScript : MonoBehaviour
         Debug.Log("Pose" + variable_cs.Active);
 
         animator.SetBool(key_isPose, variable_cs.Active);
-
-        AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
     }
 
     // activeのアクセッサ
