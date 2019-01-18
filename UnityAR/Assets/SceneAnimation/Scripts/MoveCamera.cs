@@ -253,7 +253,9 @@ public class MoveCamera : MonoBehaviour
     public void OnCharacterCreateEndButton()
     {
         CharacterCreateEndButton.SetActive(false);
-
+        Panel.SetActive(true);
+        YesButton.SetActive(true);
+        NoButton.SetActive(true);
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
             if (ChangeButtons[i].GetComponent<ButtonScript>())
@@ -263,9 +265,7 @@ public class MoveCamera : MonoBehaviour
         }
         CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = false;
         _buttonScript.HideAnimation();
-        Panel.SetActive(true);
-        YesButton.SetActive(true);
-        NoButton.SetActive(true);
+
     }
 
     //はいを押したら
@@ -458,6 +458,7 @@ public class MoveCamera : MonoBehaviour
             ChangeButtons[i].SetActive(true);
         }
         GameObject.Find("TypeViewArea").transform.localScale = new Vector3(1, 1, 1);
+        GameObject.Find("CharaCreButtonViewArea").transform.localScale = new Vector3(1, 1, 1);
         GameObject.Find("ResetButton").transform.localScale = new Vector3(1, 1, 1);
         CharacterCreateEndButton.SetActive(true);
     }
