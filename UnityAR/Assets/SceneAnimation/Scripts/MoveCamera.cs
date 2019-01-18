@@ -264,7 +264,7 @@ public class MoveCamera : MonoBehaviour
             //ChangeButtons[i].SetActive(false);
         }
         CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = false;
-        _buttonScript.HideAnimation();
+        //_buttonScript.HideAnimation();
 
     }
 
@@ -348,7 +348,7 @@ public class MoveCamera : MonoBehaviour
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
-        ChangeButtons[2].transform.localScale = new Vector3(1, 1, 1);
+        //ChangeButtons[2].transform.localScale = new Vector3(1, 1, 1);
 
     }
 

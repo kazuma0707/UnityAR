@@ -97,7 +97,7 @@ public class FacialManager : MonoBehaviour
             // 抽選
             int value = Random.Range(RANDOM_MIN, RANDOM_MAX);
             // 抽選に当たれば瞬きをする
-            Debug.Log(value);
+
             if (value < BLINK_FRAG_UP) blink = BLINK_ON;
         }
 
