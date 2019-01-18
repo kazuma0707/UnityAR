@@ -149,7 +149,6 @@ public class ChangeEyeLine : MonoBehaviour
         newMeshObject.transform.localEulerAngles = Vector3.zero;
         newMeshObject.transform.localPosition = Vector3.zero;
         newMeshObject.tag = smr.gameObject.tag;
-        Debug.Log(smr.gameObject.tag);
 
         // SkinnedMeshRenderer生成
         SkinnedMeshRenderer r = newMeshObject.AddComponent<SkinnedMeshRenderer>();
