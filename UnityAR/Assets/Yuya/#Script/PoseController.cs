@@ -39,6 +39,7 @@ public class PoseController : MonoBehaviour
     private const string key_isPose8 = "Pose8";
     private const string key_isPose9 = "Pose9";
     private const string key_isPose10 = "Pose10";
+    private const string key_isGreet = "isGreet";
 
 
     void Start()
@@ -142,12 +143,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose1))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose1, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -218,6 +228,11 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
 
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose2))
         {
@@ -225,6 +240,9 @@ public class PoseController : MonoBehaviour
         }
 
         anim.SetBool(key_isPose2, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -295,12 +313,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose3))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose3, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -371,12 +398,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose4))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose4, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -447,12 +483,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose5))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose5, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -523,12 +568,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose6))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose6, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -599,12 +653,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose7))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose7, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -675,12 +738,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose8))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose8, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -751,12 +823,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose9))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose9, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 
@@ -827,12 +908,21 @@ public class PoseController : MonoBehaviour
             variable_cs.Pose_Flag = true;
         }
 
+        if (!variable_cs.Pose_Flag && anim.GetBool(key_isGreet))
+        {
+            anim.SetBool(key_isGreet, variable_cs.Pose_Flag);
+            variable_cs.Pose_Flag = true;
+        }
+
         if (variable_cs.Pose_Flag && anim.GetBool(key_isPose10))
         {
             variable_cs.Pose_Flag = false;
         }
 
         anim.SetBool(key_isPose10, variable_cs.Pose_Flag);
+
+        // キャラクリ用カメラとViewPointを特定の位置に移動させる
+        aCCamera.GetComponent<AppreciationCameraCtr>().CameraSetPos(aCCSetPosNum);
 
     }
 }
