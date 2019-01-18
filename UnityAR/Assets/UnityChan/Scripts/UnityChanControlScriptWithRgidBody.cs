@@ -15,7 +15,13 @@ using UnityEngine.SceneManagement;
 
 public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 {
+    //=============  定数　===============//
+    private const float JUMP_LIMIT = 2.3f;                  //  ジャンプ可能な高さの限界値
+    private const float ADJUSTMENT = 0.01f;                 //  ゲームバランスを調整する定数
+    private const float LEVEL2_ANIME_SPEED = 2.4f;          //  レベル2の時のアニメーションスピード
 
+
+    private float jumpHeight = 1.7f;//1.5f;          //  ジャンプの高さ
     private float animSpeed = 1.5f;				// アニメーション再生速度設定
 	public float lookSmoother = 3.0f;			// a smoothing setting for camera motion
 	public bool useCurves = true;				// Mecanimでカーブ調整を使うか設定する
@@ -31,7 +37,9 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 	public float rotateSpeed = 2.0f;
     // ジャンプ威力
     //[SerializeField]
-    private float jumpPower = 11.5f; 
+    private float jumpPower = 11.5f;
+    //  ジャンプ時の補間用座標
+    private Vector3 jumpCenterPos;
 	// キャラクターコントローラ（カプセルコライダ）の参照
 	private BoxCollider col;
 	private Rigidbody rb;
@@ -68,6 +76,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     [SerializeField]
     private GameObject LeftPosition;
     [SerializeField]
+    private GameObject CenterPosition;
+    [SerializeField]
     private GameObject RightPosition;
     [SerializeField]
     private bool lerpflag = false;
@@ -95,12 +105,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     bool isLoad = false;
 
     bool deadFlag = false;
-
-    //=============  定数　===============//
-    private const float JUMP_HEIGHT = 2.0f;//1.5f;          //  ジャンプの高さ
-    private const float JUMP_LIMIT = 2.3f;                  //  ジャンプ可能な高さの限界値
-    private const float ADJUSTMENT = 0.01f;                 //  ゲームバランスを調整する定数
-    private const float LEVEL2_ANIME_SPEED = 2.4f;          //  レベル2の時のアニメーションスピード
 
     // 初期化
     void Start ()
@@ -166,6 +170,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             //jumpPower = 15.0f;
             //animSpeed = 2.4f;
             //downVelocity = 0.6f;
+            jumpHeight = 1.3f;
             jumpPower = 24.0f;
             downVelocity = 1.5f;
             //animSpeed = 2.4f;
@@ -202,6 +207,15 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             deadFlag = true;
             //  ゲームをポーズする
             manager.GetComponent<GameManager>().pauseFlag = true;
+
+
+            //  シーンが複数ロードされるのの防止
+            if (!isLoad)
+            {
+                //SceneManager.LoadScene("Ranking");
+                FadeManager.Instance.LoadScene("Ranking", 2.0f);
+            }
+            isLoad = true;
         }
 
         //  プレイヤーの下に床があるかどうか
@@ -224,7 +238,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
         currentBaseState = anim.GetCurrentAnimatorStateInfo(0); // 参照用のステート変数にBase Layer (0)の現在のステートを設定する                                                        //
 
-        //rb.useGravity = true;//ジャンプ中に重力を切るので、それ以外は重力の影響を受けるようにする
+        rb.useGravity = true;//ジャンプ中に重力を切るので、それ以外は重力の影響を受けるようにする
 
         // rb.AddForce(localGravity, ForceMode.VelocityChange);        
 
@@ -275,9 +289,12 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             {
                  rate = lerpTime / time * 2.0f;
             }
-
             //transform.position = Vector3.Lerp(startPosition, endPosition, rate);
-            transform.position = Vector3.Slerp(startPosition, endPosition, rate);
+            //transform.position = Vector3.Slerp(startPosition, endPosition, rate);
+
+            Vector3 firstPos = Vector3.Lerp(startPosition, jumpCenterPos, rate);
+            Vector3 secondPos = Vector3.Lerp(jumpCenterPos, endPosition, rate);
+            transform.position = Vector3.Lerp(firstPos, secondPos, rate);
         }
 
         // 上下のキー入力でキャラクターを移動させる
@@ -495,63 +512,126 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         //  左ボタンが押されたら
         if (LeftButtonFlag == true)
         {
-
-            //  プレイヤーが左側にいるときはジャンプを行わない
-            if (transform.position.x > LeftPosition.transform.position.x)
-            {
-                //アニメーションのステートがLocomotionの最中のみジャンプできる
-                if (currentBaseState.nameHash == idleState)
-                {
-                    //ステート遷移中でなかったらジャンプできる
-                    if (!anim.IsInTransition(0))
-                    {
-                        anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
-                        LRjumpFlag = true;
-                        //  補間開始処理
-                        Lerp();
-
-                        //  補間処理
-                        Vector3 pos = transform.position;
-                        pos.y += JUMP_HEIGHT;
-                        endPosition = new Vector3(LeftPosition.transform.position.x, pos.y, 3.5f);
-                        lerpflag = true;
-                    }
-                }
-            }
-            //  ボタンのフラグをもとに戻す
-            LeftButtonFlag = false;
+            //  左ボタン押下時の処理を行う
+            PressButtonLeft();
         }
 
         //  右ボタンが押されたら
         if (RightButtonFlag == true)
         {
-            //  プレイヤーが右側にいるときはジャンプを行わない
-            if (transform.position.x < RightPosition.transform.position.x)
-            {
-                //アニメーションのステートがLocomotionの最中のみジャンプできる
-                if (currentBaseState.nameHash == idleState)
-                {
-                    //ステート遷移中でなかったらジャンプできる
-                    if (!anim.IsInTransition(0))
-                    {
-                        //rb.AddForce(right * jumpPower, ForceMode.VelocityChange);
-                        anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
-                        LRjumpFlag = true;
-                        //  補間開始処理
-                        Lerp();
-
-                        //  補間処理
-                        Vector3 pos = transform.position;
-                        pos.y += JUMP_HEIGHT;
-                        endPosition = new Vector3(RightPosition.transform.position.x, pos.y, 3.5f);
-                        lerpflag = true;
-                    }
-                }
-
-            }
-            //  ボタンのフラグをもとに戻す
-            RightButtonFlag = false;
+            //  右ボタン押下時の処理を行う
+            PressButtonRight();
         }
+    }
+
+    /****************************************************************
+    *|　機能　左ボタン押下時に行う処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    void PressButtonLeft()
+    {
+        //  プレイヤーが左側にいるときはジャンプを行わない
+        if (transform.position.x > LeftPosition.transform.position.x)
+        {
+            //アニメーションのステートがLocomotionの最中のみジャンプできる
+            if (currentBaseState.nameHash == idleState)
+            {
+                //ステート遷移中でなかったらジャンプできる
+                if (!anim.IsInTransition(0))
+                {
+                    anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
+                    LRjumpFlag = true;
+                    //  補間開始処理
+                    Lerp();
+
+                    //  補間処理
+                    Vector3 pos = transform.position;
+                    pos.y += jumpHeight;
+
+                    //  現在のポジションが右側なら(少数の誤差を埋めるための+0.1f)
+                    if (transform.position.x > CenterPosition.transform.position.x + 0.1f)
+                    {
+                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, 3.5f);
+                    }
+                    //  現在のポジションが中央なら
+                    else
+                    {
+                        endPosition = new Vector3(LeftPosition.transform.position.x, pos.y, 3.5f);
+                    }
+
+                    //  ジャンプ時の中間座標
+                    Vector3 centerPos =  CenterPointTwoObj(transform.position, endPosition);
+                    jumpCenterPos = new Vector3(centerPos.x, centerPos.y + 3.0f, centerPos.z);
+                    lerpflag = true;
+                }
+            }
+        }
+        //  ボタンのフラグをもとに戻す
+        LeftButtonFlag = false;
+    }
+
+    /****************************************************************
+    *|　機能　右ボタン押下時に行う処理
+    *|　引数　なし
+    *|　戻値　なし
+    ***************************************************************/
+    void PressButtonRight()
+    {
+        //  プレイヤーが右側にいるときはジャンプを行わない
+        if (transform.position.x < RightPosition.transform.position.x)
+        {
+            //アニメーションのステートがLocomotionの最中のみジャンプできる
+            if (currentBaseState.nameHash == idleState)
+            {
+                //ステート遷移中でなかったらジャンプできる
+                if (!anim.IsInTransition(0))
+                {
+                    //rb.AddForce(right * jumpPower, ForceMode.VelocityChange);
+                    anim.SetBool("Jump", true);     // Animatorにジャンプに切り替えるフラグを送る
+                    LRjumpFlag = true;
+                    //  補間開始処理
+                    Lerp();
+
+                    //  補間処理
+                    Vector3 pos = transform.position;
+                    pos.y += jumpHeight;
+
+                    //  現在のポジションが左側なら(少数の誤差を埋めるための-0.1f)
+                    if (transform.position.x < CenterPosition.transform.position.x - 0.1f)
+                    {
+                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, 3.5f);
+                    }
+                    else
+                    {
+                        endPosition = new Vector3(RightPosition.transform.position.x, pos.y, 3.5f);
+                    }
+
+                    //  ジャンプ時の中間座標
+                    Vector3 centerPos = CenterPointTwoObj(transform.position, endPosition);
+                    jumpCenterPos = new Vector3(centerPos.x, centerPos.y + 3.0f, centerPos.z);
+                    lerpflag = true;
+                }
+            }
+
+        }
+        //  ボタンのフラグをもとに戻す
+        RightButtonFlag = false;
+    }
+
+    /****************************************************************
+    *|　機能　二つのオブジェクトの中心
+    *|　引数　なし
+    *|　戻値　中心座標
+    ***************************************************************/
+    public Vector3 CenterPointTwoObj(Vector3 pos1, Vector3 pos2)
+    {
+        Vector3 pos;
+        pos.x = (pos1.x + pos2.x) / 2;
+        pos.y = (pos1.y + pos2.y) / 2;
+        pos.z = (pos1.z + pos2.z) / 2;
+
+        return pos;
     }
 
     /****************************************************************

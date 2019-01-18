@@ -15,6 +15,7 @@ public class Variable : MonoBehaviour
 {
     [SerializeField]
     private bool active;
+    private bool pose_Flag;
 
     //----------------------------------------------------------------------
     //! @brief Startメソッド
@@ -27,6 +28,7 @@ public class Variable : MonoBehaviour
     void Start ()
     {
         active = false;
+        Pose_Flag = false;
 	}
 	
 
@@ -36,5 +38,12 @@ public class Variable : MonoBehaviour
         get { return active; }
         set { active = value; }
     }
+
+    public bool Pose_Flag
+    {
+        get { return pose_Flag; }
+        set { pose_Flag = value; }
+    }
+
 
 }

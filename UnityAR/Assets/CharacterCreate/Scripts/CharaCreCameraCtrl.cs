@@ -345,6 +345,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
                 LerpMove(targetObj.gameObject, VPSetPositions[(int)CCCSetPosNum.FACE_POS].transform.position,
                          Vector3.zero, lerpTime, iTween.EaseType.linear);
                 break;
+                            
             case CCCSetPosNum.BODY_POS:
                 // キャラクリ用カメラの補間移動・回転
                 LerpMove(this.gameObject, camSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position,
@@ -373,7 +374,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
     // 非アクティブ化した時に呼び出される関数
     private void OnDisable()
     {
-
+        MyCharDataManager.Instance.phase = Phase.SELECT;
     }
 
     // アクティブ化した時に呼び出される関数

@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CharaCreateManager : MonoBehaviour
 {
+    // 定数宣言 /////////////////////////////////////////////////////////////////////////////
+
+    private const float SCALING_TIME = 1.5f;                    // スケールを変える時間
+
+    /////////////////////////////////////////////////////////////////////////////////////////
    
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 服を変える
@@ -47,18 +53,27 @@ public class CharaCreateManager : MonoBehaviour
     // 　引　数   | newColor：髪の色, sotai：素体モデル
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    static public void ChangeHairColor(Color newColor, GameObject sotai)
+    static public void ChangeHairColor(Material newColor, GameObject sotai)
     {
         // 色を設定       
         foreach (SkinnedMeshRenderer smr in sotai.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             if (smr.tag == "HairObj")
-            {                
-                smr.material.SetColor(MyCharDataManager.BASE_COLOR, newColor);
-                smr.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, newColor);
-            }
+                smr.material = newColor;
         }
     }
+    //static public void ChangeHairColor(Color newColor, GameObject sotai)
+    //{
+    //    // 色を設定       
+    //    foreach (SkinnedMeshRenderer smr in sotai.GetComponentsInChildren<SkinnedMeshRenderer>())
+    //    {
+    //        if (smr.tag == "HairObj")
+    //        {                
+    //            smr.material.SetColor(MyCharDataManager.BASE_COLOR, newColor);
+    //            smr.material.SetColor(MyCharDataManager.SECOND_SHADE_COLOR, newColor);
+    //        }
+    //    }
+    //}
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | 体型を変える
@@ -71,7 +86,8 @@ public class CharaCreateManager : MonoBehaviour
         //Vector3 pos = myChar.transform.position;
         Vector3[] scales = MyCharDataManager.Instance.BodyScales;
         // 体型を設定
-        sotai.transform.localScale = scales[(int)newScale];
+        //sotai.transform.localScale = scales[(int)newScale];
+        iTween.ScaleTo(sotai, scales[(int)newScale], SCALING_TIME);
     }
 
     //----------------------------------------------------------------------------------------------

@@ -28,20 +28,7 @@ public class ClothChangeButton : MonoBehaviour
 
     private void Start()
     {
-        // マテリアルのVerionに合わせて渡す物を変える
-        switch (MyCharDataManager.Instance.MaterialVerion)
-        {
-            case MyCharDataManager.MATERIAL_VERSION_NORMAL:
-            default:
-                resourceObj = normalTSObj;
-                break;
-            case MyCharDataManager.MATERIAL_VERSION_TELEPORT:
-                resourceObj = teleportObj;
-                break;
-            case MyCharDataManager.MATERIAL_VERSION_UNIT:
-                resourceObj = unitObj;
-                break;
-        }        
+        resourceObj = unitObj;
     }
 
     //----------------------------------------------------------------------------------------------

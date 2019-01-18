@@ -161,10 +161,7 @@ public class ChangeEyeLine : MonoBehaviour
         // rootBoneを設定を設定
         foreach (Transform t in BoneTransformList)
         {
-            if (t.name == smr.rootBone.name)
-            {
-                r.rootBone = t;
-            }
+            if (t.name == smr.rootBone.name) r.rootBone = t;
         }
 
         // 各種細かい設定
