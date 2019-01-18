@@ -5,8 +5,7 @@ using System.Collections;
 public class CRT : MonoBehaviour
 {
 
-    [SerializeField]
-    static public Material material;
+     public Material material;
 
     [SerializeField]
     [Range(0, 1)]
@@ -46,9 +45,14 @@ public class CRT : MonoBehaviour
     float scanLineSpeed = 10;
     public float ScanLineSpeed { get { return scanLineSpeed; } set { scanLineSpeed = value; } }
 
+    private void Start()
+    {
+        
+    }
     // Use this for initialization
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
+    
         material.SetFloat("_NoiseX", noiseX);
         material.SetFloat("_RGBNoise", rgbNoise);
         material.SetFloat("_SinNoiseScale", sinNoiseScale);
