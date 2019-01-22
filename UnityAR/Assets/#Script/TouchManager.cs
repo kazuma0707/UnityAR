@@ -21,6 +21,7 @@ public class TouchManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        tapAnimCnt = 0;
         wid = Screen.width;
         hei = Screen.height;
         diag = Mathf.Sqrt(Mathf.Pow(wid, 2) + Mathf.Pow(hei, 2));
@@ -67,10 +68,12 @@ public class TouchManager : MonoBehaviour {
      switch(tapAnimCnt)
         {
             case 1:
-                skin.GetComponent<Animator>().Play("WAIT02", -1, 0);
+                skin.GetComponent<Animator>().SetBool("Pose5", false);
+                skin.GetComponent<Animator>().SetBool("Pose9", true);
                 break;
             case 2:
-                skin.GetComponent<Animator>().Play("POSE25", -1, 0);
+                skin.GetComponent<Animator>().SetBool("Pose5", true);
+                skin.GetComponent<Animator>().SetBool("Pose9", false);
                 tapAnimCnt = 0;
                 break;
         }
