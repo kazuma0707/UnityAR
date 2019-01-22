@@ -123,8 +123,8 @@ public class GameManager : MonoBehaviour
         gameScore = 0;
 
         // 素体モデルにデータを適用させる
-        //MyCharDataManager.Instance.ReCreate(sotai);
-        //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
+        MyCharDataManager.Instance.ReCreate(sotai);
+        MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
 
         // チュートリアルをスキップする処理
         if (tutorialSkipFlag == true)

@@ -38,6 +38,9 @@ public class TitleManager: MonoBehaviour {
     [SerializeField]
     GameObject menuImage;
 
+    [SerializeField]
+    GameObject modeChangeBotton;
+
     private void Start()
     {
         fadeObj = GameObject.FindGameObjectWithTag("FadeObj");
@@ -59,6 +62,7 @@ public class TitleManager: MonoBehaviour {
             startText.SetActive(false);
             scrollView.SetActive(true);
             menuImage.SetActive(true);
+            modeChangeBotton.SetActive(true);
         }
     }
 
@@ -68,7 +72,7 @@ public class TitleManager: MonoBehaviour {
         {
             //  シーン切り替え
             //SceneManager.LoadScene("Play");
-            FadeManager.Instance.LoadScene("Play", 2.0f);
+            FadeManager.Instance.LoadScene("PlayAR", 2.0f);
         }
         isLoad = true;
     }
