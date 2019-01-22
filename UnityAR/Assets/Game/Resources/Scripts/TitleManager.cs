@@ -38,6 +38,9 @@ public class TitleManager: MonoBehaviour {
     [SerializeField]
     GameObject menuImage;
 
+    //  チュートリアルを表示するかどうかのフラグ
+    static public bool tutorialSkipFlag = false;
+
     [SerializeField]
     GameObject modeChangeBotton;
     bool modeFlag = false;          //  モード切替用フラグ(初期は通常モード)

@@ -73,7 +73,7 @@ public class ARGameManager : MonoBehaviour
 
     //  ゲーム終了まで残す変数(public static)
     public static int gameScore;                                            // スコア(ランキングシーンへ共有するためpublic static)
-    public static bool tutorialSkipFlag = false;                            // チュートリアルを表示するかどうかのフラグ
+    //public static bool tutorialSkipFlag = false;                            // チュートリアルを表示するかどうかのフラグ
 
     private float deletePos = -1.0f;            // 消える位置
     private Vector3 rightPos = new Vector3(2.1f, 7.0f, 3.5f);               // 右の台が生成される位置
@@ -128,7 +128,7 @@ public class ARGameManager : MonoBehaviour
         //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
 
         // チュートリアルをスキップする処理
-        if (tutorialSkipFlag == true)
+        if (TitleManager.tutorialSkipFlag == true)
         {
             tutorialCloseFlag = true;
 
@@ -614,13 +614,13 @@ public class ARGameManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void tutorialSkip()
     {
-        if(tutorialSkipFlag == true)
+        if(TitleManager.tutorialSkipFlag == true)
         {
-            tutorialSkipFlag = false;
+            TitleManager.tutorialSkipFlag = false;
         }
         else
         {
-            tutorialSkipFlag = true;
+            TitleManager.tutorialSkipFlag = true;
         }
     }
 
