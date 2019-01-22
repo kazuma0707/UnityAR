@@ -389,11 +389,11 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         {
             obstacleFlag = true;
         }
-        if (other.gameObject.tag == TagName.BadEye)
+        if (other.gameObject.tag == TagName.FlipButton)
         {
             isFilipEvent = true;
         }
-        if(other.gameObject.tag == TagName.FlipButton)
+        if(other.gameObject.tag == TagName.BadEye)
         {
             isNoizeEye=true;
  
@@ -745,8 +745,8 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
         Camera.main.GetComponent<CRT>().enabled = true;
-        
-        if(second>EndNoize)
+
+        if (second > EndNoize)
         {
             Camera.main.GetComponent<CRT>().enabled = false;
 
