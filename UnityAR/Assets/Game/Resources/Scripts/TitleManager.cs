@@ -40,6 +40,7 @@ public class TitleManager: MonoBehaviour {
 
     [SerializeField]
     GameObject modeChangeBotton;
+    bool modeFlag = false;          //  モード切替用フラグ(初期は通常モード)
 
     private void Start()
     {
@@ -72,7 +73,14 @@ public class TitleManager: MonoBehaviour {
         {
             //  シーン切り替え
             //SceneManager.LoadScene("Play");
-            FadeManager.Instance.LoadScene("PlayAR", 2.0f);
+            if (modeFlag == true)
+            {
+                FadeManager.Instance.LoadScene("PlayAR", 2.0f);
+            }
+            else
+            {
+                FadeManager.Instance.LoadScene("Play", 2.0f);
+            }
         }
         isLoad = true;
     }
@@ -116,5 +124,26 @@ public class TitleManager: MonoBehaviour {
             //FadeManager.Instance.LoadScene("Appreciation", 2.0f);
         }
         isLoad = true;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ミニゲームのモード切替
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    //  
+    public void OnClickMode()
+    {
+       if(modeFlag == true)
+       {
+           modeFlag = false;
+           modeChangeBotton.GetComponentInChildren<Text>().text = "通常";
+       }
+       else
+       {
+            modeFlag = true;
+            modeChangeBotton.GetComponentInChildren<Text>().text = "AR";
+       }
+
     }
 }
