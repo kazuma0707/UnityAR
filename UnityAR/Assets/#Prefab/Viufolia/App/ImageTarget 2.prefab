@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 33498266944323404}
   - component: {fileID: 114610070274739454}
   m_Layer: 0
-  m_Name: ImageTarget 1
+  m_Name: ImageTarget 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a8475154f8490f49bb30ba376586680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Canvas: {fileID: 0}
 --- !u!198 &198652117106330452
 ParticleSystem:
   m_ObjectHideFlags: 1

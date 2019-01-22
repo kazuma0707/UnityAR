@@ -119,7 +119,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
-        Camera.main.GetComponent<CRT>().enabled = false;
+        //Camera.main.GetComponent<CRT>().enabled = false;
         //rb.useGravity = true;
     }
 

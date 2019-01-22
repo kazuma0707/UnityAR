@@ -115,8 +115,8 @@ Shader "PostEffects/CRT"
 				col *= 0.5 + clamp(scanLineColor + 0.5, 0, 1) * 0.5;
  
 				// スキャンラインの残像を描画
-				float tail = clamp((frac(uv.y + _Time.y * _ScanLineSpeed) - 1 + _ScanLineTail) / min(_ScanLineTail, 1), 0, 1);
-				col *= tail;
+				//float tail = clamp((frac(uv.y + _Time.y * _ScanLineSpeed) - 1 + _ScanLineTail) / min(_ScanLineTail, 1), 0, 1);
+				//col *= tail;
  
 				// 画面端を暗くする
 				col *= 1 - vignet * 1.3;
