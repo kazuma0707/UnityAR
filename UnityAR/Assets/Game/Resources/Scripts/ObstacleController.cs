@@ -12,7 +12,7 @@ public class ObstacleController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        Debug.Log(this.gameObject.tag);
 	}
 	
 	// Update is called once per frame
