@@ -271,7 +271,8 @@ public class MoveCamera : MonoBehaviour
     //はいを押したら
     public void OnYesButton()
     {       
-        Invoke("Rotate2", 0.5f);
+        //Invoke("Rotate2", 0.5f);
+        Rotate2();
 
         Panel.SetActive(false);
         YesButton.SetActive(false);
@@ -445,6 +446,7 @@ public class MoveCamera : MonoBehaviour
         cmCamera9.SetActive(false);
         cmCamera10.SetActive(false);
         CCCamera.SetActive(true);
+        welcomeText.SetActive(false);
 
         // フェードインがまだ終わっていなければ何もしない
         if (fade.GetComponent<Fade>().IsFade != Fade.FADE_IN) return;
