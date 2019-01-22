@@ -748,7 +748,7 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
         if(!Camera.main.gameObject.GetComponent<CRT>())
         {
             Camera.main.gameObject.AddComponent<CRT>();
-            CRT.material = NoizeMat;
+           // CRT.material = NoizeMat;
         }
         
         if(second>EndNoize)
