@@ -17,6 +17,9 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     [SerializeField]
     private WatsonConversation m_watson;
 
+    [SerializeField]
+    private GameObject text;
+
     private bool m_flag;
 
     //----------------------------------------------------------------------
@@ -45,6 +48,7 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     {
         if(m_flag)
         m_watson.SetVoiceRecFlag(true);
+        text.SetActive(true);
         m_flag = false;
         StartCoroutine("Flag");
     }

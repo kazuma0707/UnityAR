@@ -119,13 +119,13 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
-
+        Camera.main.GetComponent<CRT>().enabled = false;
         //rb.useGravity = true;
     }
 
     void Update()
     {
-
+    
         if (isFilipEvent)
         {
             FilipButton();
@@ -739,21 +739,18 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         }
     }
 
-    float NoizeTimer;
-    const int EndNoize = 5;
+    float NoizeTimer;//ノイズの時間
+    const int EndNoize = 5;//ノイズの終了時間
     private void NoizeEye()
     {
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
-        if(!Camera.main.gameObject.GetComponent<CRT>())
-        {
-            Camera.main.gameObject.AddComponent<CRT>();
-            CRT.material = NoizeMat;
-        }
+        Camera.main.GetComponent<CRT>().enabled = true;
         
         if(second>EndNoize)
         {
-            Destroy(Camera.main.gameObject.GetComponent<CRT>());
+            Camera.main.GetComponent<CRT>().enabled = false;
+
             NoizeTimer = 0;
             isNoizeEye = false;
         }

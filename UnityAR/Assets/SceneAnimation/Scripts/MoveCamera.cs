@@ -34,6 +34,7 @@ public class MoveCamera : MonoBehaviour
     //[SerializeField]
     //private GameObject[] cameraCheckPoint = new GameObject[2];
 
+    public ButtonScript _buttonScript;
     // スタートボタン
     [SerializeField]
     private GameObject StartButton;
@@ -149,10 +150,8 @@ public class MoveCamera : MonoBehaviour
         audioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
 
         //UI非表示
-        for (int i = 0; i < ChangeButtons.Length; i++)
-        {
-            ChangeButtons[i].SetActive(false);
-        }
+       
+        
         CharacterCreateButton.SetActive(false);
         CharacterCreateEndButton.SetActive(false);
         Panel.SetActive(false);
@@ -254,18 +253,19 @@ public class MoveCamera : MonoBehaviour
     public void OnCharacterCreateEndButton()
     {
         CharacterCreateEndButton.SetActive(false);
-
+        Panel.SetActive(true);
+        YesButton.SetActive(true);
+        NoButton.SetActive(true);
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
             if (ChangeButtons[i].GetComponent<ButtonScript>())
                 ChangeButtons[i].GetComponent<ButtonScript>().ActiveFalse();
-            ChangeButtons[i].SetActive(false);
+            ChangeButtons[i].transform.localScale = new Vector3(0, 0, 0);
+            //ChangeButtons[i].SetActive(false);
         }
         CCCamera.GetComponent<CharaCreCameraCtrl>().MoveFlag = false;
+        //_buttonScript.HideAnimation();
 
-        Panel.SetActive(true);
-        YesButton.SetActive(true);
-        NoButton.SetActive(true);
     }
 
     //はいを押したら
@@ -307,7 +307,8 @@ public class MoveCamera : MonoBehaviour
 
         for (int i = 0; i < ChangeButtons.Length; i++)
         {
-            ChangeButtons[i].SetActive(true);
+            ChangeButtons[i].transform.localScale = new Vector3(1, 1, 1);
+
         }
         CharacterCreateEndButton.SetActive(true);
         Panel.SetActive(false);
@@ -347,6 +348,8 @@ public class MoveCamera : MonoBehaviour
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
+        //ChangeButtons[2].transform.localScale = new Vector3(1, 1, 1);
+
     }
 
     //確認用ボタン
@@ -454,6 +457,9 @@ public class MoveCamera : MonoBehaviour
         {
             ChangeButtons[i].SetActive(true);
         }
+        GameObject.Find("TypeViewArea").transform.localScale = new Vector3(1, 1, 1);
+        GameObject.Find("CharaCreButtonViewArea").transform.localScale = new Vector3(1, 1, 1);
+        GameObject.Find("ResetButton").transform.localScale = new Vector3(1, 1, 1);
         CharacterCreateEndButton.SetActive(true);
     }
 

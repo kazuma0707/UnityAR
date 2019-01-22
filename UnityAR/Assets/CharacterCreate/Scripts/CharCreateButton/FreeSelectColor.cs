@@ -41,7 +41,7 @@ public class FreeSelectColor : MonoBehaviour
             Color = color;
 
             // データマネージャーに設定
-            MyCharDataManager.Instance.Data.hairColor2 = Color;
+           // MyCharDataManager.Instance.Data.hairColor2 = Color;
         });
 
         picker.CurrentColor = Color;

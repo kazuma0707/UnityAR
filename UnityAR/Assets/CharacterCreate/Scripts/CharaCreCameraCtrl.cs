@@ -374,7 +374,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
     // 非アクティブ化した時に呼び出される関数
     private void OnDisable()
     {
-
+        MyCharDataManager.Instance.phase = Phase.SELECT;
     }
 
     // アクティブ化した時に呼び出される関数
