@@ -322,19 +322,22 @@ public class MoveCamera : MonoBehaviour
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene(SceneName.ARScene);
+        //SceneManager.LoadScene(SceneName.ARScene);
+        FadeManager.Instance.LoadScene(SceneName.ARScene, 2.0f);
     }
 
     //ゲームボタンを押したら
     public void OnGame()
     {
-        SceneManager.LoadScene(SceneName.Title);
+        //SceneManager.LoadScene(SceneName.Title);
+        FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
     }
 
     //鑑賞ボタンを押したら
     public void OnAppreciation()
     {
-        SceneManager.LoadScene(SceneName.Appreciation);
+        //SceneManager.LoadScene(SceneName.Appreciation);
+        FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
     }
 
     //キャラクタークリエイトをし直す
