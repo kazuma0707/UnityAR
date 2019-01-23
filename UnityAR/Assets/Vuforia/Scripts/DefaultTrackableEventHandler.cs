@@ -90,8 +90,7 @@ namespace Vuforia
                     this.Portal.SetActive(false);//出現エフェクトを非表示
                     isOnceFlag = false;
                     if (!skinAnimator.GetBool("Walk"))
-                    skinAnimator.Play("POSE25", -1, 0);//こちらは！的なアニメーション
-          
+                        skinAnimator.SetBool("Pose5", true);
                 }
             }
 

@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof (BoxCollider/*CapsuleCollider*/))]
 [RequireComponent(typeof (Rigidbody))]
 
-public class UnityChanControlScriptWithRgidBody : MonoBehaviour
+public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
 {
     //=============  定数　===============//
     private const float JUMP_LIMIT = 2.3f;                  //  ジャンプ可能な高さの限界値
@@ -94,10 +94,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     [SerializeField]
     bool jumpPossibleFlag = false;                          //  ジャンプ可能かどうかのフラグ
     private float downVelocity = 0.4f;                      //  ジャンプ落下時の速度変化
-    //カメラ関係のオブジェクト
-    private LowResolutionCamera _lowResolutionCamera;
-    //ノイズオブジェクト（CRT）
-    private CRT _CRTcamera;
 
     //特殊障害物に当たったときのフラグ
     private bool isFilipEvent=false;
@@ -123,13 +119,13 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
-        _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
-        _CRTcamera = Camera.main.GetComponent<CRT>();
+
         //rb.useGravity = true;
     }
 
     void Update()
     {
+
         if (isFilipEvent)
         {
             FilipButton();
@@ -141,7 +137,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     
        
 
-        gameObject.transform.Translate(0, -manager.GetComponent<GameManager>().FallSpeed - ADJUSTMENT, 0);
+        gameObject.transform.Translate(0, -manager.GetComponent<ARGameManager>().FallSpeed - ADJUSTMENT, 0);
 
         //  プレイヤーの上方向に速度が加わったら
         if (rb.velocity.y == jumpPower)
@@ -169,7 +165,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         }
 
         //  ゲームレベルが2になったらプレイヤーの速度を上げる
-        if(manager.GetComponent<GameManager>().Level == 2)
+        if(manager.GetComponent<ARGameManager>().Level == 2)
         {
             //jumpPower = 15.0f;
             //animSpeed = 2.4f;
@@ -195,7 +191,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             if (!isLoad)
             {
                 //SceneManager.LoadScene("Ranking");
-                FadeManager.Instance.LoadScene("Ranking", 2.0f);
+                FadeManager.Instance.LoadScene("RankingAR", 2.0f);
             }
             isLoad = true;
         }
@@ -210,14 +206,14 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             //  死亡フラグをtrueに
             deadFlag = true;
             //  ゲームをポーズする
-            manager.GetComponent<GameManager>().pauseFlag = true;
+            manager.GetComponent<ARGameManager>().pauseFlag = true;
 
 
             //  シーンが複数ロードされるのの防止
             if (!isLoad)
             {
                 //SceneManager.LoadScene("Ranking");
-                FadeManager.Instance.LoadScene("Ranking", 2.0f);
+                FadeManager.Instance.LoadScene("RankingAR", 2.0f);
             }
             isLoad = true;
         }
@@ -285,7 +281,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
             float rate;
             //  レベル2の状態なら補間スピードを上げる
-            if (manager.GetComponent<GameManager>().Level == 2)
+            if (manager.GetComponent<ARGameManager>().Level == 2)
             {
                  rate = lerpTime / time * 3.0f;
             }
@@ -393,11 +389,11 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         {
             obstacleFlag = true;
         }
-        if (other.gameObject.tag == TagName.FlipButton)
+        if (other.gameObject.tag == TagName.BadEye)
         {
             isNoizeEye = true;
         }
-        if(other.gameObject.tag == TagName.BadEye)
+        if(other.gameObject.tag == TagName.FlipButton)
         {
             isFilipEvent = true;
             
@@ -743,25 +739,21 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         }
     }
 
-    float NoizeTimer;//ノイズの時間
-    const int EndNoize = 5;//ノイズの終了時間
+    float NoizeTimer;
+    const int EndNoize = 5;
     private void NoizeEye()
     {
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
-        _CRTcamera.enabled = true;
-        //カメラの解像度を下げる
-        if (_lowResolutionCamera.SetResoutionWeight!=0.5f)
+        if(!Camera.main.gameObject.GetComponent<CRT>())
         {
-            _lowResolutionCamera.SetResoutionWeight=0.5f;
+            Camera.main.gameObject.AddComponent<CRT>();
+           // CRT.material = NoizeMat;
         }
         
-        if (second > EndNoize)
+        if(second>EndNoize)
         {
-            //カメラの解像度を元に戻す
-            _lowResolutionCamera.SetResoutionWeight = 1.0f; ;
-            //ノイズの解除
-            _CRTcamera.enabled = false;
+            Destroy(Camera.main.gameObject.GetComponent<CRT>());
             NoizeTimer = 0;
             isNoizeEye = false;
         }

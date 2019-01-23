@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class ARGameManager : MonoBehaviour
 {
     //=============  定数　===============//
     // 幹の登録番号
@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
     private Vector3 leftPos = new Vector3(-0.7f, 7.0f, 3.5f);               // 左の台が生成される位置
     private Vector3 obstaclePosLeft = new Vector3(0.0f, 5.5f, 3.5f);        // 左の障害物が生成される位置
     private Vector3 obstaclePosRight = new Vector3(1.4f, 5.5f, 3.5f);       // 右の障害物が生成される位置
+    private float warningHeight = 6.9f;                                     // 傾向く表示の高さ
     private List<GameObject> standList = new List<GameObject>();            // 台のリスト
 
     // 障害物関係
@@ -123,8 +124,8 @@ public class GameManager : MonoBehaviour
         gameScore = 0;
 
         // 素体モデルにデータを適用させる
-        MyCharDataManager.Instance.ReCreate(sotai);
-        MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
+        //MyCharDataManager.Instance.ReCreate(sotai);
+        //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
 
         // チュートリアルをスキップする処理
         if (TitleManager.tutorialSkipFlag == true)
@@ -185,7 +186,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject player = GameObject.FindGameObjectWithTag("TriggerCollider");
             float playerY = player.transform.position.y;
-            bool obstaclFlag = player.GetComponent<UnityChanControlScriptWithRgidBody>().GetObstacleFlag();
+            bool obstaclFlag = player.GetComponent<ARUnityChanControlScriptWithRgidBody>().GetObstacleFlag();
             if (playerY >= -3.0f && obstaclFlag == false)
             {
                 // タイムをテキストに表示
@@ -215,12 +216,12 @@ public class GameManager : MonoBehaviour
         }
 
         // 警告オブジェクトがアクティブ状態なら
-        if(warningObject.activeSelf)
-        {
-            float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
-            // 点滅を行う
-            warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
-        }
+        //if(warningObject.activeSelf)
+        //{
+        //    float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
+        //    // 点滅を行う
+        //    warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
+        //}
 
         ////  レベルアップテキストがアクティブ状態なら
         //if (LevelUpText.activeSelf)
@@ -444,14 +445,16 @@ public class GameManager : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     private void WarningObjPos()
     {
-        // 障害物を出す
+        // 警告表示の座標変更
         if (PosNum == 0)
         {
-            warningObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(-126.0f, warningObject.GetComponent<RectTransform>().anchoredPosition.y);
+            //warningObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(-126.0f, warningObject.GetComponent<RectTransform>().anchoredPosition.y);
+            warningObject.transform.position = new Vector3(obstaclePosLeft.x, warningHeight, obstaclePosLeft.z);
         }
         else
         {
-            warningObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(140.0f, warningObject.GetComponent<RectTransform>().anchoredPosition.y);
+            //warningObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(140.0f, warningObject.GetComponent<RectTransform>().anchoredPosition.y);
+            warningObject.transform.position = new Vector3(obstaclePosRight.x, warningHeight, obstaclePosRight.z);
         }
     }
 
@@ -509,8 +512,8 @@ public class GameManager : MonoBehaviour
             buttons[i].interactable = false;
         }
 
-        //SmartPhoneTouch();
-        UnityEditorMouse();
+        SmartPhoneTouch();
+        //UnityEditorMouse();
     }
 
 

@@ -12,15 +12,12 @@ namespace Vuforia
     /// A custom handler that implements the ITrackableEventHandler interface.
     /// </summary>
     /// 
-    public class GameTrackableEventHandler : MonoBehaviour,
+    public class AppTrackableEventHandler : MonoBehaviour,
                                                 ITrackableEventHandler
     {
         #region PRIVATE_MEMBER_VARIABLES
  
         private TrackableBehaviour mTrackableBehaviour;
-        public GameObject Canvas;
-
-        private bool trackingFlag = false;              //  トラッキングが成功したかどうかのフラグ
 
         #endregion // PRIVATE_MEMBER_VARIABLES
 
@@ -73,7 +70,6 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-            Canvas.SetActive(true);
        
             // Enable rendering:
             foreach (Renderer component in rendererComponents)
@@ -88,9 +84,6 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
-
-            // トラッキング成功時にフラグをtrueにする
-            trackingFlag = true;
         }
 
 
@@ -115,12 +108,6 @@ namespace Vuforia
         }
 
         
-        // トラッキングの状態用フラグの取得
-        public bool GetTrackingFlag()
-        {
-            return trackingFlag;
-        }
-
         #endregion // PRIVATE_METHODS
     }
 }

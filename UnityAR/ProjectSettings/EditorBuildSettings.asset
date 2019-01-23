@@ -9,23 +9,26 @@ EditorBuildSettings:
     path: Assets/#Scene/CharCreate.unity
     guid: 43622171221174249988b0a83697835a
   - enabled: 0
-    path: Assets/#Scene/ARScene.unity
-    guid: 6ba7c9a8c73c43446ba23a869fbed7dc
-  - enabled: 1
     path: Assets/#Scene/Appreciation.unity
     guid: 623e9b396c157174ab918427cdce1d0f
-  - enabled: 1
-    path: Assets/#Scene/Game/Ranking.unity
-    guid: 77a289b3eda0da04384c4e53df6e36f8
-  - enabled: 1
-    path: Assets/#Scene/Game/Play.unity
-    guid: 1a14aeae0ed459e4282dcf3211a9e3c1
   - enabled: 1
     path: Assets/#Scene/Game/Title.unity
     guid: bced28f95ffb1cb498f6490ae87e94b7
   - enabled: 1
+    path: Assets/#Scene/Game/Play.unity
+    guid: 1a14aeae0ed459e4282dcf3211a9e3c1
+  - enabled: 1
+    path: Assets/#Scene/Game/PlayAR.unity
+    guid: 42f68d277dc2ae6498d020862733f3ac
+  - enabled: 1
+    path: Assets/#Scene/Game/Ranking.unity
+    guid: 77a289b3eda0da04384c4e53df6e36f8
+  - enabled: 1
+    path: Assets/#Scene/Game/RankingAR.unity
+    guid: e6394134c040e0a40a86c40e75475514
+  - enabled: 0
     path: Assets/#Scene/Vifufolia/ARScene.unity
     guid: 69ba25634a4cf5f47ae98a5305e63c9a
   - enabled: 0
-    path: Assets/Kazuma/TouchTest.unity
-    guid: 60134fc847c6f5c49b4f5a57065f8c1b
+    path: Assets/#Kazuma/#Scene/Play 1.unity
+    guid: 99e4ae429bbd045408b6cba0f49845e5

@@ -30,6 +30,9 @@ public class PoseButtonScript : MonoBehaviour
     [SerializeField]
     private Button[] poseButtons;
 
+    [SerializeField]
+    private GameObject text;
+
 
     [SerializeField]
     private Animator animator;
@@ -100,6 +103,8 @@ public class PoseButtonScript : MonoBehaviour
     public void OnClick()
     {
         StartCoroutine(InteractiveButtonChange());
+
+        text.SetActive(false);
     
         // 子オブジェクトを検索
         ButtonScript[] child = parent.GetComponentsInChildren<ButtonScript>();
