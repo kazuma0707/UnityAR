@@ -16,6 +16,17 @@ public class LowResolutionCamera : MonoBehaviour
     /// </summary>
     [SerializeField, Range(0.1f, 1)]
     private float _resolutionWeight = 1f;
+    public float SetResoutionWeight
+    {
+        set
+        {
+            _resolutionWeight = value;
+        }
+        get
+        {
+            return _resolutionWeight;
+        }
+    }
 
     private float _currentResolutionWeight = 1f;
 
