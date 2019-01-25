@@ -19,6 +19,15 @@ public class TitleManager: MonoBehaviour {
     //  警告表示の点滅時間(数字　大→点滅 早　小→点滅 遅)
     private const int FLASH_TIME = 2;
 
+    // 各シーンに飛ぶボタンの登録番号
+    private const int START_BUTTON = 0;
+    private const int APLLECIATION_BUTTON = 1;
+    private const int SCHOOL_INTRO_BUTTON = 2;
+    private const int CHAR_CRE_BUTTON = 3;
+
+    // 各シーンに飛ぶボタンの規定の大きさ
+    private const float SCENE_BUTTON_SCALE = 0.9f;
+
     //  シーンのロードが複数行われるのの防止
     bool isLoad = false;
     //  FadeObject
@@ -35,6 +44,8 @@ public class TitleManager: MonoBehaviour {
     //  メニューオブジェクト
     [SerializeField]
     GameObject scrollView;
+    [SerializeField]
+    GameObject[] items;
     [SerializeField]
     GameObject menuImage;
 
@@ -72,8 +83,13 @@ public class TitleManager: MonoBehaviour {
 
     public void startGame()
     {
+        // 選択したボタンが一定の大きさに満たしていなければ何もしない
+        if (items[START_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+
         if (!isLoad)
         {
+            isLoad = true;
+
             //  シーン切り替え
             //SceneManager.LoadScene("Play");
             if (modeFlag == true)
@@ -85,48 +101,56 @@ public class TitleManager: MonoBehaviour {
                 FadeManager.Instance.LoadScene("Play", 2.0f);
             }
         }
-        isLoad = true;
+
     }
 
     //  キャラクリシーンに遷移するための関数
     public void CharCreate()
     {
+        // 選択したボタンが一定の大きさに満たしていなければ何もしない
+        if (items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+
         if (!isLoad)
         {
+            isLoad = true;
+
             //  シーン切り替え
             SceneManager.LoadScene("CharCreate");
             //FadeManager.Instance.LoadScene("CharCreate", 2.0f);
         }
-        isLoad = true;
+
     }
 
     //  学校紹介に遷移するための関数
     public void SchoolIntroduction()
     {
+        // 選択したボタンが一定の大きさに満たしていなければ何もしない
+        if (items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+
         if (!isLoad)
         {
+            isLoad = true;
+
             //  シーン切り替え
             //SceneManager.LoadScene("");
-            //FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+            FadeManager.Instance.LoadScene("ARScene", 2.0f);
         }
-        isLoad = true;
+
     }
 
-    //----------------------------------------------------------------------------------------------
-    // 関数の内容 | ランキングの削除
-    // 　引　数   | なし
-    //  戻 り 値  | なし
-    //----------------------------------------------------------------------------------------------
-    //  
     public void Appreciation()
     {
+        // 選択したボタンが規定の大きさに満たしていなければ何もしない
+        if (items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+
         if (!isLoad)
         {
+            isLoad = true;
+
             //  シーン切り替え
             SceneManager.LoadScene("Appreciation");
             //FadeManager.Instance.LoadScene("Appreciation", 2.0f);
         }
-        isLoad = true;
     }
 
     //----------------------------------------------------------------------------------------------
