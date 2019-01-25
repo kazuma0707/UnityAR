@@ -3707,6 +3707,9 @@ MonoBehaviour:
   translateSpeed: 0.005
   zoomSpeed: 0.1
   lerpTime: 1
+  monitors:
+  - {fileID: 2117903015}
+  - {fileID: 1124438465}
   text: {fileID: 1861137118}
 --- !u!20 &248708320
 Camera:
