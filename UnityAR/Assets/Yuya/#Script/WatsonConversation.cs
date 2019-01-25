@@ -30,10 +30,22 @@ public class WatsonConversation : MonoBehaviour
     private SpeechToText m_SpeechToText;
     private TextToSpeech m_TextToSpeech;
     private Conversation m_Conversation;
-    private string m_WorkspaceID = "7888e1fc-7642-4a1f-a13e-06761d72472f"; 
+    private string m_WorkspaceID = "7888e1fc-7642-4a1f-a13e-06761d72472f";
 
     [SerializeField]
-    private Animator animator; 
+    private Variable m_variable_cs;
+
+    private Animator animator;
+    private const string key_isPose1 = "Pose1";
+    private const string key_isPose2 = "Pose2";
+    private const string key_isPose3 = "Pose3";
+    private const string key_isPose4 = "Pose4";
+    private const string key_isPose5 = "Pose5";
+    private const string key_isPose6 = "Pose6";
+    private const string key_isPose7 = "Pose7";
+    private const string key_isPose8 = "Pose8";
+    private const string key_isPose9 = "Pose9";
+    private const string key_isPose10 = "Pose10";
     private const string key_isGreet = "isGreet";
 
     //----------------------------------------------------------------------
@@ -48,6 +60,9 @@ public class WatsonConversation : MonoBehaviour
         m_voiceRecFlag = false;
 
         m_text = GameObject.Find("VoiceText").GetComponent<Text>();
+
+        m_variable_cs = GameObject.Find("Variable").GetComponent<Variable>();
+
 
         string tts_id = "be09fdb0-d674-480d-a6bb-19e50445da09";                  // 資格情報より
         string tts_pw = "papBdt1cRbfp";                                          // 資格情報より
@@ -131,7 +146,73 @@ public class WatsonConversation : MonoBehaviour
     {
         if (resp is Dictionary<string, object>)
         {
-            this.animator.SetBool(key_isGreet, true);
+            // アニメーションのフラグ変更
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose1))
+            {
+                this.animator.SetBool(key_isPose1, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose2))
+            {
+                this.animator.SetBool(key_isPose2, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose3))
+            {
+                this.animator.SetBool(key_isPose3, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose4))
+            {
+                this.animator.SetBool(key_isPose4, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose5))
+            {
+                this.animator.SetBool(key_isPose5, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose6))
+            {
+                this.animator.SetBool(key_isPose6, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose7))
+            {
+                this.animator.SetBool(key_isPose7, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose8))
+            {
+                this.animator.SetBool(key_isPose8, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose9))
+            {
+                this.animator.SetBool(key_isPose9, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose10))
+            {
+                this.animator.SetBool(key_isPose10, m_variable_cs.Pose_Flag);
+                m_variable_cs.Pose_Flag = true;
+            }
+
+            if (m_variable_cs.Pose_Flag && this.animator.GetBool(key_isGreet))
+            {
+                m_variable_cs.Pose_Flag = false;
+            }
+
+            this.animator.SetBool(key_isGreet, m_variable_cs.Pose_Flag);
 
             Dictionary<string, object> dic_resp = (Dictionary<string, object>)resp;
 
