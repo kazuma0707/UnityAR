@@ -94,6 +94,10 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     [SerializeField]
     bool jumpPossibleFlag = false;                          //  ジャンプ可能かどうかのフラグ
     private float downVelocity = 0.4f;                      //  ジャンプ落下時の速度変化
+    //カメラ関係のオブジェクト
+    private LowResolutionCamera _lowResolutionCamera;
+    //ノイズオブジェクト（CRT）
+    private CRT _CRTcamera;
 
     //特殊障害物に当たったときのフラグ
     private bool isFilipEvent=false;
@@ -119,13 +123,13 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
-        //Camera.main.GetComponent<CRT>().enabled = false;
+        _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
+        _CRTcamera = Camera.main.GetComponent<CRT>();
         //rb.useGravity = true;
     }
 
     void Update()
     {
-    
         if (isFilipEvent)
         {
             FilipButton();
@@ -745,12 +749,19 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     {
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
-        Camera.main.GetComponent<CRT>().enabled = true;
-
+        _CRTcamera.enabled = true;
+        //カメラの解像度を下げる
+        if (_lowResolutionCamera.SetResoutionWeight!=0.5f)
+        {
+            _lowResolutionCamera.SetResoutionWeight=0.5f;
+        }
+        
         if (second > EndNoize)
         {
-            Camera.main.GetComponent<CRT>().enabled = false;
-
+            //カメラの解像度を元に戻す
+            _lowResolutionCamera.SetResoutionWeight = 1.0f; ;
+            //ノイズの解除
+            _CRTcamera.enabled = false;
             NoizeTimer = 0;
             isNoizeEye = false;
         }
