@@ -334,7 +334,7 @@ public class MoveCamera : MonoBehaviour
     //鑑賞ボタンを押したら
     public void OnAppreciation()
     {
-        SceneManager.LoadScene(SceneName.Appreciation);
+        SceneManager.LoadScene(SceneName.AppreciationAR);
     }
 
     //キャラクタークリエイトをし直す
