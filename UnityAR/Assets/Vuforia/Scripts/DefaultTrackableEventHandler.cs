@@ -146,7 +146,7 @@ namespace Vuforia
                 component.enabled = false;
             }
 
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+            MyDebug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
         }
 
         
