@@ -49,7 +49,10 @@ public class CharaCreCameraCtrl : MonoBehaviour
     private Vector3 targetPoint;                               // 注視点
     private bool moveFlag = false;                             // グリグリ動かせるかのフラグ
     private Camera cam;                                        // カメラコンポーネント
-    
+
+    [SerializeField]
+    private GameObject[] monitors;                             // 部屋のモニター
+
     [SerializeField]
     private Text text;                                         // デバッグ用テキスト
         
@@ -374,7 +377,14 @@ public class CharaCreCameraCtrl : MonoBehaviour
     // 非アクティブ化した時に呼び出される関数
     private void OnDisable()
     {
+        // フェーズをセレクトに設定
         MyCharDataManager.Instance.phase = Phase.SELECT;
+        
+        // モニターを非アクティブ化
+        foreach (GameObject monitor in monitors)
+        {
+            monitor.SetActive(false);
+        }
     }
 
     // アクティブ化した時に呼び出される関数

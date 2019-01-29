@@ -63,6 +63,16 @@ public class AppreciationCameraCtr : MonoBehaviour
     private float touchPosLimit = TOUCH_POS_LIMIT_MIN;         // 拡大する速度    
     private Vector3 targetPoint;                               // 注視点
     private Camera cam;                                        // カメラコンポーネント
+    // 確認パネル
+    [SerializeField]
+    private GameObject Panel;
+    // はいボタン
+    [SerializeField]
+    private GameObject YesButton;
+    // いいえボタン
+    [SerializeField]
+    private GameObject NoButton;
+
 
 
     //----------------------------------------------------------------------
@@ -85,6 +95,12 @@ public class AppreciationCameraCtr : MonoBehaviour
 
         this.transform.eulerAngles = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.eulerAngles;
         targetObj.transform.position = VPSetPositions[0].transform.localPosition;
+
+        // UI非表示
+        Panel.SetActive(false);
+        YesButton.SetActive(false);
+        NoButton.SetActive(false);
+
     }
 
     //----------------------------------------------------------------------
@@ -352,7 +368,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnGame()
     {
-        SceneManager.LoadScene(SceneName.Title);
+        FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
     }
 
     //----------------------------------------------------------------------
@@ -364,6 +380,25 @@ public class AppreciationCameraCtr : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnReCharacterCreate()
     {
-        SceneManager.LoadScene(SceneName.CharCreate);
+        FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
+    }
+
+    public void OnAppreciationAR()
+    {
+        FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
+    }
+
+    public void OnARPanel()
+    {
+        Panel.SetActive(true);
+        YesButton.SetActive(true);
+        NoButton.SetActive(true);
+    }
+
+    public void NonPanelUI()
+    {
+        Panel.SetActive(false);
+        YesButton.SetActive(false);
+        NoButton.SetActive(false);
     }
 }
