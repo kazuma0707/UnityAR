@@ -19,6 +19,8 @@ public class GalleryManager : MonoBehaviour {
 
     private RuntimePlatform platform = Application.platform;
     private bool isTouchOnScroll = false;
+
+    public Text text;
         
     void Start()
     {
@@ -44,6 +46,7 @@ public class GalleryManager : MonoBehaviour {
         showItem(0);
 
         setScrollIndex();
+
     }
     
     public void showItem(int number)
@@ -52,11 +55,13 @@ public class GalleryManager : MonoBehaviour {
     }
 
     void Update()
-    {
+    {        
+
         if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer)
         {
             if (Input.touchCount > 0)
             {
+                text.text = Input.GetTouch(0).position.ToString();
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     clickedDown(Input.GetTouch(0).position);

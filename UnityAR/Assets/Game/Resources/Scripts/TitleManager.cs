@@ -84,7 +84,10 @@ public class TitleManager: MonoBehaviour {
     public void startGame()
     {
         // 選択したボタンが一定の大きさに満たしていなければ何もしない
-        if (items[START_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        //if (items[START_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        if (items[START_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
+            items[START_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
+            return;
 
         if (!isLoad)
         {
@@ -108,7 +111,10 @@ public class TitleManager: MonoBehaviour {
     public void CharCreate()
     {
         // 選択したボタンが一定の大きさに満たしていなければ何もしない
-        if (items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        //if (items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        if (items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
+            items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
+            return;
 
         if (!isLoad)
         {
@@ -125,7 +131,11 @@ public class TitleManager: MonoBehaviour {
     public void SchoolIntroduction()
     {
         // 選択したボタンが一定の大きさに満たしていなければ何もしない
-        if (items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        //if (items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+
+        if (items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
+           items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
+            return;
 
         if (!isLoad)
         {
@@ -141,7 +151,11 @@ public class TitleManager: MonoBehaviour {
     public void Appreciation()
     {
         // 選択したボタンが規定の大きさに満たしていなければ何もしない
-        if (items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        //if (items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
+        if (items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
+           items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
+            return;
+
 
         if (!isLoad)
         {
