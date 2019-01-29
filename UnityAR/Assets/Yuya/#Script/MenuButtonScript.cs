@@ -37,7 +37,6 @@ public class MenuButtonScript : MonoBehaviour
     private Animator animator;
     private const string key_isPose = "isPose";
     private const string key_isMenu = "isMenu";
-    private AnimatorStateInfo stateInfo;
 
 
 

@@ -19,6 +19,16 @@ namespace Vuforia
  
         private TrackableBehaviour mTrackableBehaviour;
 
+        public GameObject skin;//キャラクリのオブジェクト
+        private Animator skinAnimator;
+        public GameObject Portal;//エフェクトオブジェクト
+        [SerializeField]
+        private GameObject canvas;
+        public bool isOnceFlag = false;//マーカを読み込んだ際に一回だけtrueにするためのフラグ
+        private bool isMoving = false;
+        float Animtime = 0.0f;//Walkの再生時間
+        const float EndPos = 1.0f;//再生終了時の座標
+
         #endregion // PRIVATE_MEMBER_VARIABLES
 
 
@@ -26,7 +36,13 @@ namespace Vuforia
         #region UNTIY_MONOBEHAVIOUR_METHODS
 
         void Start()
-        {     
+        {
+            Animtime = 0.0f;
+            isOnceFlag = false;
+            this.Portal.SetActive(true);
+            mTrackableBehaviour = GetComponent<TrackableBehaviour>();
+            skinAnimator = skin.GetComponent<Animator>();
+                
             mTrackableBehaviour = GetComponent<TrackableBehaviour>();
             if (mTrackableBehaviour)
             {
@@ -61,6 +77,34 @@ namespace Vuforia
         }
 
         #endregion // PUBLIC_METHODS
+
+        private void Update()
+        {
+            if (isOnceFlag)
+            {
+                canvas.SetActive(true);
+                isMoving = true;
+                iTween.MoveTo(this.skin, iTween.Hash("z", 1.0f, "time", 3.0f,
+                    "oncomplete", "OnCompleteHandler","oncompletetarget",this.gameObject, "EaseType", iTween.EaseType.easeInOutQuart));
+
+                //skinの座標Zが1.0fだった場合
+                if (isMoving)
+                {
+                    skinAnimator.SetBool("Walk", true);
+                }
+               
+            }
+
+        }
+
+        private void OnCompleteHandler()
+        {
+            isMoving = false;
+            skinAnimator.SetBool("Walk", false);//歩くアニメーションを停止
+            this.Portal.SetActive(false);//出現エフェクトを非表示
+            isOnceFlag = false;
+        }
+
         #region PRIVATE_METHODS
 
         /// <summary>
@@ -70,7 +114,8 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-       
+
+            isOnceFlag = true;
             // Enable rendering:
             foreach (Renderer component in rendererComponents)
             {
