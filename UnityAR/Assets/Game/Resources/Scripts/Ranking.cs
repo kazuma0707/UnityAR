@@ -24,6 +24,8 @@ public class Ranking : MonoBehaviour
     [SerializeField]
     Vector2 label_score;
 
+    [SerializeField]
+    GameObject rankImage;
     //  テキスト
     [SerializeField]
     Text rankText;
@@ -226,22 +228,24 @@ public class Ranking : MonoBehaviour
     {
         //Rect rect_ranking = new Rect(new Vector2(Screen.width, Screen.height), label_ranking);
         //Rect rect_score = new Rect(new Vector2(label_score.x, label_score.y), label_score);
-        string ranking_string = "";
         string score_string = "";
+        //string ranking_string = "";
         for (int i = 0; i < ranking.Length; i++)
         {
             //ranking_string = ranking_string + (i + 1) + "位" + "  " + ranking[i] + "秒\n";
             //ranking_string = ranking_string + (i + 1) + "位\n";
             score_string = score_string + ranking[i] + "\n";
         }
-        ranking_string = ranking_string + "1st\n";
-        ranking_string = ranking_string + "2nd\n";
-        ranking_string = ranking_string + "3rd\n";
-        ranking_string = ranking_string + "4th\n";
-        ranking_string = ranking_string + "5th\n";
+        //ranking_string = ranking_string + "1st\n";
+        //ranking_string = ranking_string + "2nd\n";
+        //ranking_string = ranking_string + "3rd\n";
+        //ranking_string = ranking_string + "4th\n";
+        //ranking_string = ranking_string + "5th\n";
 
+        //  順位の表示オブジェクト
+        rankImage.SetActive(true);
         style.alignment = TextAnchor.UpperRight;
-        rankText.text = ranking_string.ToString();
+        //rankText.text = ranking_string.ToString();
         scoreText.text = score_string.ToString();
     }
 
