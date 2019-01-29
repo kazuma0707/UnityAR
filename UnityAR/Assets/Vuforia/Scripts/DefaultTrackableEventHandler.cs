@@ -25,6 +25,8 @@ namespace Vuforia
         public  bool isOnceFlag=false;//マーカを読み込んだ際に一回だけtrueにするためのフラグ
         float Animtime=0.0f;//Walkの再生時間
         const float EndPos = 1.0f;//再生終了時の座標
+        [SerializeField]
+       private ButtonController _buttonController;
         #endregion // PRIVATE_MEMBER_VARIABLES
 
 
@@ -89,6 +91,7 @@ namespace Vuforia
                     skinAnimator.SetBool("Walk", false);//歩くアニメーションを停止
                     this.Portal.SetActive(false);//出現エフェクトを非表示
                     isOnceFlag = false;
+                    _buttonController.StartButtonAnimetion();
                     if (!skinAnimator.GetBool("Walk"))
                         skinAnimator.SetBool("Pose5", true);
                 }
