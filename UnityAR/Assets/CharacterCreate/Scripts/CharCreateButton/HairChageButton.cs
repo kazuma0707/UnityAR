@@ -44,6 +44,11 @@ public class HairChageButton : MonoBehaviour
                 // Faceの色を変える
                 FitFaceColorShortMaterial();
                 break;
+            case HairNum.PONY:
+                FitHairColorMaterial(matManager.PonyTailMats);
+                // Faceの色を変える
+                FitFaceColorLongMaterial();
+                break;
         }
 
         

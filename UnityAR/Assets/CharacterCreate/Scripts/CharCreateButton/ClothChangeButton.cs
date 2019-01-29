@@ -5,12 +5,6 @@ using UnityEngine;
 public class ClothChangeButton : MonoBehaviour
 {
     [Header("差し替えるモデル")]
-    [Header("NormalTS用のモデル")]
-    [SerializeField]
-    private GameObject normalTSObj;            // NormalTS用のモデル
-    [Header("Teleropt用のモデル")]
-    [SerializeField]
-    private GameObject teleportObj;            // Teleropt用のモデル
     [Header("Unit用のモデル")]
     [SerializeField]
     private GameObject unitObj;                // Unit用のモデル
