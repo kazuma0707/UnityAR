@@ -141,6 +141,14 @@ public class ARGameManager : MonoBehaviour
         // ゲームの停止
         GameStop();
 
+        //  Z座標を代入
+        rightPos = new Vector3(rightPos.x, rightPos.y, firstStands[0].transform.position.z);
+        centerPos = new Vector3(centerPos.x, centerPos.y, firstStands[0].transform.position.z);
+        leftPos = new Vector3(leftPos.x, leftPos.y, firstStands[0].transform.position.z);
+
+        obstaclePosLeft = new Vector3(obstaclePosLeft.x, obstaclePosLeft.y, firstStands[0].transform.position.z);
+        obstaclePosRight = new Vector3(obstaclePosRight.x, obstaclePosRight.y, firstStands[0].transform.position.z);
+
         // 初期の台をリストに追加
         for (int i = 0; i < firstStands.Length; i++)
         {
@@ -421,16 +429,16 @@ public class ARGameManager : MonoBehaviour
         }
 
         //  ランダム数値によってアイテムを決める
-        if (item == 0)
-        {
+        //if (item == 0)
+        //{
             //  視界不良アイテム
             obstacleObj.gameObject.tag = "BadEye";
-        }
-        else
-        {
-            //  ボタン反転アイテム
-            obstacleObj.gameObject.tag = "FlipButton";
-        }
+        //}
+        //else
+        //{
+        ////  ボタン反転アイテム
+        //obstacleObj.gameObject.tag = "FlipButton";
+        //}
 
         intervalFlag = false;
         startTime = timer;
