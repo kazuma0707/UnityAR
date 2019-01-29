@@ -24,12 +24,17 @@ public class ButtonController : BaseButton {
     }
     private void Start()
     {
-    
     }
     private void Update()
     {
       
         
+    }
+    public void StartButtonAnimetion()
+    {
+        AllButtonAnim.SetBool(ONCE, true);
+        ClassPanel.SetBool(BOLL_ANIM, true);
+
     }
 
     protected override void OnClick(string objectName)
