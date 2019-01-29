@@ -5,6 +5,7 @@
 //
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -83,7 +84,12 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     private bool lerpflag = false;
     [SerializeField]
     private GameObject manager;
-    
+
+    [SerializeField]
+    private Canvas canvasObj;
+    private const string Default = "isDefault";
+    private const string Switch = "isSwitch";
+
     private bool floorFlag = false;                         //  プレイヤーが床に接触しているかどうか
     private bool obstacleFlag = false;                      //  障害物に当たったかどうかのフラグ
     private bool LRjumpFlag = false;                        //  左右ジャンプ時のフラグ
@@ -126,6 +132,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
         _CRTcamera = Camera.main.GetComponent<CRT>();
         //rb.useGravity = true;
+
     }
 
     void Update()
@@ -396,13 +403,11 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         }
         if (other.gameObject.tag == TagName.FlipButton)
         {
-            isNoizeEye = true;
+            isFilipEvent = true;
         }
         if(other.gameObject.tag == TagName.BadEye)
         {
-            isFilipEvent = true;
-            
- 
+            isNoizeEye = true;           
         }
     }
 
@@ -720,27 +725,34 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         int second = (int)_Time % 60;//秒.timeを60で割った余り.
         if (!_once)//1フレームだけに制御する。
         {
-            for (int i = 0; i < MAX_BUTTON; i++)
-            {
-                //ボタンの初期座標を保存
-                FirstPos[i] = buttons[i].transform.position;
-            }
-            //ボタンの反転
-            buttons[0].transform.position = FirstPos[2];
-            buttons[2].transform.position = FirstPos[0];
+            //ボタンの入れ替え
+            canvasObj.GetComponent<Animator>().SetBool(Switch, true);
+            //for (int i = 0; i < MAX_BUTTON; i++)
+            //{
+            //    //ボタンの初期座標を保存
+            //    FirstPos[i] = buttons[i].transform.position;
+            //}
+            ////ボタンの反転
+            //buttons[0].transform.position = FirstPos[2];
+            //buttons[2].transform.position = FirstPos[0];
             _once = true;
         }
         //反転終了時間を超えたら
         if(second>FilipNum)
         {
-            for (int i = 0; i < MAX_BUTTON; i++)
-            {
-                //ボタンの座標を初期化
-                buttons[i].transform.position = FirstPos[i];
-                isFilipEvent = false;
-                _once = false;
-                _Time = 0;
-            }
+            //ボタンをもとに戻す
+            canvasObj.GetComponent<Animator>().SetBool(Switch, false);
+            isFilipEvent = false;
+            _once = false;
+            _Time = 0;
+            //for (int i = 0; i < MAX_BUTTON; i++)
+            //{
+            //    //ボタンの座標を初期化
+            //    buttons[i].transform.position = FirstPos[i];
+            //    isFilipEvent = false;
+            //    _once = false;
+            //    _Time = 0;
+            //}
         }
     }
 

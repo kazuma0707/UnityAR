@@ -429,10 +429,11 @@ public class ARGameManager : MonoBehaviour
         }
 
         //  ランダム数値によってアイテムを決める
+        obstacleObj.gameObject.tag = "FlipButton";
         //if (item == 0)
         //{
-            //  視界不良アイテム
-            obstacleObj.gameObject.tag = "BadEye";
+        //  視界不良アイテム
+        //obstacleObj.gameObject.tag = "BadEye";
         //}
         //else
         //{

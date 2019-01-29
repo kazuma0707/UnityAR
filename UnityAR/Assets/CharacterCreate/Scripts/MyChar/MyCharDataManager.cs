@@ -17,7 +17,8 @@ public enum ClothNum
 {
     NORMAL,
     SEIHUKU,
-    CYBER
+    CYBER,
+    GYM
 }
 
 // 体の色の登録番号
@@ -50,7 +51,8 @@ public enum HairNum
 {
     SHORT,
     LONG,
-    TWIN
+    TWIN,
+    PONY
 }
 
 // 髪の色の登録番号
