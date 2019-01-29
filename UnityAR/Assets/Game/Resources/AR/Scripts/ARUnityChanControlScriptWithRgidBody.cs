@@ -83,7 +83,14 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     private bool lerpflag = false;
     [SerializeField]
     private GameObject manager;
-    
+
+    [SerializeField]
+    private Canvas canvasObj;
+
+    private const string Default = "isDefault";
+    private const string Switch = "isSwitch";
+    private Animator UiAnimation;
+
     private bool floorFlag = false;                         //  プレイヤーが床に接触しているかどうか
     private bool obstacleFlag = false;                      //  障害物に当たったかどうかのフラグ
     private bool LRjumpFlag = false;                        //  左右ジャンプ時のフラグ
@@ -94,6 +101,12 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     [SerializeField]
     bool jumpPossibleFlag = false;                          //  ジャンプ可能かどうかのフラグ
     private float downVelocity = 0.4f;                      //  ジャンプ落下時の速度変化
+
+    //カメラ関係のオブジェクト
+    private LowResolutionCamera _lowResolutionCamera;
+    //ノイズオブジェクト（CRT）
+    private CRT _CRTcamera;
+
 
     //特殊障害物に当たったときのフラグ
     private bool isFilipEvent=false;
@@ -119,6 +132,9 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
+
+        _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
+        _CRTcamera = Camera.main.GetComponent<CRT>();
 
         //rb.useGravity = true;
     }
@@ -553,12 +569,12 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
                     //  現在のポジションが右側なら(少数の誤差を埋めるための+0.1f)
                     if (transform.position.x > CenterPosition.transform.position.x + 0.1f)
                     {
-                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, 3.5f);
+                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, pos.z);
                     }
                     //  現在のポジションが中央なら
                     else
                     {
-                        endPosition = new Vector3(LeftPosition.transform.position.x, pos.y, 3.5f);
+                        endPosition = new Vector3(LeftPosition.transform.position.x, pos.y, pos.z);
                     }
 
                     //  ジャンプ時の中間座標
@@ -601,11 +617,11 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
                     //  現在のポジションが左側なら(少数の誤差を埋めるための-0.1f)
                     if (transform.position.x < CenterPosition.transform.position.x - 0.1f)
                     {
-                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, 3.5f);
+                        endPosition = new Vector3(CenterPosition.transform.position.x, pos.y, pos.z);
                     }
                     else
                     {
-                        endPosition = new Vector3(RightPosition.transform.position.x, pos.y, 3.5f);
+                        endPosition = new Vector3(RightPosition.transform.position.x, pos.y, pos.z);
                     }
 
                     //  ジャンプ時の中間座標
@@ -715,27 +731,34 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
         int second = (int)_Time % 60;//秒.timeを60で割った余り.
         if (!_once)//1フレームだけに制御する。
         {
-            for (int i = 0; i < MAX_BUTTON; i++)
-            {
-                //ボタンの初期座標を保存
-                FirstPos[i] = buttons[i].transform.position;
-            }
-            //ボタンの反転
-            buttons[0].transform.position = FirstPos[2];
-            buttons[2].transform.position = FirstPos[0];
+            //ボタンの入れ替え
+            canvasObj.GetComponent<Animator>().SetBool(Switch, true);
+            //for (int i = 0; i < MAX_BUTTON; i++)
+            //{
+            //    //ボタンの初期座標を保存
+            //    FirstPos[i] = buttons[i].transform.position;
+            //}
+            ////ボタンの反転
+            //buttons[0].transform.position = FirstPos[2];
+            //buttons[2].transform.position = FirstPos[0];
             _once = true;
         }
         //反転終了時間を超えたら
         if(second>FilipNum)
         {
-            for (int i = 0; i < MAX_BUTTON; i++)
-            {
-                //ボタンの座標を初期化
-                buttons[i].transform.position = FirstPos[i];
-                isFilipEvent = false;
-                _once = false;
-                _Time = 0;
-            }
+            //ボタンをもとに戻す
+            canvasObj.GetComponent<Animator>().SetBool(Switch, false);
+            isFilipEvent = false;
+            _once = false;
+            _Time = 0;
+            //for (int i = 0; i < MAX_BUTTON; i++)
+            //{
+            //    //ボタンの座標を初期化
+            //    buttons[i].transform.position = FirstPos[i];
+            //    isFilipEvent = false;
+            //    _once = false;
+            //    _Time = 0;
+            //}
         }
     }
 
@@ -743,21 +766,42 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     const int EndNoize = 5;
     private void NoizeEye()
     {
+        //    NoizeTimer += Time.deltaTime;
+        //    int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
+        //    if(!Camera.main.gameObject.GetComponent<CRT>())
+        //    {
+        //        Camera.main.gameObject.AddComponent<CRT>();
+        //       // CRT.material = NoizeMat;
+        //    }
+
+        //    if(second>EndNoize)
+        //    {
+        //        Destroy(Camera.main.gameObject.GetComponent<CRT>());
+        //        NoizeTimer = 0;
+        //        isNoizeEye = false;
+        //    }
+
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
-        if(!Camera.main.gameObject.GetComponent<CRT>())
+        _CRTcamera.enabled = true;
+        //カメラの解像度を下げる
+        if (_lowResolutionCamera.SetResoutionWeight != 0.5f)
         {
-            Camera.main.gameObject.AddComponent<CRT>();
-           // CRT.material = NoizeMat;
+            _lowResolutionCamera.SetResoutionWeight = 0.5f;
         }
-        
-        if(second>EndNoize)
+
+        if (second > EndNoize)
         {
-            Destroy(Camera.main.gameObject.GetComponent<CRT>());
+            //カメラの解像度を元に戻す
+            _lowResolutionCamera.SetResoutionWeight = 1.0f; ;
+            //ノイズの解除
+            _CRTcamera.enabled = false;
             NoizeTimer = 0;
             isNoizeEye = false;
         }
     }
+
+
     
 }
 

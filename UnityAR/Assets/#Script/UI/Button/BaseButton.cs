@@ -17,6 +17,7 @@ public class BaseButton : MonoBehaviour {
             return;
         }
         button.OnClick(this.gameObject.name);
+        //学科のボタンが押された時
         setText.UIViewText();
     }
     protected virtual void OnClick(string objectName)

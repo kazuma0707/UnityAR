@@ -425,6 +425,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 232091716}
+--- !u!1 &242974661 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1761352522359788, guid: 8855f5ab190ca414b8fe610f20962123,
+    type: 2}
+  m_PrefabInternal: {fileID: 1427697847}
 --- !u!1 &268939837
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +532,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 327664952}
-        m_MethodName: OnClick
+        m_MethodName: OnPoseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -547,12 +552,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 327664950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ecff346cab6b1459964d76827a5e40, type: 3}
+  m_Script: {fileID: 11500000, guid: bf35271795d687246b381d00e80221de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects: []
-  variable: {fileID: 1305200127}
-  menuButton: {fileID: 2042683515}
+  menuButtons:
+  - {fileID: 2042683515}
+  - {fileID: 697295235}
+  - {fileID: 433089360}
+  - {fileID: 1547371537}
+  - {fileID: 792418115}
   poseButtons:
   - {fileID: 33548851}
   - {fileID: 620354335}
@@ -564,7 +572,10 @@ MonoBehaviour:
   - {fileID: 829227486}
   - {fileID: 1198013159}
   - {fileID: 2135883732}
-  text: {fileID: 1428327474}
+  convButtons:
+  - {fileID: 1940086921}
+  - {fileID: 1567710490}
+  variable: {fileID: 1305200127}
   animator: {fileID: 1501373386}
 --- !u!114 &327664953
 MonoBehaviour:
@@ -2330,7 +2341,7 @@ GameObject:
   - component: {fileID: 792418116}
   - component: {fileID: 792418115}
   m_Layer: 5
-  m_Name: 'ARButton '
+  m_Name: 'NomalButton '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3628,6 +3639,11 @@ Prefab:
       propertyPath: Canvas
       value: 
       objectReference: {fileID: 1501373385}
+    - target: {fileID: 114007591134965020, guid: 8855f5ab190ca414b8fe610f20962123,
+        type: 2}
+      propertyPath: mExtendedTracking
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8855f5ab190ca414b8fe610f20962123, type: 2}
   m_IsPrefabParent: 0
@@ -3850,7 +3866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1501373386
 Animator:
   serializedVersion: 3
@@ -4080,6 +4096,49 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1547371534}
+--- !u!1 &1551360510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1551360512}
+  - component: {fileID: 1551360511}
+  m_Layer: 0
+  m_Name: DisplayFPS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1551360511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1551360510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7bca2b1203c5db4d9db6a52300bb86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  show: 1
+  showFPS: 1
+  showInEditor: 0
+--- !u!4 &1551360512
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1551360510}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.18, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1558984260
 GameObject:
   m_ObjectHideFlags: 0
@@ -4186,7 +4245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_watson: {fileID: 0}
-  text: {fileID: 0}
+  text: {fileID: 1428327474}
 --- !u!114 &1567710490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4581,6 +4640,26 @@ Transform:
   m_Father: {fileID: 1088285869}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 6, y: 50, z: 0}
+--- !u!1 &1658530234 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1783615030538520, guid: 8855f5ab190ca414b8fe610f20962123,
+    type: 2}
+  m_PrefabInternal: {fileID: 1427697847}
+--- !u!114 &1658530235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1658530234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0671e3351957b264c8e67264f7e48425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin: {fileID: 918802217}
+  Portal: {fileID: 242974661}
+  canvas: {fileID: 1501373385}
+  isOnceFlag: 0
 --- !u!1 &1681753561
 GameObject:
   m_ObjectHideFlags: 0
@@ -5228,11 +5307,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1940086918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c827810f0b4e39942be46ddf8505942c, type: 3}
+  m_Script: {fileID: 11500000, guid: bf35271795d687246b381d00e80221de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_watson: {fileID: 0}
-  text: {fileID: 1428327474}
+  menuButtons:
+  - {fileID: 2042683515}
+  - {fileID: 697295235}
+  - {fileID: 433089360}
+  - {fileID: 1547371537}
+  - {fileID: 792418115}
+  poseButtons:
+  - {fileID: 327664951}
+  - {fileID: 33548851}
+  - {fileID: 620354335}
+  - {fileID: 1712145794}
+  - {fileID: 736755457}
+  - {fileID: 666594204}
+  - {fileID: 1833110558}
+  - {fileID: 590414563}
+  - {fileID: 829227486}
+  - {fileID: 1198013159}
+  - {fileID: 2135883732}
+  convButtons:
+  - {fileID: 1567710490}
+  variable: {fileID: 1305200127}
+  animator: {fileID: 1501373386}
 --- !u!114 &1940086921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5273,7 +5372,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1940086920}
-        m_MethodName: OnClick
+        m_MethodName: OnConvClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5450,16 +5549,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 2042683512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd9091a99f738b54e863e465b2eaed80, type: 3}
+  m_Script: {fileID: 11500000, guid: bf35271795d687246b381d00e80221de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects: []
-  variable: {fileID: 1305200127}
-  poseButton: {fileID: 327664951}
   menuButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 697295235}
+  - {fileID: 433089360}
+  - {fileID: 1547371537}
+  - {fileID: 792418115}
+  poseButtons:
+  - {fileID: 327664951}
+  - {fileID: 33548851}
+  - {fileID: 620354335}
+  - {fileID: 1712145794}
+  - {fileID: 736755457}
+  - {fileID: 666594204}
+  - {fileID: 1833110558}
+  - {fileID: 590414563}
+  - {fileID: 829227486}
+  - {fileID: 1198013159}
+  - {fileID: 2135883732}
+  convButtons:
+  - {fileID: 1940086921}
+  - {fileID: 1567710490}
+  variable: {fileID: 1305200127}
   animator: {fileID: 1501373386}
 --- !u!114 &2042683515
 MonoBehaviour:
@@ -5501,7 +5614,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2042683514}
-        m_MethodName: OnClick
+        m_MethodName: OnMenuClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -14,6 +14,7 @@ public class ButtonController : BaseButton {
     private Animator ClassPanel;
     public Animator AllButtonAnim;
     const string BOLL_ANIM= "boolAnim";
+    const string ONCE_ANIM = "OnceAnim";
     const string ONCE= "once";
 
 
@@ -23,12 +24,17 @@ public class ButtonController : BaseButton {
     }
     private void Start()
     {
-    
     }
     private void Update()
     {
       
         
+    }
+    public void StartButtonAnimetion()
+    {
+        AllButtonAnim.SetBool(ONCE, true);
+        ClassPanel.SetBool(BOLL_ANIM, true);
+
     }
 
     protected override void OnClick(string objectName)
@@ -59,7 +65,7 @@ public class ButtonController : BaseButton {
             // Button2がクリックされたとき
             this.KZButtonClick();
         }
-        else if ("SSButton".Equals(objectName))
+        else if (ButtonName.ARScene.SSButton.Equals(objectName))
         {
             // Button2がクリックされたとき
             this.SSButtonClick();
@@ -97,48 +103,39 @@ public class ButtonController : BaseButton {
         if(ClassPanel.GetBool(BOLL_ANIM))
         {
             ClassPanel.SetBool(BOLL_ANIM, false);
-            ClassPanel.SetBool("OnceAnim", true);
+            ClassPanel.SetBool(ONCE_ANIM, true);
         }
     }
     private void ReturnSelectButtonClick()
     {
-        SceneManager.LoadScene(SceneName.CharCreate);
-      //FindObjectOfType<SceneHolder>().LoadMainScene(SceneName.CharCreate);
-
+        FadeManager.Instance.LoadScene(SceneName.CharCreate,2.0f);
     }
     private void GSButtonClick()
     {
-       // if (!AugmentedImageExampleController.Index.Contains(1)) return;
         _setText.SetTextNumber = DepartmentName.GAME;
     }
     private void CGButtuonClick()
     {
-        //if (!AugmentedImageExampleController.Index.Contains(2)) return;
         _setText.SetTextNumber = DepartmentName.CG;
     }
     private void WDButtonClick()
     {
-        //if (!AugmentedImageExampleController.Index.Contains(3)) return;
         _setText.SetTextNumber = DepartmentName.WEB;
     }
     private void CADButtonClick()
     {
-        //if (!AugmentedImageExampleController.Index.Contains(4)) return;
         _setText.SetTextNumber = DepartmentName.CAD;
     }
     private void KZButtonClick()
     {
-       //if (!AugmentedImageExampleController.Index.Contains(5)) return;
         _setText.SetTextNumber = DepartmentName.ADVANCED_INFORMATION;
     }
     private void SSButtonClick()
     {
-        //if (!AugmentedImageExampleController.Index.Contains(6)) return;
         _setText.SetTextNumber = DepartmentName.CYBER_SECURITY;
     }
     private void ZSButtonClick()
     {
-        //if (!AugmentedImageExampleController.Index.Contains(7)) return;
         _setText.SetTextNumber = DepartmentName.INFORMATION_PROCESSING;
     }
     private void ClassButtonClick()

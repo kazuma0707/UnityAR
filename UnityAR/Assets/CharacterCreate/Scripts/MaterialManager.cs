@@ -16,6 +16,9 @@ public class MaterialManager : MonoBehaviour
     [Header("サイバーの色(P・Y・G・B・R)Unit")]
     [SerializeField]
     private Material[] clothCyberMatsUnit;               // サイバーの色のマテリアルUnit
+    [Header("体操着の色(P・Y・G・B・R)Unit")]
+    [SerializeField]
+    private Material[] clothGymClothesMatsUnit;          // 体操着の色のマテリアルUnit
 
     [Header("ノーマルのSkin(N・B・W)Unit")]
     [SerializeField]
@@ -26,6 +29,9 @@ public class MaterialManager : MonoBehaviour
     [Header("サイバーのSkin(N・B・W)Unit")]
     [SerializeField]
     private Material[] skinCyberMatsUnit;               // サイバーのSkinのマテリアルUnit
+    [Header("体操着のSkin(N・B・W)Unit")]
+    [SerializeField]
+    private Material[] skinGymClothesMatsUnit;          // 体操着のSkinのマテリアルUnit
 
     [Header("前髪ありの肌色Face(P・Y・G・B・R)Unit")]
     [SerializeField]
@@ -48,13 +54,16 @@ public class MaterialManager : MonoBehaviour
 
     [Header("ショートヘア(P・Y・G・B・R)Unit")]
     [SerializeField]
-    private Material[] shortHairMatsUnit;           // ショートヘアのマテリアルUnit
+    private Material[] shortHairMatsUnit;               // ショートヘアのマテリアルUnit
     [Header("ロングヘア(P・Y・G・B・R)Unit")]
     [SerializeField]
-    private Material[] longHairMatsUnit;           // ロングヘアのマテリアルUnit
+    private Material[] longHairMatsUnit;                // ロングヘアのマテリアルUnit
     [Header("ツインテール(P・Y・G・B・R)Unit")]
     [SerializeField]
-    private Material[] twinTailMatsUnit;           // ツインテールのマテリアルUnit
+    private Material[] twinTailMatsUnit;                // ツインテールのマテリアルUnit
+    [Header("ポニーテール(P・Y・G・B・R)Unit")]
+    [SerializeField]
+    private Material[] ponyTailMatsUnit;                // ポニーテールのマテリアルUnit
 
     [Header("目パターン1(Y・B・G・R)Unit")]
     [SerializeField]
@@ -93,6 +102,12 @@ public class MaterialManager : MonoBehaviour
         get { return clothCyberMatsUnit; }
     }
 
+    // 体操着の色のアクセッサ
+    public Material[] GymClothesMats
+    {
+        get { return clothGymClothesMatsUnit; }
+    }
+
     // Skin ///////////////////////////////////////////
 
     // ノーマルのSkinのアクセッサ
@@ -111,6 +126,12 @@ public class MaterialManager : MonoBehaviour
     public Material[] SkinCyberMats
     {
         get { return skinCyberMatsUnit; }
+    }
+
+    // 体操着のSkinのアクセッサ
+    public Material[] SkinGymClothesMats
+    {
+        get { return skinGymClothesMatsUnit; }
     }
 
     // Face ///////////////////////////////////////////
@@ -170,6 +191,12 @@ public class MaterialManager : MonoBehaviour
     public Material[] TwinTailMats
     {
         get { return twinTailMatsUnit; }
+    }
+
+    // ポニーテールのカラーのアクセッサ
+    public Material[] PonyTailMats
+    {
+        get { return ponyTailMatsUnit; }
     }
 
     // Eye ///////////////////////////////////////////
