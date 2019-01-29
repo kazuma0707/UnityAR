@@ -12,6 +12,8 @@ public class AppreciationManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        Application.targetFrameRate = 60;
+
         MyCharDataManager.Instance.ReCreate(myChar);
         myChar.AddComponent<AudioSource>();
         myChar.AddComponent<WatsonConversation>();
