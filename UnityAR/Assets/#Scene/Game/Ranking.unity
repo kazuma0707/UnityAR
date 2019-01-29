@@ -144,6 +144,7 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   label_ranking: {x: 0, y: 0}
   label_score: {x: 0, y: 0}
+  rankImage: {fileID: 448217582}
   rankText: {fileID: 1185138014}
   scoreText: {fileID: 2093663585}
   fireworksParticle: {fileID: 1247311384876784, guid: 4adffb0018aeda44e9263f901167af1f,
@@ -156,6 +157,7 @@ MonoBehaviour:
   - {fileID: 1185138011}
   - {fileID: 509807531}
   - {fileID: 2108559301}
+  - {fileID: 448217582}
   inputField:
   - {fileID: 2114440477}
   - {fileID: 1021643581}
@@ -362,6 +364,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 373499944}
+--- !u!1 &448217582 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1355258450843248, guid: afd530bdb26cc37418296a5ddd203203,
+    type: 2}
+  m_PrefabInternal: {fileID: 738930712}
 --- !u!1 &509807531
 GameObject:
   m_ObjectHideFlags: 0
