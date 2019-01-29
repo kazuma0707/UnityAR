@@ -2601,6 +2601,7 @@ MonoBehaviour:
   skin: {fileID: 149341968}
   Portal: {fileID: 63849602}
   isOnceFlag: 0
+  _buttonController: {fileID: 1833875866}
 --- !u!33 &933626895
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3279,6 +3280,11 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114919069907838698, guid: 6abe53faadcd4574c8b4456a9bba588a,
+        type: 2}
+      propertyPath: _buttonController
+      value: 
+      objectReference: {fileID: 1833875866}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6abe53faadcd4574c8b4456a9bba588a, type: 2}
   m_IsPrefabParent: 0
