@@ -23,7 +23,7 @@ public class SetText : MonoBehaviour {
     //ロック画像
     [SerializeField, Header("ロック画像")]
    // private Image[] LockImage;
-    public VideoPlayer _video;
+    public VideoPlayer[] _video;
     public VideoClip[] _videoClip;
 
 
@@ -31,7 +31,21 @@ public class SetText : MonoBehaviour {
     void Start()
     {
         //ImageCheckオブジェクトの鮎徳
-     //   _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
+        //   _ImageController = GameObject.Find("ImageCheck").GetComponent<AugmentedImageExampleController>();
+        //_video = new VideoPlayer[_videoClip.Length];
+        //for(int i=0;i<_videoClip.Length;i++)
+        //{
+        //    _video[i]= GameObject.Find("VideoPlane").GetComponent<VideoPlayer>();
+        //}
+       
+         _video[0].clip = _videoClip[0];
+        _video[1].clip = _videoClip[1];
+        _video[2].clip = _videoClip[2];
+        _video[3].clip = _videoClip[3];
+        _video[4].clip = _videoClip[4];
+        _video[5].clip = _videoClip[5];
+        _video[6].clip = _videoClip[6];
+
 
     }
 
@@ -43,15 +57,8 @@ public class SetText : MonoBehaviour {
         {
             BordText = GameObject.Find("BordText").GetComponent<Text>();
         }
-        if (GameObject.Find("VideoPlane"))
-        {
-            _video = GameObject.Find("VideoPlane").GetComponent<VideoPlayer>();
-   
-            //_video.Stop();
-        }
 
         //読み込んだ画像によってテキストの受け渡し
-        UIViewText();
         PanelViewText();
 
     }
@@ -67,61 +74,59 @@ public class SetText : MonoBehaviour {
         {
             case DepartmentName.GAME:
                 _DepartmentText.text = "ここはゲームサイエンス学科です";
-                _video.clip = _videoClip[DepartmentName.GAME - 1];
-
-               // this.LockImage[DepartmentName.GAME-1].enabled = false;
-
+                PlayVedeo(DepartmentName.GAME);
                 break;
             case DepartmentName.CG:
                 _DepartmentText.text = "ここはCGスペシャリスト学科です";
-
-                _video.clip = _videoClip[DepartmentName.CG - 1];
-           //     this.LockImage[DepartmentName.CG-1].enabled = false;
-
+                PlayVedeo(DepartmentName.CG);
                 break;
             case DepartmentName.WEB:
                 _DepartmentText.text = "ここはWebデザイン学科です";
-                _video.clip = _videoClip[DepartmentName.WEB - 1];
-
-             //  this.LockImage[DepartmentName.WEB-1].enabled = false;
-
+                PlayVedeo(DepartmentName.WEB );
                 break;
             case DepartmentName.CAD:
                 _DepartmentText.text = "ここはCAD学科です";
-                _video.clip = _videoClip[DepartmentName.CAD - 1];
-
-               // this.LockImage[DepartmentName.CAD-1].enabled = false;
-
+               PlayVedeo(DepartmentName.CAD);
                 break;
             case DepartmentName.CYBER_SECURITY:
-                _DepartmentText.text = "ここはサイバーセキュリティ学科です";
-                _video.clip = _videoClip[DepartmentName.CYBER_SECURITY - 1];
-
-
-             //   this.LockImage[DepartmentName.CYBER_SECURITY-1].enabled = false;
-
+                _DepartmentText.text = "ここはサイバーセキュリティ学科です";        
+                PlayVedeo(DepartmentName.CYBER_SECURITY);
                 break;
             case DepartmentName.ADVANCED_INFORMATION:
-                _DepartmentText.text = "ここは高度情報学科です";
-                _video.clip = _videoClip[DepartmentName.CYBER_SECURITY - 1];
-
-
-                //this.LockImage[DepartmentName.ADVANCED_INFORMATION-1].enabled = false;
-
+                _DepartmentText.text = "ここは高度情報学科です";               
+                PlayVedeo(DepartmentName.ADVANCED_INFORMATION);
                 break;
             case DepartmentName.INFORMATION_PROCESSING:
                 _DepartmentText.text = "ここは情報処理学科です";
-                _video.clip = _videoClip[DepartmentName.CYBER_SECURITY - 1];
-
-              //  this.LockImage[DepartmentName.INFORMATION_PROCESSING-1].enabled = false;
-
+                PlayVedeo(DepartmentName.INFORMATION_PROCESSING);
                 break;
             default:
                 return;
         }
-
-
         //AugmentedImageExampleController.isLoadImage = false;
+    }
+    void PlayVedeo(int videoName)
+    {
+        for(int i=0;i<_videoClip.Length;i++)
+        {
+            _video[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+        _video[videoName-1].gameObject.GetComponent<MeshRenderer>().enabled = true;
+
+        _video[videoName-1].Stop();
+        _video[videoName-1].Prepare();
+        if (_video[videoName-1].isPrepared)
+        {
+            return;
+        }
+
+
+        _video[videoName-1].Play();
+        if (!_video[videoName-1].isPlaying)
+        {
+            return;
+        }
+
     }
     void PanelViewText()
     {

@@ -65,6 +65,7 @@ public class MoveCamera : MonoBehaviour
     // 鑑賞ボタン
     [SerializeField]
     private GameObject AppreciationButton;
+
     // キャラクタークリエイトをし直すボタン
     [SerializeField]
     private GameObject ReCharacterCreateButton;
@@ -338,6 +339,12 @@ public class MoveCamera : MonoBehaviour
     {
         //SceneManager.LoadScene(SceneName.Appreciation);
         FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+    }
+
+    public void OnAppreciationAR()
+    {
+        FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
+
     }
 
     //キャラクタークリエイトをし直す
