@@ -116,9 +116,17 @@ public class GameManager : MonoBehaviour
     //　モード切替用
     private bool modeFlag = false;
 
+    //警告音
+    //[SerializeField]
+    //private AudioSource Siren;
+    //ノイズ
+    //[SerializeField]
+    //private AudioSource Noise;
+
     // Use this for initialization
     void Start()
     {
+
         // static public変数の初期化
         gameScore = 0;
 
@@ -300,6 +308,7 @@ public class GameManager : MonoBehaviour
             if (intervalFlag && obstacleNum <= obstaclePercent)
             {
                 StartCoroutine("coRoutine");
+
             }
         }
 

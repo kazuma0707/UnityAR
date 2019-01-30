@@ -144,6 +144,7 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   label_ranking: {x: 0, y: 0}
   label_score: {x: 0, y: 0}
+  rankImage: {fileID: 448217582}
   rankText: {fileID: 1185138014}
   scoreText: {fileID: 2093663585}
   fireworksParticle: {fileID: 1247311384876784, guid: 4adffb0018aeda44e9263f901167af1f,
@@ -156,6 +157,7 @@ MonoBehaviour:
   - {fileID: 1185138011}
   - {fileID: 509807531}
   - {fileID: 2108559301}
+  - {fileID: 448217582}
   inputField:
   - {fileID: 2114440477}
   - {fileID: 1021643581}
@@ -362,6 +364,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 373499944}
+--- !u!1 &448217582 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1355258450843248, guid: afd530bdb26cc37418296a5ddd203203,
+    type: 2}
+  m_PrefabInternal: {fileID: 738930712}
 --- !u!1 &509807531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,7 +1816,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1c31a75aaa95c5343aa052c1d2b5d54f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 28b831636b1b7a04f826605ab1b8375b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1867,7 +1874,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
