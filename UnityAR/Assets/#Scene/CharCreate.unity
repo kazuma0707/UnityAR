@@ -16126,6 +16126,7 @@ MonoBehaviour:
   - {x: 0.9, y: 0.9, z: 0.9}
   - {x: 1, y: 1, z: 1}
   - {x: 1.1, y: 1.1, z: 1.1}
+  - {x: 0.7, y: 0.7, z: 0.7}
   defaultHair: {fileID: 1944573024032576, guid: 48f6bc771109780419a6f9e28a1ab804,
     type: 2}
   defaultHairColorMat: {fileID: 2100000, guid: d50ef393cb0f0e8438ca9cff5004a462, type: 2}
@@ -29395,6 +29396,10 @@ Prefab:
     - target: {fileID: 11460108, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 2}
       propertyPath: DebugMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 130190, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 2}
+      propertyPath: m_TagString
+      value: FadeObj
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fd9d58dbfb8f846f58b62a48334a0058, type: 2}
