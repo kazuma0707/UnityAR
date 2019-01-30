@@ -108,13 +108,17 @@ public class GalleryManager : MonoBehaviour {
             }
         }
     }
-
+    //スクロール時に中心にあるボタンを認識するためのGetter
+    //Startの時だけ値がない
+    public int GetScrollIndex { private set; get; }
     private void setScrollIndex()
     {
         if (scrollRect.horizontalNormalizedPosition < 0 || scrollRect.horizontalNormalizedPosition > 1) return;
 
         int index = (int)(scrollRect.horizontalNormalizedPosition / scrollStep);
-        
+        //スクロール時のIndexを保存
+        GetScrollIndex = index;
+        Debug.Log(index);
         if (Mathf.Abs(scrollRect.horizontalNormalizedPosition) - (index * scrollStep) < ((index + 1) * scrollStep) - scrollRect.horizontalNormalizedPosition)
         {
             StartCoroutine(animateScroll(index * scrollStep));
