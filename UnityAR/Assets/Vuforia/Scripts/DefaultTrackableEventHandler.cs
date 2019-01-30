@@ -91,7 +91,6 @@ namespace Vuforia
                     skinAnimator.SetBool("Walk", false);//歩くアニメーションを停止
                     this.Portal.SetActive(false);//出現エフェクトを非表示
                     isOnceFlag = false;
-                    _buttonController.StartButtonAnimetion();
                     if (!skinAnimator.GetBool("Walk"))
                         skinAnimator.SetBool("Pose5", true);
                 }
