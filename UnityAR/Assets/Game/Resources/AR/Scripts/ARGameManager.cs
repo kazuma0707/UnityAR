@@ -124,8 +124,9 @@ public class ARGameManager : MonoBehaviour
         gameScore = 0;
 
         // 素体モデルにデータを適用させる
-        //MyCharDataManager.Instance.ReCreate(sotai);
-        //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
+        MyCharDataManager.Instance.ReCreate(sotai);
+        MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.AR_GAME_BODY);
+
 
         // チュートリアルをスキップする処理
         if (TitleManager.tutorialSkipFlag == true)
@@ -429,17 +430,16 @@ public class ARGameManager : MonoBehaviour
         }
 
         //  ランダム数値によってアイテムを決める
-        obstacleObj.gameObject.tag = "FlipButton";
-        //if (item == 0)
-        //{
-        //  視界不良アイテム
-        //obstacleObj.gameObject.tag = "BadEye";
-        //}
-        //else
-        //{
-        ////  ボタン反転アイテム
-        //obstacleObj.gameObject.tag = "FlipButton";
-        //}
+        if (item == 0)
+        {
+            //  視界不良アイテム
+            obstacleObj.gameObject.tag = "BadEye";
+        }
+        else
+        {
+            //  ボタン反転アイテム
+            obstacleObj.gameObject.tag = "FlipButton";
+        }
 
         intervalFlag = false;
         startTime = timer;
