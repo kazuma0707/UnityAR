@@ -12,6 +12,18 @@ public class AppreciationButtonCtr : MonoBehaviour
     private Button[] poseButtons;   // 対応するオブジェクト
     [SerializeField]
     private Button[] convButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button arButton;
+
+    // 確認パネル
+    [SerializeField]
+    private GameObject Panel;
+    // はいボタン
+    [SerializeField]
+    private GameObject YesButton;
+    // いいえボタン
+    [SerializeField]
+    private GameObject NoButton;
 
 
 
@@ -31,6 +43,11 @@ public class AppreciationButtonCtr : MonoBehaviour
     void Start()
     {
         variable_cs = variable.GetComponent<Variable>();
+
+        // UI非表示
+        Panel.SetActive(false);
+        YesButton.SetActive(false);
+        NoButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -63,6 +80,9 @@ public class AppreciationButtonCtr : MonoBehaviour
             variable_cs.Active = false;
         }
 
+        Panel.SetActive(false);
+        YesButton.SetActive(false);
+        NoButton.SetActive(false);
 
         animator.SetBool(key_isMenu, variable_cs.Active);
     }
@@ -90,6 +110,9 @@ public class AppreciationButtonCtr : MonoBehaviour
             variable_cs.Active = false;
         }
 
+        Panel.SetActive(false);
+        YesButton.SetActive(false);
+        NoButton.SetActive(false);
 
         animator.SetBool(key_isPose, variable_cs.Active);
     }
@@ -117,6 +140,9 @@ public class AppreciationButtonCtr : MonoBehaviour
             variable_cs.Active = false;
         }
 
+        Panel.SetActive(false);
+        YesButton.SetActive(false);
+        NoButton.SetActive(false);
 
         animator.SetBool(key_isConv, variable_cs.Active);
     }
@@ -147,7 +173,7 @@ public class AppreciationButtonCtr : MonoBehaviour
             convButtons[i].interactable = false;
         }
 
-
+        arButton.interactable = false;
     }
 
     //----------------------------------------------------------------------
@@ -175,6 +201,7 @@ public class AppreciationButtonCtr : MonoBehaviour
             convButtons[i].interactable = true;
         }
 
+        arButton.interactable = true ;
     }
 
     //----------------------------------------------------------------------
@@ -192,4 +219,33 @@ public class AppreciationButtonCtr : MonoBehaviour
 
         ActiveButton();
     }
+
+    public void OnARPanel()
+    {
+        StartCoroutine(InteractiveButtonChange());
+
+        variable_cs.Active = !variable_cs.Active;
+
+        // アニメーションのフラグ変更
+        if (!variable_cs.Active && animator.GetBool(key_isPose))
+        {
+            animator.SetBool(key_isPose, variable_cs.Active);
+            variable_cs.Active = true;
+        }
+        if (!variable_cs.Active && animator.GetBool(key_isMenu))
+        {
+            animator.SetBool(key_isMenu, variable_cs.Active);
+            variable_cs.Active = true;
+        }
+        if (!variable_cs.Active && animator.GetBool(key_isConv))
+        {
+            animator.SetBool(key_isConv, variable_cs.Active);
+            variable_cs.Active = true;
+        }
+
+        Panel.SetActive(true);
+        YesButton.SetActive(true);
+        NoButton.SetActive(true);
+    }
+
 }

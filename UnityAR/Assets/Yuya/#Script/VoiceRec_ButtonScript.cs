@@ -10,15 +10,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VoiceRec_ButtonScript : MonoBehaviour
 {
+    [SerializeField]
     private GameObject m_obj;
     [SerializeField]
     private WatsonConversation m_watson;
 
     [SerializeField]
     private GameObject text;
+
+    [SerializeField]
+    private Sprite rec_On;
+    [SerializeField]
+    private Sprite rec_Off;
+
 
     private bool m_flag;
 
@@ -46,11 +54,13 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnClick()
     {
-        if(m_flag)
+        m_watson = m_obj.GetComponent<WatsonConversation>();
+        if (m_flag)
         m_watson.SetVoiceRecFlag(true);
         text.SetActive(true);
         m_flag = false;
         StartCoroutine("Flag");
+        StartCoroutine("CahngeSprite");
     }
 
     //----------------------------------------------------------------------
@@ -64,5 +74,12 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         m_flag = true;
+    }
+
+    IEnumerator CahngeSprite()
+    {
+        this.gameObject.GetComponent<Image>().sprite = rec_On;
+        yield return new WaitForSeconds(2.0f);
+        this.gameObject.GetComponent<Image>().sprite = rec_Off;
     }
 }
