@@ -9,7 +9,7 @@ public class LowResolutionCamera : MonoBehaviour
     /// <summary>
     /// デフォルト解像度
     /// </summary>
-    private readonly Vector2 RESOLUTION = new Vector2(750, 1334);
+    private readonly Vector2 RESOLUTION = new Vector2(1200,1920);
 
     /// <summary>
     /// 解像度係数

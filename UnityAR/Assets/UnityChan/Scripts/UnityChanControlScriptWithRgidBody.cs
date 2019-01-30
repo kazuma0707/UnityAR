@@ -110,6 +110,9 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
     bool deadFlag = false;
 
+    [SerializeField]
+    Text debugText;
+
     // 初期化
     void Start ()
 	{
@@ -233,7 +236,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     // 以下、メイン処理.リジッドボディと絡めるので、FixedUpdate内で処理を行う.
     void FixedUpdate()
     {
-        Debug.Log(_lowResolutionCamera.SetResoutionWeight);
         float h = Input.GetAxis("Horizontal");              // 入力デバイスの水平軸をhで定義
         float v = Input.GetAxis("Vertical");                // 入力デバイスの垂直軸をvで定義
         anim.SetFloat("Speed", v);                          // Animator側で設定している"Speed"パラメタにvを渡す
@@ -385,7 +387,10 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 				anim.SetBool("Rest", false);
 			}
 		}
-	}
+
+        debugText.text = "" + rb.useGravity;
+
+    }
 
     //  他のオブジェクトと接触したとき
     private void OnTriggerEnter(Collider other)
@@ -402,18 +407,15 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         {
             isFilipEvent = true;
             
- 
         }
     }
 
     //  他のオブジェクトと接触している間
     private void OnCollisionStay(Collision collision)
     {
-    
         if(collision.gameObject.tag ==TagName.Floor)
         {
-            
-            floorFlag = true;
+              floorFlag = true;
         }
     }
 
@@ -429,16 +431,16 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
     }
 
-    void OnGUI()
-	{
-		//GUI.Box(new Rect(Screen.width -260, 10 ,250 ,150), "Interaction");
-		//GUI.Label(new Rect(Screen.width -245,30,250,30),"Up/Down Arrow : Go Forwald/Go Back");
-		//GUI.Label(new Rect(Screen.width -245,50,250,30),"Left/Right Arrow : Turn Left/Turn Right");
-		//GUI.Label(new Rect(Screen.width -245,70,250,30),"Hit Space key while Running : Jump");
-		//GUI.Label(new Rect(Screen.width -245,90,250,30),"Hit Spase key while Stopping : Rest");
-		//GUI.Label(new Rect(Screen.width -245,110,250,30),"Left Control : Front Camera");
-		//GUI.Label(new Rect(Screen.width -245,130,250,30),"Alt : LookAt Camera");
-	}
+ //   void OnGUI()
+	//{
+	//	//GUI.Box(new Rect(Screen.width -260, 10 ,250 ,150), "Interaction");
+	//	//GUI.Label(new Rect(Screen.width -245,30,250,30),"Up/Down Arrow : Go Forwald/Go Back");
+	//	//GUI.Label(new Rect(Screen.width -245,50,250,30),"Left/Right Arrow : Turn Left/Turn Right");
+	//	//GUI.Label(new Rect(Screen.width -245,70,250,30),"Hit Space key while Running : Jump");
+	//	//GUI.Label(new Rect(Screen.width -245,90,250,30),"Hit Spase key while Stopping : Rest");
+	//	//GUI.Label(new Rect(Screen.width -245,110,250,30),"Left Control : Front Camera");
+	//	//GUI.Label(new Rect(Screen.width -245,130,250,30),"Alt : LookAt Camera");
+	//}
 
     public bool FloorFlag
     {
@@ -756,7 +758,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         {
             _lowResolutionCamera.SetResoutionWeight=0.5f;
         }
-        
+        //ノイズ終了時
         if (second > EndNoize)
         {
             //カメラの解像度を元に戻す
