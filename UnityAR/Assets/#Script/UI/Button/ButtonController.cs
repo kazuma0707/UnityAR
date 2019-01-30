@@ -30,12 +30,6 @@ public class ButtonController : BaseButton {
       
         
     }
-    public void StartButtonAnimetion()
-    {
-        AllButtonAnim.SetBool(ONCE, true);
-        ClassPanel.SetBool(BOLL_ANIM, true);
-
-    }
 
     protected override void OnClick(string objectName)
     {
@@ -103,7 +97,7 @@ public class ButtonController : BaseButton {
         if(ClassPanel.GetBool(BOLL_ANIM))
         {
             ClassPanel.SetBool(BOLL_ANIM, false);
-            ClassPanel.SetBool(ONCE_ANIM, true);
+            _setText.SetTextNumber = 0;
         }
     }
     private void ReturnSelectButtonClick()
@@ -147,6 +141,7 @@ public class ButtonController : BaseButton {
         else
         {
             ClassPanel.SetBool(BOLL_ANIM, false);
+            _setText.SetTextNumber = 0;
             
         }
     }

@@ -9,7 +9,8 @@ public enum BodyNum
 {
     SMALL_BODY,
     NORMAL_BODY,
-    BIG_BODY
+    BIG_BODY,
+    AR_GAME_BODY
 }
 
 // 服の登録番号

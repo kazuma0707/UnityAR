@@ -20,7 +20,6 @@ public class GalleryManager : MonoBehaviour {
     private RuntimePlatform platform = Application.platform;
     private bool isTouchOnScroll = false;
 
-    public Text text;
         
     void Start()
     {
@@ -61,7 +60,6 @@ public class GalleryManager : MonoBehaviour {
         {
             if (Input.touchCount > 0)
             {
-                text.text = Input.GetTouch(0).position.ToString();
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     clickedDown(Input.GetTouch(0).position);
@@ -108,13 +106,13 @@ public class GalleryManager : MonoBehaviour {
             }
         }
     }
-
+   
     private void setScrollIndex()
     {
         if (scrollRect.horizontalNormalizedPosition < 0 || scrollRect.horizontalNormalizedPosition > 1) return;
 
         int index = (int)(scrollRect.horizontalNormalizedPosition / scrollStep);
-        
+      
         if (Mathf.Abs(scrollRect.horizontalNormalizedPosition) - (index * scrollStep) < ((index + 1) * scrollStep) - scrollRect.horizontalNormalizedPosition)
         {
             StartCoroutine(animateScroll(index * scrollStep));
