@@ -63,7 +63,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     private float touchPosLimit = TOUCH_POS_LIMIT_MIN;         // 拡大する速度    
     private Vector3 targetPoint;                               // 注視点
     private Camera cam;                                        // カメラコンポーネント
-    // 確認パネル
+
     [SerializeField]
     private GameObject Panel;
     // はいボタン
@@ -73,6 +73,9 @@ public class AppreciationCameraCtr : MonoBehaviour
     [SerializeField]
     private GameObject NoButton;
 
+    [SerializeField]
+    private GameObject variable;
+    private Variable variable_cs;
 
 
     //----------------------------------------------------------------------
@@ -96,10 +99,8 @@ public class AppreciationCameraCtr : MonoBehaviour
         this.transform.eulerAngles = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.eulerAngles;
         targetObj.transform.position = VPSetPositions[0].transform.localPosition;
 
-        // UI非表示
-        Panel.SetActive(false);
-        YesButton.SetActive(false);
-        NoButton.SetActive(false);
+
+        variable_cs = variable.GetComponent<Variable>();
 
     }
 
@@ -388,17 +389,12 @@ public class AppreciationCameraCtr : MonoBehaviour
         FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
     }
 
-    public void OnARPanel()
-    {
-        Panel.SetActive(true);
-        YesButton.SetActive(true);
-        NoButton.SetActive(true);
-    }
-
     public void NonPanelUI()
     {
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        variable_cs.Active = !variable_cs.Active;
     }
 }

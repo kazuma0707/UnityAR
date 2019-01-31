@@ -19,6 +19,7 @@ public class GalleryManager : MonoBehaviour {
 
     private RuntimePlatform platform = Application.platform;
     private bool isTouchOnScroll = false;
+
         
     void Start()
     {
@@ -44,6 +45,7 @@ public class GalleryManager : MonoBehaviour {
         showItem(0);
 
         setScrollIndex();
+
     }
     
     public void showItem(int number)
@@ -52,7 +54,8 @@ public class GalleryManager : MonoBehaviour {
     }
 
     void Update()
-    {
+    {        
+
         if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer)
         {
             if (Input.touchCount > 0)
@@ -103,13 +106,13 @@ public class GalleryManager : MonoBehaviour {
             }
         }
     }
-
+   
     private void setScrollIndex()
     {
         if (scrollRect.horizontalNormalizedPosition < 0 || scrollRect.horizontalNormalizedPosition > 1) return;
 
         int index = (int)(scrollRect.horizontalNormalizedPosition / scrollStep);
-        
+      
         if (Mathf.Abs(scrollRect.horizontalNormalizedPosition) - (index * scrollStep) < ((index + 1) * scrollStep) - scrollRect.horizontalNormalizedPosition)
         {
             StartCoroutine(animateScroll(index * scrollStep));

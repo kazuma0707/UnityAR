@@ -15,7 +15,7 @@ public class SetText : MonoBehaviour {
     [SerializeField, Header("現在いる学科を表示するテキスト")]
     private TextMeshProUGUI _DepartmentText;
     //現在のテキストを変更する
-    public int SetTextNumber { set; get; }
+    public int SetTextNumber {  set; get; }
     public ButtonController _ButtonController;
     //ロック画像
     [SerializeField, Header("ロック画像")]

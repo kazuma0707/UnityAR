@@ -50,13 +50,16 @@ public class ARGameManager : MonoBehaviour
     private GameObject sotai;                                               // 素体モデル
     [SerializeField]
     private GameObject standPre;                                            // 台のプレハブ
-    [SerializeField]
-    private GameObject obstaclePre;                                         // 障害物プレハブ
 
     [SerializeField]
-    private Button[] buttons;                       // ジャンプボタン
+    private GameObject BadEyePre;                                           // 視界不良プレハブ
     [SerializeField]
-    private GameObject obstacle;                    // 障害物オブジェクト
+    private GameObject FlipButtonPre;                                       // ボタン反転プレハブ
+
+    [SerializeField]
+    private Button[] buttons;                                               // ジャンプボタン
+    [SerializeField]
+    private GameObject obstacle;                                            // 障害物オブジェクト
 
     [SerializeField]
     private GameObject[] firstStands;                                       // 初期の台   
@@ -79,8 +82,8 @@ public class ARGameManager : MonoBehaviour
     private Vector3 rightPos = new Vector3(2.1f, 7.0f, 3.5f);               // 右の台が生成される位置
     private Vector3 centerPos = new Vector3(0.7f, 7.0f, 3.5f);              // 中央の台が生成される位置
     private Vector3 leftPos = new Vector3(-0.7f, 7.0f, 3.5f);               // 左の台が生成される位置
-    private Vector3 obstaclePosLeft = new Vector3(0.0f, 5.5f, 3.5f);        // 左の障害物が生成される位置
-    private Vector3 obstaclePosRight = new Vector3(1.4f, 5.5f, 3.5f);       // 右の障害物が生成される位置
+    private Vector3 obstaclePosLeft = new Vector3(0.0f, 6.9f, 3.5f);        // 左の障害物が生成される位置
+    private Vector3 obstaclePosRight = new Vector3(1.4f, 6.9f, 3.5f);       // 右の障害物が生成される位置
     private float warningHeight = 6.9f;                                     // 傾向く表示の高さ
     private List<GameObject> standList = new List<GameObject>();            // 台のリスト
 
@@ -124,8 +127,9 @@ public class ARGameManager : MonoBehaviour
         gameScore = 0;
 
         // 素体モデルにデータを適用させる
-        //MyCharDataManager.Instance.ReCreate(sotai);
-        //MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.NORMAL_BODY);
+        MyCharDataManager.Instance.ReCreate(sotai);
+        MyCharDataManager.Instance.ChangeBodyScaleInGame(BodyNum.AR_GAME_BODY);
+
 
         // チュートリアルをスキップする処理
         if (TitleManager.tutorialSkipFlag == true)
@@ -418,33 +422,53 @@ public class ARGameManager : MonoBehaviour
         //  生成した障害物
         GameObject obstacleObj;
 
-        // 障害物を出す
-        if (PosNum == 0)
-        {
-            obstacleObj = Instantiate(obstaclePre, obstaclePosLeft, Quaternion.identity);
-        }
-        else
-        {
-            obstacleObj = Instantiate(obstaclePre, obstaclePosRight, Quaternion.identity);
-        }
-
-        //  ランダム数値によってアイテムを決める
-        obstacleObj.gameObject.tag = "FlipButton";
-        //if (item == 0)
-        //{
-        //  視界不良アイテム
-        //obstacleObj.gameObject.tag = "BadEye";
-        //}
-        //else
-        //{
-        ////  ボタン反転アイテム
-        //obstacleObj.gameObject.tag = "FlipButton";
-        //}
+        //  アイテムを決める(場所、種類等)
+        ItemDecide();
 
         intervalFlag = false;
         startTime = timer;
 
         isRunning = false;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | アイテムを決める(場所、種類等)
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void ItemDecide()
+    {
+        // どちらのアイテムかのランダム
+        int item = Random.Range(0, 2);
+
+        //  生成した障害物
+        GameObject obstacleObj;
+
+
+        //  ランダム数値によってアイテムを決める
+        if (item == 0)
+        {
+            obstacleObj = BadEyePre;
+            //  視界不良アイテム
+            obstacleObj.gameObject.tag = "BadEye";
+        }
+        else
+        {
+            obstacleObj = FlipButtonPre;
+            //  ボタン反転アイテム
+            obstacleObj.gameObject.tag = "FlipButton";
+        }
+
+        // 障害物を出す場所を決める
+        if (PosNum == 0)
+        {
+            obstacleObj = Instantiate(obstacleObj, obstaclePosLeft, Quaternion.identity);
+        }
+        else
+        {
+            obstacleObj = Instantiate(obstacleObj, obstaclePosRight, Quaternion.identity);
+        }
+
     }
 
     //----------------------------------------------------------------------------------------------
