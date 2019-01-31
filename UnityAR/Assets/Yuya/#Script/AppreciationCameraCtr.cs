@@ -15,7 +15,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using ConstantName;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UI;
 
 public enum ACCSetPosNum
 {
@@ -63,6 +63,16 @@ public class AppreciationCameraCtr : MonoBehaviour
     private float touchPosLimit = TOUCH_POS_LIMIT_MIN;         // 拡大する速度    
     private Vector3 targetPoint;                               // 注視点
     private Camera cam;                                        // カメラコンポーネント
+
+    [Header("管理するオブジェクト")]
+    [SerializeField]
+    private Button[] menuButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button[] poseButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button[] convButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button arButton;
 
     [SerializeField]
     private GameObject Panel;
@@ -394,6 +404,21 @@ public class AppreciationCameraCtr : MonoBehaviour
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            menuButtons[i].interactable = true;
+        }
+
+        for (int i = 0; i < poseButtons.Length; i++)
+        {
+            poseButtons[i].interactable = true;
+        }
+
+        for (int i = 0; i < convButtons.Length; i++)
+        {
+            convButtons[i].interactable = true;
+        }
 
         variable_cs.Active = !variable_cs.Active;
     }
