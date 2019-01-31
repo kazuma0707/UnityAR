@@ -222,8 +222,6 @@ public class AppreciationButtonCtr : MonoBehaviour
 
     public void OnARPanel()
     {
-        StartCoroutine(InteractiveButtonChange());
-
         variable_cs.Active = !variable_cs.Active;
 
         // アニメーションのフラグ変更
@@ -246,6 +244,21 @@ public class AppreciationButtonCtr : MonoBehaviour
         Panel.SetActive(true);
         YesButton.SetActive(true);
         NoButton.SetActive(true);
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            menuButtons[i].interactable = false;
+        }
+
+        for (int i = 0; i < poseButtons.Length; i++)
+        {
+            poseButtons[i].interactable = false;
+        }
+
+        for (int i = 0; i < convButtons.Length; i++)
+        {
+            convButtons[i].interactable = false;
+        }
     }
 
 }
