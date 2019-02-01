@@ -74,7 +74,7 @@ public class ClothChangeButton : MonoBehaviour
                 // 服を変える
                 MyCharDataManager.Instance.ChangeClothObj(resourceObj, mat);
                 // 服の色を変える
-                FitClothColorMaterial(matManager.GymClothesMats);
+                FitClothColorMaterial(matManager.ClotheGymMats);
                 break;
         }
 

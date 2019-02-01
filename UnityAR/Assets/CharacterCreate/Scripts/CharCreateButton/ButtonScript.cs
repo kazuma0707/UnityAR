@@ -32,11 +32,6 @@ public class ButtonScript : MonoBehaviour
 	void Update ()
     {
         
-        // アクティブ状態を設定
-        for(int i = 0; i < buttons.Length; i++)
-        {
-            //buttons[i].SetActive(active);
-        }       
     }
 
     //----------------------------------------------------------------------------------------------
@@ -134,8 +129,6 @@ public class ButtonScript : MonoBehaviour
         {
             UiAnimation.SetBool("isHair", false);
         }
-
-        Debug.Log("OnClickHairButton");
     }
     //目の形
     public void OnClickEyeLineButton()
