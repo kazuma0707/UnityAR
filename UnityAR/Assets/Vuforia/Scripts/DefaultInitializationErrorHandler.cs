@@ -71,7 +71,7 @@ namespace Vuforia
 
         private void SetErrorCode(VuforiaUnity.InitError errorCode)
         {
-            Debug.LogError("Vuforia initialization failed: " + mErrorText);
+            MyDebug.LogError("Vuforia initialization failed: " + mErrorText);
             switch (errorCode)
             {
                 case VuforiaUnity.InitError.INIT_EXTERNAL_DEVICE_NOT_DETECTED:

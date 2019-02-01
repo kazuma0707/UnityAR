@@ -61,7 +61,7 @@ public class GalleryManager : MonoBehaviour {
         {
             if (Input.touchCount > 0)
             {
-                text.text = Input.GetTouch(0).position.ToString();
+                //text.text = Input.GetTouch(0).position.ToString();
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     clickedDown(Input.GetTouch(0).position);
@@ -94,6 +94,7 @@ public class GalleryManager : MonoBehaviour {
         
     }
 
+
     private void clickedDown(Vector3 wp)
     {
         Vector2 touchPos = new Vector2(wp.x, wp.y);
@@ -116,16 +117,16 @@ public class GalleryManager : MonoBehaviour {
         if (scrollRect.horizontalNormalizedPosition < 0 || scrollRect.horizontalNormalizedPosition > 1) return;
 
         int index = (int)(scrollRect.horizontalNormalizedPosition / scrollStep);
-        //スクロール時のIndexを保存
-        GetScrollIndex = index;
-        Debug.Log(index);
         if (Mathf.Abs(scrollRect.horizontalNormalizedPosition) - (index * scrollStep) < ((index + 1) * scrollStep) - scrollRect.horizontalNormalizedPosition)
         {
             StartCoroutine(animateScroll(index * scrollStep));
+         
         }
         else
         {
             StartCoroutine(animateScroll((index + 1) * scrollStep));
+            
+
         }
     }
 

@@ -9,18 +9,20 @@ public class CenterButton : MonoBehaviour
     [SerializeField]
     GameObject script;                      //  プレイヤーのスクリプト
     ColorBlock startCB;                     //  初期のボタンカラー
+    UnityChanControlScriptWithRgidBody _unityChanControlScriptWith;
 
     // Use this for initialization
     void Start()
     {
         startCB = this.GetComponent<Button>().colors;
+        _unityChanControlScriptWith = script.GetComponent<UnityChanControlScriptWithRgidBody>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //  ジャンプ不可能な状態なら
-        if (script.GetComponent<UnityChanControlScriptWithRgidBody>().GetJumpPossibleFlag() == false)
+        if (_unityChanControlScriptWith.GetJumpPossibleFlag() == false)
         {
             //  ボタンの透明度を変える
             ButtonAlphaChange();
@@ -33,7 +35,7 @@ public class CenterButton : MonoBehaviour
 
     public void OnClickButton()
     {
-        script.GetComponent<UnityChanControlScriptWithRgidBody>().CenterButtonFlag = true;
+        _unityChanControlScriptWith.CenterButtonFlag = true;
     }
 
     /****************************************************************
