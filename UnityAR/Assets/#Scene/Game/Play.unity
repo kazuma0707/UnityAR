@@ -2118,7 +2118,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -10924,12 +10924,6 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 2.5
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-    - target: {fileID: 100100, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-=======
     - target: {fileID: 2300002, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -10942,7 +10936,6 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8e7417ef61e2b26489e4822e1c55238c, type: 2}
->>>>>>> master
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
   m_IsPrefabParent: 0
@@ -14312,10 +14305,6 @@ Prefab:
     - target: {fileID: 400008, guid: 934865914bb1aca44a0e8aa36b5a3c39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 100008, guid: 934865914bb1aca44a0e8aa36b5a3c39, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 934865914bb1aca44a0e8aa36b5a3c39, type: 3}
