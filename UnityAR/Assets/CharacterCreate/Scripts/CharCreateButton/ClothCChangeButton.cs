@@ -34,6 +34,9 @@ public class ClothCChangeButton : MonoBehaviour
             case ClothNum.CYBER:
                 FitClothColorMaterial(matManager.ClothCyberMats);
                 break;
+            case ClothNum.GYM:
+                FitClothColorMaterial(matManager.ClotheGymMats);
+                break;
         }
 
         // 服の色の番号を登録

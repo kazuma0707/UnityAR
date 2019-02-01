@@ -208,12 +208,7 @@ public class MoveCamera : MonoBehaviour
 
     //キャラクタークリエイトボタンを押したら
     public void OnCharacterCreate()
-    {
-        Invoke("Rotate1", 0.5f);
-        
-        // デバッグ用 //////////
-        //MoveToCharaCreEnd();
-        ////////////////////////
+    {     
 
         CharacterCreateButton.SetActive(false);        
 
@@ -272,7 +267,6 @@ public class MoveCamera : MonoBehaviour
     //はいを押したら
     public void OnYesButton()
     {       
-        //Invoke("Rotate2", 0.5f);
         Rotate2();
 
         Panel.SetActive(false);
@@ -359,16 +353,12 @@ public class MoveCamera : MonoBehaviour
         GameButton.SetActive(false);
         AppreciationButton.SetActive(false);
         ReCharacterCreateButton.SetActive(false);
-        //ChangeButtons[2].transform.localScale = new Vector3(1, 1, 1);
-
     }
 
     //確認用ボタン
     //はいを押したら
     public void OnReConfirmationYes()
     {
-        Invoke("Rotate3", 0.5f);       
-
         RePanel.SetActive(false);
         ReYesButton.SetActive(false);
         ReNoButton.SetActive(false);
@@ -408,15 +398,6 @@ public class MoveCamera : MonoBehaviour
         audioSource.PlayOneShot(NoSound);
     }
 
-    //キャラクタークリエイトButtonを押したとき
-    private void Rotate1()
-    {
-        // キャラクリ用のチェックポイントまで移動
-        //Vector3 pos = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.position;
-        //iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 6.0f,
-        //                                           "oncomplete", "MoveToCharaCreEnd",
-        //                                           "oncompletetarget", this.gameObject));
-    }
     //完了Buttonを押したとき
     private void Rotate2()
     {
@@ -426,24 +407,6 @@ public class MoveCamera : MonoBehaviour
         CCCamera.transform.localEulerAngles = CCCdefaultRot;
         CCCamera.SetActive(false);
         MyCharDataManager.Instance.phase = Phase.SELECT;
-
-        // セレクト用のチェックポイントまで移動
-        // Vector3 pos = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.position;
-        //float rot = cameraCheckPoint[(int)CheckPointNum.SELECT].transform.eulerAngles.y;
-        //iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f));
-        //iTween.RotateTo(this.gameObject, iTween.Hash("y", rot, "time", 9.0f));
-    }
-
-    //キャラクタークリエイトをし直す
-    private void Rotate3()
-    {
-        // キャラクリ用のチェックポイントまで移動
-        //Vector3 pos = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.position;
-        //float rot = cameraCheckPoint[(int)CheckPointNum.CHARACRE].transform.eulerAngles.y;
-        //iTween.MoveTo(this.gameObject, iTween.Hash("position", pos, "time", 7.0f,
-        //                                           "oncomplete", "MoveToCharaCreEnd",
-        //                                           "oncompletetarget", this.gameObject));
-        //iTween.RotateTo(this.gameObject, iTween.Hash("y", rot, "time", 8.0f));
     }
 
     // キャラクリまでの移動が終えた時に呼び出される関数
