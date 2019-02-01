@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
         // 毎秒スコアを加算する
         if (everySecond <= 0.0f && pauseFlag == false)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("TriggerCollider");
+            GameObject player = GameObject.FindGameObjectWithTag(TagName.TriggerCollider);
             float playerY = player.transform.position.y;
             bool obstaclFlag = player.GetComponent<UnityChanControlScriptWithRgidBody>().GetObstacleFlag();
             if (playerY >= -3.0f && obstaclFlag == false)
@@ -206,13 +206,13 @@ public class GameManager : MonoBehaviour
         }
         scoreText.text = gameScore.ToString();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            float num1 = standList[0].transform.position.y - standList[1].transform.position.y;
-            Debug.Log(standList[0].name + " , " + standList[1].name + " 差 " + num1);
-            float num2 = standList[1].transform.position.y - standList[2].transform.position.y;
-            Debug.Log(standList[1].name + " , " + standList[2].name + " 差 " + num2);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    float num1 = standList[0].transform.position.y - standList[1].transform.position.y;
+        //    Debug.Log(standList[0].name + " , " + standList[1].name + " 差 " + num1);
+        //    float num2 = standList[1].transform.position.y - standList[2].transform.position.y;
+        //    Debug.Log(standList[1].name + " , " + standList[2].name + " 差 " + num2);
+        //}
 
         if(timer >= LEVEL3_TIME)
         {
@@ -390,7 +390,6 @@ public class GameManager : MonoBehaviour
 
         isRunning = false;
     }
-
     /****************************************************************
     *|　機能　障害物のコルーチン設定
     *|　引数　なし
@@ -398,6 +397,7 @@ public class GameManager : MonoBehaviour
     ***************************************************************/
     IEnumerator coRoutine()
     {
+        
         // 実行中にもう一度コルーチンが呼び出されるのを防止
         if (isRunning) yield break;
         isRunning = true;
@@ -443,13 +443,13 @@ public class GameManager : MonoBehaviour
         {
             obstacleObj = BadEyePre;
             //  視界不良アイテム
-            obstacleObj.gameObject.tag = "BadEye";
+            obstacleObj.gameObject.tag = TagName.BadEye;
         }
         else
         {
             obstacleObj = FlipButtonPre;
             //  ボタン反転アイテム
-            obstacleObj.gameObject.tag = "FlipButton";
+            obstacleObj.gameObject.tag = TagName.FlipButton;
         }
 
         // 障害物を出す場所を決める
@@ -537,7 +537,9 @@ public class GameManager : MonoBehaviour
         }
 
         //SmartPhoneTouch();
+#if UNITY_EDITOR
         UnityEditorMouse();
+#endif
     }
 
 

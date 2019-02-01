@@ -62,7 +62,7 @@ public class ARGameManager : MonoBehaviour
     private GameObject obstacle;                                            // 障害物オブジェクト
 
     [SerializeField]
-    private GameObject[] firstStands;                                       // 初期の台   
+    private GameObject[] firstStands;                                       // 初期の台
     private int oldStand = 0;                                               // 前の台情報
     [SerializeField]
     private Text scoreText;                                                 // スコア
@@ -271,7 +271,7 @@ public class ARGameManager : MonoBehaviour
                 break;
         }
 
-        // 決められた新しい台を生成       
+        // 決められた新しい台を生成
         switch (num)
         {
             case RIGHT:
