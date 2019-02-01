@@ -3348,7 +3348,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sotai: {fileID: 1141495046}
   standPre: {fileID: 1365371331155614, guid: 6782c64a72f8c3f47933738a80db265f, type: 2}
-  obstaclePre: {fileID: 1919784307722746, guid: de8010d3329bde44b9f6788ced21b357,
+  BadEyePre: {fileID: 1883199591218642, guid: f8970b942146b994286e07484f392f5a, type: 2}
+  FlipButtonPre: {fileID: 1477343519660534, guid: cc708a68d8f6b0e47ae728f019a2a3e7,
     type: 2}
   buttons:
   - {fileID: 2086742229}
@@ -10923,10 +10924,25 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 2.5
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 100100, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+=======
+    - target: {fileID: 2300002, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8e7417ef61e2b26489e4822e1c55238c, type: 2}
+    - target: {fileID: 2300010, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8e7417ef61e2b26489e4822e1c55238c, type: 2}
+    - target: {fileID: 2300008, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8e7417ef61e2b26489e4822e1c55238c, type: 2}
+>>>>>>> master
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52f8342b3edf96541997e8fc9aa84ea4, type: 3}
   m_IsPrefabParent: 0

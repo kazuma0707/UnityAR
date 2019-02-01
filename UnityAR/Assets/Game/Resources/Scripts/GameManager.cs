@@ -50,8 +50,11 @@ public class GameManager : MonoBehaviour
     private GameObject sotai;                                               // 素体モデル
     [SerializeField]
     private GameObject standPre;                                            // 台のプレハブ
+
     [SerializeField]
-    private GameObject obstaclePre;                                         // 障害物プレハブ
+    private GameObject BadEyePre;                                         // 視界不良プレハブ
+    [SerializeField]
+    private GameObject FlipButtonPre;                                     // ボタン反転プレハブ
 
     [SerializeField]
     private Button[] buttons;                       // ジャンプボタン
@@ -402,9 +405,6 @@ public class GameManager : MonoBehaviour
         // 障害物の生成場所
         PosNum = Random.Range(0, 2);
 
-        // どちらのアイテムかのランダム
-        int item = Random.Range(0, 2);
-
         // 数値によって生成場所を変える
         WarningObjPos();
 
@@ -415,35 +415,53 @@ public class GameManager : MonoBehaviour
         // 警告表示を消す
         warningObject.SetActive(false);
 
-        //  生成した障害物
-        GameObject obstacleObj;
-
-        // 障害物を出す
-        if (PosNum == 0)
-        {
-            obstacleObj = Instantiate(obstaclePre, obstaclePosLeft, Quaternion.identity);
-        }
-        else
-        {
-            obstacleObj = Instantiate(obstaclePre, obstaclePosRight, Quaternion.identity);
-        }
-
-        //  ランダム数値によってアイテムを決める
-        if (item == 0)
-        {
-            //  視界不良アイテム
-            obstacleObj.gameObject.tag = TagName.BadEye;
-        }
-        else
-        {
-            //  ボタン反転アイテム
-            obstacleObj.gameObject.tag = TagName.FlipButton;
-        }
+        //  アイテムを決める(場所、種類等)
+        ItemDecide();
 
         intervalFlag = false;
         startTime = timer;
 
         isRunning = false;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | アイテムを決める(場所、種類等)
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void ItemDecide()
+    {
+        // どちらのアイテムかのランダム
+        int item = Random.Range(0, 2);
+
+        //  生成した障害物
+        GameObject obstacleObj;
+
+
+        //  ランダム数値によってアイテムを決める
+        if (item == 0)
+        {
+            obstacleObj = BadEyePre;
+            //  視界不良アイテム
+            obstacleObj.gameObject.tag = TagName.BadEye;
+        }
+        else
+        {
+            obstacleObj = FlipButtonPre;
+            //  ボタン反転アイテム
+            obstacleObj.gameObject.tag = TagName.FlipButton;
+        }
+
+        // 障害物を出す場所を決める
+        if (PosNum == 0)
+        {
+            obstacleObj = Instantiate(obstacleObj, obstaclePosLeft, Quaternion.identity);
+        }
+        else
+        {
+            obstacleObj = Instantiate(obstacleObj, obstaclePosRight, Quaternion.identity);
+        }
+
     }
 
     //----------------------------------------------------------------------------------------------

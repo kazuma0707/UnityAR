@@ -3,7 +3,7 @@
 //!
 //! @brief  アプリケーションシーンのカメラスクリプト
 //!
-//! @date   2018/11/4 
+//! @date   2018/11/4
 //!
 //! @author Y.okada
 //__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
@@ -15,7 +15,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using ConstantName;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UI;
 
 public enum ACCSetPosNum
 {
@@ -57,13 +57,23 @@ public class AppreciationCameraCtr : MonoBehaviour
     [SerializeField]
     private float translateSpeed = 0.5f;                       // 移動する速度
     [SerializeField]
-    private float zoomSpeed = 1.0f;                            // 拡大する速度 
+    private float zoomSpeed = 1.0f;                            // 拡大する速度
     [SerializeField]
     private float lerpTime = 1.0f;                             // 補間する時間
-    private float touchPosLimit = TOUCH_POS_LIMIT_MIN;         // 拡大する速度    
+    private float touchPosLimit = TOUCH_POS_LIMIT_MIN;         // 拡大する速度
     private Vector3 targetPoint;                               // 注視点
     private Camera cam;                                        // カメラコンポーネント
-    // 確認パネル
+
+    [Header("管理するオブジェクト")]
+    [SerializeField]
+    private Button[] menuButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button[] poseButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button[] convButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button arButton;
+
     [SerializeField]
     private GameObject Panel;
     // はいボタン
@@ -73,6 +83,9 @@ public class AppreciationCameraCtr : MonoBehaviour
     [SerializeField]
     private GameObject NoButton;
 
+    [SerializeField]
+    private GameObject variable;
+    private Variable variable_cs;
 
 
     //----------------------------------------------------------------------
@@ -96,10 +109,8 @@ public class AppreciationCameraCtr : MonoBehaviour
         this.transform.eulerAngles = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.eulerAngles;
         targetObj.transform.position = VPSetPositions[0].transform.localPosition;
 
-        // UI非表示
-        Panel.SetActive(false);
-        YesButton.SetActive(false);
-        NoButton.SetActive(false);
+
+        variable_cs = variable.GetComponent<Variable>();
 
     }
 
@@ -157,7 +168,7 @@ public class AppreciationCameraCtr : MonoBehaviour
         }
 #else
         int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
-        
+
 
         if (Input.touchCount == 1)
         {
@@ -178,7 +189,7 @@ public class AppreciationCameraCtr : MonoBehaviour
 
             // カメラ移動
             Touch t = Input.touches.First();
-            
+
             float xDelta = t.deltaPosition.x * translateSpeed;
             float yDelta = t.deltaPosition.y * translateSpeed;
             xDelta = Mathf.Clamp(xDelta, -10.0f, 10.0f);
@@ -202,7 +213,7 @@ public class AppreciationCameraCtr : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             ZoomCamera(-deltaMagnitudeDiff);
-        }        
+        }
 #endif
     }
 
@@ -213,7 +224,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     //!
     //! @return なし
     //----------------------------------------------------------------------
-    // 
+    //
     private void RotateCamera(float x, float y)
     {
         //カメラの回転に制限をつける
@@ -238,7 +249,7 @@ public class AppreciationCameraCtr : MonoBehaviour
         this.transform.RotateAround(targetPoint, Vector3.up, x);
 
     }
-    
+
     //----------------------------------------------------------------------
     //! @brief カメラのズーム処理
     //!
@@ -388,17 +399,27 @@ public class AppreciationCameraCtr : MonoBehaviour
         FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
     }
 
-    public void OnARPanel()
-    {
-        Panel.SetActive(true);
-        YesButton.SetActive(true);
-        NoButton.SetActive(true);
-    }
-
     public void NonPanelUI()
     {
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            menuButtons[i].interactable = true;
+        }
+
+        for (int i = 0; i < poseButtons.Length; i++)
+        {
+            poseButtons[i].interactable = true;
+        }
+
+        for (int i = 0; i < convButtons.Length; i++)
+        {
+            convButtons[i].interactable = true;
+        }
+
+        variable_cs.Active = !variable_cs.Active;
     }
 }

@@ -10,7 +10,7 @@ public class GalleryManager : MonoBehaviour {
     public GameObject[] items;
 
     public ScrollRect scrollRect;
-    
+
     private float totalWidth;
     private float mapSize;
     private float scrollStep;
@@ -20,8 +20,7 @@ public class GalleryManager : MonoBehaviour {
     private RuntimePlatform platform = Application.platform;
     private bool isTouchOnScroll = false;
 
-    public Text text;
-        
+
     void Start()
     {
         mapSize = itemsContainer.GetComponent<RectTransform>().rect.height;
@@ -30,7 +29,7 @@ public class GalleryManager : MonoBehaviour {
 
         totalWidth = ((items.Length - 1) * mapSize) + width;
         Utils.setSize(itemsContainer.GetComponent<RectTransform>(), totalWidth, mapSize);
-        
+
 
         for (int i = 0; i < items.Length; i++)
         {
@@ -39,7 +38,7 @@ public class GalleryManager : MonoBehaviour {
 
             pos += mapSize;
         }
-        
+
         scrollStep = (float) 1 / (items.Length - 1);
         scrollRect.GetComponent<BoxCollider2D>().size = new Vector2(scrollRect.GetComponent<RectTransform>().rect.width, scrollRect.GetComponent<RectTransform>().rect.height);
 
@@ -48,14 +47,14 @@ public class GalleryManager : MonoBehaviour {
         setScrollIndex();
 
     }
-    
+
     public void showItem(int number)
     {
         scrollRect.horizontalNormalizedPosition = (number * scrollStep) + 0.01f;
     }
 
     void Update()
-    {        
+    {
 
         if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer)
         {
@@ -91,7 +90,7 @@ public class GalleryManager : MonoBehaviour {
                 }
             }
         }
-        
+
     }
 
 
@@ -109,23 +108,22 @@ public class GalleryManager : MonoBehaviour {
             }
         }
     }
-    //スクロール時に中心にあるボタンを認識するためのGetter
-    //Startの時だけ値がない
-    public int GetScrollIndex { private set; get; }
+
     private void setScrollIndex()
     {
         if (scrollRect.horizontalNormalizedPosition < 0 || scrollRect.horizontalNormalizedPosition > 1) return;
 
         int index = (int)(scrollRect.horizontalNormalizedPosition / scrollStep);
+
         if (Mathf.Abs(scrollRect.horizontalNormalizedPosition) - (index * scrollStep) < ((index + 1) * scrollStep) - scrollRect.horizontalNormalizedPosition)
         {
             StartCoroutine(animateScroll(index * scrollStep));
-         
+
         }
         else
         {
             StartCoroutine(animateScroll((index + 1) * scrollStep));
-            
+
 
         }
     }
@@ -142,10 +140,10 @@ public class GalleryManager : MonoBehaviour {
         }
 
     }
-    
+
     public void onSliderValueChange(Vector2 pos)
     {
-        
+
         for (int i = 0; i < items.Length; i++)
         {
             float scale = 1 - Mathf.Abs(Mathf.Abs(scrollRect.horizontalNormalizedPosition) - (i * scrollStep)) * 1.1f;
@@ -154,5 +152,5 @@ public class GalleryManager : MonoBehaviour {
         }
     }
 
-    
+
 }

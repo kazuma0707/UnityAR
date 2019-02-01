@@ -54,7 +54,13 @@ public class TitleManager: MonoBehaviour {
 
     [SerializeField]
     GameObject modeChangeBotton;
-    bool modeFlag = false;          //  モード切替用フラグ(初期は通常モード)
+    bool modeFlag = false;          //  モード切替用フラグ(初期は通常モード)   
+
+    //  モードボタンのimage切り替え
+    [SerializeField]
+    Sprite ARon;
+    [SerializeField]
+    Sprite ARoff;
 
     private void Start()
     {
@@ -83,11 +89,8 @@ public class TitleManager: MonoBehaviour {
 
     public void startGame()
     {
-        // 選択したボタンが一定の大きさに満たしていなければ何もしない
-        //if (items[START_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
-        if (items[START_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
-            items[START_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
-            return;
+        // 真ん中にあるボタンを押していなければ何もしない
+        if (!CheckHit()) return;
 
         if (!isLoad)
         {
@@ -110,11 +113,9 @@ public class TitleManager: MonoBehaviour {
     //  キャラクリシーンに遷移するための関数
     public void CharCreate()
     {
-        // 選択したボタンが一定の大きさに満たしていなければ何もしない
-        //if (items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
-        if (items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
-            items[CHAR_CRE_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
-            return;
+        // 真ん中にあるボタンを押していなければ何もしない
+        if (!CheckHit()) return;
+
 
         if (!isLoad)
         {
@@ -130,12 +131,8 @@ public class TitleManager: MonoBehaviour {
     //  学校紹介に遷移するための関数
     public void SchoolIntroduction()
     {
-        // 選択したボタンが一定の大きさに満たしていなければ何もしない
-        //if (items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
-
-        if (items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
-           items[SCHOOL_INTRO_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
-            return;
+        // 真ん中にあるボタンを押していなければ何もしない
+        if (!CheckHit()) return;
 
         if (!isLoad)
         {
@@ -150,11 +147,8 @@ public class TitleManager: MonoBehaviour {
 
     public void Appreciation()
     {
-        // 選択したボタンが規定の大きさに満たしていなければ何もしない
-        //if (items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localScale.x < SCENE_BUTTON_SCALE) return;
-        if (items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localPosition.x < 360 ||
-           items[APLLECIATION_BUTTON].GetComponent<RectTransform>().localPosition.x > 850)
-            return;
+        // 真ん中にあるボタンを押していなければ何もしない
+        if (!CheckHit()) return;
 
 
         if (!isLoad)
@@ -175,16 +169,56 @@ public class TitleManager: MonoBehaviour {
     //  
     public void OnClickMode()
     {
+
+
        if(modeFlag == true)
        {
            modeFlag = false;
-           modeChangeBotton.GetComponentInChildren<Text>().text = "通常";
+           modeChangeBotton.GetComponent<Image>().sprite = ARoff;
        }
        else
        {
             modeFlag = true;
-            modeChangeBotton.GetComponentInChildren<Text>().text = "AR";
+            modeChangeBotton.GetComponent<Image>().sprite = ARon;
        }
 
+    }
+
+
+    private bool CheckHit()
+    {
+        bool check = false;
+
+        // マウスクリック座標を取得
+        if (!Input.GetMouseButtonUp(0)) return check;
+
+        Vector3 touchPos = Input.mousePosition;  // スクリーン座標
+        // スマホではこっちを使用
+        //Vector3 touchPos = Input.GetTouch( 0 ).position;
+
+        // カメラを原点としたスクリーン座標へのレイ
+        Ray ray = Camera.main.ScreenPointToRay(touchPos);
+
+        //レイヤーマスク作成
+        int layerMask = LayerMask.GetMask(new string[] { "UI" });
+
+        // レイとのコライダーの当たり判定
+        RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(touchPos.x, touchPos.y), (Vector2)ray.direction, 1000.0f, layerMask);
+               
+
+        // Rayと当たったオブジェクトを調べる
+        for (int i = 0; i < hits.Length; i++)
+        {
+            Debug.Log(hits[i].transform.name);
+            // MenuImageと当たっているか
+            if (hits[i].transform.name == "MenuImage")
+            {
+                check = true;
+                break;
+            }
+        }
+        
+
+        return check;
     }
 }
