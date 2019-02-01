@@ -118,6 +118,16 @@ public class GameManager : MonoBehaviour
 
     //　モード切替用
     private bool modeFlag = false;
+    //警告音のImage型オブジェクト
+    Image WarningObJectImage;
+    //Playerのオブジェクト
+    GameObject player;
+    UnityChanControlScriptWithRgidBody PlayerRigObj;
+    float playerY;
+    bool obstaclFlag;
+    float flash;
+
+
 
     //警告音
     //[SerializeField]
@@ -156,7 +166,9 @@ public class GameManager : MonoBehaviour
         {
             standList.Add(firstStands[i]);
         }
-
+        this.WarningObJectImage = warningObject.GetComponent<Image>();
+        player = GameObject.FindGameObjectWithTag(TagName.TriggerCollider); ;
+        PlayerRigObj = player.GetComponent<UnityChanControlScriptWithRgidBody>();
         //StartCoroutine("TextCoRoutine");
     }
 
@@ -194,9 +206,10 @@ public class GameManager : MonoBehaviour
         // 毎秒スコアを加算する
         if (everySecond <= 0.0f && pauseFlag == false)
         {
-            GameObject player = GameObject.FindGameObjectWithTag(TagName.TriggerCollider);
-            float playerY = player.transform.position.y;
-            bool obstaclFlag = player.GetComponent<UnityChanControlScriptWithRgidBody>().GetObstacleFlag();
+            //GameObject player = GameObject.FindGameObjectWithTag(TagName.TriggerCollider);
+            player = GameObject.FindGameObjectWithTag(TagName.TriggerCollider);
+            playerY = player.transform.position.y;
+            obstaclFlag = PlayerRigObj.GetObstacleFlag();
             if (playerY >= -3.0f && obstaclFlag == false)
             {
                 // タイムをテキストに表示
@@ -228,9 +241,9 @@ public class GameManager : MonoBehaviour
         // 警告オブジェクトがアクティブ状態なら
         if(warningObject.activeSelf)
         {
-            float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
+            flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
             // 点滅を行う
-            warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
+            WarningObJectImage.color = new Color(1.0f, 1.0f, 0.0f, flash);
         }
 
         ////  レベルアップテキストがアクティブ状態なら

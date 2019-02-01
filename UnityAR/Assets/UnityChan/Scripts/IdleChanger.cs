@@ -71,8 +71,8 @@ public class IdleChanger : MonoBehaviour
 		}
 	}
 
-
-	void OnGUI()
+#if UNITY_EDITOR
+    void OnGUI()
 	{
 				GUI.Box(new Rect(Screen.width - 110 , 10 ,100 ,90), "Change Motion");
 				if(GUI.Button(new Rect(Screen.width - 100 , 40 ,80, 20), "Next"))
@@ -80,10 +80,11 @@ public class IdleChanger : MonoBehaviour
 				if(GUI.Button(new Rect(Screen.width - 100 , 70 ,80, 20), "Back"))
 					anim.SetBool ("Back", true);
 	}
+#endif
 
 
-	// ランダム判定用関数
-	IEnumerator RandomChange ()
+    // ランダム判定用関数
+    IEnumerator RandomChange ()
 	{
 		// 無限ループ開始
 		while (true) {
