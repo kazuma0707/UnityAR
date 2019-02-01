@@ -56,6 +56,12 @@ public class TitleManager: MonoBehaviour {
     GameObject modeChangeBotton;
     bool modeFlag = false;          //  モード切替用フラグ(初期は通常モード)   
 
+    //  モードボタンのimage切り替え
+    [SerializeField]
+    Sprite ARon;
+    [SerializeField]
+    Sprite ARoff;
+
     private void Start()
     {
         fadeObj = GameObject.FindGameObjectWithTag("FadeObj");
@@ -163,15 +169,17 @@ public class TitleManager: MonoBehaviour {
     //  
     public void OnClickMode()
     {
+
+
        if(modeFlag == true)
        {
            modeFlag = false;
-           modeChangeBotton.GetComponentInChildren<Text>().text = "通常";
+           modeChangeBotton.GetComponent<Image>().sprite = ARoff;
        }
        else
        {
             modeFlag = true;
-            modeChangeBotton.GetComponentInChildren<Text>().text = "AR";
+            modeChangeBotton.GetComponent<Image>().sprite = ARon;
        }
 
     }

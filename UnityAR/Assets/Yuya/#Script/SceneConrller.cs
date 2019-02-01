@@ -2,9 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneConrller : MonoBehaviour
 {
+    [Header("管理するオブジェクト")]
+    [SerializeField]
+    private Button[] menuButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button[] poseButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button[] convButtons;   // 対応するオブジェクト
+    [SerializeField]
+    private Button arButton;
 
     // 確認パネル
     [SerializeField]
@@ -16,6 +26,11 @@ public class SceneConrller : MonoBehaviour
     [SerializeField]
     private GameObject NoButton;
 
+    [SerializeField]
+    private GameObject variable;
+    private Variable variable_cs;
+
+
 
     // Use this for initialization
     void Start()
@@ -24,6 +39,9 @@ public class SceneConrller : MonoBehaviour
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        variable_cs = variable.GetComponent<Variable>();
+
     }
 
     //----------------------------------------------------------------------
@@ -75,20 +93,6 @@ public class SceneConrller : MonoBehaviour
     }
 
     //----------------------------------------------------------------------
-    //! @brief パネルを表示する処理
-    //!
-    //! @param[in] なし
-    //!
-    //! @return なし
-    //----------------------------------------------------------------------
-    public void OnARPanel()
-    {
-        Panel.SetActive(true);
-        YesButton.SetActive(true);
-        NoButton.SetActive(true);
-    }
-
-    //----------------------------------------------------------------------
     //! @brief パネルUIを非表示にする処理
     //!
     //! @param[in] なし
@@ -100,5 +104,24 @@ public class SceneConrller : MonoBehaviour
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
+
+        for (int i = 0; i < menuButtons.Length; i++)
+        {
+            menuButtons[i].interactable = true;
+        }
+
+        for (int i = 0; i < poseButtons.Length; i++)
+        {
+            poseButtons[i].interactable = true;
+        }
+
+        for (int i = 0; i < convButtons.Length; i++)
+        {
+            convButtons[i].interactable = true;
+        }
+
+        arButton.interactable = true;
+
+        variable_cs.Active = !variable_cs.Active;
     }
 }

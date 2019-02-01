@@ -395,7 +395,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 			}
 		}
 
-        debugText.text = "" + rb.useGravity;
+        //debugText.text = "" + rb.useGravity;
 
     }
 

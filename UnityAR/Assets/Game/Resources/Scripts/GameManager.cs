@@ -50,8 +50,11 @@ public class GameManager : MonoBehaviour
     private GameObject sotai;                                               // 素体モデル
     [SerializeField]
     private GameObject standPre;                                            // 台のプレハブ
+
     [SerializeField]
-    private GameObject obstaclePre;                                         // 障害物プレハブ
+    private GameObject BadEyePre;                                         // 視界不良プレハブ
+    [SerializeField]
+    private GameObject FlipButtonPre;                                     // ボタン反転プレハブ
 
     [SerializeField]
     private Button[] buttons;                       // ジャンプボタン
@@ -191,7 +194,7 @@ public class GameManager : MonoBehaviour
         // 毎秒スコアを加算する
         if (everySecond <= 0.0f && pauseFlag == false)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("TriggerCollider");
+            GameObject player = GameObject.FindGameObjectWithTag(TagName.TriggerCollider);
             float playerY = player.transform.position.y;
             bool obstaclFlag = player.GetComponent<UnityChanControlScriptWithRgidBody>().GetObstacleFlag();
             if (playerY >= -3.0f && obstaclFlag == false)
@@ -203,13 +206,13 @@ public class GameManager : MonoBehaviour
         }
         scoreText.text = gameScore.ToString();
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            float num1 = standList[0].transform.position.y - standList[1].transform.position.y;
-            Debug.Log(standList[0].name + " , " + standList[1].name + " 差 " + num1);
-            float num2 = standList[1].transform.position.y - standList[2].transform.position.y;
-            Debug.Log(standList[1].name + " , " + standList[2].name + " 差 " + num2);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    float num1 = standList[0].transform.position.y - standList[1].transform.position.y;
+        //    Debug.Log(standList[0].name + " , " + standList[1].name + " 差 " + num1);
+        //    float num2 = standList[1].transform.position.y - standList[2].transform.position.y;
+        //    Debug.Log(standList[1].name + " , " + standList[2].name + " 差 " + num2);
+        //}
 
         if(timer >= LEVEL3_TIME)
         {
@@ -387,7 +390,6 @@ public class GameManager : MonoBehaviour
 
         isRunning = false;
     }
-
     /****************************************************************
     *|　機能　障害物のコルーチン設定
     *|　引数　なし
@@ -395,15 +397,13 @@ public class GameManager : MonoBehaviour
     ***************************************************************/
     IEnumerator coRoutine()
     {
+        
         // 実行中にもう一度コルーチンが呼び出されるのを防止
         if (isRunning) yield break;
         isRunning = true;
 
         // 障害物の生成場所
         PosNum = Random.Range(0, 2);
-
-        // どちらのアイテムかのランダム
-        int item = Random.Range(0, 2);
 
         // 数値によって生成場所を変える
         WarningObjPos();
@@ -415,35 +415,53 @@ public class GameManager : MonoBehaviour
         // 警告表示を消す
         warningObject.SetActive(false);
 
-        //  生成した障害物
-        GameObject obstacleObj;
-
-        // 障害物を出す
-        if (PosNum == 0)
-        {
-            obstacleObj = Instantiate(obstaclePre, obstaclePosLeft, Quaternion.identity);
-        }
-        else
-        {
-            obstacleObj = Instantiate(obstaclePre, obstaclePosRight, Quaternion.identity);
-        }
-
-        //  ランダム数値によってアイテムを決める
-        if (item == 0)
-        {
-            //  視界不良アイテム
-            obstacleObj.gameObject.tag = "BadEye";
-        }
-        else
-        {
-            //  ボタン反転アイテム
-            obstacleObj.gameObject.tag = "FlipButton";
-        }
+        //  アイテムを決める(場所、種類等)
+        ItemDecide();
 
         intervalFlag = false;
         startTime = timer;
 
         isRunning = false;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | アイテムを決める(場所、種類等)
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void ItemDecide()
+    {
+        // どちらのアイテムかのランダム
+        int item = Random.Range(0, 2);
+
+        //  生成した障害物
+        GameObject obstacleObj;
+
+
+        //  ランダム数値によってアイテムを決める
+        if (item == 0)
+        {
+            obstacleObj = BadEyePre;
+            //  視界不良アイテム
+            obstacleObj.gameObject.tag = TagName.BadEye;
+        }
+        else
+        {
+            obstacleObj = FlipButtonPre;
+            //  ボタン反転アイテム
+            obstacleObj.gameObject.tag = TagName.FlipButton;
+        }
+
+        // 障害物を出す場所を決める
+        if (PosNum == 0)
+        {
+            obstacleObj = Instantiate(obstacleObj, obstaclePosLeft, Quaternion.identity);
+        }
+        else
+        {
+            obstacleObj = Instantiate(obstacleObj, obstaclePosRight, Quaternion.identity);
+        }
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -519,7 +537,9 @@ public class GameManager : MonoBehaviour
         }
 
         //SmartPhoneTouch();
+#if UNITY_EDITOR
         UnityEditorMouse();
+#endif
     }
 
 
