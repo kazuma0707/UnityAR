@@ -660,7 +660,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: 
 --- !u!222 &137055793
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2417,6 +2417,27 @@ MonoBehaviour:
   translateSpeed: 0.001
   zoomSpeed: 0.1
   lerpTime: 0.6
+  menuButtons:
+  - {fileID: 1322309347}
+  - {fileID: 697295235}
+  - {fileID: 433089360}
+  - {fileID: 1547371537}
+  poseButtons:
+  - {fileID: 1937436055}
+  - {fileID: 830037207}
+  - {fileID: 552342538}
+  - {fileID: 2103760774}
+  - {fileID: 520079308}
+  - {fileID: 2030242188}
+  - {fileID: 80994848}
+  - {fileID: 1203499926}
+  - {fileID: 1039459379}
+  - {fileID: 260309563}
+  - {fileID: 1447165796}
+  convButtons:
+  - {fileID: 227169039}
+  - {fileID: 134909186}
+  arButton: {fileID: 2124037680}
   Panel: {fileID: 676297655}
   YesButton: {fileID: 1580336386}
   NoButton: {fileID: 2120572811}
