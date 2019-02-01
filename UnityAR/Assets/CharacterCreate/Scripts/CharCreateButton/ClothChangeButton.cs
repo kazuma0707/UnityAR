@@ -67,6 +67,15 @@ public class ClothChangeButton : MonoBehaviour
                 // 服の色を変える
                 FitClothColorMaterial(matManager.ClothCyberMats);
                 break;
+            case ClothNum.GYM:
+                // マテリアルを配列に設定
+                FitSkinMaterial(matManager.SkinGymClothesMats);
+                mat[MyCharDataManager.HEAD_COLOR] = MyCharDataManager.Instance.Data.bodyColor[MyCharDataManager.HEAD_COLOR];
+                // 服を変える
+                MyCharDataManager.Instance.ChangeClothObj(resourceObj, mat);
+                // 服の色を変える
+                FitClothColorMaterial(matManager.GymClothesMats);
+                break;
         }
 
         // 現在選択中の服を登録
