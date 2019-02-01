@@ -252,12 +252,12 @@ public class ARRanking : MonoBehaviour
     {
 
     }
-    private void OnGUI()
-    {
-        //Vector2 label_ranking = new Vector2(Screen.width, Screen.height);
+    //private void OnGUI()
+    //{
+    //    //Vector2 label_ranking = new Vector2(Screen.width, Screen.height);
 
 
-    }
+    //}
 
     //----------------------------------------------------------------------------------------------
     // 関数の内容 | パスワード画面の表示

@@ -118,7 +118,15 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
     [SerializeField]
     Text debugText;
-
+    private void Awake()
+    {
+        //解像度の変更
+        float screenRate = (float)1024 / Screen.height;
+        if (screenRate > 1) screenRate = 1;
+        int width = (int)(Screen.width * screenRate);
+        int height = (int)(Screen.height * screenRate);
+        Screen.SetResolution(width, height, true, 15);
+    }
     // 初期化
     void Start ()
 	{
@@ -132,7 +140,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
-        _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
         _CRTcamera = Camera.main.GetComponent<CRT>();
         //rb.useGravity = true;
 
@@ -767,16 +774,10 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
         _CRTcamera.enabled = true;
-        //カメラの解像度を下げる
-        if (_lowResolutionCamera.SetResoutionWeight!=0.5f)
-        {
-            _lowResolutionCamera.SetResoutionWeight=0.5f;
-        }
+
         //ノイズ終了時
         if (second > EndNoize)
         {
-            //カメラの解像度を元に戻す
-            _lowResolutionCamera.SetResoutionWeight = 1.0f; ;
             //ノイズの解除
             _CRTcamera.enabled = false;
             NoizeTimer = 0;

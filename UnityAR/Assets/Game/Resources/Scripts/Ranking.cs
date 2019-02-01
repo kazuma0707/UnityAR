@@ -95,7 +95,6 @@ public class Ranking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(missText.activeSelf);
         style.fontSize = size;
 
         Render();
