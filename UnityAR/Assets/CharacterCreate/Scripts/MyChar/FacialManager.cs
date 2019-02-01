@@ -51,7 +51,7 @@ public class FacialManager : MonoBehaviour
 	void Update ()
     {
         // HeadObjのタグが付いたオブジェクトを取得
-        FindHeadObjTag();
+        if (!FindHeadObjTag()) return;
 
 
         // 瞬きアニメーション
@@ -66,7 +66,7 @@ public class FacialManager : MonoBehaviour
 
 
     // HeadObjのタグが付いたオブジェクトを取得
-    private void FindHeadObjTag()
+    private bool FindHeadObjTag()
     {
         if (!faceObj)
         {
@@ -75,6 +75,10 @@ public class FacialManager : MonoBehaviour
             // HeadObjのタグが付いたオブジェクトからAnimatorを取得
             animator = faceObj.GetComponent<Animator>();
         }
+
+        if (animator) return true;
+
+        return false;
     }
 
     // 瞬きアニメーション

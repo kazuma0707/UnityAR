@@ -42,6 +42,10 @@ public class HairCChangeButton : MonoBehaviour
                 FitHairColorMaterial(matManager.TwinTailMats);
                 FitShortFaceColorMaterial();
                 break;
+            case HairNum.PONY:
+                FitHairColorMaterial(matManager.PonyTailMats);
+                FitShortFaceColorMaterial();
+                break;
         }
 
         // 髪の色の番号を登録

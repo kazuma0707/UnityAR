@@ -380,11 +380,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
         // フェーズをセレクトに設定
         MyCharDataManager.Instance.phase = Phase.SELECT;
         
-        // モニターを非アクティブ化
-        foreach (GameObject monitor in monitors)
-        {
-            monitor.SetActive(false);
-        }
+       
     }
 
     // アクティブ化した時に呼び出される関数
@@ -394,6 +390,12 @@ public class CharaCreCameraCtrl : MonoBehaviour
         this.transform.position = camSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
         targetObj.transform.position = VPSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
         MyCharDataManager.Instance.phase = Phase.CHARA_CREATE;
+
+        // モニターを非アクティブ化
+        foreach (GameObject monitor in monitors)
+        {
+            monitor.SetActive(false);
+        }
     }
 
     // 動かせるかのフラグのアクセッサ
