@@ -41,7 +41,13 @@ public class PoseController : MonoBehaviour
     private const string key_isPose10 = "Pose10";
     private const string key_isGreet = "isGreet";
 
-
+    //----------------------------------------------------------------------
+    //! @brief Startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     void Start()
     {
         anim = GameObject.Find("skin").GetComponent<Animator>();
@@ -84,7 +90,6 @@ public class PoseController : MonoBehaviour
     //----------------------------------------------------------------------
     public void Pose1_OnClick()
     {
-        Debug.Log("AA");
 
         variable_cs.Pose_Flag = !variable_cs.Pose_Flag;
 

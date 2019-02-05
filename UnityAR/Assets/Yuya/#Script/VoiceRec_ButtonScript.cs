@@ -54,13 +54,16 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnClick()
     {
-        m_watson = m_obj.GetComponent<WatsonConversation>();
+        if(m_watson == null)
+        {
+            m_watson = m_obj.GetComponent<WatsonConversation>();
+        }
         if (m_flag)
         m_watson.SetVoiceRecFlag(true);
         text.SetActive(true);
         m_flag = false;
-        StartCoroutine("Flag");
-        StartCoroutine("CahngeSprite");
+        StartCoroutine(Flag());
+        StartCoroutine(CahngeSprite());
     }
 
     //----------------------------------------------------------------------
@@ -76,6 +79,14 @@ public class VoiceRec_ButtonScript : MonoBehaviour
         m_flag = true;
     }
 
+
+    //----------------------------------------------------------------------
+    //! @brief イメージの変更
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     IEnumerator CahngeSprite()
     {
         this.gameObject.GetComponent<Image>().sprite = rec_On;
