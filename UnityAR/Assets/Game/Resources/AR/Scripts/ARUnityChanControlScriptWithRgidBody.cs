@@ -118,7 +118,15 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     bool isLoad = false;
 
     bool deadFlag = false;
-
+    private void Awake()
+    {
+        //解像度の変更
+        float screenRate = (float)1024 / Screen.height;
+        if (screenRate > 1) screenRate = 1;
+        int width = (int)(Screen.width * screenRate);
+        int height = (int)(Screen.height * screenRate);
+        Screen.SetResolution(width, height, true, 15);
+    }
     // 初期化
     void Start ()
 	{
@@ -135,6 +143,7 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
 
         _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
         _CRTcamera = Camera.main.GetComponent<CRT>();
+        _CRTcamera.enabled = false;
 
         //rb.useGravity = true;
     }
@@ -767,34 +776,13 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     const int EndNoize = 5;
     private void NoizeEye()
     {
-        //    NoizeTimer += Time.deltaTime;
-        //    int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
-        //    if(!Camera.main.gameObject.GetComponent<CRT>())
-        //    {
-        //        Camera.main.gameObject.AddComponent<CRT>();
-        //       // CRT.material = NoizeMat;
-        //    }
-
-        //    if(second>EndNoize)
-        //    {
-        //        Destroy(Camera.main.gameObject.GetComponent<CRT>());
-        //        NoizeTimer = 0;
-        //        isNoizeEye = false;
-        //    }
-
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
         _CRTcamera.enabled = true;
-        //カメラの解像度を下げる
-        if (_lowResolutionCamera.SetResoutionWeight != 0.5f)
-        {
-            _lowResolutionCamera.SetResoutionWeight = 0.5f;
-        }
 
+        //ノイズ終了時
         if (second > EndNoize)
         {
-            //カメラの解像度を元に戻す
-            _lowResolutionCamera.SetResoutionWeight = 1.0f; ;
             //ノイズの解除
             _CRTcamera.enabled = false;
             NoizeTimer = 0;
@@ -802,7 +790,5 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
         }
     }
 
-
-    
 }
 
