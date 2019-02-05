@@ -39,6 +39,7 @@ public class Variable : MonoBehaviour
         set { active = value; }
     }
 
+    // ポーズフラグのアクセッサ
     public bool Pose_Flag
     {
         get { return pose_Flag; }
