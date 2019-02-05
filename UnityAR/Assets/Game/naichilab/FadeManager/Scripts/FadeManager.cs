@@ -52,8 +52,7 @@ public class FadeManager : MonoBehaviour
 
 		DontDestroyOnLoad (this.gameObject);
 	}
-
-	public void OnGUI ()
+    public void OnGUI ()
 	{
 
 		// Fade .
@@ -95,17 +94,15 @@ public class FadeManager : MonoBehaviour
 				}
 			}
 		}
-
-
-
 	}
 
-	/// <summary>
-	/// 画面遷移 .
-	/// </summary>
-	/// <param name='scene'>シーン名</param>
-	/// <param name='interval'>暗転にかかる時間(秒)</param>
-	public void LoadScene (string scene, float interval)
+
+    /// <summary>
+    /// 画面遷移 .
+    /// </summary>
+    /// <param name='scene'>シーン名</param>
+    /// <param name='interval'>暗転にかかる時間(秒)</param>
+    public void LoadScene (string scene, float interval)
 	{
 		StartCoroutine (TransScene (scene, interval));
 	}

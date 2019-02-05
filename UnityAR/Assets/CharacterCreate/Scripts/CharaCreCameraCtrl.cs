@@ -51,10 +51,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
     private Camera cam;                                        // カメラコンポーネント
 
     [SerializeField]
-    private GameObject[] monitors;                             // 部屋のモニター
-
-    [SerializeField]
-    private Text text;                                         // デバッグ用テキスト
+    private GameObject[] monitors;                             // 部屋のモニター   
         
     private Vector3 defaultTargetPos;                          // ターゲットポジションのデフォルト値
     private CursorHit cursorHit;                               // CursorHitコンポーネント
@@ -82,49 +79,10 @@ public class CharaCreCameraCtrl : MonoBehaviour
         // キャラクリ用のボタンを検索
         for (int i = 0; i < charaCreButtons.Length; i++)
         {
-            // アクティブであればタッチポジションの最大値を設定
-            //if (charaCreButtons[i].activeInHierarchy)
-            //{
-            //    touchPosLimit = TOUCH_POS_LIMIT_MAX;
-            //    break;
-            //}
             // アクティブでなければタッチポジションの最小値を設定
             touchPosLimit = TOUCH_POS_LIMIT_MIN;
         }
-
-        //for (int i = 0; i < Input.touchCount; ++i)
-        //{
-        //    var touch = Input.touches[i];
-        //    if (touch.phase == TouchPhase.Began)
-        //    {
-        //        if (IsPointerOverUIObject(touch.position))
-        //        {
-        //            text.text = "タップ！";
-        //            //Debug.Log(touch.fingerId + ": タップ！");
-        //        }
-        //    }
-        ////}
-        //for (int i = 0; i < Input.touchCount; ++i)
-        //{
-        //    var touch = Input.touches[i];
-        //    if (Input.GetMouseButton(0))
-        //    {
-        //        if (!IsPointerOverUIObject(Input.mousePosition))
-        //        {
-        //            text.text = "タップ！";
-        //            //Debug.Log(touch.fingerId + ": タップ！");
-        //        }
-        //    }
-        //}
-        //if (Input.GetMouseButton(0))
-        //{
-        //    if (IsPointerOverUIObject(Input.mousePosition))
-        //    {
-        //        text.text = "タップ！";
-        //        //Debug.Log(touch.fingerId + ": タップ！");
-        //    }
-        //}
-
+        
         // 各デバイスごとに処理を変える
 #if UNITY_EDITOR
         UnityEditorMouse();
@@ -180,12 +138,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
         {
             // UIに触れていたらカメラを動かさない
             //if (Input.mousePosition.y < posY) return;
-            if (IsPointerOverUIObject(Input.mousePosition))
-            {
-                text.text = "UIだお";
-                return;
-            }
-            text.text = "なんもないよ";
+            if (IsPointerOverUIObject(Input.mousePosition)) return;
             this.transform.Translate(-mouseX * translateSpeed, -mouseY * translateSpeed, 0);
             targetObj.transform.Translate(-mouseX * translateSpeed, -mouseY * translateSpeed, 0);
         }
@@ -198,12 +151,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
         {
             // UIに触れていたらカメラを動かさない
             //if (Input.mousePosition.y < posY) return;
-            if (IsPointerOverUIObject(Input.mousePosition))
-            {
-                text.text = "UIだお";
-                return;
-            }
-            text.text = "なんもないよ";
+            if (IsPointerOverUIObject(Input.mousePosition)) return;
             RotateCamera(mouseX, mouseY);
         }
     }
@@ -213,19 +161,10 @@ public class CharaCreCameraCtrl : MonoBehaviour
     {
         int touchCount = Input.touches.Count(t => t.phase != TouchPhase.Ended && t.phase != TouchPhase.Canceled);
 
-
-        //text.text = "W:" + Screen.width + ", H:" + Screen.height;
         if (Input.touchCount == 1)
-        {
-            // タッチポジションが一定値以下であればカメラを動かさない
-            //if (Input.GetTouch(0).position.y < touchPosLimit) return;
+        {           
             // UIに触れていたらカメラを動かさない
-            if (IsPointerOverUIObject(Input.GetTouch(0).position))
-            {
-                text.text = "UIだお";
-                return;
-            }
-            text.text = "なんもないよ";
+            if (IsPointerOverUIObject(Input.GetTouch(0).position)) return;
 
             Touch t = Input.touches.First();
 
@@ -236,14 +175,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
         }
         else if (Input.touchCount == 2)
         {
-            // タッチポジションが一定値以下であればカメラを動かさない
-            //if (Input.GetTouch(0).position.y < touchPosLimit) return;
-            if (IsPointerOverUIObject(Input.GetTouch(0).position))
-            {
-                text.text = "UIだお";
-                return;
-            }
-            text.text = "なんもないよ";
+            if (IsPointerOverUIObject(Input.GetTouch(0).position)) return;
 
             // カメラ移動
             Touch t = Input.touches.First();
@@ -252,8 +184,6 @@ public class CharaCreCameraCtrl : MonoBehaviour
             float yDelta = t.deltaPosition.y * translateSpeed;
             xDelta = Mathf.Clamp(xDelta, -5.0f, 5.0f);
             yDelta = Mathf.Clamp(yDelta, -5.0f, 5.0f);
-            //text.text = "X:" + xDelta.ToString() + ", Y:" + yDelta.ToString();
-            //this.transform.Translate(-xDelta, -yDelta, 0);
             this.transform.Translate(-xDelta, -yDelta, 0);
             targetObj.transform.Translate(-xDelta, -yDelta, 0);
 
@@ -325,15 +255,7 @@ public class CharaCreCameraCtrl : MonoBehaviour
             cursorHit.enabled = true;
         }
     }
-
-    // デバッグ用ギズモを表示
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        Gizmos.DrawWireSphere(targetPoint, 0.1f);
-    }
-
+    
     // キャラクリ用カメラとViewPointを特定の位置に移動させる
     public void CameraSetPos(CCCSetPosNum cccSetPosNum)
     {          
@@ -379,12 +301,6 @@ public class CharaCreCameraCtrl : MonoBehaviour
     {
         // フェーズをセレクトに設定
         MyCharDataManager.Instance.phase = Phase.SELECT;
-        
-        // モニターを非アクティブ化
-        foreach (GameObject monitor in monitors)
-        {
-            monitor.SetActive(false);
-        }
     }
 
     // アクティブ化した時に呼び出される関数
@@ -394,6 +310,12 @@ public class CharaCreCameraCtrl : MonoBehaviour
         this.transform.position = camSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
         targetObj.transform.position = VPSetPositions[(int)CCCSetPosNum.BODY_POS].transform.position;
         MyCharDataManager.Instance.phase = Phase.CHARA_CREATE;
+
+        // モニターを非アクティブ化
+        foreach (GameObject monitor in monitors)
+        {
+            monitor.SetActive(false);
+        }
     }
 
     // 動かせるかのフラグのアクセッサ

@@ -103,7 +103,7 @@ public class MaterialManager : MonoBehaviour
     }
 
     // 体操着の色のアクセッサ
-    public Material[] GymClothesMats
+    public Material[] ClotheGymMats
     {
         get { return clothGymClothesMatsUnit; }
     }
