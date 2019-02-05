@@ -3372,6 +3372,8 @@ MonoBehaviour:
   countDownText: {fileID: 1248381429}
   tutorialObject: {fileID: 1927535732}
   tutorialCloseFlag: 0
+  SirenAudioSource: {fileID: 1684579104}
+  Siren: {fileID: 8300000, guid: 99677242b2181904e8f16c27bcee16fd, type: 3}
 --- !u!4 &442695923
 Transform:
   m_ObjectHideFlags: 0
@@ -7907,9 +7909,9 @@ MonoBehaviour:
   jumpPossibleFlag: 0
   NoizeMat: {fileID: 2100000, guid: 446a0e17e640df140aabab81bbf89231, type: 2}
   debugText: {fileID: 0}
-  audioSource: {fileID: 0}
-  Noise: {fileID: 0}
-  Swap: {fileID: 0}
+  audioSource: {fileID: 1684579104}
+  Noise: {fileID: 8300000, guid: 42b295752c8f67d46b2cdbb7d725b733, type: 3}
+  Swap: {fileID: 8300000, guid: 144264ac7563be44d94dcc30897709cc, type: 3}
   buttons:
   - {fileID: 2086742226}
   - {fileID: 2073526982}
@@ -8289,11 +8291,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 35bf8fcbaa0cf3648880c7d0af525663, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -12733,7 +12735,7 @@ GameObject:
   - component: {fileID: 1684579104}
   m_Layer: 0
   m_Name: Audio Source
-  m_TagString: Untagged
+  m_TagString: AudioSource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12748,7 +12750,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
