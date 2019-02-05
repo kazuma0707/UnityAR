@@ -32,6 +32,7 @@ public class SceneConrller : MonoBehaviour
 
     [SerializeField]
     private GameObject variable;
+
     private Variable variable_cs;
 
 
