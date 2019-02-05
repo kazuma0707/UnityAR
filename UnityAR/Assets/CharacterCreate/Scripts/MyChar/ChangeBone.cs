@@ -66,6 +66,7 @@ public class ChangeBone : MonoBehaviour
     {
         // Boneの取得
         Transform[] meshBones = smr.bones;
+        //Debug.Log(smr.name);
 
         // SkinnedMeshRenderer毎のBoneIndexに対応したTransformの配列
         Transform[] localTransforms = new Transform[meshBones.Length];
@@ -73,6 +74,7 @@ public class ChangeBone : MonoBehaviour
         // Boneの参照を差し替える用のデータ用意
         for (int boneIndex = 0; boneIndex < meshBones.Length; boneIndex++)
         {
+            //Debug.Log(meshBones[boneIndex].name);
             // 部位と素体の同名のBoneを検索し、部位と素体のindexを整理/保存
             if (RootBoneIndexList.ContainsKey(meshBones[boneIndex].name))
             {

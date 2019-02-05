@@ -51,7 +51,7 @@ public class FacialManager : MonoBehaviour
 	void Update ()
     {
         // HeadObjのタグが付いたオブジェクトを取得
-        FindHeadObjTag();
+        if (!FindHeadObjTag()) return;
 
 
         // 瞬きアニメーション
@@ -66,7 +66,7 @@ public class FacialManager : MonoBehaviour
 
 
     // HeadObjのタグが付いたオブジェクトを取得
-    private void FindHeadObjTag()
+    private bool FindHeadObjTag()
     {
         if (!faceObj)
         {
@@ -75,6 +75,10 @@ public class FacialManager : MonoBehaviour
             // HeadObjのタグが付いたオブジェクトからAnimatorを取得
             animator = faceObj.GetComponent<Animator>();
         }
+
+        if (animator) return true;
+
+        return false;
     }
 
     // 瞬きアニメーション
@@ -100,32 +104,18 @@ public class FacialManager : MonoBehaviour
 
             if (value < BLINK_FRAG_UP) blink = BLINK_ON;
         }
-
-        //AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
+        
     }
 
     // 笑顔アニメーション
     public void SmileAnimation()
-    {        
-        // フラグが上がっていたら笑顔になる
-        //if (smile)
-        {
-            //animator.SetBool(BLINK_FRAG, BLINK_OFF);
-            blink = BLINK_OFF;
+    {
+        blink = BLINK_OFF;
 
-            animator.Play(NORMALFACE_SMILE, 0);
-            //animator.SetBool(SMILE_FRAG, SMILE_ON);
-            smile = SMILE_ON;
-        }
-
+        animator.Play(NORMALFACE_SMILE, 0);
+        smile = SMILE_ON;
         Invoke("SettingSmileAnim", 2.0f);
-
-        // デフォルトアニメーションの時、フラグを下げる
-        //else if (animator.GetCurrentAnimatorStateInfo(0).IsName(NORMALFACE_DEFAULT))
-        //{
-        //    animator.SetBool(SMILE_FRAG, SMILE_OFF);
-        //}
+        
     }
 
     private void SettingSmileAnim()

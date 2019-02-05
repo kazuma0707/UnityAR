@@ -53,7 +53,7 @@ public static class MyDebug
     /// </summary>
     /// <param name="message">メッセージ</param>
     [Conditional("DEBUG")]
-    public static void LogError(Object message)
+    public static void LogError(object message)
     {
         UnityEngine.Debug.LogError(message);
     }
@@ -64,7 +64,7 @@ public static class MyDebug
     /// <param name="message">メッセージ</param>
     /// <param name="context">ログを出力したオブジェクト</param>
     [Conditional("DEBUG")]
-    public static void LogError(Object message, Object context)
+    public static void LogError(object message, Object context)
     {
         UnityEngine.Debug.LogError(message, context);
     }

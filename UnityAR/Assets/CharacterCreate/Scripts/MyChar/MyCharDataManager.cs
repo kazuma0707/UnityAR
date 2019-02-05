@@ -365,6 +365,10 @@ public class MyCharDataManager : MonoBehaviour
         //if (saveData.hairColor2 != defaultHairColor)
         //    CharaCreateManager.ChangeHairColor(defaultHairColor, sotai);
 
+        // 目の模様を変える(既に同じものを選択していなければ)
+        if (saveData.eyePattern.name != defaultEyePatternMat.name)
+            CharaCreateManager.ChangeEyePattern(defaultEyePatternMat, sotai);
+
         // 目の模様(＋色)を変える(既に同じものを選択していなければ)
         if (saveData.eyePattern.name != defaultEyePatternMat.name)
             CharaCreateManager.ChangeEyePattern(defaultEyePatternMat, sotai);
@@ -382,11 +386,18 @@ public class MyCharDataManager : MonoBehaviour
         saveData.hair = defaultHair;
         saveData.hairColor = defaultHairColorMat;
         saveData.eyeLine = defaultEyeLine;
-        saveData.eyePattern = defaultEyePatternMat;
+        saveData.eyePattern = defaultEyePatternMat;        
         saveData.cloth = defaultCloth;
         saveData.clothColor = defaultClothColorMat;
         saveData.bodyScale = defaultBodyScale;
         saveData.bodyColor = defaultBodyColorMat;
+        saveData.ecn = EyeColorNum.YELLOW;
+        saveData.clothNum = ClothNum.NORMAL;
+        saveData.bcn = BodyColorNum.NORMAL;
+        saveData.ccn = ClothColorNum.YELLOW;
+        saveData.eyePNum = EyePatternNum.NORMAL;
+        saveData.hairNum = HairNum.SHORT;
+        saveData.hcn = HairColorNum.PINK;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -626,7 +637,8 @@ public class MyCharDataManager : MonoBehaviour
         db.m_Colliders.AddRange(DBCs);
 
         // FacialManagerのsmileフラグを上げる
-        sotai.GetComponent<FacialManager>().SmileAnimation();
+        if (sotai.GetComponent<FacialManager>())
+            sotai.GetComponent<FacialManager>().SmileAnimation();
     }
 
     //----------------------------------------------------------------------------------------------

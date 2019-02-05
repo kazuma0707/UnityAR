@@ -42,6 +42,11 @@ public class BodyCChangeButton : MonoBehaviour
                 FitHairMaterial();
                 MyCharDataManager.Instance.ChangeBodyColor(bodyMats);
                 break;
+            case ClothNum.GYM:
+                FitSkinMaterial(matManager.SkinGymClothesMats);
+                FitHairMaterial();
+                MyCharDataManager.Instance.ChangeBodyColor(bodyMats);
+                break;
         }
 
         // 体の色の番号を登録

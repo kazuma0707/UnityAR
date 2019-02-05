@@ -29,7 +29,7 @@ namespace Vuforia
             // Check for an initialization error on start.
             VuforiaRuntime.Instance.RegisterVuforiaInitErrorCallback(OnVuforiaInitializationError);
         }
-
+#if UNITY_EDITOR
         void OnGUI()
         {
             // On error, create a full screen window.
@@ -37,7 +37,7 @@ namespace Vuforia
                 GUI.Window(0, new Rect(0, 0, Screen.width, Screen.height),
                                        DrawWindowContent, WINDOW_TITLE);
         }
-
+#endif
         /// <summary>
         /// When this game object is destroyed, it unregisters itself as event handler
         /// </summary>

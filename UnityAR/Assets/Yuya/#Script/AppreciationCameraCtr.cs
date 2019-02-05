@@ -101,7 +101,10 @@ public class AppreciationCameraCtr : MonoBehaviour
         cam = GetComponent<Camera>();
 
         // 初期位置を設定
+        Debug.Log("this.transform.position : " + this.transform.position);
+        Debug.Log("camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition : " + camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition);
         this.transform.position = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.localPosition;
+        Debug.Log("this.transform.positionAAAAAAA : " + this.transform.position);
 
         this.transform.eulerAngles = camSetPositions[(int)ACCSetPosNum.DEFAULT_POS].transform.eulerAngles;
         targetObj.transform.position = VPSetPositions[0].transform.localPosition;

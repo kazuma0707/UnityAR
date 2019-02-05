@@ -12,18 +12,25 @@ public class SetHairsFreeColor : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        Transform[] meshBones = this.GetComponent<SkinnedMeshRenderer>().bones;
+        foreach(Transform bone in meshBones)
+        {
+            Debug.Log(bone.name);
+            
+        }
+
         // マイキャラのデータマネージャーとレンダラーのコンポーネントを取得
-        FindComponent();
+        //FindComponent();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        // キャラクリシーンでなければ何もしない
-        if (SceneManager.GetActiveScene().name != SceneName.CharCreate) return;
+        //// キャラクリシーンでなければ何もしない
+        //if (SceneManager.GetActiveScene().name != SceneName.CharCreate) return;
 
-        // マイキャラのデータマネージャーとレンダラーのコンポーネントを取得
-        FindComponent();
+        //// マイキャラのデータマネージャーとレンダラーのコンポーネントを取得
+        //FindComponent();
 
         // 色を変える
         //Color color = MyCharDataManager.Instance.Data.hairColor2;
