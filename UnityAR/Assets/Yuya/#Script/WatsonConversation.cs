@@ -111,14 +111,14 @@ public class WatsonConversation : MonoBehaviour
     {
         if (m_voiceRecFlag)
         {
-            Debug.Log("Start record");
+            MyDebug.Log("Start record");
             m_text.text = "録音開始";
             audioSource.clip = Microphone.Start(null, true, 10, 44100);
             audioSource.loop = false;
             audioSource.spatialBlend = 0.0f;
             yield return new WaitForSeconds(2.0f);
             Microphone.End(null);
-            Debug.Log("Finish record");
+            MyDebug.Log("Finish record");
             m_text.text = "録音終了";
 
 
@@ -219,7 +219,7 @@ public class WatsonConversation : MonoBehaviour
             foreach (object o in (List<object>)dic_resp["intents"])
             {
                 Dictionary<string, object> dic_intent = (Dictionary<string, object>)o;
-                Debug.Log("intent: " + dic_intent["intent"] + ", confidence: " + dic_intent["confidence"]);
+                MyDebug.Log("intent: " + dic_intent["intent"] + ", confidence: " + dic_intent["confidence"]);
             }
 
             Dictionary<string, object> dic_output = (Dictionary<string, object>)dic_resp["output"];
@@ -233,7 +233,7 @@ public class WatsonConversation : MonoBehaviour
             m_TextToSpeech.Voice = VoiceType.ja_JP_Emi;
             m_TextToSpeech.ToSpeech(HandleToSpeechCallback, OnFail, res);
 
-        Debug.Log("response: " + res);
+        MyDebug.Log("response: " + res);
         }
 
     }
@@ -290,7 +290,7 @@ public class WatsonConversation : MonoBehaviour
                 foreach (var alt in res.alternatives)
                 {
                     string text = alt.transcript;
-                    Debug.Log(string.Format("{0} ({1}, {2:0.00})\n", text, res.final ? "Final" : "Interim", alt.confidence));
+                    MyDebug.Log(string.Format("{0} ({1}, {2:0.00})\n", text, res.final ? "Final" : "Interim", alt.confidence));
 
                     //text を Conversation Service に送って処理
                     m_Conversation.VersionDate = "2017-05-26";
@@ -310,7 +310,7 @@ public class WatsonConversation : MonoBehaviour
     //----------------------------------------------------------------------
     private void OnFail(RESTConnector.Error error, Dictionary<string, object> customData)
     {
-        Debug.Log("SampleSpeechToText.OnFail() Error received: " + error.ToString());
+        MyDebug.Log("SampleSpeechToText.OnFail() Error received: " + error.ToString());
     }
 
 
