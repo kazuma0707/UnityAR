@@ -172,8 +172,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         {
             NoizeEye();
         }
-    
-       
 
         gameObject.transform.Translate(0, -manager.GetComponent<GameManager>().FallSpeed - ADJUSTMENT, 0);
 
@@ -810,10 +808,11 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     const int EndNoize = 5;//ノイズの終了時間
     private void NoizeEye()
     {
-        Noiseflag = true;
+       
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
         _CRTcamera.enabled = true;
+        
 
         if (Noiseflag)
         {
@@ -829,6 +828,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             _CRTcamera.enabled = false;
             NoizeTimer = 0;
             isNoizeEye = false;
+            Noiseflag = true;
         }
     }
     

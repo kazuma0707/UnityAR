@@ -128,17 +128,16 @@ public class GameManager : MonoBehaviour
     float flash;
 
 
+    public AudioSource SirenAudioSource;
+    [SerializeField]
+    private AudioClip Siren;
 
-    //警告音
-    //[SerializeField]
-    //private AudioSource Siren;
-    //ノイズ
-    //[SerializeField]
-    //private AudioSource Noise;
+    private bool flag = true;
 
     // Use this for initialization
     void Start()
     {
+        SirenAudioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
 
         // static public変数の初期化
         gameScore = 0;
@@ -244,6 +243,13 @@ public class GameManager : MonoBehaviour
             flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
             // 点滅を行う
             WarningObJectImage.color = new Color(1.0f, 1.0f, 0.0f, flash);
+
+            if(flag)
+            {
+                SirenAudioSource.PlayOneShot(Siren);
+
+                flag = false;
+            }
         }
 
         ////  レベルアップテキストがアクティブ状態なら
@@ -423,6 +429,7 @@ public class GameManager : MonoBehaviour
 
         // 警告の表示
         warningObject.SetActive(true);
+        flag = true;
         // 障害物を出すまでの間隔
         yield return new WaitForSeconds(WARNING_TIME);
         // 警告表示を消す
