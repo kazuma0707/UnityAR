@@ -7,12 +7,16 @@ using UnityEngine.UI;
 public class SceneConrller : MonoBehaviour
 {
     [Header("管理するオブジェクト")]
+    // メニューボタン
     [SerializeField]
-    private Button[] menuButtons;   // 対応するオブジェクト
+    private Button[] menuButtons;
+    // ポーズボタン
     [SerializeField]
-    private Button[] poseButtons;   // 対応するオブジェクト
+    private Button[] poseButtons;
+    // 会話ボタン
     [SerializeField]
-    private Button[] convButtons;   // 対応するオブジェクト
+    private Button[] convButtons;   
+    // ARボタン
     [SerializeField]
     private Button arButton;
 
@@ -31,7 +35,13 @@ public class SceneConrller : MonoBehaviour
     private Variable variable_cs;
 
 
-
+    //----------------------------------------------------------------------
+    //! @brief Startメソッド
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     // Use this for initialization
     void Start()
     {
