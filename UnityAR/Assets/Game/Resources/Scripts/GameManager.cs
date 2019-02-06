@@ -127,12 +127,11 @@ public class GameManager : MonoBehaviour
     bool obstaclFlag;
     float flash;
 
-
     public AudioSource SirenAudioSource;
     [SerializeField]
     private AudioClip Siren;
 
-    private bool flag = true;
+    private bool SirenFlag = true;
 
     // Use this for initialization
     void Start()
@@ -244,11 +243,11 @@ public class GameManager : MonoBehaviour
             // 点滅を行う
             WarningObJectImage.color = new Color(1.0f, 1.0f, 0.0f, flash);
 
-            if(flag)
+            if(SirenFlag)
             {
                 SirenAudioSource.PlayOneShot(Siren);
 
-                flag = false;
+                SirenFlag = false;
             }
         }
 
@@ -429,7 +428,7 @@ public class GameManager : MonoBehaviour
 
         // 警告の表示
         warningObject.SetActive(true);
-        flag = true;
+        SirenFlag = true;
         // 障害物を出すまでの間隔
         yield return new WaitForSeconds(WARNING_TIME);
         // 警告表示を消す
