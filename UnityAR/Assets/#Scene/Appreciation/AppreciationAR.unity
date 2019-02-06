@@ -922,8 +922,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 270.3, y: 1.999939}
-  m_SizeDelta: {x: 1340.7, y: 300}
+  m_AnchoredPosition: {x: 300, y: 1.999939}
+  m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &579772973
 MonoBehaviour:
@@ -952,10 +952,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: c8d7b4f62424c5343b6b4b742c1c85f0,
+    m_HighlightedSprite: {fileID: 21300000, guid: ff0d676d7cfef40498b14e576b7d9d19,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: c8d7b4f62424c5343b6b4b742c1c85f0, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 7df772997a2896c4880f680ef07c977a, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: ff0d676d7cfef40498b14e576b7d9d19, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 250a595501a061442ba9396c479254f8, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -966,7 +966,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 268939838}
         m_MethodName: OnGame
         m_Mode: 1
         m_Arguments:
@@ -999,7 +999,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7df772997a2896c4880f680ef07c977a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 250a595501a061442ba9396c479254f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1087,6 +1087,9 @@ MonoBehaviour:
   Panel: {fileID: 420593171}
   YesButton: {fileID: 535910422}
   NoButton: {fileID: 427549056}
+  menu_On: {fileID: 21300000, guid: 6942ed8b4f0c8114abbe423c67dc7a6a, type: 3}
+  menu_Off: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd, type: 3}
+  voice_text: {fileID: 1428327476}
   variable: {fileID: 1305200127}
   animator: {fileID: 1501373386}
 --- !u!114 &647448651
@@ -1582,7 +1585,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u2261"
+  m_Text: 
 --- !u!222 &744958050
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1656,8 +1659,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 3c126cd7ab3d06641a9e0b3dd3bc1006, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2090,7 +2093,7 @@ GameObject:
   - component: {fileID: 902131153}
   m_Layer: 5
   m_Name: PoseButton
-  m_TagString: Untagged
+  m_TagString: PoseButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2148,6 +2151,9 @@ MonoBehaviour:
   Panel: {fileID: 420593171}
   YesButton: {fileID: 535910422}
   NoButton: {fileID: 427549056}
+  menu_On: {fileID: 21300000, guid: 6942ed8b4f0c8114abbe423c67dc7a6a, type: 3}
+  menu_Off: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd, type: 3}
+  voice_text: {fileID: 1428327476}
   variable: {fileID: 1305200127}
   animator: {fileID: 1501373386}
 --- !u!114 &902131154
@@ -3268,7 +3274,7 @@ GameObject:
   - component: {fileID: 1305200129}
   m_Layer: 0
   m_Name: Variable
-  m_TagString: Untagged
+  m_TagString: Variable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3298,6 +3304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
+  pose_Flag: 0
 --- !u!1 &1339253179
 GameObject:
   m_ObjectHideFlags: 0
@@ -3494,8 +3501,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 270.3, y: -403.00006}
-  m_SizeDelta: {x: 1340.7, y: 300}
+  m_AnchoredPosition: {x: 300, y: -403.00006}
+  m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1373685484
 MonoBehaviour:
@@ -3524,10 +3531,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: dc42b9729092eba4199bb2c413b19475,
+    m_HighlightedSprite: {fileID: 21300000, guid: 61f5f6815ce31604fa587b2917f1b083,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: dc42b9729092eba4199bb2c413b19475, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 3a4c4167a748daf4fb82d58bf04055aa, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 61f5f6815ce31604fa587b2917f1b083, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: b55476cb64282194aa2d47b7a8054221, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -3538,7 +3545,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 268939838}
         m_MethodName: OnReCharacterCreate
         m_Mode: 1
         m_Arguments:
@@ -3571,7 +3578,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 3a4c4167a748daf4fb82d58bf04055aa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b55476cb64282194aa2d47b7a8054221, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3871,7 +3878,7 @@ GameObject:
   - component: {fileID: 1428327476}
   m_Layer: 5
   m_Name: VoiceText
-  m_TagString: Untagged
+  m_TagString: VoiceText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3947,7 +3954,7 @@ GameObject:
   - component: {fileID: 1501373386}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4277,7 +4284,7 @@ GameObject:
   - component: {fileID: 1559319105}
   m_Layer: 5
   m_Name: ConversationButton
-  m_TagString: Untagged
+  m_TagString: ConvButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4335,6 +4342,9 @@ MonoBehaviour:
   Panel: {fileID: 420593171}
   YesButton: {fileID: 535910422}
   NoButton: {fileID: 427549056}
+  menu_On: {fileID: 21300000, guid: 6942ed8b4f0c8114abbe423c67dc7a6a, type: 3}
+  menu_Off: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd, type: 3}
+  voice_text: {fileID: 1428327476}
   variable: {fileID: 1305200127}
   animator: {fileID: 1501373386}
 --- !u!114 &1559319106
@@ -5284,8 +5294,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 270.3, y: 414}
-  m_SizeDelta: {x: 1340.7, y: 300}
+  m_AnchoredPosition: {x: 300, y: 414}
+  m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1937108832
 MonoBehaviour:
@@ -5314,10 +5324,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 6e61f050c23b27d4f8486443d2a08161,
+    m_HighlightedSprite: {fileID: 21300000, guid: ec19fc0931ae46a43827c91e43fdfcc6,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 6e61f050c23b27d4f8486443d2a08161, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: b9c751ce980da0b4185b521595cba2be, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: ec19fc0931ae46a43827c91e43fdfcc6, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 85a4fad7759f4ec468e148c1a5f40172, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -5328,7 +5338,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 268939838}
         m_MethodName: OnSchoolIntroduction
         m_Mode: 1
         m_Arguments:
@@ -5361,7 +5371,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b9c751ce980da0b4185b521595cba2be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 85a4fad7759f4ec468e148c1a5f40172, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5390,7 +5400,7 @@ GameObject:
   - component: {fileID: 1941118186}
   m_Layer: 5
   m_Name: VoiceRecButton
-  m_TagString: Untagged
+  m_TagString: VoiceRecButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5427,6 +5437,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_obj: {fileID: 0}
   m_watson: {fileID: 0}
+  menuButton: {fileID: 2042683515}
+  poseButton: {fileID: 902131154}
+  convButton: {fileID: 1559319106}
+  arButton: {fileID: 647448651}
   text: {fileID: 1428327474}
   rec_On: {fileID: 21300000, guid: 2a1b8d74b47abde4dabaa641a9a07809, type: 3}
   rec_Off: {fileID: 21300000, guid: 3b878d207b6486a48b31260cb21a3db1, type: 3}
@@ -5808,7 +5822,7 @@ GameObject:
   - component: {fileID: 2042683514}
   m_Layer: 5
   m_Name: MenuButton
-  m_TagString: Untagged
+  m_TagString: MenuButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5866,6 +5880,9 @@ MonoBehaviour:
   Panel: {fileID: 420593171}
   YesButton: {fileID: 535910422}
   NoButton: {fileID: 427549056}
+  menu_On: {fileID: 21300000, guid: 6942ed8b4f0c8114abbe423c67dc7a6a, type: 3}
+  menu_Off: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd, type: 3}
+  voice_text: {fileID: 1428327476}
   variable: {fileID: 1305200127}
   animator: {fileID: 1501373386}
 --- !u!114 &2042683515
@@ -5894,9 +5911,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 6942ed8b4f0c8114abbe423c67dc7a6a, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -5939,8 +5957,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: e05db4eadab4a8b42b98a8db8b2fb6dd, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5990,7 +6008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -650, y: 496}
+  m_AnchoredPosition: {x: -649.99994, y: 496}
   m_SizeDelta: {x: 700, y: 1000}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2047637774
