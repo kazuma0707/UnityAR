@@ -74,7 +74,7 @@ public class TitleManager: MonoBehaviour {
         {
             float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
             //  点滅を行う
-            startText.GetComponent<Text>().color = new Color(1.0f, 1.0f, 1.0f, flash);
+            startText.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, flash);
         }
 
         // 左クリックされた瞬間

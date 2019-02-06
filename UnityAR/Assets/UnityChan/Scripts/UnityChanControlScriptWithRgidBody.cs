@@ -116,8 +116,23 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 
     bool deadFlag = false;
 
+
+    private bool Noiseflag = true;
+    private bool Swapflag = true;
+
     [SerializeField]
     Text debugText;
+
+    //音
+    [SerializeField]
+    private AudioSource audioSource;
+    //ノイズ
+    [SerializeField]
+    private AudioClip Noise;
+    [SerializeField]
+    //swap
+    private AudioClip Swap;
+
     private void Awake()
     {
         //解像度の変更
@@ -130,8 +145,10 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     // 初期化
     void Start ()
 	{
-		// Animatorコンポーネントを取得する
-		anim = GetComponent<Animator>();
+        audioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
+
+        // Animatorコンポーネントを取得する
+        anim = GetComponent<Animator>();
 		// CapsuleColliderコンポーネントを取得する（カプセル型コリジョン）
 		col = GetComponent<BoxCollider>();
 		rb = GetComponent<Rigidbody>();
@@ -155,8 +172,6 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
         {
             NoizeEye();
         }
-    
-       
 
         gameObject.transform.Translate(0, -manager.GetComponent<GameManager>().FallSpeed - ADJUSTMENT, 0);
 
@@ -732,10 +747,13 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     ***************************************************************/
     private void FilipButton()
     {
-        _Time+=Time.deltaTime;
+        Swapflag = true;
+
+        _Time += Time.deltaTime;
         int second = (int)_Time % 60;//秒.timeを60で割った余り.
         if (!_once)//1フレームだけに制御する。
         {
+
             //ボタンの入れ替え
             canvasObj.GetComponent<Animator>().SetBool(Switch, true);
             //for (int i = 0; i < MAX_BUTTON; i++)
@@ -747,10 +765,26 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             //buttons[0].transform.position = FirstPos[2];
             //buttons[2].transform.position = FirstPos[0];
             _once = true;
+
+            if (Swapflag)
+            {
+                audioSource.PlayOneShot(Swap);
+
+                Swapflag = false;
+            }
+
         }
         //反転終了時間を超えたら
         if(second>FilipNum)
         {
+            if (Swapflag)
+            {
+                audioSource.PlayOneShot(Swap);
+
+                Swapflag = false;
+            }
+
+
             //ボタンをもとに戻す
             canvasObj.GetComponent<Animator>().SetBool(Switch, false);
             isFilipEvent = false;
@@ -765,15 +799,25 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             //    _Time = 0;
             //}
         }
+
     }
 
     float NoizeTimer;//ノイズの時間
     const int EndNoize = 5;//ノイズの終了時間
     private void NoizeEye()
     {
+       
         NoizeTimer += Time.deltaTime;
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
         _CRTcamera.enabled = true;
+        
+
+        if (Noiseflag)
+        {
+            audioSource.PlayOneShot(Noise);
+
+            Noiseflag = false;
+        }
 
         //ノイズ終了時
         if (second > EndNoize)
@@ -782,6 +826,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
             _CRTcamera.enabled = false;
             NoizeTimer = 0;
             isNoizeEye = false;
+            Noiseflag = true;
         }
     }
     

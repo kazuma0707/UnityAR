@@ -120,9 +120,17 @@ public class ARGameManager : MonoBehaviour
     //　モード切替用
     private bool modeFlag = false;
 
+    public AudioSource SirenAudioSource;
+    [SerializeField]
+    private AudioClip Siren;
+
+    private bool SirenFlag = true;
+
     // Use this for initialization
     void Start()
     {
+        SirenAudioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
+
         // static public変数の初期化
         gameScore = 0;
 
@@ -228,12 +236,19 @@ public class ARGameManager : MonoBehaviour
         }
 
         // 警告オブジェクトがアクティブ状態なら
-        //if(warningObject.activeSelf)
-        //{
-        //    float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
-        //    // 点滅を行う
-        //    warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
-        //}
+        if(warningObject.activeSelf)
+        {
+            //    float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
+            //    // 点滅を行う
+            //    warningObject.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, flash);
+
+            if (SirenFlag)
+            {
+                SirenAudioSource.PlayOneShot(Siren);
+
+                SirenFlag = false;
+            }
+        }
 
         ////  レベルアップテキストがアクティブ状態なら
         //if (LevelUpText.activeSelf)
@@ -414,6 +429,7 @@ public class ARGameManager : MonoBehaviour
 
         // 警告の表示
         warningObject.SetActive(true);
+        SirenFlag = true;
         // 障害物を出すまでの間隔
         yield return new WaitForSeconds(WARNING_TIME);
         // 警告表示を消す

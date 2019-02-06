@@ -201,6 +201,8 @@ public class MyCharDataManager : MonoBehaviour
     private DynamicBone defaultClothDB;          // 服のDynamicBoneのデフォルト値
     private DynamicBone defaultHairDB;           // 髪のDynamicBoneのデフォルト値
 
+    public bool hairChangeFlag;                  // 髪型が変えられる状態のフラグ
+
     public Phase phase;                          // フェーズの状態
 
     public void Awake()
@@ -252,6 +254,8 @@ public class MyCharDataManager : MonoBehaviour
 
         defaultClothDB = sotaiBone.GetComponent<DynamicBone>();
         defaultHairDB = hairBaseBone.GetComponent<DynamicBone>();
+
+        hairChangeFlag = false;
     }
 
     // Update is called once per frame

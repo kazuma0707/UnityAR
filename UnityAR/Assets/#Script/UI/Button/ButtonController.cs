@@ -13,6 +13,7 @@ public class ButtonController : BaseButton {
     [SerializeField]
     private Animator ClassPanel;
     public Animator AllButtonAnim;
+    public GameObject MenuButtonAnim;
     const string BOLL_ANIM= "boolAnim";
     const string ONCE_ANIM = "OnceAnim";
     const string ONCE= "once";
@@ -82,6 +83,35 @@ public class ButtonController : BaseButton {
         {
             this.AllButtonClick();
         }
+        else if(ButtonName.ARScene.GameButton.Equals(objectName))
+        {
+            this.GameButtonClick();
+        }
+        else if (ButtonName.ARScene.ReCharacterCreateButton.Equals(objectName))
+        {
+            this.ReCharacterCreateButtonClick();
+        }
+        else if (ButtonName.ARScene.AppreciationButton.Equals(objectName))
+        {
+            this.ReCharacterCreateButtonClick();
+        }
+
+
+
+    }
+    private void GameButtonClick()
+    {
+        FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
+
+    }
+    private void AppreciationButtonClick()
+    {
+        FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+    }
+
+    private void ReCharacterCreateButtonClick()
+    {
+        FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
 
     }
     private void AllButtonClick()
@@ -93,16 +123,38 @@ public class ButtonController : BaseButton {
         else
         {
             AllButtonAnim.SetBool(ONCE, false);
+            isMenuAnim = false;
+            iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+
         }
-        if(ClassPanel.GetBool(BOLL_ANIM))
+        if (ClassPanel.GetBool(BOLL_ANIM))
         {
             ClassPanel.SetBool(BOLL_ANIM, false);
+
             _setText.SetTextNumber = 0;
         }
     }
+    bool isMenuAnim = false;
     private void ReturnSelectButtonClick()
     {
-        FadeManager.Instance.LoadScene(SceneName.CharCreate,2.0f);
+        //MenuButtonが出でないときボタンを押したら
+        if(!isMenuAnim)
+        {
+            iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", 680.0f, "time", 3.0f));
+            isMenuAnim = true;
+            if(ClassPanel.GetBool(BOLL_ANIM))
+            {
+                ClassPanel.SetBool(BOLL_ANIM, false);
+            }
+        }
+        else
+        {
+            iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+
+            isMenuAnim = false;
+        }
+
+
     }
     private void GSButtonClick()
     {
@@ -136,14 +188,24 @@ public class ButtonController : BaseButton {
     {
         if(!ClassPanel.GetBool(BOLL_ANIM))
         {
-            ClassPanel.SetBool(BOLL_ANIM, true); ClassPanel.SetBool("OnceAnim", false);
+            ClassPanel.SetBool(BOLL_ANIM, true); 
+            if(isMenuAnim)
+            {
+                ReturnMenuAnim();
+            }
         }
         else
         {
             ClassPanel.SetBool(BOLL_ANIM, false);
+            ReturnMenuAnim();
             _setText.SetTextNumber = 0;
             
         }
+    }
+    void ReturnMenuAnim()
+    {
+        iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+        isMenuAnim = false;
     }
     
 }

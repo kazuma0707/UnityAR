@@ -15,6 +15,7 @@ public class Variable : MonoBehaviour
 {
     [SerializeField]
     private bool active;
+    [SerializeField]
     private bool pose_Flag;
 
     //----------------------------------------------------------------------
