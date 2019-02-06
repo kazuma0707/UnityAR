@@ -89,8 +89,13 @@ public class ButtonController : BaseButton {
         }
         else if (ButtonName.ARScene.ReCharacterCreateButton.Equals(objectName))
         {
-            this.ReturnSelectButtonClick();
+            this.ReCharacterCreateButtonClick();
         }
+        else if (ButtonName.ARScene.AppreciationButton.Equals(objectName))
+        {
+            this.ReCharacterCreateButtonClick();
+        }
+
 
 
     }
@@ -98,6 +103,10 @@ public class ButtonController : BaseButton {
     {
         FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
 
+    }
+    private void AppreciationButtonClick()
+    {
+        FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
     }
 
     private void ReCharacterCreateButtonClick()
@@ -133,6 +142,10 @@ public class ButtonController : BaseButton {
         {
             iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", 680.0f, "time", 3.0f));
             isMenuAnim = true;
+            if(ClassPanel.GetBool(BOLL_ANIM))
+            {
+                ClassPanel.SetBool(BOLL_ANIM, false);
+            }
         }
         else
         {
@@ -175,14 +188,24 @@ public class ButtonController : BaseButton {
     {
         if(!ClassPanel.GetBool(BOLL_ANIM))
         {
-            ClassPanel.SetBool(BOLL_ANIM, true); ClassPanel.SetBool("OnceAnim", false);
+            ClassPanel.SetBool(BOLL_ANIM, true); 
+            if(isMenuAnim)
+            {
+                ReturnMenuAnim();
+            }
         }
         else
         {
             ClassPanel.SetBool(BOLL_ANIM, false);
+            ReturnMenuAnim();
             _setText.SetTextNumber = 0;
             
         }
+    }
+    void ReturnMenuAnim()
+    {
+        iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+        isMenuAnim = false;
     }
     
 }
