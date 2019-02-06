@@ -19,6 +19,16 @@ public class VoiceRec_ButtonScript : MonoBehaviour
     [SerializeField]
     private WatsonConversation m_watson;
 
+    [Header("管理するオブジェクト")]
+    [SerializeField]
+    private Button menuButton;   // 対応するオブジェクト
+    [SerializeField]
+    private Button poseButton;   // 対応するオブジェクト
+    [SerializeField]
+    private Button convButton;   // 対応するオブジェクト
+    [SerializeField]
+    private Button arButton;   // 対応するオブジェクト
+
     [SerializeField]
     private GameObject text;
 
@@ -64,6 +74,55 @@ public class VoiceRec_ButtonScript : MonoBehaviour
         m_flag = false;
         StartCoroutine(Flag());
         StartCoroutine(CahngeSprite());
+        StartCoroutine(InteractiveButtonChange());
+    }
+
+    //----------------------------------------------------------------------
+    //! @brief ボタンのinteractableをFalseにする処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    public void NonActiveButton()
+    {
+        this.GetComponent<Button>().interactable = false;
+        menuButton.interactable = false;
+        poseButton.interactable = false;
+        convButton.interactable = false;
+        arButton.interactable = false;
+    }
+
+    //----------------------------------------------------------------------
+    //! @brief ボタンのinteractableをTrueにする処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    public void ActiveButton()
+    {
+        this.GetComponent<Button>().interactable = true;
+        menuButton.interactable = true;
+        poseButton.interactable = true;
+        convButton.interactable = true;
+        arButton.interactable = true;
+    }
+
+    //----------------------------------------------------------------------
+    //! @brief ボタンのinteractableを変更するコルーチン
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
+    IEnumerator InteractiveButtonChange()
+    {
+        NonActiveButton();
+
+        yield return new WaitForSeconds(12.0f);
+
+        ActiveButton();
     }
 
     //----------------------------------------------------------------------

@@ -25,7 +25,13 @@ public class AppreciationButtonCtr : MonoBehaviour
     [SerializeField]
     private GameObject NoButton;
 
+    [SerializeField]
+    private Sprite menu_On;
+    [SerializeField]
+    private Sprite menu_Off;
 
+    [SerializeField]
+    private Text voice_text;
 
     [SerializeField]
     private GameObject variable;
@@ -36,7 +42,6 @@ public class AppreciationButtonCtr : MonoBehaviour
     private const string key_isPose = "isPose";
     private const string key_isMenu = "isMenu";
     private const string key_isConv = "isConv";
-    private AnimatorStateInfo stateInfo;
 
 
     // Use this for initialization
@@ -61,6 +66,8 @@ public class AppreciationButtonCtr : MonoBehaviour
     {
         StartCoroutine(InteractiveButtonChange());
 
+        voice_text.text = "";
+
         variable_cs.Active = !variable_cs.Active;
 
         // アニメーションのフラグ変更
@@ -80,6 +87,12 @@ public class AppreciationButtonCtr : MonoBehaviour
             variable_cs.Active = false;
         }
 
+        if(variable_cs.Active)
+            this.gameObject.GetComponent<Image>().sprite = menu_On;
+        else
+            this.gameObject.GetComponent<Image>().sprite = menu_Off;
+
+
         Panel.SetActive(false);
         YesButton.SetActive(false);
         NoButton.SetActive(false);
@@ -90,6 +103,8 @@ public class AppreciationButtonCtr : MonoBehaviour
     public void OnPoseClick()
     {
         StartCoroutine(InteractiveButtonChange());
+
+        voice_text.text = "";
 
         variable_cs.Active = !variable_cs.Active;
 
@@ -222,6 +237,8 @@ public class AppreciationButtonCtr : MonoBehaviour
 
     public void OnARPanel()
     {
+        voice_text.text = "";
+
         variable_cs.Active = !variable_cs.Active;
 
         // アニメーションのフラグ変更
