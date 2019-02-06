@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using IBM.Watson.DeveloperCloud.Services.TextToSpeech.v1;
 using IBM.Watson.DeveloperCloud.Services.SpeechToText.v1;
 using IBM.Watson.DeveloperCloud.Services.Conversation.v1;
@@ -25,6 +26,8 @@ public class WatsonConversation : MonoBehaviour
     [SerializeField]
     private bool m_voiceRecFlag;
 
+    [SerializeField]
+    private GameObject m_canvas;
 
     [SerializeField]
     private SpeechToText m_SpeechToText;
@@ -48,6 +51,21 @@ public class WatsonConversation : MonoBehaviour
     private const string key_isPose10 = "Pose10";
     private const string key_isGreet = "isGreet";
 
+    private void Awake()
+    {
+        if (SceneManager.GetActiveScene().name == "Appreciation")
+        {
+            m_canvas = GameObject.FindWithTag("Canvas");
+            m_text = GameObject.FindWithTag("VoiceText").GetComponent<Text>();
+        }
+        else if(SceneManager.GetActiveScene().name == "AppreciationAR")
+        {
+            m_canvas = GameObject.FindWithTag("Canvas");
+            m_text = GameObject.FindWithTag("VoiceText").GetComponent<Text>();
+            m_canvas.SetActive(false);
+        }
+    }
+
     //----------------------------------------------------------------------
     //! @brief startメソッド
     //!
@@ -59,10 +77,7 @@ public class WatsonConversation : MonoBehaviour
     {
         m_voiceRecFlag = false;
 
-        m_text = GameObject.Find("VoiceText").GetComponent<Text>();
-
         m_variable_cs = GameObject.Find("Variable").GetComponent<Variable>();
-
 
         string tts_id = "be09fdb0-d674-480d-a6bb-19e50445da09";                  // 資格情報より
         string tts_pw = "papBdt1cRbfp";                                          // 資格情報より
@@ -146,6 +161,7 @@ public class WatsonConversation : MonoBehaviour
     {
         if (resp is Dictionary<string, object>)
         {
+            m_variable_cs.Pose_Flag = !m_variable_cs.Pose_Flag;
             // アニメーションのフラグ変更
             if (!m_variable_cs.Pose_Flag && this.animator.GetBool(key_isPose1))
             {
@@ -214,6 +230,7 @@ public class WatsonConversation : MonoBehaviour
 
             this.animator.SetBool(key_isGreet, m_variable_cs.Pose_Flag);
 
+
             Dictionary<string, object> dic_resp = (Dictionary<string, object>)resp;
 
             foreach (object o in (List<object>)dic_resp["intents"])
@@ -269,7 +286,7 @@ public class WatsonConversation : MonoBehaviour
             source.clip = clip;
             source.Play();
 
-            this.animator.SetBool(key_isGreet, false);
+            StartCoroutine(FlagCoroutine());
             GameObject.Destroy(audioObject, clip.length);
         }
     }
@@ -324,5 +341,12 @@ public class WatsonConversation : MonoBehaviour
     public void SetVoiceRecFlag(bool flag)
     {
         m_voiceRecFlag = flag;
+    }
+
+    IEnumerator FlagCoroutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        m_variable_cs.Pose_Flag = !m_variable_cs.Pose_Flag;
+        this.animator.SetBool(key_isGreet, m_variable_cs.Pose_Flag);
     }
 }
