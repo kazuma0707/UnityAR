@@ -21,6 +21,13 @@ public class HairChageButton : MonoBehaviour
     //----------------------------------------------------------------------------------------------
     public void OnClick()
     {
+        // 髪型が変えられる状態のフラグが立っていたら何もしない
+        if (MyCharDataManager.Instance.hairChangeFlag) return;
+
+
+        MyCharDataManager.Instance.hairChangeFlag = true;
+        Invoke("HairChangeFlagDown", 1.0f);        
+
         // マテリアルの管理するオブジェクトが無い場合、再設定
         if (!matManager)
             matManager = GameObject.Find("MaterialManager").GetComponent<MaterialManager>();
@@ -51,7 +58,7 @@ public class HairChageButton : MonoBehaviour
                 break;
         }
 
-        
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -169,5 +176,16 @@ public class HairChageButton : MonoBehaviour
         }
         // 体の色を変える
         MyCharDataManager.Instance.ChangeBodyColor(bodyMats);
+    }
+
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | 髪型が変えられる状態のフラグを降ろす
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    private void HairChangeFlagDown()
+    {
+        MyCharDataManager.Instance.hairChangeFlag = false;
     }
 }
