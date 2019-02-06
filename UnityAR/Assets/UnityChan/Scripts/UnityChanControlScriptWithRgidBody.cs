@@ -747,9 +747,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     ***************************************************************/
     private void FilipButton()
     {
-
         Swapflag = true;
-
 
         _Time += Time.deltaTime;
         int second = (int)_Time % 60;//秒.timeを60で割った余り.

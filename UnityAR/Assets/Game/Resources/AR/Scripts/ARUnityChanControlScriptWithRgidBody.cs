@@ -118,6 +118,20 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     bool isLoad = false;
 
     bool deadFlag = false;
+
+    private bool Noiseflag = true;
+    private bool Swapflag = true;
+
+    //音
+    [SerializeField]
+    private AudioSource audioSource;
+    //ノイズ
+    [SerializeField]
+    private AudioClip Noise;
+    [SerializeField]
+    //swap
+    private AudioClip Swap;
+
     private void Awake()
     {
         //解像度の変更
@@ -130,8 +144,10 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     // 初期化
     void Start ()
 	{
-		// Animatorコンポーネントを取得する
-		anim = GetComponent<Animator>();
+        audioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
+
+        // Animatorコンポーネントを取得する
+        anim = GetComponent<Animator>();
 		// CapsuleColliderコンポーネントを取得する（カプセル型コリジョン）
 		col = GetComponent<BoxCollider>();
 		rb = GetComponent<Rigidbody>();
@@ -141,7 +157,6 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
 
-        _lowResolutionCamera = Camera.main.GetComponent<LowResolutionCamera>();
         _CRTcamera = Camera.main.GetComponent<CRT>();
         _CRTcamera.enabled = false;
 
@@ -737,7 +752,9 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
     ***************************************************************/
     private void FilipButton()
     {
-        _Time+=Time.deltaTime;
+        Swapflag = true;
+
+        _Time +=Time.deltaTime;
         int second = (int)_Time % 60;//秒.timeを60で割った余り.
         if (!_once)//1フレームだけに制御する。
         {
@@ -752,10 +769,24 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
             //buttons[0].transform.position = FirstPos[2];
             //buttons[2].transform.position = FirstPos[0];
             _once = true;
+
+            if (Swapflag)
+            {
+                audioSource.PlayOneShot(Swap);
+
+                Swapflag = false;
+            }
         }
         //反転終了時間を超えたら
         if(second>FilipNum)
         {
+            if (Swapflag)
+            {
+                audioSource.PlayOneShot(Swap);
+
+                Swapflag = false;
+            }
+
             //ボタンをもとに戻す
             canvasObj.GetComponent<Animator>().SetBool(Switch, false);
             isFilipEvent = false;
@@ -780,6 +811,13 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
         int second = (int)NoizeTimer % 60;//秒.timeを60で割った余り.
         _CRTcamera.enabled = true;
 
+        if (Noiseflag)
+        {
+            audioSource.PlayOneShot(Noise);
+
+            Noiseflag = false;
+        }
+
         //ノイズ終了時
         if (second > EndNoize)
         {
@@ -787,6 +825,7 @@ public class ARUnityChanControlScriptWithRgidBody : MonoBehaviour
             _CRTcamera.enabled = false;
             NoizeTimer = 0;
             isNoizeEye = false;
+            Noiseflag = true;
         }
     }
 
