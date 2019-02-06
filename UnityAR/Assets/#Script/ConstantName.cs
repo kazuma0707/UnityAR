@@ -34,6 +34,7 @@ using UnityEngine;
             public const string SchoolIntroductionButton = "SchoolIntroductionButton";
             public const string GameButton = "GameButton";
             public const string ReCharacterCreateButton = "ReCharacterCreateButton";
+            public const string AppreciationButton = "AppreciationButton";
 
         }
     }
