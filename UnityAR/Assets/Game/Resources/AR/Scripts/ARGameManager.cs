@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class ARGameManager : MonoBehaviour
 {
@@ -126,6 +127,12 @@ public class ARGameManager : MonoBehaviour
 
     private bool SirenFlag = true;
 
+    //  ビデオの再生用
+    [SerializeField]
+    VideoPlayer VideoPlayer;
+    [SerializeField]
+    GameObject VideoPlayBotton;
+
     // Use this for initialization
     void Start()
     {
@@ -147,7 +154,7 @@ public class ARGameManager : MonoBehaviour
             tutorialObject.SetActive(false);
 
             // チュートリアルスキップ時はフェードを考慮する
-            count += 1.0f;
+            //count += 1.0f;
         }
 
         // ゲームの停止
@@ -353,7 +360,7 @@ public class ARGameManager : MonoBehaviour
         }
         else
         {
-            countDownText.enabled = false;
+           // countDownText.enabled = false;
         }
     }
 
@@ -671,6 +678,17 @@ public class ARGameManager : MonoBehaviour
         {
             TitleManager.tutorialSkipFlag = true;
         }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ビデオの再生処理
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void MoviePlay()
+    {
+        VideoPlayer.Play();
+        VideoPlayBotton.SetActive(false);
     }
 
     public float FallSpeed

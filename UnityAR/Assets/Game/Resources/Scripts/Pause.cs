@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour {
     //=============  定数　===============//
@@ -22,17 +23,25 @@ public class Pause : MonoBehaviour {
     private bool startFlag = true;             //  スタート時かどうかのフラグ
 
     private GameManager managerScript;
+    bool isLodedScene = false;
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
+    }
     // Use this for initialization
     void Start () {
         managerScript = this.GetComponent<GameManager>();
+        
 
     }
+
 	
 	// Update is called once per frame
 	void Update () {
         if (startFlag == true && managerScript.tutorialCloseFlag == true)
         {
+            if (!isLodedScene) return;
 
             //  Time.Scaleに依存しないタイムを取得
             waitGame += Time.unscaledDeltaTime;
@@ -45,6 +54,23 @@ public class Pause : MonoBehaviour {
             {
                 managerScript.GameStart();
                 startFlag = false;
+            }
+        }
+    }
+    float count = 0;
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        while(true)
+        {
+            count += 0.1f;
+            Debug.Log(count);
+            if(count>5.0f)
+            {
+                
+                isLodedScene = true;
+
+                break;
             }
         }
     }
