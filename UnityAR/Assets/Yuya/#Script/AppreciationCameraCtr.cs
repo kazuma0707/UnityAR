@@ -364,7 +364,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene(SceneName.ARScene);
+        FadeManager.Instance.LoadScene(SceneName.ARScene,2.0f);
     }
 
     //----------------------------------------------------------------------
@@ -391,11 +391,25 @@ public class AppreciationCameraCtr : MonoBehaviour
         FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
     }
 
+    //----------------------------------------------------------------------
+    //! @brief ARボタンを押したときの処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void OnAppreciationAR()
     {
         FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
     }
 
+    //----------------------------------------------------------------------
+    //! @brief パネルUIを非アクティブにする処理
+    //!
+    //! @param[in] なし
+    //!
+    //! @return なし
+    //----------------------------------------------------------------------
     public void NonPanelUI()
     {
         Panel.SetActive(false);
