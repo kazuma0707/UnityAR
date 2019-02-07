@@ -19,7 +19,6 @@ public class moveto : MonoBehaviour {
         {
             //移動
             iTween.MoveTo(this.skin, iTween.Hash("z", 1.0f, "time", 3.0f, "EaseType", iTween.EaseType.easeInOutQuart));
-            DebugText.SetText = skin.transform.position.ToString();
 
             //Animtimeが3秒以上だった場合
             if (skin.transform.position.z != EndPos)

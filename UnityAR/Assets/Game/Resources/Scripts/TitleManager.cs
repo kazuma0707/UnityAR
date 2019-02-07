@@ -59,10 +59,15 @@ public class TitleManager: MonoBehaviour {
     Sprite ARon;
     [SerializeField]
     Sprite ARoff;
-
+    float flash;
+    private void Awake()
+    {
+    }
     private void Start()
     {
-        fadeObj = GameObject.FindGameObjectWithTag("FadeObj");
+        FadeManager.ScenePreLoad(SceneName.Play);
+        fadeObj = GameObject.FindGameObjectWithTag(TagName.FadeObj);
+        flash = 0f;
     }
 
     private void Update()
@@ -70,13 +75,13 @@ public class TitleManager: MonoBehaviour {
         //  テキストのアクティブがtrueなら
         if (startText.activeSelf)
         {
-            float flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
+             flash = Mathf.Abs(Mathf.Sin(Time.time * FLASH_TIME));
             //  点滅を行う
             startText.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, flash);
         }
 
         // 左クリックされた瞬間
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&&startText.activeSelf)
         {
             startText.SetActive(false);
 
@@ -90,6 +95,7 @@ public class TitleManager: MonoBehaviour {
                 item.SetActive(true);
             }
             modeChangeBotton.SetActive(true);
+
         }
     }
 
@@ -103,11 +109,11 @@ public class TitleManager: MonoBehaviour {
             //SceneManager.LoadScene("Play");
             if (modeFlag == true)
             {
-                FadeManager.Instance.LoadScene("PlayAR", 2.0f);
+                FadeManager.Instance.LoadScene(SceneName.PlayAR, 2.0f);
             }
             else
             {
-                FadeManager.Instance.LoadScene("Play", 2.0f);
+                FadeManager.Instance.LoadScene(2.0f);
             }
         }
     }
@@ -120,8 +126,9 @@ public class TitleManager: MonoBehaviour {
             isLoad = true;
 
             //  シーン切り替え
-            //SceneManager.LoadScene("CharCreate");
-            FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+
+            FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
+
         }
     }
 
@@ -134,7 +141,7 @@ public class TitleManager: MonoBehaviour {
 
             //  シーン切り替え
             //SceneManager.LoadScene("");
-            FadeManager.Instance.LoadScene("ARScene", 2.0f);
+            FadeManager.Instance.LoadScene(SceneName.ARScene, 2.0f);
         }
 
     }
@@ -146,8 +153,9 @@ public class TitleManager: MonoBehaviour {
             isLoad = true;
 
             //  シーン切り替え
-            //SceneManager.LoadScene("Appreciation");
-            FadeManager.Instance.LoadScene("Appreciation", 2.0f);
+
+            FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+
         }
     }
 

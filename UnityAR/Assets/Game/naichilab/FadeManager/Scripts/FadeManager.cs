@@ -49,9 +49,29 @@ public class FadeManager : MonoBehaviour
 			Destroy (this.gameObject);
 			return;
 		}
-
-		DontDestroyOnLoad (this.gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        DontDestroyOnLoad (this.gameObject);
 	}
+   private void Start()
+    {
+
+
+    }
+    private static AsyncOperation async;
+    static bool  isStart = false;
+    public static void ScenePreLoad(string changeScn)
+    {
+        async = SceneManager.LoadSceneAsync(changeScn, LoadSceneMode.Additive);
+        async.allowSceneActivation = false;
+        isStart = true;
+    }
+    void OnSceneLoaded(Scene i_loadedScene, LoadSceneMode i_mode)
+    {
+        
+        Debug.Log("PlaySCene");
+        Debug.LogFormat("OnSceneLoaded() current:{0} loadedScene:{1} mode:{2}", SceneManager.GetActiveScene().name, i_loadedScene.name, i_mode);
+    }
+ 
     public void OnGUI ()
 	{
 
@@ -106,13 +126,50 @@ public class FadeManager : MonoBehaviour
 	{
 		StartCoroutine (TransScene (scene, interval));
 	}
+    public void LoadScene(float interval)
+    {
+        StartCoroutine(TransScene( interval));
+    }
+    private IEnumerator TransScene( float interval)
+    {
+        //だんだん暗く .
+        this.isFading = true;
+        float time = 0;
+        while (time <= interval)
+        {
+            this.fadeAlpha = Mathf.Lerp(0f, 1f, time / interval);
+            //time += Time.deltaTime;
+            time += Time.unscaledDeltaTime;
+            yield return 0;
+        }
+        while(!async.isDone)
+        {
+            if (async.progress >= 0.9f)
+            {
+                async.allowSceneActivation = true;
+                yield return null;
+                SceneManager.UnloadSceneAsync(SceneName.Title);
+            }
+        }
+        //だんだん明るく .
+        time = 0;
+        while (time <= interval)
+        {
+            this.fadeAlpha = Mathf.Lerp(1f, 0f, time / interval);
+            //time += Time.deltaTime;
+            time += Time.unscaledDeltaTime;
+            yield return 0;
+        }
 
-	/// <summary>
-	/// シーン遷移用コルーチン .
-	/// </summary>
-	/// <param name='scene'>シーン名</param>
-	/// <param name='interval'>暗転にかかる時間(秒)</param>
-	private IEnumerator TransScene (string scene, float interval)
+        this.isFading = false;
+    }
+
+    /// <summary>
+    /// シーン遷移用コルーチン .
+    /// </summary>
+    /// <param name='scene'>シーン名</param>
+    /// <param name='interval'>暗転にかかる時間(秒)</param>
+    private IEnumerator TransScene (string scene, float interval)
 	{
 		//だんだん暗く .
 		this.isFading = true;
@@ -126,6 +183,7 @@ public class FadeManager : MonoBehaviour
 
 		//シーン切替 .
 		SceneManager.LoadScene (scene);
+      
 
 		//だんだん明るく .
 		time = 0;

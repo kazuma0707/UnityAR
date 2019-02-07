@@ -212,6 +212,7 @@ public class Ranking : MonoBehaviour
     {
         if (!isLoad)
         {
+
             //SceneManager.LoadScene("Title");
             FadeManager.Instance.LoadScene("Title", 2.0f);
         }
