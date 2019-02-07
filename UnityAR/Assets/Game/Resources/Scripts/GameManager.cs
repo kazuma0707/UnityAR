@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            countDownText.enabled = false;
+            //countDownText.enabled = false;
         }
     }
 
@@ -386,28 +386,28 @@ public class GameManager : MonoBehaviour
     *|　引数　なし
     *|　戻値　なし
     ***************************************************************/
-    IEnumerator TextCoRoutine()
-    {
-        // 実行中にもう一度コルーチンが呼び出されるのを防止
-        if (isRunning) yield break;
-        isRunning = true;
+    //IEnumerator TextCoRoutine()
+    //{
+    //    // 実行中にもう一度コルーチンが呼び出されるのを防止
+    //    if (isRunning) yield break;
+    //    isRunning = true;
 
-        yield return new WaitForSeconds(LEVEL2_TIME);
+    //    yield return new WaitForSeconds(LEVEL2_TIME);
 
-        LevelUpText.SetActive(true);
-        // テキストを消すまでの間隔
-        yield return new WaitForSeconds(LEVEL_UP_TEXT_TIME);
-        LevelUpText.SetActive(false);
+    //    LevelUpText.SetActive(true);
+    //    // テキストを消すまでの間隔
+    //    yield return new WaitForSeconds(LEVEL_UP_TEXT_TIME);
+    //    LevelUpText.SetActive(false);
 
-        yield return new WaitForSeconds(LEVEL3_TIME - LEVEL2_TIME - LEVEL_UP_TEXT_TIME);
+    //    yield return new WaitForSeconds(LEVEL3_TIME - LEVEL2_TIME - LEVEL_UP_TEXT_TIME);
 
-        LevelUpText.SetActive(true);
-        // テキストを消すまでの間隔
-        yield return new WaitForSeconds(LEVEL_UP_TEXT_TIME);
-        LevelUpText.SetActive(false);
+    //    LevelUpText.SetActive(true);
+    //    // テキストを消すまでの間隔
+    //    yield return new WaitForSeconds(LEVEL_UP_TEXT_TIME);
+    //    LevelUpText.SetActive(false);
 
-        isRunning = false;
-    }
+    //    isRunning = false;
+    //}
     /****************************************************************
     *|　機能　障害物のコルーチン設定
     *|　引数　なし
