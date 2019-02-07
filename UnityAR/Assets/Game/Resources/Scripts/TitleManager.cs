@@ -65,7 +65,6 @@ public class TitleManager: MonoBehaviour {
     }
     private void Start()
     {
-        FadeManager.ScenePreLoad(SceneName.Play);
         fadeObj = GameObject.FindGameObjectWithTag(TagName.FadeObj);
         flash = 0f;
     }
@@ -109,11 +108,11 @@ public class TitleManager: MonoBehaviour {
             //SceneManager.LoadScene("Play");
             if (modeFlag == true)
             {
-                FadeManager.Instance.LoadScene(SceneName.PlayAR, 2.0f);
+                FadeManager.Instance.LoadSceneAR(SceneName.PlayAR, 2.0f);
             }
             else
             {
-                FadeManager.Instance.LoadScene(2.0f);
+                FadeManager.Instance.LoadScene(SceneName.Play,2.0f);
             }
         }
     }
@@ -141,7 +140,7 @@ public class TitleManager: MonoBehaviour {
 
             //  シーン切り替え
             //SceneManager.LoadScene("");
-            FadeManager.Instance.LoadScene(SceneName.ARScene, 2.0f);
+            FadeManager.Instance.LoadSceneAR(SceneName.ARScene, 2.0f);
         }
 
     }

@@ -49,7 +49,6 @@ public class FadeManager : MonoBehaviour
 			Destroy (this.gameObject);
 			return;
 		}
-        SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad (this.gameObject);
 	}
    private void Start()
@@ -65,13 +64,7 @@ public class FadeManager : MonoBehaviour
         async.allowSceneActivation = false;
         isStart = true;
     }
-    void OnSceneLoaded(Scene i_loadedScene, LoadSceneMode i_mode)
-    {
-        
-        Debug.Log("PlaySCene");
-        Debug.LogFormat("OnSceneLoaded() current:{0} loadedScene:{1} mode:{2}", SceneManager.GetActiveScene().name, i_loadedScene.name, i_mode);
-    }
- 
+   
     public void OnGUI ()
 	{
 
@@ -124,13 +117,17 @@ public class FadeManager : MonoBehaviour
     /// <param name='interval'>暗転にかかる時間(秒)</param>
     public void LoadScene (string scene, float interval)
 	{
-		StartCoroutine (TransScene (scene, interval));
+        ScenePreLoad(scene);
+        StartCoroutine (TransScene (scene, interval));
 	}
-    public void LoadScene(float interval)
+    public void LoadSceneAR(string scene, float interval)
     {
-        StartCoroutine(TransScene( interval));
+  
+        StartCoroutine(TransSceneAR(scene, interval));
     }
-    private IEnumerator TransScene( float interval)
+
+
+    private IEnumerator TransSceneAR(string scene,float interval)
     {
         //だんだん暗く .
         this.isFading = true;
@@ -142,15 +139,8 @@ public class FadeManager : MonoBehaviour
             time += Time.unscaledDeltaTime;
             yield return 0;
         }
-        while(!async.isDone)
-        {
-            if (async.progress >= 0.9f)
-            {
-                async.allowSceneActivation = true;
-                yield return null;
-                SceneManager.UnloadSceneAsync(SceneName.Title);
-            }
-        }
+        SceneManager.LoadScene(scene);
+
         //だんだん明るく .
         time = 0;
         while (time <= interval)
@@ -164,6 +154,7 @@ public class FadeManager : MonoBehaviour
         this.isFading = false;
     }
 
+
     /// <summary>
     /// シーン遷移用コルーチン .
     /// </summary>
@@ -171,9 +162,10 @@ public class FadeManager : MonoBehaviour
     /// <param name='interval'>暗転にかかる時間(秒)</param>
     private IEnumerator TransScene (string scene, float interval)
 	{
+  
 		//だんだん暗く .
 		this.isFading = true;
-		float time = 0;
+		 float time = 0;
 		while (time <= interval) {
 			this.fadeAlpha = Mathf.Lerp (0f, 1f, time / interval);
             //time += Time.deltaTime;
@@ -181,21 +173,29 @@ public class FadeManager : MonoBehaviour
             yield return 0;
 		}
 
-		//シーン切替 .
-		SceneManager.LoadScene (scene);
-      
+        while (!async.isDone)
+        {
+            if (async.progress >= 0.9f)
+            {
+                async.allowSceneActivation = true;
+                yield return null;
+                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+            }
+        }
 
-		//だんだん明るく .
-		time = 0;
-		while (time <= interval) {
-			this.fadeAlpha = Mathf.Lerp (1f, 0f, time / interval);
+        ////だんだん明るく .
+        time = 0;
+        while (time <= interval)
+        {
+            this.fadeAlpha = Mathf.Lerp(1f, 0f, time / interval);
             //time += Time.deltaTime;
             time += Time.unscaledDeltaTime;
-			yield return 0;
-		}
+            yield return 0;
+        }
 
-		this.isFading = false;
-	}
+
+        this.isFading = false;
+    }
 
     //  フェード中かどうかのフラグの取得
     public bool GetFadeFlag()

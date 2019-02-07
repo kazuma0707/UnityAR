@@ -64,7 +64,7 @@ public class Pause : MonoBehaviour {
         while(true)
         {
             count += 0.1f;
-            Debug.Log(count);
+            //Debug.Log(count);
             if(count>5.0f)
             {
                 

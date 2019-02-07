@@ -364,7 +364,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnSchoolIntroduction()
     {
-        FadeManager.Instance.LoadScene(SceneName.ARScene,2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.ARScene,2.0f);
     }
 
     //----------------------------------------------------------------------

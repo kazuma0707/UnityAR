@@ -318,7 +318,7 @@ public class MoveCamera : MonoBehaviour
     public void OnSchoolIntroduction()
     {
         //SceneManager.LoadScene(SceneName.ARScene);
-        FadeManager.Instance.LoadScene(SceneName.ARScene, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.ARScene, 2.0f);
     }
 
     //ゲームボタンを押したら
@@ -337,7 +337,7 @@ public class MoveCamera : MonoBehaviour
 
     public void OnAppreciationAR()
     {
-        FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.AppreciationAR, 2.0f);
 
     }
 

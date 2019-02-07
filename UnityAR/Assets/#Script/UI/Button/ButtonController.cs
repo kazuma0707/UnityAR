@@ -93,7 +93,7 @@ public class ButtonController : BaseButton {
         }
         else if (ButtonName.ARScene.AppreciationButton.Equals(objectName))
         {
-            this.ReCharacterCreateButtonClick();
+            this.AppreciationButtonClick();
         }
 
 

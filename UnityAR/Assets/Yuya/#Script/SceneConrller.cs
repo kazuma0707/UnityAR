@@ -64,7 +64,7 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnSchoolIntroduction()
     {
-        SceneManager.LoadScene(SceneName.ARScene);
+        FadeManager.Instance.LoadSceneAR(SceneName.ARScene,2.0f);
     }
 
     //----------------------------------------------------------------------
