@@ -95,9 +95,6 @@ public class TitleManager: MonoBehaviour {
 
     public void startGame()
     {
-        // 真ん中にあるボタンを押していなければ何もしない
-        if (!CheckHit()) return;
-
         if (!isLoad)
         {
             isLoad = true;
@@ -113,33 +110,24 @@ public class TitleManager: MonoBehaviour {
                 FadeManager.Instance.LoadScene("Play", 2.0f);
             }
         }
-
     }
 
     //  キャラクリシーンに遷移するための関数
     public void CharCreate()
     {
-        // 真ん中にあるボタンを押していなければ何もしない
-        if (!CheckHit()) return;
-
-
         if (!isLoad)
         {
             isLoad = true;
 
             //  シーン切り替え
-            SceneManager.LoadScene("CharCreate");
-            //FadeManager.Instance.LoadScene("CharCreate", 2.0f);
+            //SceneManager.LoadScene("CharCreate");
+            FadeManager.Instance.LoadScene("CharCreate", 2.0f);
         }
-
     }
 
     //  学校紹介に遷移するための関数
     public void SchoolIntroduction()
     {
-        // 真ん中にあるボタンを押していなければ何もしない
-        if (!CheckHit()) return;
-
         if (!isLoad)
         {
             isLoad = true;
@@ -153,17 +141,13 @@ public class TitleManager: MonoBehaviour {
 
     public void Appreciation()
     {
-        // 真ん中にあるボタンを押していなければ何もしない
-        if (!CheckHit()) return;
-
-
         if (!isLoad)
         {
             isLoad = true;
 
             //  シーン切り替え
-            SceneManager.LoadScene("Appreciation");
-            //FadeManager.Instance.LoadScene("Appreciation", 2.0f);
+            //SceneManager.LoadScene("Appreciation");
+            FadeManager.Instance.LoadScene("Appreciation", 2.0f);
         }
     }
 
@@ -172,11 +156,8 @@ public class TitleManager: MonoBehaviour {
     // 　引　数   | なし
     //  戻 り 値  | なし
     //----------------------------------------------------------------------------------------------
-    //  
     public void OnClickMode()
     {
-
-
        if(modeFlag == true)
        {
            modeFlag = false;
@@ -187,44 +168,5 @@ public class TitleManager: MonoBehaviour {
             modeFlag = true;
             modeChangeBotton.GetComponent<Image>().sprite = ARon;
        }
-
-    }
-
-
-    private bool CheckHit()
-    {
-        bool check = false;
-
-        // マウスクリック座標を取得
-        if (!Input.GetMouseButtonUp(0)) return check;
-
-        Vector3 touchPos = Input.mousePosition;  // スクリーン座標
-        // スマホではこっちを使用
-        //Vector3 touchPos = Input.GetTouch( 0 ).position;
-
-        // カメラを原点としたスクリーン座標へのレイ
-        Ray ray = Camera.main.ScreenPointToRay(touchPos);
-
-        //レイヤーマスク作成
-        int layerMask = LayerMask.GetMask(new string[] { "UI" });
-
-        // レイとのコライダーの当たり判定
-        RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(touchPos.x, touchPos.y), (Vector2)ray.direction, 1000.0f, layerMask);
-               
-
-        // Rayと当たったオブジェクトを調べる
-        for (int i = 0; i < hits.Length; i++)
-        {
-            Debug.Log(hits[i].transform.name);
-            // MenuImageと当たっているか
-            if (hits[i].transform.name == "MenuImage")
-            {
-                check = true;
-                break;
-            }
-        }
-        
-
-        return check;
-    }
+    }    
 }
