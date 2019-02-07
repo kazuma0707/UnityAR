@@ -147,7 +147,7 @@ public class ARGameManager : MonoBehaviour
             tutorialObject.SetActive(false);
 
             // チュートリアルスキップ時はフェードを考慮する
-            count += 1.0f;
+            //count += 1.0f;
         }
 
         // ゲームの停止
@@ -353,7 +353,7 @@ public class ARGameManager : MonoBehaviour
         }
         else
         {
-            countDownText.enabled = false;
+           // countDownText.enabled = false;
         }
     }
 
