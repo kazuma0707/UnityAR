@@ -43,11 +43,9 @@ public class TitleManager: MonoBehaviour {
 
     //  メニューオブジェクト
     [SerializeField]
-    GameObject scrollView;
-    [SerializeField]
     GameObject[] items;
     [SerializeField]
-    GameObject menuImage;
+    GameObject[] menuImages;
 
     //  チュートリアルを表示するかどうかのフラグ
     static public bool tutorialSkipFlag = false;
@@ -81,8 +79,16 @@ public class TitleManager: MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             startText.SetActive(false);
-            scrollView.SetActive(true);
-            menuImage.SetActive(true);
+
+            foreach (GameObject image in menuImages)
+            {
+                image.SetActive(true);
+            }
+
+            foreach (GameObject item in items)
+            {
+                item.SetActive(true);
+            }
             modeChangeBotton.SetActive(true);
         }
     }
