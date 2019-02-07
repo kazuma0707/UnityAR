@@ -3731,7 +3731,6 @@ MonoBehaviour:
   monitors:
   - {fileID: 2117903015}
   - {fileID: 1124438465}
-  text: {fileID: 1861137118}
 --- !u!20 &248708320
 Camera:
   m_ObjectHideFlags: 0
@@ -16142,6 +16141,7 @@ MonoBehaviour:
   defaultBodyColorMat:
   - {fileID: 2100000, guid: 55b1172cdb618bf419e9a3b496fa7d90, type: 2}
   - {fileID: 2100000, guid: 2129f9662d1973e4aaa17039c8d5eb63, type: 2}
+  hairChangeFlag: 0
   phase: 0
 --- !u!4 &1019937045
 Transform:
@@ -18402,7 +18402,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a34e9f6cf78716043a83d1b502348f35, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 1
   Mute: 0
