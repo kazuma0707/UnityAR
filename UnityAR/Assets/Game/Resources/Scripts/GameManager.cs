@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
@@ -58,8 +59,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Button[] buttons;                       // ジャンプボタン
-    [SerializeField]
-    private GameObject obstacle;                    // 障害物オブジェクト
+    //[SerializeField]
+    //private GameObject obstacle;                    // 障害物オブジェクト
 
     [SerializeField]
     private GameObject[] firstStands;                                       // 初期の台   
@@ -95,9 +96,9 @@ public class GameManager : MonoBehaviour
     bool isRunning = false;
     int PosNum = 0;                         // 場所用変数
 
-    // レベルアップフラグ
-    [SerializeField]
-    GameObject LevelUpText;
+    //// レベルアップフラグ
+    //[SerializeField]
+    //GameObject LevelUpText;
     bool LevelUpFlag = false;
 
     // ポーズフラグ
@@ -132,6 +133,12 @@ public class GameManager : MonoBehaviour
     private AudioClip Siren;
 
     private bool SirenFlag = true;
+
+    //  ビデオの再生用
+    [SerializeField]
+    VideoPlayer VideoPlayer;
+    [SerializeField]
+    GameObject VideoPlayBotton;
 
     // Use this for initialization
     void Start()
@@ -667,6 +674,17 @@ public class GameManager : MonoBehaviour
         {
             TitleManager.tutorialSkipFlag = true;
         }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 関数の内容 | ビデオの再生処理
+    // 　引　数   | なし
+    //  戻 り 値  | なし
+    //----------------------------------------------------------------------------------------------
+    public void MoviePlay()
+    {
+        VideoPlayer.Play();
+        VideoPlayBotton.SetActive(false);
     }
 
     public float FallSpeed
