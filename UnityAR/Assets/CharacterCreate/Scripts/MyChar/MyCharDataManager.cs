@@ -276,7 +276,7 @@ public class MyCharDataManager : MonoBehaviour
         // 素体モデルが無い場合、再設定
         if (!sotai)
         {
-            //sotai = GameObject.Find("skin");
+            sotai = GameObject.Find("skin");
             sotai = mC;
             sotaiBone = sotai.transform.Find(HIPS_BONE).gameObject;
             hairBaseBone = sotai.transform.FindDeep(HAIR_BONE).gameObject;

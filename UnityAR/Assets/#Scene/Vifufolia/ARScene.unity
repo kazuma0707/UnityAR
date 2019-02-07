@@ -1885,7 +1885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &710572594
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1903,7 +1903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1501.3, y: 49}
+  m_AnchoredPosition: {x: 38, y: 178}
   m_SizeDelta: {x: 1300, y: 1356.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &710572595
@@ -2830,6 +2830,10 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12400000, guid: bf30d577eead1ef40bcf2b404289daf4, type: 2}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -4543,6 +4547,11 @@ Prefab:
     - target: {fileID: 114763924223409930, guid: 80451168a5b90314a83a6c1c7b38684f,
         type: 2}
       propertyPath: MenuButtonAnim
+      value: 
+      objectReference: {fileID: 710572593}
+    - target: {fileID: 114763924223409930, guid: 80451168a5b90314a83a6c1c7b38684f,
+        type: 2}
+      propertyPath: MenuScrollView
       value: 
       objectReference: {fileID: 710572593}
     m_RemovedComponents: []

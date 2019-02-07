@@ -14,6 +14,7 @@ public class ButtonController : BaseButton {
     private Animator ClassPanel;
     public Animator AllButtonAnim;
     public GameObject MenuButtonAnim;
+    public GameObject MenuScrollView;
     const string BOLL_ANIM= "boolAnim";
     const string ONCE_ANIM = "OnceAnim";
     const string ONCE= "once";
@@ -106,7 +107,7 @@ public class ButtonController : BaseButton {
     }
     private void AppreciationButtonClick()
     {
-        FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
     }
 
     private void ReCharacterCreateButtonClick()
@@ -124,7 +125,8 @@ public class ButtonController : BaseButton {
         {
             AllButtonAnim.SetBool(ONCE, false);
             isMenuAnim = false;
-            iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+            MenuScrollView.SetActive(false);
+            //iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
 
         }
         if (ClassPanel.GetBool(BOLL_ANIM))
@@ -140,7 +142,8 @@ public class ButtonController : BaseButton {
         //MenuButtonが出でないときボタンを押したら
         if(!isMenuAnim)
         {
-            iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", 680.0f, "time", 3.0f));
+            //iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", 680.0f, "time", 3.0f));
+            MenuScrollView.SetActive(true);
             isMenuAnim = true;
             if(ClassPanel.GetBool(BOLL_ANIM))
             {
@@ -149,8 +152,8 @@ public class ButtonController : BaseButton {
         }
         else
         {
-            iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
-
+            // iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+            MenuScrollView.SetActive(false);
             isMenuAnim = false;
         }
 
@@ -204,7 +207,8 @@ public class ButtonController : BaseButton {
     }
     void ReturnMenuAnim()
     {
-        iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+        //iTween.MoveTo(this.MenuButtonAnim, iTween.Hash("x", -680.0f, "time", 3.0f));
+                MenuScrollView.SetActive(false);
         isMenuAnim = false;
     }
     
