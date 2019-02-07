@@ -88,7 +88,7 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnReCharacterCreate()
     {
-        FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.CharCreate, 2.0f);
     }
 
     //----------------------------------------------------------------------
@@ -100,7 +100,7 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnAppreciation()
     {
-        FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
     }
 
     //----------------------------------------------------------------------

@@ -388,7 +388,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnReCharacterCreate()
     {
-        FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.CharCreate, 2.0f);
     }
 
     //----------------------------------------------------------------------
@@ -400,7 +400,7 @@ public class AppreciationCameraCtr : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnAppreciationAR()
     {
-        FadeManager.Instance.LoadScene(SceneName.AppreciationAR, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.AppreciationAR, 2.0f);
     }
 
     //----------------------------------------------------------------------

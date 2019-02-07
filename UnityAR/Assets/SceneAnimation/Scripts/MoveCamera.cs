@@ -332,7 +332,7 @@ public class MoveCamera : MonoBehaviour
     public void OnAppreciation()
     {
         //SceneManager.LoadScene(SceneName.Appreciation);
-        FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+        FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
     }
 
     public void OnAppreciationAR()

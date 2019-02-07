@@ -153,7 +153,7 @@ public class TitleManager: MonoBehaviour {
 
             //  シーン切り替え
 
-            FadeManager.Instance.LoadScene(SceneName.Appreciation, 2.0f);
+            FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
 
         }
     }
