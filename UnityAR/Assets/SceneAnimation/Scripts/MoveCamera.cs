@@ -136,6 +136,9 @@ public class MoveCamera : MonoBehaviour
     // 素体となるモデル
     private GameObject sotai;
 
+    //  シーンのロードが複数行われるのの防止
+    bool isLoad = false;
+
     // Use this for initialization
     void Start ()
     {
@@ -317,28 +320,46 @@ public class MoveCamera : MonoBehaviour
     //学校紹介ボタンを押したら
     public void OnSchoolIntroduction()
     {
-        //SceneManager.LoadScene(SceneName.ARScene);
-        FadeManager.Instance.LoadSceneAR(SceneName.ARScene, 2.0f);
+
+        if (!isLoad)
+        {
+            //SceneManager.LoadScene(SceneName.ARScene);
+            FadeManager.Instance.LoadSceneAR(SceneName.ARScene, 2.0f);
+        }
+        isLoad = true;
     }
 
     //ゲームボタンを押したら
     public void OnGame()
     {
-        //SceneManager.LoadScene(SceneName.Title);
-        FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
+        if (!isLoad)
+        {
+            //SceneManager.LoadScene(SceneName.Title);
+            FadeManager.Instance.LoadSceneAR(SceneName.Title, 2.0f);
+        }
+        isLoad = true;
     }
 
     //鑑賞ボタンを押したら
     public void OnAppreciation()
     {
-        //SceneManager.LoadScene(SceneName.Appreciation);
-        FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
+
+        if (!isLoad)
+        {
+            //SceneManager.LoadScene(SceneName.Appreciation);
+            FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
+        }
+        isLoad = true;
     }
 
     public void OnAppreciationAR()
     {
-        FadeManager.Instance.LoadSceneAR(SceneName.AppreciationAR, 2.0f);
 
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.AppreciationAR, 2.0f);
+        }
+        isLoad = true;
     }
 
     //キャラクタークリエイトをし直す

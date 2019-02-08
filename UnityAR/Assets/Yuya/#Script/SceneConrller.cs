@@ -35,6 +35,8 @@ public class SceneConrller : MonoBehaviour
 
     private Variable variable_cs;
 
+    //  シーンのロードが複数行われるのの防止
+    bool isLoad = false;
 
     //----------------------------------------------------------------------
     //! @brief Startメソッド
@@ -64,7 +66,11 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnSchoolIntroduction()
     {
-        FadeManager.Instance.LoadSceneAR(SceneName.ARScene,2.0f);
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.ARScene,2.0f);
+        }
+        isLoad = true;
     }
 
     //----------------------------------------------------------------------
@@ -76,7 +82,12 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnGame()
     {
-        FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
+        if (!isLoad)
+        {
+            //SceneManager.LoadScene(SceneName.Title);
+            FadeManager.Instance.LoadSceneAR(SceneName.Title, 2.0f);
+        }
+        isLoad = true;
     }
 
     //----------------------------------------------------------------------
@@ -88,7 +99,12 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnReCharacterCreate()
     {
-        FadeManager.Instance.LoadSceneAR(SceneName.CharCreate, 2.0f);
+
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.CharCreate, 2.0f);
+        }
+        isLoad = true;
     }
 
     //----------------------------------------------------------------------
@@ -100,7 +116,12 @@ public class SceneConrller : MonoBehaviour
     //----------------------------------------------------------------------
     public void OnAppreciation()
     {
-        FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
+
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
+        }
+        isLoad = true;
     }
 
     //----------------------------------------------------------------------

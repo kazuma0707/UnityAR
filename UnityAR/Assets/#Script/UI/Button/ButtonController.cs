@@ -19,6 +19,10 @@ public class ButtonController : BaseButton {
     const string ONCE_ANIM = "OnceAnim";
     const string ONCE= "once";
 
+    //  シーンのロードが複数行われるのの防止
+    bool isLoad = false;
+
+
 
     private void Awake()
     {
@@ -102,18 +106,30 @@ public class ButtonController : BaseButton {
     }
     private void GameButtonClick()
     {
-        FadeManager.Instance.LoadScene(SceneName.Title, 2.0f);
+
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.Title, 2.0f);
+        }
+        isLoad = true;
 
     }
     private void AppreciationButtonClick()
     {
-        FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.Appreciation, 2.0f);
+        }
+        isLoad = true;
     }
 
     private void ReCharacterCreateButtonClick()
     {
-        FadeManager.Instance.LoadScene(SceneName.CharCreate, 2.0f);
-
+        if (!isLoad)
+        {
+            FadeManager.Instance.LoadSceneAR(SceneName.CharCreate, 2.0f);
+        }
+        isLoad = true;
     }
     private void AllButtonClick()
     {
