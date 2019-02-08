@@ -103,6 +103,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
     //カメラ関係のオブジェクト
     private LowResolutionCamera _lowResolutionCamera;
     //ノイズオブジェクト（CRT）
+    [SerializeField]
     private CRT _CRTcamera;
 
     //特殊障害物に当たったときのフラグ
@@ -157,7 +158,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 		orgColHight = col.size.y;
 		orgVectColCenter = col.center;
-        _CRTcamera = Camera.main.GetComponent<CRT>();
+        //_CRTcamera = Camera.main.GetComponent<CRT>();
         //rb.useGravity = true;
 
     }
