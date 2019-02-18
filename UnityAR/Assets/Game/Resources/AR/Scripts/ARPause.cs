@@ -59,6 +59,7 @@ public class ARPause : MonoBehaviour {
             {
                 managerScript.GameStart();
                 startFlag = false;
+                //trackingEventHandle.trackingFlag = false;
             }
         }
     }

@@ -27,6 +27,8 @@ namespace Vuforia
         const float EndPos = 1.0f;//再生終了時の座標
         [SerializeField]
        private ButtonController _buttonController;
+
+        bool isCharOnce;
         #endregion // PRIVATE_MEMBER_VARIABLES
 
 
@@ -35,6 +37,7 @@ namespace Vuforia
 
         void Start()
         {
+            isCharOnce = false;
             Animtime = 0.0f;
             isOnceFlag = false;
             this.Portal.SetActive(true);
@@ -107,12 +110,17 @@ namespace Vuforia
         /// <summary>
         /// マーカを見つけたときにトラッキングする関数
         /// </summary>
+
         private void OnTrackingFound()
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
+            if(!isCharOnce)
+            {
+                MyCharDataManager.Instance.ReCreate(skin);
+                isCharOnce = true;
 
-            MyCharDataManager.Instance.ReCreate(skin);
+            }
             isOnceFlag = true;
        
             // Enable rendering:

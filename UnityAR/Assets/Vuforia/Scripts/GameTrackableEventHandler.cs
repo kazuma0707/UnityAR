@@ -16,11 +16,14 @@ namespace Vuforia
                                                 ITrackableEventHandler
     {
         #region PRIVATE_MEMBER_VARIABLES
- 
+
         private TrackableBehaviour mTrackableBehaviour;
         public GameObject Canvas;
-
-        private bool trackingFlag = false;              //  トラッキングが成功したかどうかのフラグ
+        [SerializeField]
+        Renderer[] rendererComponents;
+        //Collider[] colliderComponents;
+        public bool trackingFlag { get; set; }             //  トラッキングが成功したかどうかのフラグ
+        private bool onceTrakingFlag;
 
         #endregion // PRIVATE_MEMBER_VARIABLES
 
@@ -29,20 +32,32 @@ namespace Vuforia
         #region UNTIY_MONOBEHAVIOUR_METHODS
 
         void Start()
-        {     
+        {
             mTrackableBehaviour = GetComponent<TrackableBehaviour>();
             if (mTrackableBehaviour)
             {
                 mTrackableBehaviour.RegisterTrackableEventHandler(this);
             }
+            //colliderComponents = GetComponentsInChildren<Collider>(true);
+    
+
+        }
+        private void Update()
+        {
+            if (rendererComponents==null)
+            {
+                rendererComponents = GetComponentsInChildren<Renderer>(true);
+
+            }
+
         }
 
         #endregion // UNTIY_MONOBEHAVIOUR_METHODS
-        
+
 
 
         #region PUBLIC_METHODS
-         
+
         /// <summary>
         /// Implementation of the ITrackableEventHandler function called when the
         /// tracking state changes.
@@ -73,45 +88,62 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-            Canvas.SetActive(true);
-       
+
+            //Canvas.SetActive(true);
+
             // Enable rendering:
-            foreach (Renderer component in rendererComponents)
+           // if(!rendererComponents[rendererComponents.Length].enabled)
             {
-                component.enabled = true;
+                foreach (Renderer component in rendererComponents)
+                {
+                    component.enabled = true;
+                }
             }
-
             // Enable colliders:
-            foreach (Collider component in colliderComponents)
+            //if(!colliderComponents[colliderComponents.Length].enabled)
             {
-                component.enabled = true;
+                foreach (Collider component in colliderComponents)
+                {
+                    component.enabled = true;
+                }
             }
+        
 
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
+            // Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
 
             // トラッキング成功時にフラグをtrueにする
-            trackingFlag = true;
+            onceTrakingFlag = true;
         }
+
+    
+
 
 
         private void OnTrackingLost()
         {
+
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
-            Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-           
+           Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
+
             // Disable rendering:
-            foreach (Renderer component in rendererComponents)
+           // if (rendererComponents[rendererComponents.Length].enabled)
             {
-                component.enabled = false;
+                foreach (Renderer component in rendererComponents)
+                {
+                    component.enabled = false;
+                }
             }
-
-            // Disable colliders:
-            foreach (Collider component in colliderComponents)
+            // Enable colliders:
+            //if (colliderComponents[colliderComponents.Length].enabled)
             {
-                component.enabled = false;
+                foreach (Collider component in colliderComponents)
+                {
+                    component.enabled = true;
+                }
             }
+            // Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
 
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+
         }
 
         
